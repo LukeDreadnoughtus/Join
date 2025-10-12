@@ -1,0 +1,17 @@
+ @font-face {
+    font-family: Raleway; 
+    src: url(../../assets/fonts//Raleway-VariableFont_wght.ttf);
+
+}
+
+
+h1{
+    font-family: 'Raleway', Arial, Helvetica, sans-serif; 
+    color: white; 
+    align-self: center;
+    
+} 
+
+
+
+
