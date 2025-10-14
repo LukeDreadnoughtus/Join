@@ -17,3 +17,28 @@ body {
   
 }
 
+.page {
+display: grid;
+grid-template-columns: 16.50% 1fr;
+min-height: 100vh;
+}
+
+.left {
+position: relative;
+background: #2A3647; 
+}
+
+.left::before {
+  content: "";
+  position: absolute;
+  top: 20px;             
+  left: 50%;             
+  transform: translateX(-50%); 
+  width: 120px;          
+  height: 120px;
+  background-image: url('../assets/img/Join logo vector.svg'); /* Pfad ggf. anpassen */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding-top: 80%;
+}
