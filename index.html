@@ -17,25 +17,30 @@
 </head>
 <body>
 <div class="login_header">
-  <img class="login_icon" src="assets/img/login_join.png">
-  <img class="not_a_user" src="assets/img/Frame 156.svg">
+  <img class="login_icon" src="assets/img/login_join.svg">
+  <div class="not_a_join_user">
+  <h4><a href="./registration.html">Not a Join user?</a></h4>
+  <button onclick="toRegistration()">Sign up</button>
+  </div>
+ 
 </div>
 
 <div class="input_login">
 <h2>Login</h2>
   <form method="POST" action="/login">
     <label>Benutzername:</label>
-    <input type="text" name="username" required />
+    <input type="text" id="username" required />
     <br />
     <label>Passwort:</label>
-    <input type="password" name="password" required />
+    <input type="password" id="password" required />
     <br/>
-    <button type="submit">Einloggen</button>
+    <button type="submit" onclick="logIn()">Einloggen</button>
   </form>
 
  </div>
 
   <script src="js/script.js"></script>
   <script src="js/templates.js"></script>
+  <script src="js/login.js"></script>
 </body>
 </html>
