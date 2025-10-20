@@ -4,17 +4,25 @@
 
 }
 
+ @font-face {
+    font-family: "inter"; 
+    src: url(../../assets/fonts/Inter-VariableFont_opsz,wght.ttf);
+
+}
+
 
 
 h1{
     font-family: 'Raleway', Arial, Helvetica, sans-serif; 
     color: white; 
     align-self: center;
-    
+    line-height: 120%;  
 } 
 
 h2 {
-
+    font-family: "inter";
+    font-size:47px; 
+    font-weight: 500; 
 }
 
 
