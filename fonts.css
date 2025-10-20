@@ -1,28 +1,24 @@
- @font-face {
-    font-family: Raleway; 
-    src: url(../../assets/fonts//Raleway-VariableFont_wght.ttf);
-
-}
-
- @font-face {
+@font-face {
     font-family: "inter"; 
     src: url(../../assets/fonts/Inter-VariableFont_opsz,wght.ttf);
 
 }
 
-
-
+/* Für namen  */
 h1{
-    font-family: 'Raleway', Arial, Helvetica, sans-serif; 
-    color: white; 
-    align-self: center;
-    line-height: 120%;  
+    font-family: "inter";
+    font-size:64px; 
+    font-weight: 700; 
+    line-height: 120%;
+    color:  #29ABE2;   
 } 
 
+/* Für Login/AddTask */
 h2 {
     font-family: "inter";
-    font-size:47px; 
-    font-weight: 500; 
+    font-size:61px; 
+    font-weight: 700; 
+    line-height: 120%;
 }
 
 
