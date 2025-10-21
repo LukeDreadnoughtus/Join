@@ -35,3 +35,42 @@ function proofUserData(userData, username, password) {
 function toRegistration() {
     window.location.href = "registration.html";
 }
+
+//registration
+
+
+async function registration () {
+    const name = document.getElementById("name_registration").value.trim();
+    const email = document.getElementById("email_registration").value.trim()
+    const password = document.getElementById("password_registration").value.trim()
+    const passwordConfirmation = document.getElementById("password_confirm").value.trim()
+
+    if (password !== passwordConfirmation) {
+        alert("Die beiden Passwörter stimmen nicht überein – bitte erneut eingeben.");
+        return;
+    }
+
+    const userData = {
+        name: name,
+        email: email,
+        password: password
+    };
+
+    try {
+        const response = await fetch(path + ".json", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(userData)
+        });
+
+        const responseToJson = await response.json();
+        console.log("Benutzer gespeichert:", responseToJson);
+        alert("Registrierung erfolgreich!");
+    } catch (error) {
+        console.error("Fehler bei der Registrierung:", error);
+        alert("Ein Fehler ist aufgetreten. Bitte versuche es erneut.");
+    }
+}
+ 

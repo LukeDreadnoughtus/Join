@@ -12,8 +12,6 @@
   <link rel="stylesheet" href="./login.css" />
   <link rel="stylesheet" href="./assets.css" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
-  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 </head>
 <body class="login_body">
 <div class="login_header">
@@ -27,14 +25,13 @@
 
 <div class="input_login">
 <h2>Login</h2>
-  <form method="POST" action="/login">
-    <label>Benutzername:</label>
-    <input type="text" id="username" required />
-    <br />
-    <label>Passwort:</label>
-    <input type="password" id="password" required />
+  <form>
+    <input type="text" id="username" placeholder="Name" required />
     <br/>
-    <button type="submit" onclick="logIn(event)">Einloggen</button>
+    <input type="password" id="password" placeholder="Password" required />
+    <br/>
+    <button type="submit" onclick="LogIn(event)">Log In</button>
+    <button type="submit" onclick="LogIn(event)">Guest Log In</button>
   </form>
  </div>
 
@@ -43,8 +40,7 @@
   <a>Legal notice</a>
  </footer>
 
-  <script src="js/script.js"></script>
-  <script src="js/templates.js"></script>
+
   <script src="js/login.js"></script>
 </body>
 </html>

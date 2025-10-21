@@ -21,6 +21,14 @@ h2 {
     line-height: 120%;
 }
 
+/* Noch nicht definiert für welche Schriftart */
+h3 { 
+    font-family: "inter";
+    font-size:40px; 
+    font-weight: 500; 
+    line-height: 120%;
+}
+
 
 /* aktuell für die login-page */
 h4 { 
