@@ -39,7 +39,8 @@ function toRegistration() {
 //registration
 
 
-async function registration () {
+async function registration (event) {
+    event.preventDefault();
     const name = document.getElementById("name_registration").value.trim();
     const email = document.getElementById("email_registration").value.trim()
     const password = document.getElementById("password_registration").value.trim()
@@ -53,7 +54,8 @@ async function registration () {
     const userData = {
         name: name,
         email: email,
-        password: password
+        password: password,
+        color: getUserColor()
     };
 
     try {
@@ -69,8 +71,28 @@ async function registration () {
         console.log("Benutzer gespeichert:", responseToJson);
         alert("Registrierung erfolgreich!");
     } catch (error) {
-        console.error("Fehler bei der Registrierung:", error);
+        console.error("Fehler bei der Registrierung:", error.message, error);
         alert("Ein Fehler ist aufgetreten. Bitte versuche es erneut.");
     }
 }
+
+function getUserColor() {
+    const basicColors = [
+    '#FF0000', // red
+    '#00FF00', // light-green
+    '#0000FF', // blue
+    '#FFFF00', // yellow
+    '#00FFFF', // cyan
+    '#FF00FF',  // magenta
+    '#8A2BE2',  // blue-violet
+    '#ff8800',  // orange
+    '#0f8558',  // green
+    '#00afff',  // skyblue
+    '#cd6839',  // sienna
+    '#f9c20cff',  //darkyellow
+  ];
+  const randomIndex = Math.floor(Math.random() * basicColors.length);
+  return basicColors[randomIndex];
+}
+
  
