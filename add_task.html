@@ -5,6 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Join</title>
+<link rel="stylesheet" href="./add_task.css"/>
 <link href="styles.css" rel="stylesheet"/>
 <link href="header.css" rel="stylesheet"/>
 <link href="footer.css" rel="stylesheet"/>
@@ -63,10 +64,82 @@
 </a>
 </div>
 </div>
-<main class="content">
+ <main class="content">
+      <header>
+        <div class="header-title">
+          <h4 class="add-task-title">Kanban Project Management Tool</h4>
+        </div>
+        <div class="header-help">
+          <button class="help-button" aria-label="Hilfe">
+            <object data="assets/img/help.svg" type="image/svg+xml" width="32" height="32"></object>
+          </button>
+        </div>
+      </header>
+      <h2 class="add-task-heading">Add Task</h2>
+      <div class="split-container">
 
+        <div class="left-split">
+          <div class="add-task-container">
+            <form class="add-task-form">
+              <div class="form-group title">
+                <label class="task-title" for="task-title">Title</label>
+                <input placeholder="Enter a Title" type="text" id="task-title" name="task-title" required />
+              </div>
+              <div class="form-group description">
+                <label for="task-desc">Description</label>
+                <textarea placeholder="Enter a Description" id="task-desc" name="task-desc" rows="4"></textarea>
+              </div>
 
-</main>
+              <div class="form-group due-date">
+                <label for="task-due-date">Due Date</label>
+                <input placeholder="dd/mm/yyyy" type="date" id="task-due-date" name="task-due-date" required />
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="right-split">
+          <div class="add-controll-task">
+            <div class="add-controll-form">
+              <div class="form-group priority">
+                <label for="task-priority">Priority</label>
+                <select id="task-priority" name="task-priority" required>
+                  <option value="urgent">Urgent</option>
+                  <option value="medium">Medium</option>
+                  <option value="low">Low</option>
+                </select>
+              </div>
+              <div class="form-group assigned-to">
+                <label for="task-assigned-to">Assigned To</label>
+                <select id="task-assigned-to" name="task-assigned-to" required>
+                  <option value="user1">User 1</option>
+                  <option value="user2">User 2</option>
+                  <option value="user3">User 3</option>
+                </select>
+              </div>
+              <div class="form-group category">
+                <label for="task-category">Category</label>
+                <select id="task-category" name="task-category" required>
+                  <option value="feature">Feature</option>
+                  <option value="bug">Bug</option>
+                  <option value="improvement">Improvement</option>
+                </select>
+              </div>
+              <div class="form-group subtasks">
+                <label for="subtask-tags">Subtasks</label>
+                <input placeholder="Add new subtask" type="text" id="subtask-tags" name="subtask-tags" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <div class="add-task-buttons">
+          <button class="add-task-create-button">Create Task</button>
+          <button class="add-task-clear-button">Clear</button>
+        </div>
+      </footer>
+    </main>
 </div>
 <script src="script.js"></script>
 <script src="templates.js"></script>
