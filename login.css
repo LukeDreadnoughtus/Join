@@ -4,6 +4,7 @@
     height: 200px; 
     width: 100%;
     display:flex; 
+    justify-content: space-between;
 }
 
 .login_icon {
@@ -17,24 +18,65 @@
     width:279px; 
     height: 49px; 
     padding-top: 67px; 
-    padding-left: 1039px;
+    padding-right: 100px;
     gap: 35px; 
     display:flex; 
+    align-items: center;
+}
 
+.link_to_registration {
+    text-decoration:none; 
+    font-size: 20px; 
+    font-family: "inter"; 
+    color: black; 
+}
+
+.sign_up_button {
+    width: 91px; 
+    height: 49px; 
+    display: inline-block;
+    padding: 15px 16px;
+    background-color: #2A3647;
+    color: #ffffff;
+    text-decoration: none; 
+    border-radius: 8px;
+    font-family: "inter";
+    font-size: 15px;
+    font-weight: bold;
 }
 
 .input_login {
-    gap:30px; 
     height: 449px; 
     width: 652px;
-    padding-top:48px;
+    box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
+    margin-top: 87.5px; 
+    margin-bottom: 287.5px;
+    display:flex; 
+    align-items: center;
+    flex-direction:column; 
+}
+
+
+/* padding-top:48px;
     padding-left:115px;
     padding-right:115px;
     padding-bottom:48px;
-    border-radius: 30px;
-    box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
-    margin-top: 287.5px; 
-    margin-left: 394px; 
+    border-radius: 30px; */
 
+
+.login_body {
+    display:flex; 
+    justify-content: center;
+    align-items: center;
 }
 
+ 
+.footer_login {
+    height: 100px; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    gap: 20px; 
+    font-size: 16px; 
+    color: #A8A8A8; 
+}

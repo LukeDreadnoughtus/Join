@@ -12,35 +12,35 @@
   <link rel="stylesheet" href="./login.css" />
   <link rel="stylesheet" href="./assets.css" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
-  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 </head>
-<body>
+<body class="login_body">
 <div class="login_header">
   <img class="login_icon" src="assets/img/login_join.svg">
   <div class="not_a_join_user">
-  <h4><a href="./registration.html">Not a Join user?</a></h4>
-  <button onclick="toRegistration()">Sign up</button>
+  <h4><a href="./registration.html" class="link_to_registration">Not a Join user?</a></h4>
+  <button class="sign_up_button" onclick="toRegistration()">Sign up</button>
   </div>
  
 </div>
 
 <div class="input_login">
 <h2>Login</h2>
-  <form method="POST" action="/login">
-    <label>Benutzername:</label>
-    <input type="text" id="username" required />
-    <br />
-    <label>Passwort:</label>
-    <input type="password" id="password" required />
+  <form>
+    <input type="text" id="username" placeholder="Name" required />
     <br/>
-    <button type="submit" onclick="logIn()">Einloggen</button>
+    <input type="password" id="password" placeholder="Password" required />
+    <br/>
+    <button type="submit" onclick="LogIn(event)">Log In</button>
+    <button type="submit" onclick="LogIn(event)">Guest Log In</button>
   </form>
-
  </div>
 
-  <script src="js/script.js"></script>
-  <script src="js/templates.js"></script>
+ <footer class="footer_login">
+  <a>Privacy Policy</a>
+  <a>Legal notice</a>
+ </footer>
+
+
   <script src="js/login.js"></script>
 </body>
 </html>
