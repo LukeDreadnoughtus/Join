@@ -17,14 +17,16 @@ async function logIn(event) {
 }
 
 function proofUserData(userData, username, password) {
-     for (let i = 1; i< Object.keys(userData).length; i++) {
-        let userKey = "user" + i;
-        let user = userData[userKey]
-
+     for (const userKey in userData) {
+        const user = userData[userKey];//hier noch überprüfen
         if (!user) continue;
 
         if (username === user.name && password === user.password) {
+            //function welche userid noch findet (muss man denke ich nochmal fetchen)
+            localStorage.setItem("username", `${username}`)
+            localStorage.setItem("userid", `${userid}`); //wir brauchen die id und den Namen - Bei Logout dann am besten wieder rauslöschen
             window.location.href = "summary.html";
+            //hier andere funktion per onload aufrufen mit username Variable--> sucht dann in der anderen Datenbank nach den tasks 
             return
         }
     }
