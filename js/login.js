@@ -18,15 +18,13 @@ async function logIn(event) {
 
 function proofUserData(userData, username, password) {
      for (const userKey in userData) {
-        const user = userData[userKey];//hier noch überprüfen
+        const user = userData[userKey];
         if (!user) continue;
 
         if (username === user.name && password === user.password) {
-            //function welche userid noch findet (muss man denke ich nochmal fetchen)
             localStorage.setItem("username", `${username}`)
-            localStorage.setItem("userid", `${userid}`); //wir brauchen die id und den Namen - Bei Logout dann am besten wieder rauslöschen
+            localStorage.setItem("userid", `${userKey}`); //hier speichern wir auch die id für die tasks - Bei Logout dann am besten wieder rauslöschen
             window.location.href = "summary.html";
-            //hier andere funktion per onload aufrufen mit username Variable--> sucht dann in der anderen Datenbank nach den tasks 
             return
         }
     }
@@ -54,14 +52,12 @@ async function registration (event) {
         alert("Die beiden Passwörter stimmen nicht überein – bitte erneut eingeben.");
         return;
     }
-
     const userData = {
         name: name,
         email: email,
         password: password,
         color: getUserColor()
     };
-
     try {
         const response = await fetch(path + ".json", {
             method: "POST",
@@ -70,7 +66,6 @@ async function registration (event) {
             },
             body: JSON.stringify(userData)
         });
-
         const responseToJson = await response.json();
         console.log("Benutzer gespeichert:", responseToJson);
         alert("Registrierung erfolgreich!");

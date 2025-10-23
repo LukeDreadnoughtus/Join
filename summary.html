@@ -30,7 +30,7 @@
   }
 </style>
 </head>
-<body>
+<body onload="init()">
 <div class="page">
 <div aria-hidden="true" class="left">
 <div aria-hidden="true" class="logo-spacer"></div>
@@ -65,7 +65,13 @@
 </div>
 <main class="content">
 <h1>Guten Morgen</h1>
-<h2>Username</h2>
+<h2 id="username">Username</h2>
+<div id="to_do"></div>
+<div id="done"></div>
+<div id="urgent"></div>
+<div id="tasks_in_board"></div>
+<div id="tasks_in_progress"></div>
+<div id="awaiting_feedback"></div>
 </main>
 </div>
 
@@ -73,5 +79,6 @@
   <script src="script.js"></script>
   <script src="templates.js"></script>
   <script src="navigate.js"></script>
+  <script src="js/summary.js"></script>
 </body>
 </html>
