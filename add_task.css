@@ -37,8 +37,7 @@ header {
 .add-task-heading {
   width: 278px;
   height: 73px;
-  display: flex;
-  justify-content: center;
+  padding-left: 100px;
 }
 
 .add-task-form {
@@ -50,7 +49,6 @@ header {
 .add-task-form input {
   width: 440px;
   height: 48px;
-  padding: 8px;
 }
 
 .add-task-form select {
@@ -61,7 +59,7 @@ header {
 .add-task-form textarea,
 .add-task-form select,
 .add-task-form input {
-  border: 1px solid #ffffff;
+  border: 1px solid #D1D1D1;
   border-radius: 10px;
   font-size: 1rem;
   outline: none;
@@ -69,9 +67,8 @@ header {
 }
 
 .add-task-form textarea {
-  width: 440px;
-  height: 96px;
-  padding: 8px;
+  width: 434px;
+  height: 130px;
   resize: none;
 }
 
@@ -112,7 +109,7 @@ label {
   align-items: stretch;
   width: 100%;
   box-sizing: border-box;
-  gap: 20px;
+  gap: 50px;
   justify-content: center;
 }
 
@@ -159,7 +156,7 @@ label {
 .add-controll-form select,
 .add-controll-form input,
 .add-controll-form textarea {
-  border: 1px solid #ffffff;
+  border: 1px solid #D1D1D1;
   border-radius: 10px;
   font-size: 1rem;
   outline: none;
@@ -168,7 +165,64 @@ label {
   height: 44px;
 }
 
-.form-group{
-    padding-top: 4px;
-    padding-bottom: 4px;
+.form-group {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.due-date-input {
+  padding-left: 5px;
+  color: #c4c4c4;
+  opacity: 1;
+}
+
+.priority-container {
+  display: flex;
+  gap: 15px;
+}
+
+.priority-btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 0px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  width: 136px;
+  height: 56px;
+}
+
+.priority-btn:hover {
+  border-color: #999;
+}
+
+.priority-btn.active {
+  background-color: #FFA800;
+  color: white;
+  border-color: #FFA800;
+}
+
+.priority-name{
+  font-family: "inter";
+  font-style: "regular";
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 120%;
+}
+
+.icon{
+  padding-top: 2px;
+  width: 20px;
+  height: 14px;
+}
+
+::placeholder {
+  color: #c4c4c4;
+  opacity: 1;
+  font-size: 20px;
+  font-weight: 400;
+  font-family: "inter";
+  line-height: 120%;
+  padding: 10px;
 }
