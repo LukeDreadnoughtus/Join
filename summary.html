@@ -30,7 +30,7 @@
   }
 </style>
 </head>
-<body>
+<body onload="init(event)">
 <div class="page">
 <div aria-hidden="true" class="left">
 <div aria-hidden="true" class="logo-spacer"></div>
@@ -68,14 +68,21 @@
 </div>
 </div>
 <main class="content">
-
-
+<h2>Guten Morgen</h2>
+<h1 id="username">Username</h1>
+<h4>To-do<h2 id="to_do"></h2></h4>
+<h4>done<h2 id="done"></h2></h4>
+<h4>Urgent<h2 id="urgent"></h2></h4>
+<h4>Tasks in Board<h2 id="tasks_in_board"></h2></h4>
+<h4>Tasks In Progress<h2 id="tasks_in_progress"></h2></h4>
+<h4>Awaiting Feedback<h2 id="awaiting_feedback"></h2></h4>
 </main>
 </div>
 
 
-  <script src="script.js"></script>
-  <script src="templates.js"></script>
-  <script src="navigate.js"></script>
+  <script src="./script.js"></script>
+  <script src="js/templates.js"></script>
+  <script src="./navigate.js"></script>
+  <script src="js/summary.js"></script>
 </body>
 </html>

@@ -17,13 +17,13 @@ async function logIn(event) {
 }
 
 function proofUserData(userData, username, password) {
-     for (let i = 1; i< Object.keys(userData).length; i++) {
-        let userKey = "user" + i;
-        let user = userData[userKey]
-
+     for (const userKey in userData) {
+        const user = userData[userKey];
         if (!user) continue;
 
         if (username === user.name && password === user.password) {
+            localStorage.setItem("username", `${username}`)
+            localStorage.setItem("userid", `${userKey}`); //hier speichern wir auch die id für die tasks - Bei Logout dann am besten wieder rauslöschen
             window.location.href = "summary.html";
             return
         }
@@ -52,14 +52,12 @@ async function registration (event) {
         alert("Die beiden Passwörter stimmen nicht überein – bitte erneut eingeben.");
         return;
     }
-
     const userData = {
         name: name,
         email: email,
         password: password,
         color: getUserColor()
     };
-
     try {
         const response = await fetch(path + ".json", {
             method: "POST",
@@ -68,7 +66,6 @@ async function registration (event) {
             },
             body: JSON.stringify(userData)
         });
-
         const responseToJson = await response.json();
         console.log("Benutzer gespeichert:", responseToJson);
         alert("Registrierung erfolgreich!");
