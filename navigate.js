@@ -1,3 +1,6 @@
+
+/* for main Tasks */
+
 (() => {
   const routes = {
     summary:  'summary.html',
@@ -39,3 +42,26 @@
     });
   });
 })();
+
+
+/* for sub Tasks */
+
+
+
+(() => {
+  try {
+    const file = (location.pathname.split('/').pop() || '').toLowerCase();
+    const rows = document.querySelectorAll('.legal-area .legal-row');
+
+    rows.forEach(row => {
+      const href = (row.getAttribute('href') || '').toLowerCase();
+      const isActive = file && (href.endsWith(file));
+      row.classList.toggle('is-active', !!isActive);
+      row.setAttribute('aria-current', isActive ? 'page' : 'false');
+    });
+  } catch (e) {
+    
+    console && console.warn && console.warn('legal-area highlight error:', e);
+  }
+})();
+

@@ -11,7 +11,7 @@ body {
   background: #f0f0f0;
 }
 
-
+/* for main tasks */
 .page {
   display: grid;
   grid-template-columns: 16.5% 1fr;
@@ -140,6 +140,9 @@ body {
 
 [data-link]:not([aria-current="page"]):hover {}
 
+
+/* for sub tasks */
+
 .left .legal-area {
   display: flex;
   flex-direction: column;
@@ -153,3 +156,119 @@ body {
 .left .legal-area .legal-link:hover {
   color: #29ABE2;
 }
+
+.legal-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.legal-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-decoration: none;
+  padding: 10px 16px;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+.legal-row svg,
+.legal-row img {
+  display: block;
+}
+
+.legal-label {
+  font: inherit;
+  line-height: 1.2;
+}
+
+.legal-row.is-active svg path,
+.legal-row.is-active svg *,
+.legal-row.is-active .legal-label {
+  fill: #ffffff !important;
+  color: #ffffff;
+}
+
+.legal-area {
+  color: #ffffff; 
+}
+.legal-area .legal-row,
+.legal-area .legal-row:link,
+.legal-area .legal-row:visited,
+.legal-area .legal-row:hover,
+.legal-area .legal-row:active {
+  color: inherit;          
+  text-decoration: none;
+}
+
+
+.legal-area .legal-row {
+  display: flex;
+  align-items: center;      
+  justify-content: flex-start; 
+  padding: 0px 16px;       
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.legal-area .legal-row.is-active {
+  background-color: #091931;
+}
+.legal-area .legal-row.is-active svg *,
+.legal-area .legal-row.is-active svg path {
+  fill: #ffffff !important;
+}
+
+.legal-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;       
+  justify-content: center;
+  gap: 0;
+  padding: 0;
+  margin: 0;
+  color: #ffffff;            
+}
+
+
+.legal-area .legal-row {
+  display: flex;
+  align-items: center;      
+  justify-content: center;   
+  width: 100%;
+  text-decoration: none;
+  background: transparent;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease;
+}
+
+
+.legal-area .legal-row svg,
+.legal-area .legal-row img {
+  display: block;
+  height: 48px;              
+  width: 200px;
+  background: transparent;
+}
+
+
+.legal-area .legal-row:hover svg *,
+.legal-area .legal-row:hover svg path {
+  fill: #29ABE2 !important;
+}
+
+
+
+.legal-area .legal-row:link,
+.legal-area .legal-row:visited,
+.legal-area .legal-row:hover,
+.legal-area .legal-row:active {
+  color: inherit;
+  text-decoration: none;
+}
+

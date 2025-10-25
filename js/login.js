@@ -45,7 +45,9 @@ async function registration (event) {
     const email = document.getElementById("email_registration").value.trim()
     const password = document.getElementById("password_registration").value.trim()
     const passwordConfirmation = document.getElementById("password_confirm").value.trim()
-
+    //überprüfen ob privacy policy schon angehakt wurde
+    //überprüfen ob es den user schon gibt.
+    //Fehlermeldung, kein alert. 
     if (password !== passwordConfirmation) {
         alert("Die beiden Passwörter stimmen nicht überein – bitte erneut eingeben.");
         return;
