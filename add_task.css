@@ -59,7 +59,7 @@ header {
 .add-task-form textarea,
 .add-task-form select,
 .add-task-form input {
-  border: 1px solid #D1D1D1;
+  border: 1px solid #d1d1d1;
   border-radius: 10px;
   font-size: 1rem;
   outline: none;
@@ -156,7 +156,7 @@ label {
 .add-controll-form select,
 .add-controll-form input,
 .add-controll-form textarea {
-  border: 1px solid #D1D1D1;
+  border: 1px solid #d1d1d1;
   border-radius: 10px;
   font-size: 1rem;
   outline: none;
@@ -198,12 +198,12 @@ label {
 }
 
 .priority-btn.active {
-  background-color: #FFA800;
+  background-color: #ffa800;
   color: white;
-  border-color: #FFA800;
+  border-color: #ffa800;
 }
 
-.priority-name{
+.priority-name {
   font-family: "inter";
   font-style: "regular";
   font-size: 20px;
@@ -211,7 +211,7 @@ label {
   line-height: 120%;
 }
 
-.icon{
+.icon {
   padding-top: 2px;
   width: 20px;
   height: 14px;
@@ -225,4 +225,63 @@ label {
   font-family: "inter";
   line-height: 120%;
   padding: 10px;
+}
+
+.add-task-clear-button {
+  width: 110px;
+  height: 56px;
+  background-color: #f6f7f8;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-controls-buttons {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.add-task-create-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 183px;
+  height: 56px;
+  background-color: #2a3647;
+  border-radius: 10px;
+  border: 0px;
+}
+
+.task-controls-buttons {
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 100px;
+}
+
+.task-controls-buttons .add-task-create-button {
+  margin-left: 16px;
+}
+
+.font-clear {
+  font-family: "inter";
+  font-style: "regular";
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 120%;
+  color: #2a3647;
+}
+
+.font-create {
+  font-family: "inter";
+  font-style: "regular";
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 120%;
+  color: #ffffff;
+}
+
+.clear-svg img {
+  padding-top: 4px;
 }
