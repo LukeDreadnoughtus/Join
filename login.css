@@ -1,23 +1,23 @@
-
-
-.login_header {
-    height: 200px; 
-    width: 100%;
+.login_body {
     display:flex; 
-    justify-content: space-between;
+    align-items: center;
+    font-family: "inter"; 
 }
 
 .login_icon {
     height: 122px; 
     width: 100px;
-    padding-top:80px;
-    padding-left: 77px; 
+    position:absolute; 
+    top:80px;
+    left: 77px; 
 }
 
 .not_a_join_user {
+    position:absolute; 
+    top:67px; 
+    left: 1039px; 
     width:279px; 
     height: 49px; 
-    padding-top: 67px; 
     padding-right: 100px;
     gap: 35px; 
     display:flex; 
@@ -31,9 +31,13 @@
     color: black; 
 }
 
-.sign_up_button {
+.button_sizeone {
     width: 91px; 
     height: 49px; 
+    font-size: 15px;
+}
+
+.sign_up_button {
     display: inline-block;
     padding: 15px 16px;
     background-color: #2A3647;
@@ -41,36 +45,145 @@
     text-decoration: none; 
     border-radius: 8px;
     font-family: "inter";
-    font-size: 15px;
     font-weight: bold;
+    cursor:pointer; 
 }
 
-.input_login {
+.sign_up_button:hover {
+    background-color: #29ABE2;
+    border-color: #29ABE2 ;
+}
+
+
+.div_login {
     height: 449px; 
     width: 652px;
     box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
-    margin-top: 87.5px; 
+    margin-top: 287.5px; 
     margin-bottom: 287.5px;
     display:flex; 
+    justify-content: center;
     align-items: center;
     flex-direction:column; 
 }
 
-
-/* padding-top:48px;
-    padding-left:115px;
-    padding-right:115px;
-    padding-bottom:48px;
-    border-radius: 30px; */
-
-
-.login_body {
+.div_sign_up {
+    height: 630px; 
+    width: 598px;
+    box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
+    margin-top: 287.5px; 
+    margin-bottom: 287.5px;
     display:flex; 
     justify-content: center;
     align-items: center;
+    flex-direction:column; 
 }
 
- 
+.login_button {
+    display: inline-block;
+    padding: 15px 24px;
+    background-color: #2A3647;
+    color: #ffffff;
+    text-decoration: none; 
+    border-radius: 8px;
+    cursor:pointer; 
+    /* height: 48px;  */
+    width: 111px; 
+    text-align: center;
+}
+
+.login_button:hover {
+    background-color: #29ABE2;
+    border-color: #29ABE2 ;
+}
+
+.guest_login_button {
+    display: inline-block;
+    padding: 15px 24px;
+    background-color: #ffffff;
+    color: #2A3647;
+    text-decoration: none; 
+    border-radius: 8px;
+    border-color:#2A3647;  
+    cursor:pointer; 
+    width: 177px; 
+}
+
+.guest_login_button:hover {
+    color: #29ABE2;
+    border-color: #29ABE2 ;
+}
+
+
+.input_style {
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+   
+}
+
+.input_registration {
+    height: 48px; 
+    width: 422px; 
+}
+
+.input_login {
+    height: 48px; 
+    width: 422px; 
+}
+
+.div_login input::placeholder {
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.div_login_form{
+    width: 422px; 
+    height: 152px; 
+    margin-top: 20px; 
+}
+
+.div_login_form input{
+    margin-bottom:32px; 
+}
+
+.div_sign_up_form {
+    width: 422px; 
+    height: 286px; 
+    margin-top: 20px; 
+}
+
+.div_sign_up_form input{
+    margin-bottom:32px; 
+}
+
+.div_sign_up input::placeholder {
+    font-weight: 400;
+    font-size: 20px;
+}
+
+
+a{
+    color:#29ABE2; 
+    text-decoration: none;
+    font-family:"inter"; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .footer_login {
     height: 100px; 
     display: flex;
@@ -78,5 +191,15 @@
     align-items: center;
     gap: 20px; 
     font-size: 16px; 
+   
+}
+
+.footer_login a {
+    text-decoration: none;
     color: #A8A8A8; 
+}
+
+.footer_login a:hover {
+    color: #29ABE2;
+    font-weight: bold;
 }
