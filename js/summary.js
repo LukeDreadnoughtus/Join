@@ -2,6 +2,8 @@ let currentTasks = [];
 let levels =[]; 
 let path = "https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/"
 
+//Fehlt noch: Anrede je nach Tageszeit
+
 async function init(event) {
     let username = getUserFromLocalStorage()
     let userId = getUserIdFromLocalStorage()

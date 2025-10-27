@@ -24,10 +24,14 @@
 <div class="div_login">
 <h2>Login</h2>
   <form class="div_login_form">
-    <input class="input_style input_login" type="text" id="username" placeholder="Name" required />
-    <br/>
-    <input class="input_style input_login" type="password" id="password" placeholder="Password" required />
-    <br/>
+    <div class="input-wrapper">
+      <input class="input_style input_login" type="text" id="username" placeholder="Name" required />
+      <img src="assets/img/person.svg" alt="" class="icon">
+    </div>
+    <div class="input-wrapper">
+      <input class="input_style input_login" type="password" id="password" placeholder="Password" required />
+      <img src="assets/img/lock.svg" alt="" class="icon">
+    </div>
     <button class="login_button button_fonts button_df" type="submit" onclick="logIn(event)">Log In</button>
     <button class="guest_login_button button_fonts button_df" type="submit" onclick="logIn(event)">Guest Log In</button>
   </form>

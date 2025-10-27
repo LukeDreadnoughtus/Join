@@ -14,20 +14,32 @@
     <link rel="stylesheet" href="./assets.css" />
 </head>
 <body class="login_body">
-    
+<img class="login_icon" src="assets/img/login_join.svg">
 <div class="div_sign_up">
+<img src="assets/img/arrow-left.svg" alt="" class="arrow_blue" onclick="backToLogIn()">
 <h2>Sign up</h2>
   <form class="div_sign_up_form">
-    <input class="input_style input_registration" type="text" id="name_registration" placeholder="Name" required />
-    <br/>
-    <input class="input_style input_registration" type="text" id="email_registration" placeholder="Email" required />
-    <br/>
-    <input class="input_style input_registration" type="password" id="password_registration" placeholder="Passwort" required />
-    <br/>
-    <input class="input_style input_registration" type="password" id="password_confirm" placeholder="Confirm Password" required />
-     <br/>
-     <input class="checkbox" type="checkbox" id="termsCheckbox" required>
+    <div class="input-wrapper">
+      <input class="input_style input_registration" type="text" id="name_registration" placeholder="Name" required />
+      <img src="assets/img/person.svg" alt="" class="icon">
+    </div>
+    <div class="input-wrapper">
+      <input class="input_style input_registration" type="text" id="email_registration" placeholder="Email" required />
+      <img src="assets/img/mail.svg" alt="" class="icon">
+    </div>
+    <div class="input-wrapper">
+      <input class="input_style input_registration" type="password" id="password_registration" placeholder="Passwort" required />
+      <img src="assets/img/lock.svg" alt="" class="icon">
+    </div>
+    <div class="input-wrapper">
+      <input class="input_style input_registration" type="password" id="password_confirm" placeholder="Confirm Password" required />
+      <img src="assets/img/lock.svg" alt="" class="icon">
+    </div>
+    <label class="checkbox">
+      <input class="check" type="checkbox" id="termsCheckbox" required>
+      <span class="custom_check"></span>
       I accept the <a href="privacy_policy.html" target="_blank">Privacy policy</a>
+    </label>
     <br/>
     <button class="button_fonts button_df sign_up_button" type="submit" onclick="registration(event)">Sign up</button>
   </form>

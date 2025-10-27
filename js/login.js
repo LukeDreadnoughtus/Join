@@ -38,6 +38,10 @@ function toRegistration() {
 
 //registration
 
+function backToLogIn() {
+    window.location.href = "index.html";
+}
+
 
 async function registration (event) {
     event.preventDefault();

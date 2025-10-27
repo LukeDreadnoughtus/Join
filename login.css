@@ -47,6 +47,7 @@
     font-family: "inter";
     font-weight: bold;
     cursor:pointer; 
+    margin-left: 155px; 
 }
 
 .sign_up_button:hover {
@@ -61,10 +62,13 @@
     box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
     margin-top: 287.5px; 
     margin-bottom: 287.5px;
+    padding-top: 75px;
     display:flex; 
-    justify-content: center;
     align-items: center;
     flex-direction:column; 
+    background-color: white;
+    border-radius: 30px;
+    
 }
 
 .div_sign_up {
@@ -74,9 +78,12 @@
     margin-top: 287.5px; 
     margin-bottom: 287.5px;
     display:flex; 
-    justify-content: center;
+    padding-top: 0px; 
     align-items: center;
     flex-direction:column; 
+    background-color: white;
+    border-radius: 30px;
+    position: relative; 
 }
 
 .login_button {
@@ -127,6 +134,24 @@
 .input_registration {
     height: 48px; 
     width: 422px; 
+    box-sizing: border-box;
+    padding-right: 40px;      
+}
+
+
+.input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.input-wrapper .icon {
+  position: absolute;
+  right: 18px;
+  top: 34%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  opacity: 0.6;
 }
 
 .input_login {
@@ -137,41 +162,106 @@
 .div_login input::placeholder {
     font-weight: 400;
     font-size: 20px;
+    color: #D1D1D1; 
 }
 
 .div_login_form{
     width: 422px; 
     height: 152px; 
-    margin-top: 20px; 
+    margin-top: 20px;
+    cursor: pointer;
 }
 
 .div_login_form input{
     margin-bottom:32px; 
+    cursor: pointer;
 }
 
 .div_sign_up_form {
     width: 422px; 
     height: 286px; 
     margin-top: 20px; 
+    cursor: pointer;
 }
 
 .div_sign_up_form input{
-    margin-bottom:32px; 
+    margin-bottom:24px; 
+    cursor: pointer;
+}
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: "inter";
+  color: rgb(48, 47, 47); 
+  gap:8px; 
+  margin-bottom: 24px; 
+  margin-left: 104px; 
+}
+
+.check {
+  display: none;
+}
+
+.custom_check {
+    transition: transform 0.75s ease;
+    height: 24px;
+    width: 24px; 
+    background-color: #F0F0F0;
+    border: 2px solid #A8A8A8;
+    border-radius:3px;
+    display: inline-block;
+    position: relative;
+}
+
+.checkbox:hover .custom_check{
+   background-color: #e4dada;
+   border-color: #939090;
+   transform: scale(1.1);
+}
+
+.check:checked + .custom_check {
+  background-color: #007bff;
+}
+
+.check:checked + .custom_check::after {
+  content: "✔";
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
 }
 
 .div_sign_up input::placeholder {
     font-weight: 400;
     font-size: 20px;
+    color: #D1D1D1; 
 }
 
 
-a{
+a {
     color:#29ABE2; 
     text-decoration: none;
     font-family:"inter"; 
+    font-weight: 500;
 }
 
 
+.arrow_blue {
+    height: 32px; 
+    width: 32px; 
+    right: 232px; 
+    top:48px; 
+    position:relative; 
+    cursor:pointer; 
+}
 
 
 
