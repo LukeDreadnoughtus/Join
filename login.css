@@ -16,7 +16,6 @@
     position:absolute; 
     top:67px; 
     left: 1039px; 
-    width:279px; 
     height: 49px; 
     padding-right: 100px;
     gap: 35px; 
@@ -47,7 +46,7 @@
     font-family: "inter";
     font-weight: bold;
     cursor:pointer; 
-    margin-left: 155px; 
+    margin-left: 50px; 
 }
 
 .sign_up_button:hover {
@@ -219,14 +218,19 @@
     position: relative;
 }
 
+.custom_check_highlight {
+    border: 2px solid #29ABE2;
+    background-color: #f60f0f;
+}
+
 .checkbox:hover .custom_check{
    background-color: #e4dada;
-   border-color: #939090;
+   border-color: #5e5b5b;
    transform: scale(1.1);
 }
 
 .check:checked + .custom_check {
-  background-color: #007bff;
+  background-color: #29ABE2 ;
 }
 
 .check:checked + .custom_check::after {
@@ -245,7 +249,6 @@
     color: #D1D1D1; 
 }
 
-
 a {
     color:#29ABE2; 
     text-decoration: none;
@@ -261,18 +264,17 @@ a {
     top:48px; 
     position:relative; 
     cursor:pointer; 
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
 }
 
-
-
-
-
-
-
-
-
-
-
+.arrow_blue:hover {
+  background: rgba(92, 89, 89, 0.1);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
+}
 
 .footer_login {
     height: 100px; 
@@ -280,8 +282,7 @@ a {
     justify-content: center; 
     align-items: center;
     gap: 20px; 
-    font-size: 16px; 
-   
+    font-size: 16px;
 }
 
 .footer_login a {
@@ -292,4 +293,62 @@ a {
 .footer_login a:hover {
     color: #29ABE2;
     font-weight: bold;
+}
+
+.blueline {
+    padding-top:10px; 
+}
+
+.margin_155 {
+    margin-left: 155px !important; 
+}
+
+.overlay_userfeedback {
+    position: absolute;
+    background-color: #2A3647;
+    color: white; 
+    border-radius: 10px; 
+    top:850px; 
+    width: 350px; 
+    height: 70px; 
+    font-size: 20px; 
+    display:flex; 
+    align-items: center; 
+    padding-left: 10px; 
+    padding-right: 10px; 
+    font-weight: 200;
+}
+
+.overlay_userfeedback_sign_up {
+    position: absolute;
+    background-color: #2A3647;
+    color: white; 
+    border-radius: 10px; 
+    top:180px; 
+    width: 300px; 
+    height: 50px; 
+    font-size: 20px; 
+    display:flex; 
+    align-items: center; 
+    justify-content: center;
+    font-weight: 200;
+}
+
+.overlay_userfeedback_email {
+    position: absolute;
+    background-color: #2A3647;
+    color: white; 
+    border-radius: 10px; 
+    top:180px; 
+    width: 300px; 
+    height: 50px; 
+    font-size: 20px; 
+    display:flex; 
+    align-items: center; 
+    justify-content: center;
+    font-weight: 200;
+}
+
+.d_none {
+    display:none; 
 }

@@ -42,27 +42,76 @@ function backToLogIn() {
     window.location.href = "index.html";
 }
 
+function removeHighlight() {
+    const checkBox= document.getElementById("checkboxhightlight")
+    if (checkBox.classList.contains("custom_check_highlight")) {
+        document.getElementById("userfeedback_checkbox").classList.add("d_none")
+        document.getElementById("checkboxhightlight").classList.remove("custom_check_highlight")
+    }
+}
+
+function CheckPasswordConfirmation () {
+ // if(passwordProof() === false) {
+    //     return
+    // }
+    // function passwordProof () {
+//     const password = document.getElementById("password_registration").value.trim()
+//     const passwordConfirmation = document.getElementById("password_confirm").value.trim()
+//     if (password !== passwordConfirmation) {
+//         alert("Die beiden Passwörter stimmen nicht überein – bitte erneut eingeben.");
+//         return false;
+//     }
+// }
+
+}
+
+//Proofemail überprüfen
+//JS Doku
+//Userfeedback PasswortConfirmation
+//Überprüfen ob alle Felder ausgefüllt wurden + Userfeedback
 
 async function registration (event) {
-    event.preventDefault();
+     if( checkBoxProof() === false) {
+        return
+    }
+    let userData = userData() 
+    if(await proofEmail (userData) ===true) return
+    await postUserData (event, userData)
+    toSummary()
+}
+
+function checkBoxProof() {
+    const checkBox= document.getElementById("termsCheckbox")
+    if(checkBox.checked === false) {
+        document.getElementById("userfeedback_checkbox").classList.remove("d_none")
+        document.getElementById("checkboxhightlight").classList.add("custom_check_highlight")
+        return false}
+}
+
+function userData() {
     const name = document.getElementById("name_registration").value.trim();
     const email = document.getElementById("email_registration").value.trim()
     const password = document.getElementById("password_registration").value.trim()
-    const passwordConfirmation = document.getElementById("password_confirm").value.trim()
-    //überprüfen ob privacy policy schon angehakt wurde
-    //überprüfen ob es den user schon gibt.
-    //Fehlermeldung, kein alert. 
-    if (password !== passwordConfirmation) {
-        alert("Die beiden Passwörter stimmen nicht überein – bitte erneut eingeben.");
-        return;
-    }
     const userData = {
-        name: name,
-        email: email,
-        password: password,
-        color: getUserColor()
+    name: name,
+    email: email,
+    password: password,
+    color: getUserColor()
     };
-    try {
+   return userData 
+}
+
+async function proofEmail (userData) {
+    const getResponse = await fetch(path + ".json");
+    const users = await getResponse.json()
+    if (Object.values(users ?? {}).find(u => u.email === userData.email)) {
+    document.getElementById("userfeedback_email").classList.remove("d_none")
+    return true}
+} 
+
+async function postUserData (event, userData) {
+     event.preventDefault();
+     try {
         const response = await fetch(path + ".json", {
             method: "POST",
             headers: {
@@ -72,7 +121,6 @@ async function registration (event) {
         });
         const responseToJson = await response.json();
         console.log("Benutzer gespeichert:", responseToJson);
-        alert("Registrierung erfolgreich!");
     } catch (error) {
         console.error("Fehler bei der Registrierung:", error.message, error);
         alert("Ein Fehler ist aufgetreten. Bitte versuche es erneut.");
@@ -96,6 +144,13 @@ function getUserColor() {
   ];
   const randomIndex = Math.floor(Math.random() * basicColors.length);
   return basicColors[randomIndex];
+}
+
+function toSummary() {
+    document.getElementById("userfeedback_sign_up").classList.remove("d_none")
+    setTimeout(() => {
+    window.location.href = "summary.html";
+},  2000);
 }
 
  

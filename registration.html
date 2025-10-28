@@ -14,10 +14,14 @@
     <link rel="stylesheet" href="./assets.css" />
 </head>
 <body class="login_body">
+<div class="overlay_userfeedback d_none" id="userfeedback_checkbox"><p>You have to accept the privacy policy to continue registration</p></div>
+<div class="overlay_userfeedback_sign_up d_none" id="userfeedback_sign_up"><p>You Signed up successfully</p></div>
+<div class="overlay_userfeedback_email d_none" id="userfeedback_email"><p>This email does already exist</p></div>
 <img class="login_icon" src="assets/img/login_join.svg">
 <div class="div_sign_up">
 <img src="assets/img/arrow-left.svg" alt="" class="arrow_blue" onclick="backToLogIn()">
 <h2>Sign up</h2>
+<img class="blueline" src="assets/img/bluevektor.svg">
   <form class="div_sign_up_form">
     <div class="input-wrapper">
       <input class="input_style input_registration" type="text" id="name_registration" placeholder="Name" required />
@@ -36,12 +40,12 @@
       <img src="assets/img/lock.svg" alt="" class="icon">
     </div>
     <label class="checkbox">
-      <input class="check" type="checkbox" id="termsCheckbox" required>
-      <span class="custom_check"></span>
+      <input class="check" type="checkbox" id="termsCheckbox" onclick="removeHighlight()" required>
+      <span class="custom_check" id="checkboxhightlight"></span>
       I accept the <a href="privacy_policy.html" target="_blank">Privacy policy</a>
     </label>
     <br/>
-    <button class="button_fonts button_df sign_up_button" type="submit" onclick="registration(event)">Sign up</button>
+    <button class="button_fonts button_df sign_up_button margin_155" type="submit" onclick="registration(event)">Sign up</button>
   </form>
  </div>
 
