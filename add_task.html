@@ -93,14 +93,17 @@
           </div>
         </div>
         <div class="divider"></div>
+
         <div class="right-split">
+
           <div class="add-controll-task">
             <div class="add-controll-form">
+
               <div class="form-group priority">
                 <label for="task-priority">Priority</label>
                 <div class="priority-container">
-                  <button id="urgent" type="button" class="priority-btn urgent" data-value="urgent"><span
-                      class="priority-name">Urgent</span>
+                  <button id="urgent" type="button" class="priority-btn urgent" data-value="urgent">
+                    <span class="priority-name">Urgent</span>
                     <svg class="urgent-icon" width="20" height="15" viewBox="0 0 20 15" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -129,50 +132,50 @@
                 </div>
                 <input type="hidden" name="task-priority" id="task-priority" value="medium" required>
               </div>
+
               <div class="form-group assigned-to">
                 <label for="task-assigned-to">Assigned To</label>
-                <select id="task-assigned-to" name="task-assigned-to" required>
-                  <option value="user1">User 1</option>
-                  <option value="user2">User 2</option>
-                  <option value="user3">User 3</option>
+                <select id="task-assigned-to" required>
+                  <option value="">-- Lade Benutzer... --</option>
                 </select>
               </div>
+
               <div class="form-group category">
                 <label for="task-category">Category</label>
-                <select id="task-category" name="task-category" required>
-                  <option value="feature">Feature</option>
-                  <option value="bug">Bug</option>
-                  <option value="improvement">Improvement</option>
+                <select id="task-category" required>
+                  <option value="">-- Lade Kategorien... --</option>
                 </select>
               </div>
+
               <div class="form-group subtasks">
                 <label for="subtask-tags">Subtasks</label>
-                <input placeholder="Add new subtask" type="text" id="subtask-tags" name="subtask-tags" />
+                <input placeholder="Add new subtask" type="text" id="subtask-tags" />
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="task-controls-buttons">
-        <button class="add-task-create-button">
+        <button type="submit" class="add-task-create-button">
           <span class="font-create">Create Task</span>
           <span class="check-svg"><img src="./assets/img/check.svg" alt="check icon" width="24px" height="24px"></span>
         </button>
-        <button class="add-task-clear-button">
+        <button type="reset" class="add-task-clear-button">
           <span class="font-clear">Clear</span>
           <span class="clear-svg"><img src="./assets/img/clear.svg" alt="clear icon" width="24px" height="24px"></span>
         </button>
       </div>
+      </form>
       <footer>
         <div class="footer-content">
-          <p class="footer-text">This field is required</p>
+          <p class="footer-text">This field is required<span style="color:red">*</span></p>
         </div>
       </footer>
     </main>
   </div>
-  <script src="js/addtask.js"></script>
+  <script src="./js/addtask.js"></script>
   <script src="script.js"></script>
-  <script src="templates.js"></script>
+  <script src="./js/templates.js"></script>
   <script src="navigate.js"></script>
 </body>
 
