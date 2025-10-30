@@ -310,3 +310,16 @@ label {
 .priority-btn.low.active .low-icon{
   color: white;
 }
+
+.input-error {
+  border: 2px solid #e53935 !important;
+  background-color: #ffecec;
+}
+
+.error-message {
+  color: #e53935;
+  font-size: 13px;
+  margin-top: 4px;
+  display: block;
+  font-weight: 500;
+}
