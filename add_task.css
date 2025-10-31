@@ -197,12 +197,6 @@ label {
   border-color: #999;
 }
 
-.priority-btn.active {
-  background-color: #ffa800;
-  color: white;
-  border-color: #ffa800;
-}
-
 .priority-name {
   font-family: "inter";
   font-style: "regular";
@@ -284,4 +278,48 @@ label {
 
 .clear-svg img {
   padding-top: 4px;
+}
+
+.priority-btn.low.active {
+  background-color: #7ae229;
+  color: white;
+}
+
+.priority-btn.medium.active {
+  background-color: #f6c23e;
+  color: white;
+}
+
+.priority-btn.urgent.active {
+  background-color: #e74a3b;
+  color: white;
+}
+
+.priority-btn.urgent.active .urgent-icon{
+  color: white;
+}
+
+.urgent-icon {
+  color: red;
+}
+
+.low-icon {
+  color: green;
+}
+
+.priority-btn.low.active .low-icon{
+  color: white;
+}
+
+.input-error {
+  border: 2px solid #e53935 !important;
+  background-color: #ffecec;
+}
+
+.error-message {
+  color: #e53935;
+  font-size: 13px;
+  margin-top: 4px;
+  display: block;
+  font-weight: 500;
 }
