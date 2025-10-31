@@ -24,20 +24,25 @@
 <img class="blueline" src="assets/img/bluevektor.svg">
   <form class="div_sign_up_form">
     <div class="input-wrapper">
-      <input class="input_style input_registration" type="text" id="name_registration" placeholder="Name" required />
+      <input class="input_style input_registration margin_input" type="text" id="name_registration" placeholder="Name" required />
       <img src="assets/img/person.svg" alt="" class="icon">
     </div>
     <div class="input-wrapper">
-      <input class="input_style input_registration" type="text" id="email_registration" placeholder="Email" required />
+      <input class="input_style input_registration margin_input" type="text" id="email_registration" placeholder="Email" required />
       <img src="assets/img/mail.svg" alt="" class="icon">
     </div>
     <div class="input-wrapper">
-      <input class="input_style input_registration" type="password" id="password_registration" placeholder="Passwort" required />
-      <img src="assets/img/lock.svg" alt="" class="icon">
+      <input class="input_style input_registration margin_input" type="password" id="password_registration" onkeyup="showVisibilityIcon(); checkPassword ();" placeholder="Passwort" required />
+      <img id="lock" src="assets/img/lock.svg" alt="" class="icon">
+      <img id="visibility" src="assets/img/visibility.svg" alt="" class="icon d_none" onclick="showPassword()">
+      <img id="visibilitynot" src="assets/img/visibility_off.svg" alt="" onclick="showPassword()" class="icon d_none">
     </div>
     <div class="input-wrapper">
-      <input class="input_style input_registration" type="password" id="password_confirm" placeholder="Confirm Password" required />
-      <img src="assets/img/lock.svg" alt="" class="icon">
+      <input class="input_style input_registration margin_input" type="password" id="password_confirm" onkeyup="showVisibilityIcon2(); checkPassword();" placeholder="Confirm Password" required />
+      <img id="lock2" src="assets/img/lock.svg" alt="" class="icon">
+      <img id="visibility2" src="assets/img/visibility.svg" alt="" class="icon d_none" onclick="showPassword2()">
+      <img id="visibilitynot2" src="assets/img/visibility_off.svg" alt="" class="icon d_none" onclick="showPassword2()">
+      <p class="password_not_match d_none" id="passwordmatch">Your passwords don`t match. Please try again.</p>
     </div>
     <label class="checkbox">
       <input class="check" type="checkbox" id="termsCheckbox" onclick="removeHighlight()" required>

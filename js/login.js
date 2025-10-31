@@ -50,8 +50,8 @@ function removeHighlight() {
     }
 }
 
-function CheckPasswordConfirmation () {
- // if(passwordProof() === false) {
+// function CheckPasswordConfirmation () {
+//  // if(passwordProof() === false) {
     //     return
     // }
     // function passwordProof () {
@@ -63,32 +63,80 @@ function CheckPasswordConfirmation () {
 //     }
 // }
 
+// }
+
+//Proofemail überprüfen - debuggen!
+//JS Doku
+//Überprüfen ob alle Felder ausgefüllt wurden + Userfeedback
+
+function checkPassword () {
+    let alert = document.getElementById("passwordmatch");
+    if (!alert.classList.contains("d_none")) {
+    document.getElementById("password_confirm").classList.add("margin_input")
+    document.getElementById("passwordmatch").classList.add("d_none")
+    }
+    const passwordInput = document.getElementById("password_registration");
+    const passwordLength = passwordInput.value.length;
+    const passwordInputConfirm = document.getElementById("password_confirm");
+    const passwordConfirmLength = passwordInputConfirm.value.length;
+
+    if (passwordLength <= passwordConfirmLength) {
+         if (passwordInput.value === passwordInputConfirm.value) {
+            console.log("Passwörter stimmen überein");
+            } else {showUserfeedback();}
+        }
 }
 
-//Proofemail überprüfen
-//JS Doku
-//Userfeedback PasswortConfirmation
-//Überprüfen ob alle Felder ausgefüllt wurden + Userfeedback
+function showUserfeedback() {
+    document.getElementById("password_confirm").classList.remove("margin_input")
+    document.getElementById("passwordmatch").classList.remove("d_none")
+}
+
+
+function showVisibilityIcon() {
+    document.getElementById("visibilitynot").classList.remove("d_none")
+    document.getElementById("lock").classList.add("d_none")
+}
+
+function showVisibilityIcon2() {
+    document.getElementById("visibilitynot2").classList.remove("d_none")
+    document.getElementById("lock2").classList.add("d_none")
+}
+
+function showPassword() {
+    document.getElementById("visibilitynot").classList.toggle("d_none")
+    document.getElementById("visibility").classList.toggle("d_none")
+    const input = document.getElementById("password_registration")
+    input.type = input.type === "password" ? "text" : "password";
+}
+
+function showPassword2() {
+    document.getElementById("visibilitynot2").classList.toggle("d_none")
+    document.getElementById("visibility2").classList.toggle("d_none")
+    const input = document.getElementById("password_confirm")
+    input.type = input.type === "password" ? "text" : "password";
+}
 
 async function registration (event) {
      if( checkBoxProof() === false) {
         return
     }
-    let userData = userData() 
-    if(await proofEmail (userData) ===true) return
+    let userData = createUserDataObject() 
+    if(await proofEmail (userData) === true) return
     await postUserData (event, userData)
     toSummary()
 }
 
 function checkBoxProof() {
     const checkBox= document.getElementById("termsCheckbox")
-    if(checkBox.checked === false) {
+    if(!checkBox.checked) {
         document.getElementById("userfeedback_checkbox").classList.remove("d_none")
         document.getElementById("checkboxhightlight").classList.add("custom_check_highlight")
         return false}
+    return true
 }
 
-function userData() {
+function createUserDataObject() {
     const name = document.getElementById("name_registration").value.trim();
     const email = document.getElementById("email_registration").value.trim()
     const password = document.getElementById("password_registration").value.trim()
@@ -102,12 +150,25 @@ function userData() {
 }
 
 async function proofEmail (userData) {
+    try {
+        console.log(path)
     const getResponse = await fetch(path + ".json");
-    const users = await getResponse.json()
-    if (Object.values(users ?? {}).find(u => u.email === userData.email)) {
-    document.getElementById("userfeedback_email").classList.remove("d_none")
-    return true}
-} 
+    const users = await getResponse.json();
+     if (!users) return false;
+     for (const key in users) {
+      const user = users[key];
+      if (user.email === userData.email) {
+        document.getElementById("userfeedback_email").classList.remove("d_none");
+        return true;
+      }
+    } 
+    return false;
+    } catch (error) {
+    console.error("Fehler beim Prüfen der E-Mail:", error);
+    alert("E-Mail-Überprüfung fehlgeschlagen.");
+    return true; }
+    }
+
 
 async function postUserData (event, userData) {
      event.preventDefault();
