@@ -15,13 +15,18 @@ body {
 .page {
   display: grid;
   grid-template-columns: 16.5% 1fr;
-  min-height: 100vh;
+  height: 100vh;              
+  overflow-y: scroll;         
+  scrollbar-gutter: stable;   
 }
 
 .left {
   position: relative;
   background: #2A3647;
   padding-top: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 
@@ -43,7 +48,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 16px;
   width: 100%;
   margin: 12px 0 16px;
@@ -147,10 +152,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin: 140% 0 24px; 
-  gap: 8px; 
-  flex: 1;
+  justify-content: flex-end;
+  margin-top: auto;
+  margin-bottom: 24px;
+  gap: 8px;
 }
 
 .left .legal-area .legal-link:hover {
@@ -162,7 +167,7 @@ body {
   flex-direction: column;
   gap: 0;
   padding: 0;
-  margin: 0;
+  
 }
 
 .legal-row {
@@ -208,9 +213,9 @@ body {
 
 .legal-area .legal-row {
   display: flex;
-  align-items: center;      
-  justify-content: flex-start; 
-  padding: 0px 16px;       
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 16px;
   gap: 12px;
   width: 100%;
   box-sizing: border-box;
@@ -231,7 +236,7 @@ body {
   justify-content: center;
   gap: 0;
   padding: 0;
-  margin: 0;
+  
   color: #ffffff;            
 }
 
@@ -272,3 +277,10 @@ body {
   text-decoration: none;
 }
 
+
+
+.legal-area svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
