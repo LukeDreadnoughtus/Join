@@ -130,6 +130,16 @@
    
 }
 
+.input_style_red {
+    border: 1px solid red;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+   
+}
+
+
 .input_registration {
     height: 48px; 
     width: 422px; 
@@ -146,7 +156,7 @@
 .input-wrapper .icon {
   position: absolute;
   right: 18px;
-  top: 34%;
+  top: 65%;
   transform: translateY(-50%);
   width: 24px;
   height: 24px;
@@ -185,7 +195,7 @@
 
 
 .margin_input {
-    margin-bottom:24px; 
+    margin-top:24px; 
     cursor: pointer;
 }
 
@@ -205,6 +215,7 @@
   font-family: "inter";
   color: rgb(48, 47, 47); 
   gap:8px; 
+  margin-top: 24px; 
   margin-bottom: 24px; 
   margin-left: 104px; 
 }
@@ -353,6 +364,8 @@ a {
     align-items: center; 
     justify-content: center;
     font-weight: 200;
+    text-align: center;    
+    white-space: normal;
 }
 
 .d_none {
@@ -364,4 +377,5 @@ a {
     color: red; 
     margin-bottom:15px; 
     margin-top:0px; 
+    position:absolute; 
 }

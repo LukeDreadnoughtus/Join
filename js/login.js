@@ -42,39 +42,68 @@ function backToLogIn() {
     window.location.href = "index.html";
 }
 
-function removeHighlight() {
+function checkAllInputs() {
     const checkBox= document.getElementById("checkboxhightlight")
     if (checkBox.classList.contains("custom_check_highlight")) {
         document.getElementById("userfeedback_checkbox").classList.add("d_none")
         document.getElementById("checkboxhightlight").classList.remove("custom_check_highlight")
+    } 
+    checkAllFieldsFilled()
+}
+
+function checkAllFieldsFilled() {
+    const name = document.getElementById("name_registration").value.trim();
+    const email = document.getElementById("email_registration").value.trim();
+    const password = document.getElementById("password_registration").value.trim();
+    const passwordConfirm = document.getElementById("password_confirm").value.trim();
+
+    if(!name) {
+    document.getElementById("name_registration").classList.add("input_style_red")
+    document.getElementById("name_registration").classList.remove("input_style")
+    }
+    
+    if(!email) {
+    document.getElementById("email_registration").classList.add("input_style_red")
+    document.getElementById("email_registration").classList.remove("input_style")
+    }
+
+    if(!password) {
+    document.getElementById("password_registration").classList.add("input_style_red")
+    document.getElementById("password_registration").classList.remove("input_style")
+    }
+
+     if(!passwordConfirm) {
+    document.getElementById("password_confirm").classList.add("input_style_red")
+    document.getElementById("password_confirm").classList.remove("input_style")
     }
 }
 
-// function CheckPasswordConfirmation () {
-//  // if(passwordProof() === false) {
-    //     return
-    // }
-    // function passwordProof () {
-//     const password = document.getElementById("password_registration").value.trim()
-//     const passwordConfirmation = document.getElementById("password_confirm").value.trim()
-//     if (password !== passwordConfirmation) {
-//         alert("Die beiden Passwörter stimmen nicht überein – bitte erneut eingeben.");
-//         return false;
-//     }
-// }
+function checkEmailField (event) {
+    event.stopPropagation();
+    let emailInput = document.getElementById("email_registration")
+    if (emailInput.classList.contains("input_style_red")) {
+    document.getElementById("email_registration").classList.add("input_style")
+    document.getElementById("email_registration").classList.remove("input_style_red") }
+}
 
-// }
-
-//Proofemail überprüfen - debuggen!
 //JS Doku
 //Überprüfen ob alle Felder ausgefüllt wurden + Userfeedback
+//
 
-function checkPassword () {
+function checkPassword (event) {
+    event.stopPropagation();
     let alert = document.getElementById("passwordmatch");
+    let redinput = document.getElementById("password_confirm")
     if (!alert.classList.contains("d_none")) {
-    document.getElementById("password_confirm").classList.add("margin_input")
+    document.getElementById("password_confirm").classList.add("input_style")
     document.getElementById("passwordmatch").classList.add("d_none")
+    document.getElementById("password_confirm").classList.remove("input_style_red")
     }
+    if (redinput.classList.contains("input_style_red")) {
+    document.getElementById("password_confirm").classList.add("input_style")
+    document.getElementById("password_confirm").classList.remove("input_style_red")
+    }
+
     const passwordInput = document.getElementById("password_registration");
     const passwordLength = passwordInput.value.length;
     const passwordInputConfirm = document.getElementById("password_confirm");
@@ -87,30 +116,37 @@ function checkPassword () {
         }
 }
 
+//Hier ist noch ein Bug
+
 function showUserfeedback() {
-    document.getElementById("password_confirm").classList.remove("margin_input")
+    document.getElementById("password_confirm").classList.add("input_style_red")
+    document.getElementById("password_confirm").classList.remove("input_style")
     document.getElementById("passwordmatch").classList.remove("d_none")
 }
 
 
-function showVisibilityIcon() {
+function showVisibilityIcon(event) {
+    event.stopPropagation();
     document.getElementById("visibilitynot").classList.remove("d_none")
     document.getElementById("lock").classList.add("d_none")
 }
 
-function showVisibilityIcon2() {
+function showVisibilityIcon2(event) {
+    event.stopPropagation();
     document.getElementById("visibilitynot2").classList.remove("d_none")
     document.getElementById("lock2").classList.add("d_none")
 }
 
-function showPassword() {
+function showPassword(event) {
+    event.stopPropagation();
     document.getElementById("visibilitynot").classList.toggle("d_none")
     document.getElementById("visibility").classList.toggle("d_none")
     const input = document.getElementById("password_registration")
     input.type = input.type === "password" ? "text" : "password";
 }
 
-function showPassword2() {
+function showPassword2(event) {
+    event.stopPropagation();
     document.getElementById("visibilitynot2").classList.toggle("d_none")
     document.getElementById("visibility2").classList.toggle("d_none")
     const input = document.getElementById("password_confirm")
@@ -118,7 +154,8 @@ function showPassword2() {
 }
 
 async function registration (event) {
-     if( checkBoxProof() === false) {
+    event.preventDefault();
+    if( checkBoxProof() === false) {
         return
     }
     let userData = createUserDataObject() 
@@ -165,7 +202,7 @@ async function proofEmail (userData) {
     return false;
     } catch (error) {
     console.error("Fehler beim Prüfen der E-Mail:", error);
-    alert("E-Mail-Überprüfung fehlgeschlagen.");
+    document.getElementById("userfeedback_email_prooffail").classList.remove("d_none")
     return true; }
     }
 

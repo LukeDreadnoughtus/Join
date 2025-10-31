@@ -17,6 +17,7 @@
 <div class="overlay_userfeedback d_none" id="userfeedback_checkbox"><p>You have to accept the privacy policy to continue registration</p></div>
 <div class="overlay_userfeedback_sign_up d_none" id="userfeedback_sign_up"><p>You Signed up successfully</p></div>
 <div class="overlay_userfeedback_email d_none" id="userfeedback_email"><p>This email does already exist</p></div>
+<div class="overlay_userfeedback_email d_none" id="userfeedback_email_prooffail"><p>Error during email verification- Please try again later</p></div>
 <img class="login_icon" src="assets/img/login_join.svg">
 <div class="div_sign_up">
 <img src="assets/img/arrow-left.svg" alt="" class="arrow_blue" onclick="backToLogIn()">
@@ -24,28 +25,28 @@
 <img class="blueline" src="assets/img/bluevektor.svg">
   <form class="div_sign_up_form">
     <div class="input-wrapper">
-      <input class="input_style input_registration margin_input" type="text" id="name_registration" placeholder="Name" required />
+      <input class="input_style input_registration" type="text" id="name_registration" placeholder="Name" required autocomplete="username"/>
       <img src="assets/img/person.svg" alt="" class="icon">
     </div>
     <div class="input-wrapper">
-      <input class="input_style input_registration margin_input" type="text" id="email_registration" placeholder="Email" required />
+      <input class="input_style input_registration margin_input" type="text" id="email_registration" onkeyup="checkEmailField(event)" placeholder="Email" required autocomplete="email"/>
       <img src="assets/img/mail.svg" alt="" class="icon">
     </div>
     <div class="input-wrapper">
-      <input class="input_style input_registration margin_input" type="password" id="password_registration" onkeyup="showVisibilityIcon(); checkPassword ();" placeholder="Passwort" required />
+      <input class="input_style input_registration margin_input" type="password" id="password_registration" onkeyup="showVisibilityIcon(event); checkPassword (event);" placeholder="Passwort" required autocomplete="new-password"/>
       <img id="lock" src="assets/img/lock.svg" alt="" class="icon">
-      <img id="visibility" src="assets/img/visibility.svg" alt="" class="icon d_none" onclick="showPassword()">
-      <img id="visibilitynot" src="assets/img/visibility_off.svg" alt="" onclick="showPassword()" class="icon d_none">
+      <img id="visibility" src="assets/img/visibility.svg" alt="" class="icon d_none" onclick="showPassword(event)">
+      <img id="visibilitynot" src="assets/img/visibility_off.svg" alt="" onclick="showPassword(event)" class="icon d_none">
     </div>
     <div class="input-wrapper">
-      <input class="input_style input_registration margin_input" type="password" id="password_confirm" onkeyup="showVisibilityIcon2(); checkPassword();" placeholder="Confirm Password" required />
+      <input class="input_style input_registration margin_input" type="password" id="password_confirm" onkeyup="showVisibilityIcon2(event); checkPassword(event);" placeholder="Confirm Password" required autocomplete="new-password"/>
       <img id="lock2" src="assets/img/lock.svg" alt="" class="icon">
-      <img id="visibility2" src="assets/img/visibility.svg" alt="" class="icon d_none" onclick="showPassword2()">
-      <img id="visibilitynot2" src="assets/img/visibility_off.svg" alt="" class="icon d_none" onclick="showPassword2()">
+      <img id="visibility2" src="assets/img/visibility.svg" alt="" class="icon d_none" onclick="showPassword2(event)">
+      <img id="visibilitynot2" src="assets/img/visibility_off.svg" alt="" class="icon d_none" onclick="showPassword2(event)">
       <p class="password_not_match d_none" id="passwordmatch">Your passwords don`t match. Please try again.</p>
     </div>
     <label class="checkbox">
-      <input class="check" type="checkbox" id="termsCheckbox" onclick="removeHighlight()" required>
+      <input class="check" type="checkbox" id="termsCheckbox" onclick="checkAllInputs()" required>
       <span class="custom_check" id="checkboxhightlight"></span>
       I accept the <a href="privacy_policy.html" target="_blank">Privacy policy</a>
     </label>
