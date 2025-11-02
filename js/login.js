@@ -72,7 +72,7 @@ function checkAllFieldsFilled() {
     document.getElementById("password_registration").classList.remove("input_style")
     }
 
-     if(!passwordConfirm) {
+    if(!passwordConfirm) {
     document.getElementById("password_confirm").classList.add("input_style_red")
     document.getElementById("password_confirm").classList.remove("input_style")
     }
@@ -88,23 +88,55 @@ function checkEmailField (event) {
 
 //JS Doku
 //Überprüfen ob alle Felder ausgefüllt wurden + Userfeedback
-//
 
-function checkPassword (event) {
+function handlePasswordInput (event) {
     event.stopPropagation();
+    const input = event.target;
+    if (input.id === "password_registration") {
+    showVisibilityIcon(event); 
+    } else if (input.id === "password_confirm") {
+    showVisibilityIcon2(event); 
+    }
+    checkInputUserfeedback();
+    checkPassword ();
+}
+
+function showVisibilityIcon(event) {
+    event.stopPropagation();
+    const input = event.target
+    if (!input.dataset.iconShown && input.value.length > 0) {
+    document.getElementById("lock").classList.add("d_none")
+    document.getElementById("visibilitynot").classList.remove("d_none")
+    input.dataset.iconShown = "true";
+  }
+}
+
+function showVisibilityIcon2(event) {
+    event.stopPropagation();
+   const input = event.target
+    if (!input.dataset.iconShown && input.value.length > 0) {
+    document.getElementById("lock2").classList.add("d_none")
+    document.getElementById("visibilitynot2").classList.remove("d_none")
+    input.dataset.iconShown = "true";
+  }
+}
+
+function checkInputUserfeedback () {
     let alert = document.getElementById("passwordmatch");
     let redinput = document.getElementById("password_confirm")
     if (!alert.classList.contains("d_none")) {
     document.getElementById("password_confirm").classList.add("input_style")
-    document.getElementById("passwordmatch").classList.add("d_none")
     document.getElementById("password_confirm").classList.remove("input_style_red")
+    document.getElementById("passwordmatch").classList.add("d_none")
     }
     if (redinput.classList.contains("input_style_red")) {
     document.getElementById("password_confirm").classList.add("input_style")
     document.getElementById("password_confirm").classList.remove("input_style_red")
     }
+}
 
-    const passwordInput = document.getElementById("password_registration");
+function checkPassword () {
+     const passwordInput = document.getElementById("password_registration");
     const passwordLength = passwordInput.value.length;
     const passwordInputConfirm = document.getElementById("password_confirm");
     const passwordConfirmLength = passwordInputConfirm.value.length;
@@ -113,28 +145,13 @@ function checkPassword (event) {
          if (passwordInput.value === passwordInputConfirm.value) {
             console.log("Passwörter stimmen überein");
             } else {showUserfeedback();}
-        }
+    }
 }
-
-//Hier ist noch ein Bug
 
 function showUserfeedback() {
     document.getElementById("password_confirm").classList.add("input_style_red")
     document.getElementById("password_confirm").classList.remove("input_style")
     document.getElementById("passwordmatch").classList.remove("d_none")
-}
-
-
-function showVisibilityIcon(event) {
-    event.stopPropagation();
-    document.getElementById("visibilitynot").classList.remove("d_none")
-    document.getElementById("lock").classList.add("d_none")
-}
-
-function showVisibilityIcon2(event) {
-    event.stopPropagation();
-    document.getElementById("visibilitynot2").classList.remove("d_none")
-    document.getElementById("lock2").classList.add("d_none")
 }
 
 function showPassword(event) {
