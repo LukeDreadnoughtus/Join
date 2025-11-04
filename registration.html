@@ -17,6 +17,7 @@
 <div class="overlay_userfeedback d_none" id="userfeedback_checkbox"><p>You have to accept the privacy policy to continue registration</p></div>
 <div class="overlay_userfeedback_sign_up d_none" id="userfeedback_sign_up"><p>You Signed up successfully</p></div>
 <div class="overlay_userfeedback_email d_none" id="userfeedback_email"><p>This email does already exist</p></div>
+<div class="overlay_userfeedback_email d_none" id="userfeedback_allFields"><p>Please fill all fields</p></div>
 <div class="overlay_userfeedback_email d_none" id="userfeedback_email_prooffail"><p>Error during email verification- Please try again later</p></div>
 <img class="login_icon" src="assets/img/login_join.svg">
 <div class="div_sign_up">
@@ -25,7 +26,7 @@
 <img class="blueline" src="assets/img/bluevektor.svg">
   <form class="div_sign_up_form">
     <div class="input-wrapper">
-      <input class="input_style input_registration" type="text" id="name_registration" placeholder="Name" required autocomplete="username"/>
+      <input class="input_style input_registration" type="text" id="name_registration" onkeyup="checkNameField(event)" oninput="checkNameField(event)"  onchange="checkNameField(event)" placeholder="Name" required autocomplete="username"/>
       <img src="assets/img/person.svg" alt="" class="icon">
     </div>
     <div class="input-wrapper">

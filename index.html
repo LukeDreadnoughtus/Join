@@ -26,15 +26,19 @@
 <img class="blueline" src="assets/img/bluevektor.svg">
   <form class="div_login_form">
     <div class="input-wrapper">
-      <input class="input_style input_login" type="text" id="username" placeholder="Name" required autocomplete="username"/>
-      <img src="assets/img/person.svg" alt="" class="icon">
+      <input class="input_style input_login margin_input" type="text" id="useremail" placeholder="Email" required autocomplete="username"/>
+      <img src="assets/img/mail.svg" alt="" class="icon">
     </div>
     <div class="input-wrapper">
-      <input class="input_style input_login" type="password" id="password" placeholder="Password" required autocomplete="current-password"/>
-      <img src="assets/img/lock.svg" alt="" class="icon">
+      <input class="input_style input_login margin_input" type="password" id="password" onkeyup="handleLogin(event)" placeholder="Password" required autocomplete="current-password"/>
+      <img id="lock3" src="assets/img/lock.svg" alt="" class="icon">
+      <img id="visibility3" src="assets/img/visibility.svg" alt="" class="icon d_none" onclick="showPassword3(event)">
+      <img id="visibilitynot3" src="assets/img/visibility_off.svg" alt="" class="icon d_none" onclick="showPassword3(event)">
+      <p class="password_not_match d_none" id="userfeedback_failedlogin">Check your email and your password. Please try again.</p>
     </div>
     <button class="login_button button_fonts button_df" type="submit" onclick="logIn(event)">Log In</button>
     <button class="guest_login_button button_fonts button_df" type="submit" onclick="logIn(event)">Guest Log In</button>
+  
   </form>
  </div>
 

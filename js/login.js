@@ -1,34 +1,90 @@
 let path = "https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/"
 
+/** login-function proofs usermail and password */
 
 async function logIn(event) {
     event.preventDefault();
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value
     try {
         const response = await fetch(path + ".json");
         const userData = await response.json();
-        proofUserData(userData, username, password)
-
+        proofUserData(userData)
      } catch (error) {
         console.error("Fehler beim Login:", error);
         alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
     }
 }
 
-function proofUserData(userData, username, password) {
+/** proofUserData and save username and userid to local storage to show information in the application */
+
+function proofUserData(userData) {
+    const useremail = document.getElementById("useremail").value.trim();
+    const password = document.getElementById("password").value
      for (const userKey in userData) {
         const user = userData[userKey];
         if (!user) continue;
-
-        if (username === user.name && password === user.password) {
-            localStorage.setItem("username", `${username}`)
-            localStorage.setItem("userid", `${userKey}`); //hier speichern wir auch die id für die tasks - Bei Logout dann am besten wieder rauslöschen
+        if (useremail === user.email && password === user.password) {
+            putUserDataToLocalStorage()
             window.location.href = "summary.html";
             return
         }
     }
-    alert("Dein Passwort und/oder dein eingegebener Benutzername stimmen nicht.");
+   setUserFeedbackFailedLogIn() 
+}
+
+function putUserDataToLocalStorage() {
+    let username = user.name
+    localStorage.setItem("username", `${username}`)
+    localStorage.setItem("userid", `${userKey}`); //hier speichern wir auch die id für die tasks - Bei Logout dann am besten wieder rauslöschen
+}
+
+/** show userfeedback "password/username is false" and highlights input borders red */
+
+function setUserFeedbackFailedLogIn() {
+    document.getElementById("userfeedback_failedlogin").classList.remove("d_none");
+    document.getElementById("useremail").classList.add("input_style_red")
+    document.getElementById("password").classList.add("input_style_red")
+    document.getElementById("useremail").classList.remove("input_style")
+    document.getElementById("password").classList.remove("input_style")
+}
+
+/** removes shown userfeedback */
+
+function removeUserFeedbackFailedLogIn () {
+    if (!document.getElementById("userfeedback_failedlogin").classList.contains("d_none")) {
+        document.getElementById("userfeedback_failedlogin").classList.add("d_none");
+        document.getElementById("useremail").classList.remove("input_style_red")
+        document.getElementById("password").classList.remove("input_style_red")
+        document.getElementById("useremail").classList.add("input_style")
+        document.getElementById("password").classList.add("input_style") }
+    }
+
+/** handles the input of password and useremail */
+
+function handleLogin(event) {
+    showVisibilityIcon3(event)
+    removeUserFeedbackFailedLogIn ()
+}
+
+/** show the visibilitynot icon on a keyup-event at the passwordinput, the lockicon is hidden */
+
+function showVisibilityIcon3(event) {
+    event.stopPropagation();
+   const input = event.target
+    if (!input.dataset.iconShown && input.value.length > 0) {
+    document.getElementById("lock3").classList.add("d_none")
+    document.getElementById("visibilitynot3").classList.remove("d_none")
+    input.dataset.iconShown = "true";
+  }
+}
+
+/** this function shows and hides the password per clickevent on the icon visibilitynot/visibility */
+
+function showPassword3(event) {
+    event.stopPropagation();
+    document.getElementById("visibilitynot3").classList.toggle("d_none")
+    document.getElementById("visibility3").classList.toggle("d_none")
+    const input = document.getElementById("password")
+    input.type = input.type === "password" ? "text" : "password";
 }
 
 
@@ -42,13 +98,14 @@ function backToLogIn() {
     window.location.href = "index.html";
 }
 
+//Alle Felder checken beim Bestätigen der Private Policy
 function checkAllInputs() {
-    const checkBox= document.getElementById("checkboxhightlight")
-    if (checkBox.classList.contains("custom_check_highlight")) {
+    const checkBox= document.getElementById("termsCheckbox")
+    if (checkBox.checked) {
         document.getElementById("userfeedback_checkbox").classList.add("d_none")
         document.getElementById("checkboxhightlight").classList.remove("custom_check_highlight")
+        checkAllFieldsFilled()
     } 
-    checkAllFieldsFilled()
 }
 
 function checkAllFieldsFilled() {
@@ -56,27 +113,36 @@ function checkAllFieldsFilled() {
     const email = document.getElementById("email_registration").value.trim();
     const password = document.getElementById("password_registration").value.trim();
     const passwordConfirm = document.getElementById("password_confirm").value.trim();
-
+    let allFilled = true;
     if(!name) {
     document.getElementById("name_registration").classList.add("input_style_red")
     document.getElementById("name_registration").classList.remove("input_style")
+    allFilled = false;
     }
     
     if(!email) {
     document.getElementById("email_registration").classList.add("input_style_red")
     document.getElementById("email_registration").classList.remove("input_style")
+    allFilled = false;
     }
 
     if(!password) {
     document.getElementById("password_registration").classList.add("input_style_red")
     document.getElementById("password_registration").classList.remove("input_style")
+    allFilled = false;
     }
 
     if(!passwordConfirm) {
     document.getElementById("password_confirm").classList.add("input_style_red")
     document.getElementById("password_confirm").classList.remove("input_style")
+    allFilled = false;
     }
+    return allFilled;
 }
+
+
+//JS Doku
+
 
 function checkEmailField (event) {
     event.stopPropagation();
@@ -84,10 +150,21 @@ function checkEmailField (event) {
     if (emailInput.classList.contains("input_style_red")) {
     document.getElementById("email_registration").classList.add("input_style")
     document.getElementById("email_registration").classList.remove("input_style_red") }
+    if(!document.getElementById("userfeedback_email").classList.contains("d_none")) {
+    document.getElementById("userfeedback_email").classList.add("d_none") }
+    removeUserFeedbackCheckAllFields()
+} 
+
+function checkNameField(event) {
+    event.stopPropagation();
+    let emailInput = document.getElementById("name_registration")
+    if (emailInput.classList.contains("input_style_red")) {
+    document.getElementById("name_registration").classList.add("input_style")
+    document.getElementById("name_registration").classList.remove("input_style_red") }
+    removeUserFeedbackCheckAllFields()
 }
 
-//JS Doku
-//Überprüfen ob alle Felder ausgefüllt wurden + Userfeedback
+//HandlePasswordInput
 
 function handlePasswordInput (event) {
     event.stopPropagation();
@@ -97,6 +174,7 @@ function handlePasswordInput (event) {
     } else if (input.id === "password_confirm") {
     showVisibilityIcon2(event); 
     }
+    removeUserFeedbackCheckAllFields() 
     checkInputUserfeedback();
     checkPassword ();
 }
@@ -124,6 +202,7 @@ function showVisibilityIcon2(event) {
 function checkInputUserfeedback () {
     let alert = document.getElementById("passwordmatch");
     let redinput = document.getElementById("password_confirm")
+    let userAlert = document.getElementById("password_registration")
     if (!alert.classList.contains("d_none")) {
     document.getElementById("password_confirm").classList.add("input_style")
     document.getElementById("password_confirm").classList.remove("input_style_red")
@@ -132,6 +211,10 @@ function checkInputUserfeedback () {
     if (redinput.classList.contains("input_style_red")) {
     document.getElementById("password_confirm").classList.add("input_style")
     document.getElementById("password_confirm").classList.remove("input_style_red")
+    }
+    if (userAlert.classList.contains("input_style_red")) {
+    document.getElementById("password_registration").classList.add("input_style")
+    document.getElementById("password_registration").classList.remove("input_style_red")
     }
 }
 
@@ -170,15 +253,27 @@ function showPassword2(event) {
     input.type = input.type === "password" ? "text" : "password";
 }
 
+
+//Hauptfunktion
+
 async function registration (event) {
     event.preventDefault();
+    removeUserFeedbackCheckAllFields() 
     if( checkBoxProof() === false) {
         return
     }
+    if (!checkAllFieldsFilled()) {
+        document.getElementById("userfeedback_allFields").classList.remove("d_none")
+        return}
     let userData = createUserDataObject() 
     if(await proofEmail (userData) === true) return
     await postUserData (event, userData)
     toSummary()
+}
+
+function removeUserFeedbackCheckAllFields() {
+ if(!document.getElementById("userfeedback_allFields").classList.contains("d_none")) {
+    document.getElementById("userfeedback_allFields").classList.add("d_none")}
 }
 
 function checkBoxProof() {
