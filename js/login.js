@@ -31,6 +31,7 @@ function proofUserData(userData) {
    setUserFeedbackFailedLogIn() 
 }
 
+
 function putUserDataToLocalStorage() {
     let username = user.name
     localStorage.setItem("username", `${username}`)
@@ -87,18 +88,19 @@ function showPassword3(event) {
     input.type = input.type === "password" ? "text" : "password";
 }
 
+/** these functions lead to registration and also back to login */
 
 function toRegistration() {
     window.location.href = "registration.html";
 }
 
-//registration
 
 function backToLogIn() {
     window.location.href = "index.html";
 }
 
-//Alle Felder checken beim Bestätigen der Private Policy
+
+/** these next functions check if the inputs are filled when die checkbox for privacy policy is checked */
 function checkAllInputs() {
     const checkBox= document.getElementById("termsCheckbox")
     if (checkBox.checked) {
@@ -108,41 +110,63 @@ function checkAllInputs() {
     } 
 }
 
+
 function checkAllFieldsFilled() {
     const name = document.getElementById("name_registration").value.trim();
     const email = document.getElementById("email_registration").value.trim();
     const password = document.getElementById("password_registration").value.trim();
     const passwordConfirm = document.getElementById("password_confirm").value.trim();
     let allFilled = true;
-    if(!name) {
-    document.getElementById("name_registration").classList.add("input_style_red")
-    document.getElementById("name_registration").classList.remove("input_style")
-    allFilled = false;
-    }
-    
-    if(!email) {
-    document.getElementById("email_registration").classList.add("input_style_red")
-    document.getElementById("email_registration").classList.remove("input_style")
-    allFilled = false;
-    }
-
-    if(!password) {
-    document.getElementById("password_registration").classList.add("input_style_red")
-    document.getElementById("password_registration").classList.remove("input_style")
-    allFilled = false;
-    }
-
-    if(!passwordConfirm) {
-    document.getElementById("password_confirm").classList.add("input_style_red")
-    document.getElementById("password_confirm").classList.remove("input_style")
-    allFilled = false;
-    }
+    allFilled = checkName(name) && allFilled;
+    allFilled = checkEmail(email) && allFilled;
+    allFilled = checkPassword(password) && allFilled;
+    allFilled = checkPasswordConfirm(passwordConfirm) && allFilled;
     return allFilled;
 }
 
 
-//JS Doku
+function checkName (name) {
+     if(!name) {
+    document.getElementById("name_registration").classList.add("input_style_red")
+    document.getElementById("name_registration").classList.remove("input_style")
+    return false;
+    }
+    else return true;
+}
 
+
+function checkEmail (email) {
+    if(!email) {
+    document.getElementById("email_registration").classList.add("input_style_red")
+    document.getElementById("email_registration").classList.remove("input_style")
+    return false;
+    }
+    else return true;
+}
+
+
+function checkPassword(password) {
+    if(!password) {
+    document.getElementById("password_registration").classList.add("input_style_red")
+    document.getElementById("password_registration").classList.remove("input_style")
+    return false;
+    }
+    else return true;
+}
+
+
+function checkPasswordConfirm(passwordConfirm) {
+    if(!passwordConfirm) {
+    document.getElementById("password_confirm").classList.add("input_style_red")
+    document.getElementById("password_confirm").classList.remove("input_style")
+    return false;
+    }
+    else return true;
+}
+
+/** these functions remove (after the checkAllFieldsFilled()-function) the red-highlighted input border in case when the user starts to type in the email field and the name field
+ * also the user feedback "email already exists" is removed.
+*/
 
 function checkEmailField (event) {
     event.stopPropagation();
@@ -164,7 +188,12 @@ function checkNameField(event) {
     removeUserFeedbackCheckAllFields()
 }
 
-//HandlePasswordInput
+/** These following functions in handlePasswordInput (event) handle the password input - while tiping into the password field - 1) it changes the icons
+ *  with showVisibilityIcon(event) and showVisibilityIcon2(event), 2) also it removes userfeedback "Check all fields", if it is shown; 
+ *  3)function checkInputUserfeedback() checks if there is userfeedback "passwords dont match" and red inputstyles and removes it
+ *  4)checkPassword - checks if the passwords match and are the same; if not it shows userfeedback
+ */
+
 
 function handlePasswordInput (event) {
     event.stopPropagation();
@@ -179,6 +208,7 @@ function handlePasswordInput (event) {
     checkPassword ();
 }
 
+
 function showVisibilityIcon(event) {
     event.stopPropagation();
     const input = event.target
@@ -188,6 +218,7 @@ function showVisibilityIcon(event) {
     input.dataset.iconShown = "true";
   }
 }
+
 
 function showVisibilityIcon2(event) {
     event.stopPropagation();
@@ -199,15 +230,26 @@ function showVisibilityIcon2(event) {
   }
 }
 
+
 function checkInputUserfeedback () {
+    removesAlert ()
+    removesRedBorderInput()
+}
+
+
+function removesAlert () {
     let alert = document.getElementById("passwordmatch");
-    let redinput = document.getElementById("password_confirm")
-    let userAlert = document.getElementById("password_registration")
     if (!alert.classList.contains("d_none")) {
     document.getElementById("password_confirm").classList.add("input_style")
     document.getElementById("password_confirm").classList.remove("input_style_red")
     document.getElementById("passwordmatch").classList.add("d_none")
     }
+}
+
+
+function removesRedBorderInput() {
+    let redinput = document.getElementById("password_confirm")
+    let userAlert = document.getElementById("password_registration")
     if (redinput.classList.contains("input_style_red")) {
     document.getElementById("password_confirm").classList.add("input_style")
     document.getElementById("password_confirm").classList.remove("input_style_red")
@@ -217,6 +259,7 @@ function checkInputUserfeedback () {
     document.getElementById("password_registration").classList.remove("input_style_red")
     }
 }
+
 
 function checkPassword () {
      const passwordInput = document.getElementById("password_registration");
@@ -237,6 +280,8 @@ function showUserfeedback() {
     document.getElementById("passwordmatch").classList.remove("d_none")
 }
 
+/** These two functions toggle an icon on each click to show or hide the entered password in plain text. */
+
 function showPassword(event) {
     event.stopPropagation();
     document.getElementById("visibilitynot").classList.toggle("d_none")
@@ -253,15 +298,22 @@ function showPassword2(event) {
     input.type = input.type === "password" ? "text" : "password";
 }
 
-
-//Hauptfunktion
+/** This function leads the registration process and is conducted when the sign up button is pressed
+ * 1) removeUserFeedbackCheckAllFields() removes all userfeedback if it is shown
+ * 2) checkBoxProof() checks if private policy is checked; if not there is userfeedback and the highlighted checkbox
+ * 3) checkAllFieldsFilled() all fields are checked, if they are filled
+ * 4) createUserDataObject() creates an object with all necessary userdata and chooses also a random color for the user
+ * 5) proofEmail (userData) proofs, if this email already exists; every email can be used only once, if there exists the same email already
+ * registration wont be continued and there is shown a userfeedback "Mail already exists"
+ * 6) postUserData posts the userData into the database 
+ * 7) toSummary() leads the new user to the dashboard
+ */
 
 async function registration (event) {
     event.preventDefault();
     removeUserFeedbackCheckAllFields() 
-    if( checkBoxProof() === false) {
-        return
-    }
+    if( checkBoxProof() === false) 
+        {return}
     if (!checkAllFieldsFilled()) {
         document.getElementById("userfeedback_allFields").classList.remove("d_none")
         return}
@@ -300,7 +352,6 @@ function createUserDataObject() {
 
 async function proofEmail (userData) {
     try {
-        console.log(path)
     const getResponse = await fetch(path + ".json");
     const users = await getResponse.json();
      if (!users) return false;
