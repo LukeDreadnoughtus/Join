@@ -1,4 +1,5 @@
 const path = "https://join-database-ce37b-default-rtdb.europe-west1.firebasedatabase.app/";
+const pathRegister = "https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/";
 const lowBtn = document.getElementById('low');
 const mediumBtn = document.getElementById('medium');
 const urgentBtn = document.getElementById('urgent');
@@ -6,7 +7,6 @@ const urgentBtn = document.getElementById('urgent');
 
 async function loadCategories() {
   const select = document.getElementById("task-category");
-
   try {
     const response = await fetch(path + "categories.json");
     const data = await response.json();
@@ -49,8 +49,37 @@ function setActivePriority(activeBtn) {
 }
 
 
+function getTaskDataFromForm() {
+  return {
+    title: document.getElementById("task-title")?.value || "",
+    description: document.getElementById("task-description")?.value || "",
+    category: document.getElementById("task-category")?.value || "",
+    assignedTo: document.getElementById("task-assigned-to")?.value || "",
+    priority: document.getElementById("task-priority")?.value || "",
+    subtasks: document.getElementById("subtask-tags")?.value || "",
+    createdAt: new Date().toISOString(),
+  };
+}
+
+
 async function createTask(event) {
   event.preventDefault();
+  if (!validateForm()) return;
+  const newTask = getTaskDataFromForm();
+  try {
+    const response = await fetch(path + "tasks.json", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newTask),
+    });
+    if (response.ok) { showSuccessMessage(); clearForm(); } 
+    else { console.error("Fehler beim Speichern in Firebase"); }
+  } catch (error) {
+    console.error("Firebase Fehler:", error);
+  }
+}
+
+
+function validateForm() {
   const requiredFields = document.querySelectorAll("input[required], select[required], textarea[required]");
   let isValid = true;
   document.querySelectorAll(".error-message").forEach(e => e.remove());
@@ -65,44 +94,7 @@ async function createTask(event) {
       field.insertAdjacentElement("afterend", error);
     }
   });
-
-  if (!isValid) {
-    return;
-  }
-
-  const title = document.getElementById("task-title")?.value || "";
-  const description = document.getElementById("task-description")?.value || "";
-  const category = document.getElementById("task-category")?.value || "";
-  const assignedTo = document.getElementById("task-assigned-to")?.value || "";
-  const priority = document.getElementById("task-priority")?.value || "";
-  const subtasks = document.getElementById("subtask-tags")?.value || "";
-
-  const newTask = {
-    title,
-    description,
-    category,
-    assignedTo,
-    priority,
-    subtasks,
-    createdAt: new Date().toISOString(),
-  };
-
-  try {
-    const response = await fetch(path + "tasks.json", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newTask),
-    });
-
-    if (response.ok) {
-      showSuccessMessage();
-      clearForm();
-    } else {
-      console.error("Fehler beim Speichern in Firebase");
-    }
-  } catch (error) {
-    console.error("Firebase Fehler:", error);
-  }
+  return isValid;
 }
 
 
@@ -139,7 +131,32 @@ function requiredFieldMarker() {
   });
 }
 
-requiredFieldMarker();
-document.querySelector(".add-task-create-button").addEventListener("click", createTask);
+function init() {
+  loadUserAssignments();
+  requiredFieldMarker();
+  document.querySelector(".add-task-create-button").addEventListener("click", createTask);
+  document.getElementById("clear-button").addEventListener("click", (e) => {clearForm(); e.preventDefault();});
+  document.addEventListener("DOMContentLoaded", loadCategories);
+  document.querySelector(".add-task-clear-button").addEventListener("click", clearForm());
+}
 
-document.addEventListener("DOMContentLoaded", loadCategories);
+
+async function loadUserAssignments() {
+  const select = document.getElementById("task-assigned-to");
+  try {
+    const response = await fetch(pathRegister + ".json");
+    const data = await response.json();
+    select.innerHTML = "";
+    for (const key in data) {
+      const option = document.createElement("option");
+      option.value = key;
+      option.textContent = data[key].name;
+      select.appendChild(option);
+    }
+  } catch (error) {
+    console.error("Fehler beim Laden der Benutzer:", error);
+  }
+}
+
+
+init();
