@@ -5,6 +5,8 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Join</title>
+<link rel="stylesheet" href="./add_task.css"/>
+<link rel="stylesheet" href="./board.css"/>
 <link href="styles.css" rel="stylesheet"/>
 <link href="header.css" rel="stylesheet"/>
 <link href="footer.css" rel="stylesheet"/>
@@ -51,6 +53,35 @@
 </div>
 </div>
 <main class="content">
+<header>
+        <div class="header-title">
+          <h4 class="add-task-title">Kanban Project Management Tool</h4>
+        </div>
+        <div class="header-help">
+          <button class="help-button" aria-label="Hilfe">
+            <object data="assets/img/help.svg" type="image/svg+xml" width="32" height="32"></object>
+          </button>
+        </div>
+</header>
+<div class="header_board">
+<h2>Board</h2>
+<div class="toolbar">
+<div class="input-wrapper">
+  <input class="search_task" placeholder="Find Task                             |">
+  <img src="assets/img/search.svg" alt="" class="search">
+</div>
+<button  class="task-create-button">
+          <span class="font-create">Add Task</span>
+          <img src="./assets/img/add.svg" alt="check icon" width="24px" height="24px">
+</button>
+</div>
+</div>
+<div>
+
+</div>
+
+
+
 
 
 </main>
@@ -60,5 +91,6 @@
   <script src="script.js"></script>
   <script src="templates.js"></script>
   <script src="navigate.js"></script>
+  <script src="js/board.js"></script>
 </body>
 </html>

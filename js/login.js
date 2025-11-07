@@ -1,5 +1,8 @@
 let path = "https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/"
 
+//Noch zu bedenken - wir brauchen noch einen Logout, welcher die Daten aus dem Local storage wieder rausnimmt. 
+
+
 /** login-function proofs usermail and password */
 
 async function logIn(event) {
@@ -23,7 +26,9 @@ function proofUserData(userData) {
         const user = userData[userKey];
         if (!user) continue;
         if (useremail === user.email && password === user.password) {
-            putUserDataToLocalStorage()
+            let username = user.name
+            localStorage.setItem("username", `${username}`)
+            localStorage.setItem("userid", `${userKey}`)
             window.location.href = "summary.html";
             return
         }
@@ -31,12 +36,6 @@ function proofUserData(userData) {
    setUserFeedbackFailedLogIn() 
 }
 
-
-function putUserDataToLocalStorage() {
-    let username = user.name
-    localStorage.setItem("username", `${username}`)
-    localStorage.setItem("userid", `${userKey}`); //hier speichern wir auch die id für die tasks - Bei Logout dann am besten wieder rauslöschen
-}
 
 /** show userfeedback "password/username is false" and highlights input borders red */
 
@@ -306,7 +305,8 @@ function showPassword2(event) {
  * 5) proofEmail (userData) proofs, if this email already exists; every email can be used only once, if there exists the same email already
  * registration wont be continued and there is shown a userfeedback "Mail already exists"
  * 6) postUserData posts the userData into the database 
- * 7) toSummary() leads the new user to the dashboard
+ * 7) prepareUserData saves the id and username to Local Storage
+ * 8) toLogIn() leads the new user to Login
  */
 
 async function registration (event) {
@@ -320,7 +320,7 @@ async function registration (event) {
     let userData = createUserDataObject() 
     if(await proofEmail (userData) === true) return
     await postUserData (event, userData)
-    toSummary()
+    toLogIn()
 }
 
 function removeUserFeedbackCheckAllFields() {
@@ -407,11 +407,12 @@ function getUserColor() {
   return basicColors[randomIndex];
 }
 
-function toSummary() {
+
+function toLogIn() {
     document.getElementById("userfeedback_sign_up").classList.remove("d_none")
     setTimeout(() => {
-    window.location.href = "summary.html";
-},  2000);
+    window.location.href = "index.html";
+},  1000);
 }
 
  

@@ -1,0 +1,57 @@
+.header_board {
+    display: flex;
+    justify-content:flex-start; 
+    align-items: center;
+    height: 100px; 
+    width: 800px; 
+    padding-top: 100px; 
+    padding-left: 100px; 
+    gap: 600px; 
+}
+
+.toolbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 100px; 
+}
+
+.task-create-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 160px;
+  height: 48px;
+  background-color: #2a3647;
+  border-radius: 10px;
+  border: 0px;
+  gap: 12px; 
+}
+
+.plus_svg {
+    height: 10px; 
+    width: auto; 
+}
+
+.search_task {
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 312px; 
+    height: 48px; 
+}
+
+.search {
+    width: 32px; 
+    height: 32px; 
+    position:absolute; 
+    top:10px;
+    left: 276px; 
+}
+
+.input-wrapper {
+  position: relative;
+  display: inline-block;
+}
