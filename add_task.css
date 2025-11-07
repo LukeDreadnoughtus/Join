@@ -295,7 +295,7 @@ label {
   color: white;
 }
 
-.priority-btn.urgent.active .urgent-icon{
+.priority-btn.urgent.active .urgent-icon {
   color: white;
 }
 
@@ -307,7 +307,7 @@ label {
   color: green;
 }
 
-.priority-btn.low.active .low-icon{
+.priority-btn.low.active .low-icon {
   color: white;
 }
 
@@ -322,4 +322,25 @@ label {
   margin-top: 4px;
   display: block;
   font-weight: 500;
+}
+
+.add-task-create-button {
+  transition: background-color 0.3s ease;
+}
+
+.add-task-create-button:hover {
+  background-color: #4caf50;
+  background-color: #2196f3;
+  color: white;
+  cursor: pointer;
+}
+
+.add-task-clear-button {
+  transition: background-color 0.3s ease;
+}
+
+.add-task-clear-button:hover {
+  cursor: pointer;
+  color: white;
+  border: 1px solid #2196f3;
 }
