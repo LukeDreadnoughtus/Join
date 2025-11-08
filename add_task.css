@@ -59,6 +59,13 @@ header {
 .add-task-form textarea,
 .add-task-form select,
 .add-task-form input {
+  font-family: "inter";
+  font-style: "regular";
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+  padding-left: 3px;
   border: 1px solid #d1d1d1;
   border-radius: 10px;
   font-size: 1rem;
@@ -156,6 +163,13 @@ label {
 .add-controll-form select,
 .add-controll-form input,
 .add-controll-form textarea {
+  font-family: "inter";
+  font-style: "regular";
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+  padding-left: 3px;
   border: 1px solid #d1d1d1;
   border-radius: 10px;
   font-size: 1rem;
@@ -172,8 +186,20 @@ label {
 
 .due-date-input {
   padding-left: 5px;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 120%;
+  color: rgba(0, 0, 0, 0);
+  transition: color 0.2s ease;
+}
+
+.due-date-input::before {
   color: #c4c4c4;
-  opacity: 1;
+}
+
+.due-date-input.has-value {
+  color: #000;
 }
 
 .priority-container {
@@ -343,4 +369,24 @@ label {
   cursor: pointer;
   color: white;
   border: 1px solid #2196f3;
+}
+
+.task_assigning_to {
+  font-family: "inter";
+  font-style: "regular";
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+  padding-left: 3px;
+}
+
+.task_category {
+  font-family: "inter";
+  font-style: "regular";
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+  padding-left: 3px;
 }
