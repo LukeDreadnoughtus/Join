@@ -18,3 +18,85 @@ background-color: #F5F5F5;
     background-color: #F5F5F5; 
 }
 
+/* user-colors */
+
+/* red */
+
+.colorFF0000 {
+    background-color:#FF0000; 
+}
+
+/* light-green */
+
+.color00FF00 {
+    background-color: #00FF00; 
+}
+
+/* blue */
+
+.color0000FF {
+    background-color: #0000FF; 
+}
+
+/* yellow */
+
+.colorFFFF00 {
+    background-color: #FFFF00; 
+}
+
+/* cyan */
+
+.color00FFFF {
+    background-color: #00FFFF 
+}
+
+
+/* magenta */
+
+.colorFF00FF {
+    background-color: #FF00FF; 
+}
+
+/* blue-violet */
+
+.color8A2BE2 {
+    background-color: #8A2BE2; 
+}
+
+/* orange */
+
+.colorff8800 {
+    background-color: #ff8800; 
+}
+
+/* green */
+
+.color0f8558 {
+    background-color: #0f8558; 
+}
+
+/* skyblue */
+
+.color00afff {
+    background-color: #00afff; 
+}
+
+/* sienna */
+
+.colorcd6839 {
+    background-color: #cd6839; 
+}
+
+/* darkyellow */
+
+.colorf9c20cff {
+    background-color: #f9c20cff; 
+}
+
+.task_category_color_technical_task {
+    background-color: #1FD7C1; 
+}
+
+.task_category_color_user_story {
+    background-color: #0038FF; 
+}

@@ -7,6 +7,7 @@
 <title>Join</title>
 <link rel="stylesheet" href="./add_task.css"/>
 <link rel="stylesheet" href="./board.css"/>
+<link rel="stylesheet" href="./colors.css"/>
 <link href="styles.css" rel="stylesheet"/>
 <link href="header.css" rel="stylesheet"/>
 <link href="footer.css" rel="stylesheet"/>
@@ -67,16 +68,41 @@
 <h2>Board</h2>
 <div class="toolbar">
 <div class="input-wrapper">
-  <input class="search_task" placeholder="Find Task                             |">
-  <img src="assets/img/search.svg" alt="" class="search">
+  <input d="search" class="search_task" type= "text" placeholder="Find Task                            |">
+  <img src="assets/img/search.svg" alt="" class="search" onclick="searchTask()">
 </div>
 <button  class="task-create-button">
           <span class="font-create">Add Task</span>
-          <img src="./assets/img/add.svg" alt="check icon" width="24px" height="24px">
+          <img src="./assets/img/add.svg" class="plus_svg" alt="add task item">
 </button>
 </div>
 </div>
-<div>
+<div class="board_layout">
+  <div class="board_column">
+    <div class="column_head">
+      <h3>To do</h3>
+      <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
+    </div>
+    <div class="no_tasks"> <p class="font_no_task">No tasks To do</p></div>
+    <div class="task_card">
+      <div class="task_category_card task_category_color_user_story">Technical Task</div>
+      <div class="task_titel_card">Contact Form & Imprint</div>
+      <div class="task_description_card">Create a contact form and imprint page</div>
+      <div class="task_progress_subtasks_card">
+        <img src="./assets/img/filler.svg" class="progressbar_subtasks" alt=""> <p> 1/2 Subtasks</p>
+      </div>
+      <div class="task_assigned_members_card">
+        <div class="user_icon">JF</div>
+        <img class="" src="./assets/img/priority_low.svg" alt="priority icon" width="17px" height="12px">
+        <img class="d_none" src="./assets/img/priority_medium.svg" alt="priority icon" width="17px" height="12px">
+        <img class="d_none" src="./assets/img/priority_urgent.svg" alt="priority icon" width="17px" height="12px">
+       
+      </div>
+
+
+    </div>
+  </div>
+
 
 </div>
 
@@ -89,7 +115,7 @@
 
 
   <script src="script.js"></script>
-  <script src="templates.js"></script>
+  <script src="js/templates.js"></script>
   <script src="navigate.js"></script>
   <script src="js/board.js"></script>
 </body>

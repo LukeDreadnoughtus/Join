@@ -1,3 +1,7 @@
+.d_none {
+    display: none;
+}
+
 .header_board {
     display: flex;
     justify-content:flex-start; 
@@ -5,7 +9,7 @@
     height: 100px; 
     width: 800px; 
     padding-top: 100px; 
-    padding-left: 100px; 
+    padding-left: 64px; 
     gap: 600px; 
 }
 
@@ -29,18 +33,24 @@
 }
 
 .plus_svg {
-    height: 10px; 
-    width: auto; 
+    height: 19px; 
+    width: 19px;
 }
 
 .search_task {
-    border: 1px solid #D1D1D1;
+    border: 1px solid #A8A8A8;
     border-radius: 10px;
     font-size: 16px;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
     width: 312px; 
     height: 48px; 
+    padding: 1px 8px;  
+}
+
+.search_task::placeholder {
+    font-weight: 300;
+    font-size: 20px;
 }
 
 .search {
@@ -55,3 +65,122 @@
   position: relative;
   display: inline-block;
 }
+
+.board_layout {
+    display:flex; 
+    justify-content: space-between;
+    align-items: center; 
+    padding-left: 64px; 
+    padding-top: 60px; 
+
+}
+
+.board_column {
+    display: flex;
+    flex-direction: column;
+    width: 244px; 
+    height: auto; 
+}
+
+.column_head {
+    width: 244px;
+    height: 24px; 
+    color: #42526E; 
+    display:flex; 
+    justify-content: space-between;
+}
+
+.no_tasks {
+  background-color: #E7E7E7;
+  height: 48px;
+  width: 252px;
+  border-radius: 10px;
+  border: 1px dashed #A8A8A8;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;              
+  align-items: center;        
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.font_no_task {
+  color:#A8A8A8; 
+  font-size: 16px; 
+  font-weight: 400;
+}
+
+.task_card {
+    width: 252px; 
+    border-radius:24px; 
+    padding:16px; 
+    background-color:#FFFFFF ;
+    box-shadow: 0px 0px 10px 3px #00000014;
+    margin-top: 15px;
+}
+
+.user_icon {
+    height: 32px; 
+    width: 32px; 
+    background-color: violet;
+    border-radius: 45%;
+    display: flex;              
+    align-items: center;
+    justify-content: center;  
+}
+
+.task_category_card {
+    width: 81px; 
+    height: 19px; 
+    color:white; 
+    height: 27px; 
+    width: 113px; 
+    border-radius:8px;
+    padding: 4px 16px; 
+    display:flex; 
+    align-items: center;
+    justify-content: center; 
+    font-weight: 400; 
+    line-height: 120%;
+    margin-bottom: 15px; 
+}
+
+.task_titel_card {
+    font-weight: bold;
+    line-height: 120%;
+    width: 220px; 
+    height: auto; 
+    color:#2A3647; 
+    margin-bottom: 5px; 
+}
+
+.task_description_card {
+    font-weight: 400;
+    line-height: 120%;
+    letter-spacing: 0%;
+    width: 220px; 
+    height: auto; 
+    color: #A8A8A8; 
+    margin-bottom: 15px; 
+}
+
+.task_progress_subtasks_card {
+    margin-bottom: 10px; 
+    width: 220px;
+    display:flex; 
+    align-items: center;
+    justify-content: space-between;
+}
+
+.progressbar_subtasks {
+    height:8px; 
+    width:110px; 
+}
+
+.task_assigned_members_card {
+    width: 220px;
+    display: flex;              
+    align-items: center;        
+    justify-content: space-between;
+}
+
