@@ -5,6 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Join</title>
+<link rel="stylesheet" href="overlay.css"/>
 <link rel="stylesheet" href="./add_task.css"/>
 <link rel="stylesheet" href="./board.css"/>
 <link rel="stylesheet" href="./colors.css"/>
@@ -71,10 +72,15 @@
   <input d="search" class="search_task" type= "text" placeholder="Find Task                            |">
   <img src="assets/img/search.svg" alt="" class="search" onclick="searchTask()">
 </div>
-<button  class="task-create-button">
+<button id="taskCeateButton"  class="task-create-button">
           <span class="font-create">Add Task</span>
           <img src="./assets/img/add.svg" class="plus_svg" alt="add task item">
 </button>
+<div id="overlay" class="overlay hidden">
+  <div class="overlay-content">
+    <iframe src="" id="add-task-frame" frameborder="0"></iframe>
+  </div>
+</div>
 </div>
 </div>
 <div class="board_layout">
