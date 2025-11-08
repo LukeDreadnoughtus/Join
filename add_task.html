@@ -81,12 +81,13 @@
               </div>
               <div class="form-group description">
                 <label for="task-description">Description</label>
-                <textarea placeholder="Enter a Description" id="task-description" name="task-description" rows="4"></textarea>
+                <textarea placeholder="Enter a Description" id="task-description" name="task-description"
+                  rows="4"></textarea>
               </div>
 
               <div class="form-group due-date">
                 <label for="task-due-date">Due Date</label>
-                <input class="due-date-input" placeholder="dd/mm/yyyy" type="date" id="task-due-date"
+                <input class="due-date-input" type="date" id="task-due-date"
                   name="task-due-date" required />
               </div>
             </form>
@@ -135,15 +136,15 @@
 
               <div class="form-group assigned-to">
                 <label for="task-assigned-to">Assigned to</label>
-                <select id="task-assigned-to" required>
-                  <option value="">-- Lade Benutzer... --</option>
+                <select class="task_assigning_to" id="task-assigned-to" required>
+                  <option value="" disabled selected hidden>Select contacts to assign</option>
                 </select>
               </div>
 
               <div class="form-group category">
                 <label for="task-category">Category</label>
-                <select id="task-category" required>
-                  <option value="">-- Lade Kategorien... --</option>
+                <select class="task_category" id="task-category" required>
+                  <option value="" disabled selected hidden>Select task category</option>
                 </select>
               </div>
 
