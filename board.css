@@ -1,5 +1,5 @@
 .d_none {
-    display: none;
+    display: none !important;
 }
 
 .header_board {
@@ -78,6 +78,22 @@
 
 }
 
+.userfeedback_no_tasks {
+    position: absolute;
+    background-color: #2A3647;
+    color: white; 
+    border-radius: 10px; 
+    top:450px; 
+    left: 40%; 
+    width: 500px; 
+    height: 50px; 
+    font-size: 20px; 
+    display:flex; 
+    align-items: center; 
+    justify-content: center;
+    font-weight: 200;
+}
+
 .board_column {
     display: flex;
     flex-direction: column;
@@ -126,11 +142,28 @@
 .user_icon {
     height: 32px; 
     width: 32px; 
-    background-color: violet;
     border-radius: 45%;
     display: flex;              
     align-items: center;
     justify-content: center;  
+    font-weight: bold;
+    border: 2px solid white; 
+    margin-left: -10px; 
+    z-index: 1;
+}
+
+.user_icon:first-child {
+  margin-left: 0;
+}
+
+.user_icon:hover {
+  z-index: 10;
+}
+
+.priority_icon_board {
+    width:17px;
+    height:12px; 
+    margin-left: 130px; 
 }
 
 .task_category_card {
@@ -185,6 +218,5 @@
     width: 220px;
     display: flex;              
     align-items: center;        
-    justify-content: space-between;
 }
 
