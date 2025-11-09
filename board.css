@@ -68,16 +68,20 @@
 
 .board_layout {
     display:flex; 
-    justify-content: space-between;
-    align-items: center; 
+    justify-content: flex-start;
+    align-items:flex-start; 
     padding-left: 64px; 
     padding-top: 60px; 
+    width:1208px; 
+    height: auto; 
+    gap: 80px; 
 
 }
 
 .board_column {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     width: 244px; 
     height: auto; 
 }
