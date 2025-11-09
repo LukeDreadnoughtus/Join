@@ -1,0 +1,74 @@
+main.content .contacts_sidebar {
+  width: 300px;
+  min-width: 300px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border-right: 1px solid rgba(0,0,0,.1);
+  background: #fff;
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  max-height: 100dvh;
+  overflow-y: auto;
+}
+
+main.content .contacts_sidebar_add {
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+  background: #111;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+main.content .contacts_sidebar_list { display: flex; flex-direction: column; gap: 0; }
+main.content .contacts_group { padding: 8px 0; }
+main.content .contacts_group_label { font-size: 12px; font-weight: 700; letter-spacing: .08em; opacity: .7; margin: 6px 0 4px 0; }
+main.content .contacts_name { padding: 8px 4px; }
+main.content .contacts_divider { height: 1px; background: rgba(0,0,0,.12); margin: 0; }
+
+@media (max-width: 900px) {
+  main.content .contacts_sidebar {
+    width: 240px;
+    min-width: 240px;
+    max-width: 240px;
+  }
+}
+main.content .contacts_name_row{display:flex;align-items:center;gap:10px;padding:8px 4px}
+main.content .contacts_avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex:0 0 28px;text-transform:uppercase}
+main.content .contacts_name{text-transform:none}
+body.contacts-page .contacts_modal_backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.35);z-index:1000}
+body.contacts-page .contacts_modal_backdrop.is-open{display:flex}
+body.contacts-page .contacts_modal{background:#fff;border-radius:12px;max-width:480px;width:min(90vw,480px);max-height:80dvh;overflow:auto;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+body.contacts-page .contacts_modal_content{display:flex;flex-direction:column;gap:12px;padding:20px}
+body.contacts-page .contacts_modal_header{font-size:18px;font-weight:700}
+body.contacts-page .contacts_modal_body{font-size:14px;line-height:1.4}
+body.contacts-page .contacts_modal_backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.35);z-index:1000}
+body.contacts-page .contacts_modal_backdrop.is-open{display:flex}
+body.contacts-page .contacts_modal{background:#fff;border-radius:12px;max-width:480px;width:min(90vw,480px);max-height:80dvh;overflow:auto;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+body.contacts-page .contacts_modal_content{display:flex;flex-direction:column;gap:12px;padding:20px}
+body.contacts-page .contacts_modal_header{font-size:18px;font-weight:700}
+body.contacts-page .contacts_modal_body{font-size:14px;line-height:1.4}
+body.contacts-page .contacts_modal_header{display:flex;align-items:center;justify-content:space-between}
+body.contacts-page .contacts_modal_close{border:none;background:transparent;font-size:22px;line-height:1;cursor:pointer}
+body.contacts-page .contacts_modal_body{display:flex;flex-direction:column;gap:10px}
+body.contacts-page .contacts_modal_body input{border:1px solid #e4e4e7;border-radius:8px;padding:10px 12px;font-size:14px;outline:none}
+body.contacts-page .contacts_modal_body input:focus{border-color:#111}
+body.contacts-page .contacts_create_btn{border:none;border-radius:10px;padding:10px 14px;font-weight:700;background:#111;color:#fff;cursor:pointer}
+body.contacts-page .contacts_modal_header{display:flex;align-items:center;justify-content:space-between}
+body.contacts-page .contacts_modal_close{border:none;background:transparent;font-size:22px;line-height:1;cursor:pointer}
+body.contacts-page .contacts_modal_body{display:flex;flex-direction:column;gap:10px}
+body.contacts-page .contacts_modal_body input{border:1px solid #e4e4e7;border-radius:8px;padding:10px 12px;font-size:14px;outline:none}
+body.contacts-page .contacts_modal_body input:focus{border-color:#111}
+body.contacts-page .contacts_create_btn{border:none;border-radius:10px;padding:10px 14px;font-weight:700;background:#111;color:#fff;cursor:pointer}
+body.contacts-page .contacts_modal_header{display:flex;align-items:center;justify-content:space-between}
+body.contacts-page .contacts_modal_close{border:none;background:transparent;font-size:22px;line-height:1;cursor:pointer}
+body.contacts-page .contacts_modal_body{display:flex;flex-direction:column;gap:10px}
+body.contacts-page .contacts_modal_body input{border:1px solid #e4e4e7;border-radius:8px;padding:10px 12px;font-size:14px;outline:none}
+body.contacts-page .contacts_modal_body input:focus{border-color:#111}
+body.contacts-page .contacts_create_btn{border:none;border-radius:10px;padding:10px 14px;font-weight:700;background:#111;color:#fff;cursor:pointer}
