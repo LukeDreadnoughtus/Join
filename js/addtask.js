@@ -1,4 +1,4 @@
-const path = "https://join-database-ce37b-default-rtdb.europe-west1.firebasedatabase.app/";
+const path = "https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/";
 const pathRegister = "https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/";
 const lowBtn = document.getElementById('low');
 const mediumBtn = document.getElementById('medium');
