@@ -33,7 +33,7 @@ try {
       let currentTitle = currentTask.title
       let currentDescription = currentTask.description
       let currentSubtasksNumber = currentSubtaskNumber(currentTask)
-      let currentPriority = currentTask.level
+      let currentPriority = currentTask.priority
       let currentAssignedUsers = currentTask.assigned
       let assignedUsers = currentAssignedUsers ? Object.values(currentAssignedUsers) : [];
       let assignedUserColors = await fetchUsercolors(assignedUsers)
