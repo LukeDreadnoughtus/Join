@@ -146,10 +146,11 @@
     display: flex;              
     align-items: center;
     justify-content: center;  
-    font-weight: bold;
+    font-weight: 300;
     border: 2px solid white; 
     margin-left: -10px; 
     z-index: 1;
+    color:white; 
 }
 
 .user_icon:first-child {

@@ -58,6 +58,6 @@
 })();
 
 
-if (isSame(routes[el.getAttribute('data-link')])) {
-  el.setAttribute('aria-current', 'page'); 
-}
+// if (isSame(routes[el.getAttribute('data-link')])) {
+//   el.setAttribute('aria-current', 'page'); 
+// }

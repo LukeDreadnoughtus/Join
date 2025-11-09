@@ -5,8 +5,10 @@ async function init(event) {
 event.preventDefault();
 removeUserfeedback()
 await showTasks()
-checkNoTasks()
+checkNoTasks() //Das hier nochmal checken - funktioniert noch nicht. 
 }
+
+//ToDo: userinitialien - Lukas Funktion, subtasks laden + progress, task: overlay erstellen
 
 function removeUserfeedback() {
 const userFeedbackEl = document.getElementById("userfeedback");
@@ -84,11 +86,12 @@ function findUserColor(user, userData) {
                 if (searchedUser.name === user) {
                     let userColor = searchedUser.color || "#393737ff";
                     return userColor
-                    break; // gefunden → innere Schleife abbrechen
                 }
         }    
 }
 
+
+//Das hier nochmal checken - funktioniert noch nicht. 
 function checkNoTasks() {
    const columns = [
         { id: "todo", noTasksId: "no_todo_tasks" },
