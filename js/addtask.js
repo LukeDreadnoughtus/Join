@@ -10,7 +10,7 @@ async function loadCategories() {
   try {
     const response = await fetch(path + "categories.json");
     const data = await response.json();
-    select.innerHTML = "";
+    select.innerHTML = '<option value="" disabled selected hidden>Select task category</option>';
     for (const key in data) {
       const option = document.createElement("option");
       option.value = key;
@@ -22,6 +22,18 @@ async function loadCategories() {
   }
 }
 
+function dueDateSwitch() {
+  const dateInput = document.getElementById("task-due-date");
+  if (dateInput.value) dateInput.classList.add("has-value");
+  dateInput.addEventListener("change", function () {
+  if (this.value) {
+    this.classList.add("has-value");
+  } else {
+    this.classList.remove("has-value");
+  }
+});
+
+}
 
 lowBtn.addEventListener('click', () => {
   setActivePriority(lowBtn);
@@ -71,7 +83,7 @@ async function createTask(event) {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newTask),
     });
-    if (response.ok) { showSuccessMessage(); clearForm(); } 
+    if (response.ok) { showSuccessMessage(); clearForm(); }
     else { console.error("Fehler beim Speichern in Firebase"); }
   } catch (error) {
     console.error("Firebase Fehler:", error);
@@ -132,10 +144,11 @@ function requiredFieldMarker() {
 }
 
 function init() {
+  dueDateSwitch();
   loadUserAssignments();
   requiredFieldMarker();
   document.querySelector(".add-task-create-button").addEventListener("click", createTask);
-  document.getElementById("clear-button").addEventListener("click", (e) => {clearForm(); e.preventDefault();});
+  document.getElementById("clear-button").addEventListener("click", (e) => { clearForm(); e.preventDefault(); });
   document.addEventListener("DOMContentLoaded", loadCategories);
   document.querySelector(".add-task-clear-button").addEventListener("click", clearForm());
 }
@@ -146,7 +159,7 @@ async function loadUserAssignments() {
   try {
     const response = await fetch(pathRegister + ".json");
     const data = await response.json();
-    select.innerHTML = "";
+    select.innerHTML = '<option value="" disabled selected hidden>Select contacts to assign</option>';
     for (const key in data) {
       const option = document.createElement("option");
       option.value = key;
@@ -155,6 +168,7 @@ async function loadUserAssignments() {
     }
   } catch (error) {
     console.error("Fehler beim Laden der Benutzer:", error);
+    select.innerHTML = '<option value="" disabled selected hidden>Fehler beim Laden</option>';
   }
 }
 
