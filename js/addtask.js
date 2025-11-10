@@ -3,37 +3,8 @@ const pathRegister = "https://joinregistration-d9005-default-rtdb.europe-west1.f
 const lowBtn = document.getElementById('low');
 const mediumBtn = document.getElementById('medium');
 const urgentBtn = document.getElementById('urgent');
+const hiddenInput = document.getElementById('task-priority');
 
-
-async function loadCategories() {
-  const select = document.getElementById("task-category");
-  try {
-    const response = await fetch(path + "categories.json");
-    const data = await response.json();
-    select.innerHTML = '<option value="" disabled selected hidden>Select task category</option>';
-    for (const key in data) {
-      const option = document.createElement("option");
-      option.value = key;
-      option.textContent = data[key].name;
-      select.appendChild(option);
-    }
-  } catch (error) {
-    console.error("Fehler beim Laden der Kategorien:", error);
-  }
-}
-
-function dueDateSwitch() {
-  const dateInput = document.getElementById("task-due-date");
-  if (dateInput.value) dateInput.classList.add("has-value");
-  dateInput.addEventListener("change", function () {
-  if (this.value) {
-    this.classList.add("has-value");
-  } else {
-    this.classList.remove("has-value");
-  }
-});
-
-}
 
 lowBtn.addEventListener('click', () => {
   setActivePriority(lowBtn);
@@ -57,19 +28,24 @@ function setActivePriority(activeBtn) {
       btn.classList.remove('active');
     }
   });
-  activeBtn.classList.toggle('active');
+  activeBtn.classList.add('active');
+  hiddenInput.value = activeBtn.dataset.value;
 }
 
 
 function getTaskDataFromForm() {
   return {
     title: document.getElementById("task-title")?.value || "",
+    boardslot: document.getElementById("board-slot")?.value || "todo",
     description: document.getElementById("task-description")?.value || "",
     category: document.getElementById("task-category")?.value || "",
-    assignedTo: document.getElementById("task-assigned-to")?.value || "",
+    assigned: document.getElementById("task-assigned-to")?.value || "",
     priority: document.getElementById("task-priority")?.value || "",
-    subtasks: document.getElementById("subtask-tags")?.value || "",
-    createdAt: new Date().toISOString(),
+    subtask: {
+      name: document.getElementById("subtask-tags")?.value || "",
+      done: false,
+    },
+    duedate: document.getElementById("task-due-date")?.value || "",
   };
 }
 
@@ -94,7 +70,7 @@ async function createTask(event) {
 function validateForm() {
   const requiredFields = document.querySelectorAll("input[required], select[required], textarea[required]");
   let isValid = true;
-  document.querySelectorAll(".error-message").forEach(e => e.remove());
+  document.querySelectorAll(".error_message").forEach(e => e.remove());
   requiredFields.forEach(f => f.classList.remove("input-error"));
   requiredFields.forEach(field => {
     if (!field.value.trim()) {
@@ -117,7 +93,7 @@ function showSuccessMessage() {
   msg.style.marginTop = "10px";
   msg.style.fontWeight = "bold";
   msg.style.textAlign = "center";
-  document.querySelector(".task-controls-buttons").appendChild(msg);
+  document.querySelector(".task_controls_buttons").appendChild(msg);
   setTimeout(() => msg.remove(), 3000);
 }
 
@@ -128,7 +104,12 @@ function clearForm() {
   document.getElementById("task-category").selectedIndex = 0;
   document.getElementById("task-assigned-to").selectedIndex = 0;
   document.getElementById("subtask-tags").value = "";
-  document.getElementById("task-priority").value = "medium";
+  const hiddenInput = document.getElementById("task-priority");
+  hiddenInput.value = "medium";
+  const priorityButtons = document.querySelectorAll('.priority_btn');
+  priorityButtons.forEach(btn => btn.classList.remove('active'));
+  const mediumBtn = document.getElementById('medium');
+  if (mediumBtn) mediumBtn.classList.add('active');
 }
 
 
@@ -144,13 +125,11 @@ function requiredFieldMarker() {
 }
 
 function init() {
-  dueDateSwitch();
   loadUserAssignments();
   requiredFieldMarker();
-  document.querySelector(".add-task-create-button").addEventListener("click", createTask);
+  document.querySelector(".add_task_create_button").addEventListener("click", createTask);
   document.getElementById("clear-button").addEventListener("click", (e) => { clearForm(); e.preventDefault(); });
-  document.addEventListener("DOMContentLoaded", loadCategories);
-  document.querySelector(".add-task-clear-button").addEventListener("click", clearForm());
+  document.querySelector(".add_task_clear_button").addEventListener("click", clearForm);
 }
 
 
