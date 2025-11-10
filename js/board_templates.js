@@ -7,11 +7,12 @@ function noTasksTemplate() {
 
 //Die ids der html Elemente habe ich jetzt mal nach den Boardslots benannt. 
 
-function taskTemplate(currentBoardSlot, currentCategory, currentTitle, currentDescription, currentSubtasksNumber,categoryColor, currentPriority, assignedUsers, assignedUserColors) {
+function taskTemplate(currentBoardSlot, currentCategory, currentTitle, currentDescription, currentSubtasksNumber,categoryColor, currentPriority, assignedUsers, assignedUserColors, doneSubTasks) {
  let assignedUsersHtml = "";
  assignedUsers.forEach((user, index) => {
  let iconColor = assignedUserColors[index].replace('#', '');
- assignedUsersHtml += `<div class="user_icon color${iconColor}">${user[0]}</div>`;
+ let usericon = initials(user)
+ assignedUsersHtml += `<div class="user_icon color${iconColor}">${usericon}</div>`;
  });
 
  const taskHtml = `
@@ -21,7 +22,7 @@ function taskTemplate(currentBoardSlot, currentCategory, currentTitle, currentDe
       <div class="task_description_card">${currentDescription}</div>
       <div class="task_progress_subtasks_card">
         <img src="./assets/img/filler.svg" class="progressbar_subtasks" alt=""> 
-        <p>0/${currentSubtasksNumber} Subtasks</p>
+        <p>${doneSubTasks}/${currentSubtasksNumber} Subtasks</p>
       </div>
       <div class="task_assigned_members_card">
         ${assignedUsersHtml}

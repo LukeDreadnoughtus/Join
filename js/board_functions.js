@@ -5,10 +5,10 @@ async function init(event) {
 event.preventDefault();
 removeUserfeedback()
 await showTasks()
-checkNoTasks() //Das hier nochmal checken - funktioniert noch nicht. 
+checkNoTasks();
 }
 
-//ToDo: userinitialien - Lukas Funktion, subtasks laden + progress, task: overlay erstellen
+//ToDo: task: overlay erstellen
 
 function removeUserfeedback() {
 const userFeedbackEl = document.getElementById("userfeedback");
@@ -33,11 +33,13 @@ try {
       let currentTitle = currentTask.title
       let currentDescription = currentTask.description
       let currentSubtasksNumber = currentSubtaskNumber(currentTask)
+      let doneSubTasks = currentCompletedTasksNumber(currentTask)
       let currentPriority = currentTask.priority
       let currentAssignedUsers = currentTask.assigned
       let assignedUsers = currentAssignedUsers ? Object.values(currentAssignedUsers) : [];
       let assignedUserColors = await fetchUsercolors(assignedUsers)
-      taskTemplate(currentBoardSlot, currentCategory, currentTitle, currentDescription, currentSubtasksNumber, categoryColor, currentPriority, assignedUsers, assignedUserColors)
+      
+      taskTemplate(currentBoardSlot, currentCategory, currentTitle, currentDescription, currentSubtasksNumber, categoryColor, currentPriority, assignedUsers, assignedUserColors, doneSubTasks)
       }
     } 
     catch (error) {
@@ -91,7 +93,8 @@ function findUserColor(user, userData) {
 }
 
 
-//Das hier nochmal checken - funktioniert noch nicht. 
+//checkt, ob die einzelnen Spalten genau zwei Kindelemente haben, wenn ja, sind keine Aufgaben gerendert worden
+//dann wird das userFeedback angezeigt. 
 function checkNoTasks() {
    const columns = [
         { id: "todo", noTasksId: "no_todo_tasks" },
@@ -104,10 +107,29 @@ function checkNoTasks() {
         const columnEl = document.getElementById(col.id);
         const noTasksEl = document.getElementById(col.noTasksId);
 
-        if (columnEl.children.length === 0) {
+        if (columnEl.children.length === 2) {
             noTasksEl.classList.remove("d_none");
         } else {
             noTasksEl.classList.add("d_none");
         }
     });
+}
+
+
+function initials(user) {
+ const parts=String(user||'').trim().split(/\s+/);
+  const first=(parts[0]||'').charAt(0).toUpperCase();
+  const second=(parts[1]||'').charAt(0).toUpperCase();
+  return first+(second||'');
+};
+
+
+function currentCompletedTasksNumber(currentTask) {
+    let allSubTasks= currentTask.subtask
+    let count = 0
+    for(let i=0; i < allSubTasks.length; i++) {
+        if(allSubTasks[i].done ===true) {count++}
+        else continue
+    }
+    return count; 
 }
