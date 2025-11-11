@@ -133,3 +133,14 @@ function currentCompletedTasksNumber(currentTask) {
     }
     return count; 
 }
+
+
+function closeTaskOverlay(event) {
+    event.stopPropagation
+
+
+}
+
+function openTaskOverlay() {
+
+}

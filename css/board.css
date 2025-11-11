@@ -221,6 +221,13 @@
     align-items: center;        
 }
 
+.transparent_overlay {
+    height:100vh; 
+    width: 100vw; 
+    position: absolute; 
+
+}
+
 .edit_task_overlay {
     position: absolute; 
     display:flex; 
@@ -232,9 +239,28 @@
     box-shadow: 0px 0px 4px 0px #00000029;
     background-color: #FFFFFF;
     z-index: 1000;
-    top: 15%; 
-    left: 40%; 
+    top: 10%; 
+    left: 25%; 
 
+}
+
+.task_category_card_overlay {
+    width: 164px; 
+    height: 36px; 
+    color:white; 
+    border-radius:8px;
+    padding: 4px 24px; 
+    display:flex; 
+    align-items: center;
+    justify-content: center; 
+    font-weight: 400; 
+    line-height: 120%;
+    margin-bottom: 15px; 
+    font-size: 23px;
+}
+
+.padding_btm {
+    padding-bottom: 20px;
 }
 
 .due_date {
@@ -243,7 +269,9 @@
     gap: 15px; 
     height: 24px; 
     width: 445px; 
-    color: #2A3647; 
+    color: #2A3647;
+    padding-top: 20px;  
+    padding-bottom: 20px; 
 }
 
 .priority {
@@ -253,6 +281,7 @@
     height: 32px;
     width: 445px;  
     color: #2A3647; 
+    padding-bottom: 20px; 
 }
 
 .task_description_overlay {
@@ -268,13 +297,54 @@
     height: auto; 
 }
 
+.user_row_layout {
+    display:flex;
+    justify-content: flex-start;
+    width: 445px; 
+    padding-left: 15px; 
+    gap: 20px; 
+}
+
+.user_font {
+    margin: 0px; 
+    font-family: "inter";
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+}
+
+.task_detail_font {
+    margin: 0px; 
+    font-family: "inter";
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+}
+
+.subtask_detail_font {
+    margin: 0px; 
+    font-family: "inter";
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+}
+
 .subtasks_list {
     display:flex; 
     flex-direction: column; 
     gap: 15px;
+    padding-top: 20px;
+    
 }
 
 .subtask_check {
     display:flex; 
     justify-content: flex-start;
+    gap: 20px; 
 }

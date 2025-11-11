@@ -16,7 +16,7 @@ function taskTemplate(currentBoardSlot, currentCategory, currentTitle, currentDe
  });
 
  const taskHtml = `
-    <div class="task_card">
+    <div class="task_card" onclick="openTaskOverlay()">
       <div class="task_category_card task_category_color_${categoryColor}">${currentCategory}</div>
       <div class="task_titel_card">${currentTitle}</div>
       <div class="task_description_card">${currentDescription}</div>
