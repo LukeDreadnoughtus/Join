@@ -39,7 +39,7 @@ function getTaskDataFromForm() {
     boardslot: document.getElementById("board-slot")?.value || "todo",
     description: document.getElementById("task-description")?.value || "",
     category: document.getElementById("task-category")?.value || "",
-    assigned: document.getElementById("task-assigned-to")?.value || "",
+    assigned: Array.from(window.selectedUsers.keys()),
     priority: document.getElementById("task-priority")?.value || "",
     subtask: {
       name: document.getElementById("subtask-tags")?.value || "",
@@ -102,7 +102,6 @@ function clearForm() {
   document.getElementById("task-title").value = "";
   document.getElementById("task-description").value = "";
   document.getElementById("task-category").selectedIndex = 0;
-  document.getElementById("task-assigned-to").selectedIndex = 0;
   document.getElementById("subtask-tags").value = "";
   const hiddenInput = document.getElementById("task-priority");
   hiddenInput.value = "medium";
@@ -110,6 +109,17 @@ function clearForm() {
   priorityButtons.forEach(btn => btn.classList.remove('active'));
   const mediumBtn = document.getElementById('medium');
   if (mediumBtn) mediumBtn.classList.add('active');
+  clearAssignedDropdown();
+}
+
+
+function clearAssignedDropdown() {
+  const container = document.getElementById("task-assigned-to");
+  const options = container.querySelectorAll(".option-item");
+  options.forEach(item => item.classList.remove("checked"));
+  if (window.selectedUsers) window.selectedUsers.clear();
+  const display = container.querySelector(".select-display");
+  updateDisplayText();
 }
 
 
@@ -134,21 +144,85 @@ function init() {
 
 
 async function loadUserAssignments() {
-  const select = document.getElementById("task-assigned-to");
+  const container = document.getElementById("task-assigned-to");
   try {
-    const response = await fetch(pathRegister + ".json");
-    const data = await response.json();
-    select.innerHTML = '<option value="" disabled selected hidden>Select contacts to assign</option>';
-    for (const key in data) {
-      const option = document.createElement("option");
-      option.value = key;
-      option.textContent = data[key].name;
-      select.appendChild(option);
-    }
+    const data = await fetchUserData();
+    buildDropdown(container, data);
   } catch (error) {
-    console.error("Fehler beim Laden der Benutzer:", error);
-    select.innerHTML = '<option value="" disabled selected hidden>Fehler beim Laden</option>';
+    showUserLoadError(container, error);
   }
+}
+
+
+async function fetchUserData() {
+  const response = await fetch(pathRegister + ".json");
+  return await response.json();
+}
+
+
+function buildDropdown(container, data) {
+  container.innerHTML = "";
+  const display = createDisplayElement();
+  const options = createOptionsContainer(data);
+  container.append(display, options);
+}
+
+
+function createDisplayElement() {
+  const el = document.createElement("div");
+  el.classList.add("select-display");
+  el.textContent = "Select contacts to assign";
+  const arrow = document.createElement("span");
+  arrow.classList.add("icon-assign");
+  arrow.textContent = "▼";
+  el.appendChild(arrow);
+  el.onclick = toggleDropdown;
+  return el;
+}
+
+
+function createOptionsContainer(data) {
+  const options = document.createElement("div");
+  options.classList.add("select-options");
+  window.selectedUsers = new Set();
+  Object.keys(data).forEach((key) => addOptionItem(options, key, data[key]));
+  return options;
+}
+
+
+function addOptionItem(container, id, user) {
+  const item = document.createElement("div");
+  item.classList.add("option-item");
+  item.innerHTML = `
+  <span>${user.name}</span>
+  <span class="checkbox-square"></span>`;
+  item.onclick = () => toggleUser(item, id);
+  container.appendChild(item);
+}
+
+
+function toggleDropdown() {
+  const options = document.querySelector(".select-options");
+  options.classList.toggle("show");
+}
+
+
+function toggleUser(item, id) {
+  const selected = window.selectedUsers;
+  selected.has(id) ? selected.delete(id) : selected.add(id);
+  item.classList.toggle("checked");
+  updateDisplayText();
+}
+
+
+function updateDisplayText() {
+  const display = document.querySelector(".select-display");
+  const arrow = display.querySelector(".icon-assign");
+  const count = window.selectedUsers.size;
+  display.childNodes[0].nodeValue = count
+    ? `${count} user(s) selected `
+    : "Select contacts to assign ";
+  display.appendChild(arrow);
 }
 
 
