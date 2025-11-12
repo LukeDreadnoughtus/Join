@@ -595,6 +595,10 @@ label {
   transition: color 0.2s ease;
 }
 
+.priority_name.medium{
+  font-size: 18px;
+}
+
 .due_date_input::before {
   color: #c4c4c4;
 }
@@ -787,3 +791,101 @@ label {
   color: #000000;
   padding-left: 3px;
 }
+
+
+.custom-select {
+  position: relative;
+  width: 100%;
+  user-select: none;
+}
+
+.select-display {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #fff;
+}
+
+.select-options {
+  display: none;
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 4px;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.select-options.show {
+  display: block;
+}
+
+.option-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.option-item:hover {
+  background: #f3f3f3;
+}
+
+.option-item .checkmark {
+  color: green;
+  font-weight: bold;
+  display: none;
+}
+
+.option-item.checked .checkmark {
+  display: inline;
+}
+
+.checkbox-square {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #888;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.option-item.checked .checkbox-square::after {
+  content: "✔";
+  color: #000;
+  font-size: 20px;
+}
+
+.icon-assign {
+  float: right;
+  padding-top: 5px;
+  margin-left: 10px;
+  font-size: 8px;
+}
+
+#task-assigned-to { position: relative; width: 100%; }
+.select-display {
+  padding: 10px; border: 1px solid #ccc; border-radius: 6px;
+  background: #fff; cursor: pointer;
+}
+.select-options {
+  display: none; position: absolute; width: 100%;
+  background: #fff; border: 1px solid #ccc;
+  border-radius: 6px; margin-top: 4px; max-height: 200px;
+  overflow-y: auto; z-index: 20;
+}
+.select-options.show { display: block; }
+.option-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 10px; cursor: pointer;
+}
+.option-item:hover { background: #f3f3f3; }
+.checkmark { color: green; font-weight: bold; display: none; }
+.option-item.checked .checkmark { display: inline; }
