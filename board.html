@@ -65,34 +65,12 @@
           </button>
         </div>
 </header>
-<div class="transparent_overlay" onclick="closeTaskOverlay(event)">
+<div id="task_full_view" class="transparent_overlay d_none" onclick="closeTaskOverlay(event)">
+<div id="show_task_overlay" class="show_task_overlay">
+</div>
+</div>
+<div id="task_edit_view" class="transparent_overlay d_none" onclick="closeTaskOverlayEdit(event)">
 <div id="edit_task_overlay" class="edit_task_overlay">
-    <div class="task_category_card_overlay task_category_color_user_story">Technical Task</div>
-    <h2 class="padding_btm">Title</h2>
-    <div class="task_description_overlay"><h4>Create a contact form and imprint page</h4></div>
-    <div class="due_date">
-    <h4>Due date:</h4>
-    <p class="task_detail_font">10/5/2023</p>
-    </div>
-    <div class="priority">
-    <h4>Priority</h4>
-    <p class="task_detail_font">Medium</p>
-    <img class="" src="./assets/img/priority_low.svg" alt="priority icon" width="17px" height="12px">
-    </div>
-    <div class="assigned_to">
-   <h4 class="padding_btm">Assigned To:</h4>
-   <div class="user_row_layout"> 
-    <div class="">icon</div> 
-    <p class="user_font">User Name</p>
-   </div>
-    </div>
-    <div class="subtasks_list">
-    <h4 class="">Subtasks</h4>
-    <div class="subtask_check">
-      <input type="checkbox" id="idid">
-      <p class="subtask_detail_font">Name Subtask</p>
-    </div>
-    </div>
 </div>
 </div>
 <div class="header_board">
@@ -143,27 +121,6 @@
     </div>
     <div id="no_done_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks To do</p></div>
   </div>
-  <!-- <div id="to_do" class="board_column">
-    <div class="column_head">
-      <h3>To do</h3>
-      <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
-    </div>
-    <div id="no_tasks" class="no_tasks"> <p class="font_no_task">No tasks To do</p></div>
-    <div class="task_card">
-      <div class="task_category_card task_category_color_user_story">Technical Task</div>
-      <div class="task_titel_card">Contact Form & Imprint</div>
-      <div class="task_description_card">Create a contact form and imprint page</div>
-      <div class="task_progress_subtasks_card">
-        <img src="./assets/img/filler.svg" class="progressbar_subtasks" alt=""> <p> 1/2 Subtasks</p>
-      </div>
-      <div class="task_assigned_members_card">
-        <div class="user_icon">JF</div>
-        <img class="" src="./assets/img/priority_low.svg" alt="priority icon" width="17px" height="12px">
-        <img class="d_none" src="./assets/img/priority_medium.svg" alt="priority icon" width="17px" height="12px">
-        <img class="d_none" src="./assets/img/priority_urgent.svg" alt="priority icon" width="17px" height="12px">
-        </div>
-    </div>
-  </div> -->
 </div>
 
 </main>

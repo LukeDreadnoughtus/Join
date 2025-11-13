@@ -137,6 +137,7 @@
     background-color:#FFFFFF ;
     box-shadow: 0px 0px 10px 3px #00000014;
     margin-top: 15px;
+    cursor: pointer;
 }
 
 .user_icon {
@@ -225,10 +226,11 @@
     height:100vh; 
     width: 100vw; 
     position: absolute; 
+    
 
 }
 
-.edit_task_overlay {
+.show_task_overlay {
     position: absolute; 
     display:flex; 
     flex-direction: column; 
@@ -277,7 +279,8 @@
 .priority {
     display:flex; 
     justify-content: flex-start;
-    gap: 15px;
+    align-items: center;
+    gap: 20px;
     height: 32px;
     width: 445px;  
     color: #2A3647; 
@@ -301,8 +304,14 @@
     display:flex;
     justify-content: flex-start;
     width: 445px; 
-    padding-left: 15px; 
     gap: 20px; 
+    padding: 7px 16px; 
+}
+
+.priority_fullview {
+    width:17px;
+    height:12px; 
+
 }
 
 .user_font {
@@ -347,4 +356,70 @@
     display:flex; 
     justify-content: flex-start;
     gap: 20px; 
+}
+
+.edit_delete_task {
+    display:flex; 
+    justify-content: flex-end;
+    align-items: center; 
+    width: 380px; 
+    gap:4px; 
+    height: auto; 
+    margin-top: 30px;
+
+}
+
+.edit_task_font {
+    font-family: Inter;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    color: #2A3647;
+    margin:0px; 
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.edit_task_font:hover {
+    font-weight: bold;
+    color: #29ABE2;
+    transform: scale(1.03);
+}
+
+.seperator {
+    width: 0px;
+    height: 24px;
+    opacity: 1;
+    border: 1px solid #D1D1D1
+}
+
+.edit_task {
+    display:flex; 
+    justify-content: center;
+    cursor:pointer; 
+    gap:3px; 
+
+}
+
+.delete_task {
+    display:flex; 
+    justify-content: center;
+    cursor:pointer; 
+    gap:3px; 
+}
+
+.edit_task_overlay {
+    position: absolute; 
+    display:flex; 
+    flex-direction: column; 
+    width: 396px; 
+    height: 724px; 
+    border-radius: 30px;
+    padding: 32px 24px;
+    box-shadow: 0px 0px 4px 0px #00000029;
+    background-color: #FFFFFF;
+    z-index: 1000;
+    top: 10%; 
+    left: 25%; 
 }

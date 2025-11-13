@@ -1,6 +1,8 @@
 let path = "https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/"
 let pathUser = "https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/"
 
+let allTasks = {}; // globales Objekt: key = Task-ID, value = Task-Daten
+
 async function init(event) {
 event.preventDefault();
 removeUserfeedback()
@@ -25,28 +27,61 @@ try {
         noTasksTemplate()
         return;
      }
-     for (const key in tasks) {
-      const currentTask = tasks[key];
-      let currentBoardSlot = currentTask.boardslot
-      let currentCategory = currentTask.category
-      let categoryColor = currentCategoryColor(currentCategory)
-      let currentTitle = currentTask.title
-      let currentDescription = currentTask.description
-      let currentSubtasksNumber = currentSubtaskNumber(currentTask)
-      let doneSubTasks = currentCompletedTasksNumber(currentTask)
-      let currentPriority = currentTask.priority
-      let currentAssignedUsers = currentTask.assigned
-      let assignedUsers = currentAssignedUsers ? Object.values(currentAssignedUsers) : [];
-      let assignedUserColors = await fetchUsercolors(assignedUsers)
-      
-      taskTemplate(currentBoardSlot, currentCategory, currentTitle, currentDescription, currentSubtasksNumber, categoryColor, currentPriority, assignedUsers, assignedUserColors, doneSubTasks)
+      await renderAllTasks(tasks);
       }
-    } 
     catch (error) {
     console.error("Fehler beim Laden der Tasks:", error);
     document.getElementById("userfeedback_no_tasks").classList.remove("d_none")
     return true; }
 }
+
+//Hilfsfunction für Task-Objekt
+
+async function renderAllTasks(tasks) {
+  for (const key in tasks) {
+    const currentTask = tasks[key];
+    const taskData = await buildTaskData(currentTask, key);
+    allTasks[taskData.id] = taskData;
+    taskTemplate(taskData);
+  }
+}
+
+async function buildTaskData(currentTask, key) {
+      const taskId = currentTask.id || key || crypto.randomUUID(); // ID aus der Datenbank übernehmen oder generieren (Fallback)
+      const currentBoardSlot = currentTask.boardslot
+      const currentCategory = currentTask.category
+      const categoryColor = currentCategoryColor(currentCategory)
+      const currentTitle = currentTask.title
+      const currentDescription = currentTask.description
+      const currentSubtasksNumber = currentSubtaskNumber(currentTask)
+      const doneSubTasks = currentCompletedTasksNumber(currentTask)
+      const currentPriority = currentTask.priority
+      const currentSubtask = currentTask.subtask
+
+       // Assigned Users
+
+      const currentAssignedUsers = currentTask.assigned
+      const assignedUsers = currentAssignedUsers ? Object.values(currentAssignedUsers) : [];
+      const assignedUserColors = await fetchUsercolors(assignedUsers)
+
+      const taskData = {
+        id: taskId,
+        boardSlot: currentBoardSlot,
+        category: currentCategory,
+        categoryColor: categoryColor,
+        title: currentTitle,
+        description: currentDescription,
+        subtasksTotal: currentSubtasksNumber,
+        subtasksDone: doneSubTasks,
+        subtask: currentSubtask,
+        priority: currentPriority,
+        assignedUsers: assignedUsers,
+        assignedUserColors: assignedUserColors
+      }
+      return taskData
+}
+
+
 
 function currentSubtaskNumber(currentTask) {
     let currentSubtasks = currentTask.subtask
@@ -137,10 +172,28 @@ function currentCompletedTasksNumber(currentTask) {
 
 function closeTaskOverlay(event) {
     event.stopPropagation
-
+    document.getElementById("task_full_view").classList.add("d_none")
 
 }
 
-function openTaskOverlay() {
+function openTaskOverlay(id) {
+    const taskData = allTasks[id];
+    renderTaskCardFullView(taskData)
+    const overlay = document.getElementById("task_full_view");
+    overlay.classList.remove("d_none")
+}
 
+
+function editTask(id) {
+    const overlay = document.getElementById("task_full_view");
+    overlay.classList.add("d_none")
+    const taskData = allTasks[id];
+    const overlayEdit = document.getElementById ("task_edit_view")
+    overlayEdit.classList.remove("d_none")
+    renderTaskEditCard(taskData)
+}
+
+function closeTaskOverlayEdit(event) {
+    event.stopPropagation
+    document.getElementById("task_edit_view").classList.add("d_none")
 }
