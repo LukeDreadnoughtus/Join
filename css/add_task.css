@@ -8,7 +8,7 @@ header {
   width: 100%;
 }
 
-.hidden{
+.hidden {
   display: none;
 }
 
@@ -405,7 +405,7 @@ header {
   width: 100%;
 }
 
-.hidden{
+.hidden {
   display: none;
 }
 
@@ -595,7 +595,7 @@ label {
   transition: color 0.2s ease;
 }
 
-.priority_name.medium{
+.priority_name.medium {
   font-size: 18px;
 }
 
@@ -792,7 +792,6 @@ label {
   padding-left: 3px;
 }
 
-
 .custom-select {
   position: relative;
   width: 100%;
@@ -870,22 +869,145 @@ label {
   font-size: 8px;
 }
 
-#task-assigned-to { position: relative; width: 100%; }
+#task-assigned-to {
+  position: relative;
+  width: 100%;
+}
 .select-display {
-  padding: 10px; border: 1px solid #ccc; border-radius: 6px;
-  background: #fff; cursor: pointer;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
 }
 .select-options {
-  display: none; position: absolute; width: 100%;
-  background: #fff; border: 1px solid #ccc;
-  border-radius: 6px; margin-top: 4px; max-height: 200px;
-  overflow-y: auto; z-index: 20;
+  display: none;
+  position: absolute;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 20;
 }
-.select-options.show { display: block; }
+.select-options.show {
+  display: block;
+}
 .option-item {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 8px 10px; cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  cursor: pointer;
 }
-.option-item:hover { background: #f3f3f3; }
-.checkmark { color: green; font-weight: bold; display: none; }
-.option-item.checked .checkmark { display: inline; }
+.option-item:hover {
+  background: #f3f3f3;
+}
+.checkmark {
+  color: green;
+  font-weight: bold;
+  display: none;
+}
+.option-item.checked .checkmark {
+  display: inline;
+}
+
+.subtask-input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.subtask-input-wrapper input {
+  width: 440px;
+  height: 48px;
+}
+
+.subtask-input-wrapper .icon {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+#subtask-add {
+  width: 24px;
+  right: 35px;
+  top: 65%;
+  height: 24px;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+#subtask-add:hover {
+  background-color: #e0e0e0;
+}
+
+#subtask-clear {
+  width: 24px;
+  right: 10px;
+  top: 65%;
+  height: 24px;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+#subtask-clear:hover {
+  background-color: #e0e0e0;
+}
+
+.hidden {
+  display: none;
+}
+
+.divider_subtasks {
+  position: absolute;
+  right: 37px;
+  top: 65%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 20px;
+  background-color: #0c01018a;
+}
+
+.subtask-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px;
+  margin-top: 5px;
+  margin-top: 5px;
+}
+
+.subtask-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.subtask-dot {
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  border-radius: 50%;
+}
+
+.subtask-text {
+  font-size: 14px;
+}
+
+.button {
+  border: none;
+  color: white;
+  background: none;
+}
+
+.subtask-buttons {
+  display: flex;
+  gap: 5px;
+}
