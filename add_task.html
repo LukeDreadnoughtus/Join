@@ -10,12 +10,13 @@
   <link rel="stylesheet" href="./assets/img/favicon-32x32.png" />
   <link rel="stylesheet" href="./css/add_task.css" />
   <link href="./css/styles.css" rel="stylesheet" />
-  <link href="css/header.css" rel="stylesheet" />
-  <link href="css/footer.css" rel="stylesheet" />
-  <link href="css/fonts.css" rel="stylesheet" />
-  <link href="./favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
-  <link href="./favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
-  <link href="./apple-touch-icon.png" rel="apple-touch-icon" />
+  <link href="./css/header.css" rel="stylesheet" />
+  <link href="./css/footer.css" rel="stylesheet" />
+  <link href="./css/fonts.css" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/footer.css" />
+  <link href="./assets/img/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
+  <link href="./assets/img/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
+  <link href="./assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
 </head>
 
 <body onload="init()">
@@ -173,12 +174,28 @@
                   <option value="User Story">User Story</option>
                 </select>
               </div>
+             
+              
+              <div class="subtask-input-wrapper">
+                <label for="task-subtask">Subtasks</label>
+                <input placeholder="Add new subtask" type="text" id="subtask-tags" />
 
-              <div class="form_group subtasks">
-                <label for="subtask-tags">Subtasks</label>
-                <input placeholder="Add new subtask" type="text" id="subtask-tags" name="subtask_name" />
-                <input type="hidden" name="subtask_completed" value="false">
+                <svg id="subtask-add" class="icon hidden" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+                <div id="dividerSubtasks" class="divider_subtasks hidden"></div>
+>
+                <svg id="subtask-clear" class="icon hidden" viewBox="0 0 24 24">
+                  <line x1="18" y1="6" x2="6" y2="18" stroke="black" stroke-width="2" stroke-linecap="round" />
+                  <line x1="6" y1="6" x2="18" y2="18" stroke="black" stroke-width="2" stroke-linecap="round" />
+                </svg>
               </div>
+
+              <div id="subtask-list"></div>
+
+
+
             </div>
           </div>
         </div>
