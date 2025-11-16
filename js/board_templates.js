@@ -32,7 +32,6 @@ let assignedUsersHtml = "";
   document.getElementById(`${taskData.boardSlot}`).innerHTML += taskHtml;
 }
 
-
 function renderTaskCardFullView(taskData) {
 const overlayContent = document.getElementById("show_task_overlay");
   // Assigned Users rendern
