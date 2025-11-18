@@ -191,8 +191,9 @@ main.content .contacts_sidebar_add{
 }
 .cdh_line{
   flex:1;
-  height:1px;
+  height:32px;
   background:blue;
+  min-width:1px;
 }
 .cdh_sub{
   font-size:14px;
