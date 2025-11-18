@@ -239,8 +239,8 @@ const ensureDetailRoot=()=>{
 const positionDetailRoot=()=>{
   const root=document.querySelector('.contact_detail_root');
   const sidebar=document.querySelector('.contacts_sidebar');
-  if(!rsidebaroot||!sidebar) return;
-  const rect=getBoundingClientRect();
+  if(!root||!sidebar) return;
+  const rect=sidebar.getBoundingClientRect();
   root.style.left=(rect.right+20)+'px';
 };
 

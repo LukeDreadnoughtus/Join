@@ -29,6 +29,7 @@ function proofUserData(userData) {
             let username = user.name
             localStorage.setItem("username", `${username}`)
             localStorage.setItem("userid", `${userKey}`)
+            localStorage.setItem("usercolor", `${user.color}`)
             window.location.href = "summary.html";
             return
         }
