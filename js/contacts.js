@@ -8,6 +8,7 @@ const COLORS=[
   '#8A2BE2','#ff8800','#0f8558','#00afff','#cd6839','#f9c20cff'
 ];// In-memory array of contacts in render order
 let ORDER=[];
+let EDIT_ID=null;
 
 // Creates the sidebar and "Add new contact" button if missing
 // Ensures onclick works even if sidebar already exists
@@ -21,15 +22,20 @@ const ensureSidebar=()=>{
     sidebar.setAttribute('onclick','sidebarClick(event)');
     const addBtn=document.createElement('button');
     addBtn.className='contacts_sidebar_add';
-    addBtn.textContent='Add new contact';
     addBtn.setAttribute('onclick','openDialog()');
+        addBtn.innerHTML='<span class="contacts_add_label">Add new contact</span><img src="assets/img/person_add.svg" class="contacts_add_icon">';
     const list=document.createElement('div');
     list.className='contacts_sidebar_list';
     sidebar.append(addBtn,list);
     content.insertBefore(sidebar,content.firstChild);
   }else sidebar.setAttribute('onclick','sidebarClick(event)');
   const btn=sidebar.querySelector('.contacts_sidebar_add');
-  if(btn) btn.setAttribute('onclick','openDialog()');
+  if(btn){
+    btn.setAttribute('onclick','openDialog()');
+    if(!btn.querySelector('img')){
+                  btn.innerHTML='<span class="contacts_add_label">Add new contact</span><img src="assets/img/person_add.svg" class="contacts_add_icon">';
+    }
+  }
   return sidebar;
 };
 
@@ -90,6 +96,7 @@ const fetchContacts=async()=>{
     const u=data[key];
     if(u&&u.name){
       list.push({
+        id:key,
         name:String(u.name),
         email:u.email||'',
         phone:u.phone||'',
@@ -185,6 +192,7 @@ const ensureDialog=()=>{
 
 // Opens modal dialog and clears old input fields
 const openDialog=()=>{
+  EDIT_ID=null;
   const layer=ensureDialog();
   layer.classList.add('is-open');
   ['c_name','c_email','c_phone'].forEach(id=>{
@@ -210,16 +218,34 @@ const saveContact=async()=>{
   const email=document.getElementById('c_email')?.value.trim();
   const phone=document.getElementById('c_phone')?.value.trim();
   if(!name||!email) return;
-  const color=pickColor();
-  const body={name,email,phone:phone||'',colors:color};
-  await fetch(DB+'.json',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(body)
-  });
+  const all=await fetchContacts();
+  const lower=email.toLowerCase();
+  const conflict=all.find(u=>(u.email||'').toLowerCase()===lower&&u.id!==EDIT_ID);
+  if(conflict){alert('E-Mail already exists.');return;}
+  const layer=document.querySelector('.contacts_modal_backdrop');
+  const btn=layer?.querySelector('.contacts_create_btn');
+  const isEdit=btn&&btn.textContent.trim().toLowerCase().startsWith('save');
+  if(isEdit&&EDIT_ID){
+    const current=all.find(u=>u.id===EDIT_ID);
+    const color=current?.color||pickColor();
+    const body={name,email,phone:phone||'',colors:color};
+    await fetch(DB+'/'+EDIT_ID+'.json',{
+      method:'PATCH',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(body)
+    });
+  }else{
+    const body={name,email,phone:phone||'',colors:pickColor()};
+    await fetch(DB+'.json',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(body)
+    });
+  }
   const sidebar=ensureSidebar();
   const list=sidebar.querySelector('.contacts_sidebar_list');
   renderContacts(list,await fetchContacts());
+  EDIT_ID=null;
   closeDialog();
 };
 
@@ -302,6 +328,7 @@ const sidebarClick=(e)=>{
 const openEdit=(idx)=>{
   const user=ORDER[idx];
   if(!user) return;
+  EDIT_ID=user.id||null;
   const layer=ensureDialog();
   layer.classList.add('is-open');
   const N=document.getElementById('c_name');

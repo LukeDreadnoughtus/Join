@@ -24,6 +24,10 @@ main.content .contacts_sidebar_add {
   color: #fff;
   font-weight: 600;
   cursor: pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
 }
 
 main.content .contacts_sidebar_list { display: flex; flex-direction: column; gap: 0; }
@@ -164,4 +168,11 @@ main.content .contacts_sidebar_add{
 }
 .detail_edit:hover{
   text-decoration:underline;
+}
+
+
+.contacts_add_icon{
+  width:18px;
+  height:18px;
+  flex-shrink:0;
 }
