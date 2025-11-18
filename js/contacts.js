@@ -251,9 +251,29 @@ const saveContact=async()=>{
 
 
 // Ensures container for detail elements on the right
+
+const ensureDetailHeader=()=>{
+  let h=document.querySelector('.contact_detail_header');
+  if(h) return h;
+  h=document.createElement('div');
+  h.className='contact_detail_header';
+  const t=document.createElement('div');
+  t.className='cdh_title';
+  t.textContent='Contacts';
+  const line=document.createElement('div');
+  line.className='cdh_line';
+  const sub=document.createElement('div');
+  sub.className='cdh_sub';
+  sub.textContent='better with a team';
+  h.append(t,line,sub);
+  document.body.appendChild(h);
+  return h;
+};
+
 const ensureDetailRoot=()=>{
   let root=document.querySelector('.contact_detail_root');
   if(root) return root;
+  ensureDetailHeader();
   root=document.createElement('div');
   root.className='contact_detail_root';
   document.body.appendChild(root);
@@ -265,9 +285,12 @@ const ensureDetailRoot=()=>{
 const positionDetailRoot=()=>{
   const root=document.querySelector('.contact_detail_root');
   const sidebar=document.querySelector('.contacts_sidebar');
+  const head=document.querySelector('.contact_detail_header');
   if(!root||!sidebar) return;
   const rect=sidebar.getBoundingClientRect();
-  root.style.left=(rect.right+20)+'px';
+  const left=(rect.right+20)+'px';
+  root.style.left=left;
+  if(head) head.style.left=left;
 };
 
 
@@ -348,6 +371,9 @@ const init=async()=>{
   if(!sidebar) return;
   const list=sidebar.querySelector('.contacts_sidebar_list');
   renderContacts(list,await fetchContacts());
+  ensureDetailHeader();
+  ensureDetailRoot();
+  positionDetailRoot();
 };
 
  

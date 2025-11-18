@@ -115,7 +115,7 @@ main.content .contacts_sidebar_add{
 /* Detail elements container (positioned via JS) */
 .contact_detail_root{
   position:fixed;
-  top:80px;
+  top:250px;
   max-width:320px;
   display:flex;
   flex-direction:column;
@@ -175,4 +175,27 @@ main.content .contacts_sidebar_add{
   width:18px;
   height:18px;
   flex-shrink:0;
+}
+
+.contact_detail_header{
+  position:fixed;
+  top:180px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  z-index:900;
+}
+.cdh_title{
+  font-weight:700;
+  font-size:20px;
+}
+.cdh_line{
+  flex:1;
+  height:1px;
+  background:blue;
+}
+.cdh_sub{
+  font-size:14px;
+  opacity:.7;
+  white-space:nowrap;
 }
