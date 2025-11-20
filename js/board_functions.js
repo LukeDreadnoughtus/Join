@@ -59,10 +59,9 @@ async function buildTaskData(currentTask, key) {
       const currentSubtask = currentTask.subtask
 
        // Assigned Users
-
-      const currentAssignedUsers = currentTask.assigned
-      const assignedUsers = currentAssignedUsers ? Object.values(currentAssignedUsers) : [];
-      const assignedUserColors = await fetchUsercolors(assignedUsers)
+      const currentAssignedUserids = currentTask.assigned //Hier Fallback einbauen, falls keine assignedUser dann Userfeedback bzw. ausblenden
+      const assignedUsers = await fetchUserNames (currentAssignedUserids)
+      const assignedUserColors = await fetchUsercolors(currentAssignedUserids)
 
       const taskData = {
         id: taskId,
@@ -81,11 +80,33 @@ async function buildTaskData(currentTask, key) {
       return taskData
 }
 
+async function fetchUserNames (currentAssignedUserids) {
+    let assignedUsers =[]; 
+    try {
+        const response = await fetch(pathUser + ".json");
+        const userData = await response.json();
 
+    for (const user of currentAssignedUserids) {
+        let userName = findUserName(user,userData)
+        assignedUsers.push(userName)
+    }
+    return assignedUsers
+    } catch (error) {
+        console.error("Fehler beim Laden der Usernamen:", error);
+        alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
+        return [];
+    }
+}
+
+function findUserName(user, userData) {
+    const searchedUser = userData[user];
+    let userName = searchedUser.name || user;
+    return userName
+}
 
 function currentSubtaskNumber(currentTask) {
-    let currentSubtasks = currentTask.subtask
-    let numberOfCurrentTasks = currentSubtasks.length
+    let currentSubtasks = currentTask.subtask //Hier brauchen wir ein Fallback, falls subtask nicht gefunden wird. 
+    let numberOfCurrentTasks = currentSubtasks.length //Hier ist das noch undefined, weil das hier in der Datenbank anders abgespeichert wird
     return numberOfCurrentTasks
 }
 
@@ -99,14 +120,14 @@ function currentCategoryColor(currentCategory) {
     return categoryColor
 }
 
-async function fetchUsercolors(assignedUsers) {
+async function fetchUsercolors(currentAssignedUserids) {
     let assignedUsercolors =[]; 
     try {
         const response = await fetch(pathUser + ".json");
         const userData = await response.json();
 
-    for (const user of assignedUsers) {
-        let userColor = findUserColor(user, userData)
+    for (const user of currentAssignedUserids) {
+        let userColor = findUserColor(user,userData)
         assignedUsercolors.push(userColor)
     }
     return assignedUsercolors
@@ -118,13 +139,10 @@ async function fetchUsercolors(assignedUsers) {
 }
 
 function findUserColor(user, userData) {
-    for (const key in userData) {
-                const searchedUser = userData[key];
-                if (searchedUser.name === user) {
-                    let userColor = searchedUser.color || "#393737ff";
-                    return userColor
-                }
-        }    
+    const searchedUser = userData[user];
+    let userColor = searchedUser.color || "#393737ff";
+    return userColor
+    
 }
 
 
