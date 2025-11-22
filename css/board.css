@@ -571,3 +571,16 @@
 .no_assignies p{ 
     margin: 5px; 
 }
+
+.close_icon {
+width: 13px;
+height: 13px;
+cursor: pointer;
+}
+
+.task_view_head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 20px; 
+}

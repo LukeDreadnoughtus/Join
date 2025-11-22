@@ -203,12 +203,25 @@ function currentCompletedTasksNumber(currentTask) {
     return count; 
 }
 
-
-function closeTaskOverlay(event) {
-    event.stopPropagation
+//Diese zwei Funktionen sind gleich. Man könnte dann eine ersetzen. 
+async function closeTaskOverlay(event, id) {
+    event.stopPropagation ()
     document.getElementById("task_full_view").classList.add("d_none")
-
+    const taskData = allTasks[id];
+    document.getElementById(`${taskData.boardSlot}`).innerHTML =""; 
+    await init(event)
 }
+async function closeTaskOverlay2(event) {
+    event.stopPropagation ()
+    document.getElementById("task_full_view").classList.add("d_none")
+    document.getElementById(`todo`).innerHTML =""; 
+    document.getElementById(`progress`).innerHTML =""; 
+    document.getElementById(`feedback`).innerHTML =""; 
+    document.getElementById(`done`).innerHTML =""; 
+    await init(event)
+}
+
+
 
 function openTaskOverlay(id) {
     const taskData = allTasks[id];
@@ -216,7 +229,6 @@ function openTaskOverlay(id) {
     const overlay = document.getElementById("task_full_view");
     overlay.classList.remove("d_none")
 }
-
 
 function editTask(id) {
     const overlay = document.getElementById("task_full_view");
@@ -234,4 +246,26 @@ function closeTaskOverlayEdit(event) {
 
 //subtasks im overlay anhaken/haken entfernen
 
+async function toggleSubtask(event, indexSubtask, taskData) {
+    event.preventDefault();
+    const checkbox = document.getElementById(`subtask_${indexSubtask}`);
+    const newValue = checkbox.checked;   // Boolean wird umgedreht und in der UI verändert
+    checkbox.checked = newValue;
+    taskData.subtask[indexSubtask].done = newValue; //Hier dann lokal in der taskData gespeichert, evtl. muss man hier nochmal nachschärfen, ob das wirklich gespeichert wird? Hier bin ich mir unsicher...
+    const taskId = taskData.id;
+    await postSubtaskData(taskId, indexSubtask, newValue);
+}
 
+async function postSubtaskData (taskId, index, newValue){
+  const url = `${path}/${taskId}/subtask/${index}/done.json`;
+
+    await fetch(url, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newValue)
+    });
+}
+//hier dann auch nach der Bearbeitung der Tasks Board neu laden und auch wenn subtasks angehakt wurden, also 
+//wenn overlay geschlossen wird, damit die Fortschrittsanzeige sich auch verändert. 
