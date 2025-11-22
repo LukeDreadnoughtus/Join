@@ -59,10 +59,7 @@ function getTaskDataFromForm() {
     category: document.getElementById("task-category")?.value || "",
     assigned: Array.from(window.selectedUsers.keys()),
     priority: document.getElementById("task-priority")?.value || "",
-    subtask: {
-      name: document.getElementById("subtask-tags")?.value || "",
-      done: false,
-    },
+    subtasks: getSubtasksForDB(),
     duedate: document.getElementById("task-due-date")?.value || "",
   };
 }
@@ -74,11 +71,16 @@ async function createTask(event) {
   const newTask = getTaskDataFromForm();
   try {
     const response = await fetch(path + ".json", {
-      method: "POST", headers: { "Content-Type": "application/json" },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newTask),
     });
-    if (response.ok) { showSuccessMessage(); clearForm(); }
-    else { console.error("Fehler beim Speichern in Firebase"); }
+    if (response.ok) {
+      showSuccessMessage();
+      clearForm();
+    } else {
+      console.error("Fehler beim Speichern in Firebase");
+    }
   } catch (error) {
     console.error("Firebase Fehler:", error);
   }
@@ -435,6 +437,17 @@ function updateAddUIState() {
   } else {
     enableSubtaskInput();
   }
+}
+
+function getSubtasksForDB() {
+  const items = document.querySelectorAll("#subtask-list .subtask-item");
+  const subtasks = {};
+  items.forEach((item, index) => {
+    const name = item.querySelector(".subtask-left span").innerText.trim();
+    const done = item.classList.contains("done") || false;
+    subtasks[index] = { name, done };
+  });
+  return subtasks;
 }
 
 
