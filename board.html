@@ -66,7 +66,7 @@
         </div>
 </header>
 <div id="task_full_view" class="transparent_overlay d_none" onclick="closeTaskOverlay(event)">
-<div id="show_task_overlay" class="show_task_overlay">
+<div id="show_task_overlay" class="show_task_overlay" onclick="event.stopPropagation()">
 </div>
 </div>
 <div id="task_edit_view" class="transparent_overlay d_none" onclick="closeTaskOverlayEdit(event)">

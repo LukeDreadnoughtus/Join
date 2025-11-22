@@ -53,16 +53,31 @@ async function buildTaskData(currentTask, key) {
       const categoryColor = currentCategoryColor(currentCategory)
       const currentTitle = currentTask.title
       const currentDescription = currentTask.description
-      const currentSubtasksNumber = currentSubtaskNumber(currentTask)
-      const doneSubTasks = currentCompletedTasksNumber(currentTask)
       const currentPriority = currentTask.priority
-      const currentSubtask = currentTask.subtask
+      const dateObj = new Date(currentTask.duedate);
+      const currentDuedate = dateObj.toLocaleDateString("de-DE");
+     
+
+      //subtasks
+      const currentSubtask = Array.isArray(currentTask.subtask)? currentTask.subtask: [];
+      let currentSubtasksNumber = 0;
+      let doneSubTasks = 0;
+      if (currentSubtask.length > 0) {
+      currentSubtasksNumber = currentSubtaskNumber(currentTask);
+      doneSubTasks = currentCompletedTasksNumber(currentTask);
+      }
 
        // Assigned Users
-      const currentAssignedUserids = currentTask.assigned //Hier Fallback einbauen, falls keine assignedUser dann Userfeedback bzw. ausblenden
-      const assignedUsers = await fetchUserNames (currentAssignedUserids)
-      const assignedUserColors = await fetchUsercolors(currentAssignedUserids)
-
+      const currentAssignedUserids = Array.isArray(currentTask.assigned) && currentTask.assigned.length > 0 ? currentTask.assigned : null;
+      let assignedUsers = [];
+      let assignedUserColors = [];
+      if (currentAssignedUserids) {
+      assignedUsers = await fetchUserNames (currentAssignedUserids)
+      assignedUserColors = await fetchUsercolors(currentAssignedUserids)
+      } else {// Fallback: Noch keine User assigned
+        assignedUsers = [];
+        assignedUserColors = []; 
+      }
       const taskData = {
         id: taskId,
         boardSlot: currentBoardSlot,
@@ -70,12 +85,13 @@ async function buildTaskData(currentTask, key) {
         categoryColor: categoryColor,
         title: currentTitle,
         description: currentDescription,
+        dueDate: currentDuedate,
         subtasksTotal: currentSubtasksNumber,
         subtasksDone: doneSubTasks,
         subtask: currentSubtask,
         priority: currentPriority,
         assignedUsers: assignedUsers,
-        assignedUserColors: assignedUserColors
+        assignedUserColors: assignedUserColors,
       }
       return taskData
 }
@@ -215,3 +231,7 @@ function closeTaskOverlayEdit(event) {
     event.stopPropagation
     document.getElementById("task_edit_view").classList.add("d_none")
 }
+
+//subtasks im overlay anhaken/haken entfernen
+
+
