@@ -208,10 +208,7 @@ function currentCompletedTasksNumber(currentTask) {
 async function closeTaskOverlay(event) {
     event.stopPropagation ()
     document.getElementById("task_full_view").classList.add("d_none")
-    document.getElementById(`todo`).innerHTML =""; 
-    document.getElementById(`progress`).innerHTML =""; 
-    document.getElementById(`feedback`).innerHTML =""; 
-    document.getElementById(`done`).innerHTML =""; 
+    renderBoardBasics()
     await init(event)
 }
 
@@ -321,10 +318,7 @@ async function closeTaskOverlayEdit(event) {
     event.stopPropagation
     document.getElementById("task_edit_view").classList.add("d_none")
     document.getElementById("task_full_view").classList.add("d_none")
-    document.getElementById(`todo`).innerHTML =""; 
-    document.getElementById(`progress`).innerHTML =""; 
-    document.getElementById(`feedback`).innerHTML =""; 
-    document.getElementById(`done`).innerHTML =""; 
+    renderBoardBasics()
     await init(event)
 }
 
