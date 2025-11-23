@@ -222,6 +222,53 @@ function openTaskOverlay(id) {
     overlay.classList.remove("d_none")
 }
 
+function renderAssignedUsers(taskData) {
+    if (!taskData.assignedUsers || taskData.assignedUsers.length === 0) {
+        return '<p class="user_font">No users assigned</p>';
+    }
+
+    return taskData.assignedUsers.map((user, i) => `
+        <div class="user_row_layout">
+            <div class="user_icon color${taskData.assignedUserColors[i].replace('#', '')}">
+                ${initials(user)}
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderSubtasks(taskData) {
+    if (!taskData.subtask || typeof taskData.subtask !== "object") {
+        return '<p class="subtask_detail_font">No subtasks</p>';
+    }
+
+    const subtasksContainer = document.createElement("div");
+
+    Object.entries(taskData.subtask).forEach(([key, currentSubtask]) => {
+        const subtaskDiv = document.createElement("div");
+        subtaskDiv.classList.add("subtask_check");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = `subtask_${key}`;
+        checkbox.checked = currentSubtask.done;
+
+        checkbox.addEventListener("change", (event) => {
+            toggleSubtask(event, key, taskData);
+        });
+
+        const label = document.createElement("label");
+        label.htmlFor = checkbox.id;
+        label.classList.add("subtask_label");
+        label.innerHTML = `<p class="subtask_detail_font">${currentSubtask.name}</p>`;
+
+        subtaskDiv.appendChild(checkbox);
+        subtaskDiv.appendChild(label);
+        subtasksContainer.appendChild(subtaskDiv);
+    });
+
+    return subtasksContainer;
+}
+
 function editTask(id) {
     const overlay = document.getElementById("task_full_view");
     overlay.classList.add("d_none")
@@ -229,6 +276,7 @@ function editTask(id) {
     const overlayEdit = document.getElementById ("task_edit_view")
     overlayEdit.classList.remove("d_none")
     renderTaskEditCard(taskData)
+    renderAssignedUserIcons(taskData)
     renderEditSubtasks(taskData)
 }
 
@@ -249,6 +297,22 @@ function renderEditSubtasks(taskData) {
         `;
         subtaskList.appendChild(li);
     });
+}
+
+function renderAssignedUserIcons(taskData) {
+    const alreadyAssignedContainer = document.getElementById("already_assigned");
+
+    if (!taskData.assignedUsers || taskData.assignedUsers.length === 0) {
+        alreadyAssignedContainer.innerHTML = ""; 
+        return;
+    }
+    const assignedIconsHtml = taskData.assignedUsers.map((user, i) => `
+        <div class="assigned_icon color${taskData.assignedUserColors[i].replace('#', '')}">
+            ${initials(user)}
+        </div>
+    `).join("");
+
+    alreadyAssignedContainer.innerHTML = assignedIconsHtml;
 }
 
 

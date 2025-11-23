@@ -605,10 +605,14 @@ transition: background-color 120ms ease;
     margin-top: 7px; 
 }
 
-.input_edit_description {
-    height: 50px; 
+.input_edit_description { 
     width: 365px;
     margin-top: 7px; 
+    padding-top: 8px;    
+    padding-bottom: 40px; 
+    padding-left: 5px;  
+    padding-right: 10px; 
+    box-sizing: border-box;
 }
 
 .edit_description {
@@ -632,6 +636,11 @@ transition: background-color 120ms ease;
     font-size: 20px;
     font-family: "Inter";
     outline: none;
+    padding-top: 8px;    
+    padding-bottom: 8px; 
+    padding-left: 5px;  
+    padding-right: 10px; 
+    box-sizing: border-box;
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -828,6 +837,27 @@ transition: background-color 120ms ease;
 }
 
 .input_event input {
-    width: 325px;
+    width: 365px;
     padding-right: 40px; /* Platz für das SVG */
+}
+
+.already_assigned {
+    padding-top: 10px;
+    display:flex; 
+    justify-content: flex-start;
+    gap:7px; 
+
+}
+
+.assigned_icon {
+    height: 32px; 
+    width: 32px; 
+    border-radius: 45%;
+    display: flex;              
+    align-items: center;
+    justify-content: center;  
+    font-weight: 300;
+    border: 2px solid white; 
+    z-index: 1;
+    color:white; 
 }
