@@ -203,15 +203,9 @@ function currentCompletedTasksNumber(currentTask) {
     return count; 
 }
 
-//Diese zwei Funktionen sind gleich. Man könnte dann eine ersetzen. 
-async function closeTaskOverlay(event, id) {
-    event.stopPropagation ()
-    document.getElementById("task_full_view").classList.add("d_none")
-    const taskData = allTasks[id];
-    document.getElementById(`${taskData.boardSlot}`).innerHTML =""; 
-    await init(event)
-}
-async function closeTaskOverlay2(event) {
+//Diese zwei Funktionen sind gleich. Man könnte dann eine ersetzen und nur die ohne id nehmen.  
+
+async function closeTaskOverlay(event) {
     event.stopPropagation ()
     document.getElementById("task_full_view").classList.add("d_none")
     document.getElementById(`todo`).innerHTML =""; 
@@ -220,8 +214,6 @@ async function closeTaskOverlay2(event) {
     document.getElementById(`done`).innerHTML =""; 
     await init(event)
 }
-
-
 
 function openTaskOverlay(id) {
     const taskData = allTasks[id];
@@ -237,11 +229,38 @@ function editTask(id) {
     const overlayEdit = document.getElementById ("task_edit_view")
     overlayEdit.classList.remove("d_none")
     renderTaskEditCard(taskData)
+    renderEditSubtasks(taskData)
 }
 
-function closeTaskOverlayEdit(event) {
+function renderEditSubtasks(taskData) {
+    const subtaskList = document.getElementById("subtask_list");
+    subtaskList.innerHTML = "";
+
+    if (!taskData.subtask || Object.keys(taskData.subtask).length === 0) {
+        subtaskList.innerHTML = "<li class='empty'>No subtasks</li>";
+        return;
+    }
+    Object.entries(taskData.subtask).forEach(([index, subtask]) => {
+
+        const li = document.createElement("li");
+        li.classList.add("edit_subtask_item");
+        li.innerHTML = `
+            <span class="subtask_element">${subtask.name}</span>
+        `;
+        subtaskList.appendChild(li);
+    });
+}
+
+
+async function closeTaskOverlayEdit(event) {
     event.stopPropagation
     document.getElementById("task_edit_view").classList.add("d_none")
+    document.getElementById("task_full_view").classList.add("d_none")
+    document.getElementById(`todo`).innerHTML =""; 
+    document.getElementById(`progress`).innerHTML =""; 
+    document.getElementById(`feedback`).innerHTML =""; 
+    document.getElementById(`done`).innerHTML =""; 
+    await init(event)
 }
 
 //subtasks im overlay anhaken/haken entfernen
@@ -251,8 +270,9 @@ async function toggleSubtask(event, indexSubtask, taskData) {
     const checkbox = document.getElementById(`subtask_${indexSubtask}`);
     const newValue = checkbox.checked;   // Boolean wird umgedreht und in der UI verändert
     checkbox.checked = newValue;
-    taskData.subtask[indexSubtask].done = newValue; //Hier dann lokal in der taskData gespeichert, evtl. muss man hier nochmal nachschärfen, ob das wirklich gespeichert wird? Hier bin ich mir unsicher...
+    taskData.subtask[indexSubtask].done = newValue; //Hier wird das nur im taskData des Overlays gespeichert.
     const taskId = taskData.id;
+    allTasks[taskId].subtask[indexSubtask].done = newValue;
     await postSubtaskData(taskId, indexSubtask, newValue);
 }
 
@@ -267,5 +287,81 @@ async function postSubtaskData (taskId, index, newValue){
         body: JSON.stringify(newValue)
     });
 }
-//hier dann auch nach der Bearbeitung der Tasks Board neu laden und auch wenn subtasks angehakt wurden, also 
-//wenn overlay geschlossen wird, damit die Fortschrittsanzeige sich auch verändert. 
+
+
+//Ab hier functions for edit - hier assigned Users
+// const allUsers = ["Anna Müller", "Ben Kaiser", "Chris Sommer", "David Lenz"];
+// let selectedUsers = [];
+
+function toggleUserDropdown() {
+    document.getElementById("userDropdownList").classList.toggle("d-none");
+}
+
+function loadUserDropdown() {
+    const list = document.getElementById("userDropdownList");
+    list.innerHTML = "";
+
+    allUsers.forEach(user => {
+        const isSelected = selectedUsers.includes(user);
+
+        list.innerHTML += `
+            <div class="user-option" onclick="toggleUserSelect('${user}')">
+                <div class="user-icon">${user.split(" ").map(n => n[0]).join("")}</div>
+                <span>${user}</span>
+                <input type="checkbox" class="user-checkbox" ${isSelected ? "checked" : ""}>
+            </div>
+        `;
+    });
+}
+
+function toggleUserSelect(user) {
+    if (selectedUsers.includes(user)) {
+        selectedUsers = selectedUsers.filter(u => u !== user);
+    } else {
+        selectedUsers.push(user);
+    }
+
+    loadUserDropdown();
+    updateUserDropdownHeader();
+}
+
+function updateUserDropdownHeader() {
+    const header = document.querySelector(".user-dropdown-selected");
+
+    if (selectedUsers.length === 0) {
+        header.innerHTML = "Select users";
+        return;
+    }
+
+    header.innerHTML = selectedUsers.join(", ");
+}
+
+loadUserDropdown();
+
+
+//Funktionen um Bearbeitung in die Datenbank zu speichern. 
+
+async function saveEditedTask() {
+    const updatedTask = {
+        ...currentEditedTask,
+        title: document.getElementById("edit_title").value,
+        description: document.getElementById("edit_description").value,
+        dueDate: document.getElementById("edit_due_date").value,
+        priority: selectedPriority, // kommt von deinen Buttons
+    };
+
+    await updateTaskInFirebase(updatedTask);
+
+    closeEditOverlay();
+    init(); // Board neu rendern
+}
+
+async function updateTaskInFirebase(task) {
+    const url = `${path}/${task.id}.json`;
+
+    await fetch(url, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(task)
+    });
+}

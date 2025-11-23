@@ -520,8 +520,6 @@
 
 }
 
-
-
 .delete_task {
     display:flex; 
     justify-content: center;
@@ -578,9 +576,258 @@ height: 13px;
 cursor: pointer;
 }
 
+.close_icon_wrapper:hover {
+    background-color: rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.close_icon_wrapper {
+width: 24px;
+height: 24px;
+border-radius: 50%;
+display: flex;
+justify-content: center;
+align-items: center;
+transition: background-color 120ms ease;
+}
+
+/* Dieser hover muss noch bearbeitet werden */
 .task_view_head {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-right: 20px; 
+}
+
+.input_edit_title {
+    width: 365px;
+    height:auto; 
+    margin-top: 7px; 
+}
+
+.input_edit_description {
+    height: 50px; 
+    width: 365px;
+    margin-top: 7px; 
+}
+
+.edit_description {
+    margin-top: 20px; 
+}
+
+.edit_duedate {
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+}
+
+.edit_priority {
+    display:flex; 
+    flex-direction: column;
+    margin-top: 40px; 
+}
+
+.input_style {
+    border: 1px solid #29ABE2;
+    border-radius: 7px;
+    font-size: 20px;
+    font-family: "Inter";
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.close_icon_margin {
+    margin-left: 350px; 
+    margin-bottom: 20px; 
+}
+
+.scroll-area {
+    max-height: 600px;   
+    overflow-y: auto;
+}
+
+.scroll-area::-webkit-scrollbar {
+    width: 6px;                
+}
+
+.scroll-area::-webkit-scrollbar-track {
+    background: #f2f2f2;        
+    border-radius: 10px;
+}
+
+.scroll-area::-webkit-scrollbar-thumb {
+    background: #cccccc;       
+    border-radius: 10px;
+}
+
+.scroll-area::-webkit-scrollbar-thumb:hover {
+    background: #b3b3b3;     
+}
+
+.priority_btn_group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px; 
+}
+
+.bold_font {
+    font-weight: bold;
+    font-size: 20px;
+    font-family: "Inter";
+    color:#2A3647; 
+    margin-top:0px; 
+}
+
+.boxshadow {
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.priority_button {
+  padding: 5px 5px;
+  border-radius: 10px;
+  border: 0px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  width: 136px;
+  height: 56px;
+  margin-bottom: 10px; 
+  margin-right: 5px; 
+  margin-left: 5px; 
+  display:flex; 
+  align-items:center; 
+  justify-content: center;
+  gap: 5px; 
+}
+
+
+.edit_assigned_to {
+    margin-top: 20px; 
+    margin-bottom: 10px; 
+}
+/* assigned user selection */
+.user-dropdown {
+    position: relative;
+    width: 250px;
+}
+
+.user-dropdown-selected {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    width: 350px; 
+    margin-top:20px; 
+    font-size: 20px;
+    font-family: "inter";
+}
+
+.user-dropdown-list {
+    position: absolute;
+    top: 48px;
+    left: 0;
+    width: 100%;
+    background: white;
+    /* border: 1px solid #ccc; */
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 100;
+}
+
+.user-option {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+.user-option:hover {
+    background: #f5f5f5;
+}
+
+.user-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #007bff;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.user-checkbox {
+    margin-left: auto;
+}
+
+.edit_subtasks {
+    margin-top: 30px; 
+}
+
+.input_edit_subtask {
+    height: 50px; 
+    width: 365px;
+    border: 1px solid #D1D1D1;
+    border-radius: 7px;
+    font-size: 20px;
+    font-family: "Inter";
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-top: 7px; 
+}
+
+#input_edit_subtask::placeholder {
+    color: #b0b0b0;
+    font-family: "Inter";
+    font-size: 20px;
+}
+
+.subtasklist {
+    margin-top: 20px; 
+}
+
+.subtasklist li {
+    margin-top: 8px;
+}
+
+.subtask_element {
+    margin-top: 10px; 
+}
+
+#input_edit_title::placeholder {
+    color: #b0b0b0;
+    font-family: "Inter";
+    font-size: 20px;
+}
+
+#input_edit_description::placeholder {
+    color: #b0b0b0;
+    font-family: "Inter";
+    font-size: 20px;
+}
+
+.input_event {
+    position: relative;
+    width: 325px;
+}
+
+.event_icon {
+    position: absolute;
+    top: 60%;
+    right: -30px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
+.input_event input {
+    width: 325px;
+    padding-right: 40px; /* Platz für das SVG */
 }
