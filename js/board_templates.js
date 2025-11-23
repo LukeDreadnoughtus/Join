@@ -99,7 +99,6 @@ function renderTaskCardFullView(taskData) {
 }
 
 
-
 function renderTaskEditCard(taskData) {
   const overlayContent = document.getElementById("edit_task_overlay");
   overlayContent.innerHTML = ` 

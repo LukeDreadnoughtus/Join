@@ -59,7 +59,7 @@ async function buildTaskData(currentTask, key) {
      
 
       //subtasks
-      const currentSubtask = Array.isArray(currentTask.subtask)? currentTask.subtask: [];
+      const currentSubtask = Array.isArray(currentTask.subtasks)? currentTask.subtasks: [];
       let currentSubtasksNumber = 0;
       let doneSubTasks = 0;
       if (currentSubtask.length > 0) {
@@ -88,7 +88,7 @@ async function buildTaskData(currentTask, key) {
         dueDate: currentDuedate,
         subtasksTotal: currentSubtasksNumber,
         subtasksDone: doneSubTasks,
-        subtask: currentSubtask,
+        subtasks: currentSubtask,
         priority: currentPriority,
         assignedUsers: assignedUsers,
         assignedUserColors: assignedUserColors,
@@ -121,7 +121,7 @@ function findUserName(user, userData) {
 }
 
 function currentSubtaskNumber(currentTask) {
-    let currentSubtasks = currentTask.subtask //Hier brauchen wir ein Fallback, falls subtask nicht gefunden wird. 
+    let currentSubtasks = currentTask.subtasks //Hier brauchen wir ein Fallback, falls subtask nicht gefunden wird. 
     let numberOfCurrentTasks = currentSubtasks.length //Hier ist das noch undefined, weil das hier in der Datenbank anders abgespeichert wird
     return numberOfCurrentTasks
 }
@@ -194,7 +194,7 @@ function initials(user) {
 
 
 function currentCompletedTasksNumber(currentTask) {
-    let allSubTasks= currentTask.subtask
+    let allSubTasks= currentTask.subtasks
     let count = 0
     for(let i=0; i < allSubTasks.length; i++) {
         if(allSubTasks[i].done ===true) {count++}
@@ -232,18 +232,19 @@ function renderAssignedUsers(taskData) {
             <div class="user_icon color${taskData.assignedUserColors[i].replace('#', '')}">
                 ${initials(user)}
             </div>
+            <p class="user_font">${user}</p>
         </div>
     `).join('');
 }
 
 function renderSubtasks(taskData) {
-    if (!taskData.subtask || typeof taskData.subtask !== "object") {
+    if (!taskData.subtasks || typeof taskData.subtasks !== "object") {
         return '<p class="subtask_detail_font">No subtasks</p>';
     }
 
     const subtasksContainer = document.createElement("div");
 
-    Object.entries(taskData.subtask).forEach(([key, currentSubtask]) => {
+    Object.entries(taskData.subtasks).forEach(([key, currentSubtask]) => {
         const subtaskDiv = document.createElement("div");
         subtaskDiv.classList.add("subtask_check");
 
@@ -284,16 +285,16 @@ function renderEditSubtasks(taskData) {
     const subtaskList = document.getElementById("subtask_list");
     subtaskList.innerHTML = "";
 
-    if (!taskData.subtask || Object.keys(taskData.subtask).length === 0) {
+    if (!taskData.subtasks || Object.keys(taskData.subtasks).length === 0) {
         subtaskList.innerHTML = "<li class='empty'>No subtasks</li>";
         return;
     }
-    Object.entries(taskData.subtask).forEach(([index, subtask]) => {
+    Object.entries(taskData.subtasks).forEach(([index, subtask]) => {
 
         const li = document.createElement("li");
         li.classList.add("edit_subtask_item");
         li.innerHTML = `
-            <span class="subtask_element">${subtask.name}</span>
+            <span class="subtask_element">${subtasks.name}</span>
         `;
         subtaskList.appendChild(li);
     });
@@ -334,14 +335,14 @@ async function toggleSubtask(event, indexSubtask, taskData) {
     const checkbox = document.getElementById(`subtask_${indexSubtask}`);
     const newValue = checkbox.checked;   // Boolean wird umgedreht und in der UI verändert
     checkbox.checked = newValue;
-    taskData.subtask[indexSubtask].done = newValue; //Hier wird das nur im taskData des Overlays gespeichert.
+    taskData.subtasks[indexSubtask].done = newValue; //Hier wird das nur im taskData des Overlays gespeichert.
     const taskId = taskData.id;
-    allTasks[taskId].subtask[indexSubtask].done = newValue;
+    allTasks[taskId].subtasks[indexSubtask].done = newValue;
     await postSubtaskData(taskId, indexSubtask, newValue);
 }
 
 async function postSubtaskData (taskId, index, newValue){
-  const url = `${path}/${taskId}/subtask/${index}/done.json`;
+  const url = `${path}/${taskId}/subtasks/${index}/done.json`;
 
     await fetch(url, {
         method: "PUT",
