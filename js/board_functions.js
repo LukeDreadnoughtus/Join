@@ -53,16 +53,31 @@ async function buildTaskData(currentTask, key) {
       const categoryColor = currentCategoryColor(currentCategory)
       const currentTitle = currentTask.title
       const currentDescription = currentTask.description
-      const currentSubtasksNumber = currentSubtaskNumber(currentTask)
-      const doneSubTasks = currentCompletedTasksNumber(currentTask)
       const currentPriority = currentTask.priority
-      const currentSubtask = currentTask.subtask
+      const dateObj = new Date(currentTask.duedate);
+      const currentDuedate = dateObj.toLocaleDateString("de-DE");
+     
+
+      //subtasks
+      const currentSubtask = Array.isArray(currentTask.subtasks)? currentTask.subtasks: [];
+      let currentSubtasksNumber = 0;
+      let doneSubTasks = 0;
+      if (currentSubtask.length > 0) {
+      currentSubtasksNumber = currentSubtaskNumber(currentTask);
+      doneSubTasks = currentCompletedTasksNumber(currentTask);
+      }
 
        // Assigned Users
-      const currentAssignedUserids = currentTask.assigned //Hier Fallback einbauen, falls keine assignedUser dann Userfeedback bzw. ausblenden
-      const assignedUsers = await fetchUserNames (currentAssignedUserids)
-      const assignedUserColors = await fetchUsercolors(currentAssignedUserids)
-
+      const currentAssignedUserids = Array.isArray(currentTask.assigned) && currentTask.assigned.length > 0 ? currentTask.assigned : null;
+      let assignedUsers = [];
+      let assignedUserColors = [];
+      if (currentAssignedUserids) {
+      assignedUsers = await fetchUserNames (currentAssignedUserids)
+      assignedUserColors = await fetchUsercolors(currentAssignedUserids)
+      } else {// Fallback: Noch keine User assigned
+        assignedUsers = [];
+        assignedUserColors = []; 
+      }
       const taskData = {
         id: taskId,
         boardSlot: currentBoardSlot,
@@ -70,12 +85,13 @@ async function buildTaskData(currentTask, key) {
         categoryColor: categoryColor,
         title: currentTitle,
         description: currentDescription,
+        dueDate: currentDuedate,
         subtasksTotal: currentSubtasksNumber,
         subtasksDone: doneSubTasks,
-        subtask: currentSubtask,
+        subtasks: currentSubtask,
         priority: currentPriority,
         assignedUsers: assignedUsers,
-        assignedUserColors: assignedUserColors
+        assignedUserColors: assignedUserColors,
       }
       return taskData
 }
@@ -105,7 +121,7 @@ function findUserName(user, userData) {
 }
 
 function currentSubtaskNumber(currentTask) {
-    let currentSubtasks = currentTask.subtask //Hier brauchen wir ein Fallback, falls subtask nicht gefunden wird. 
+    let currentSubtasks = currentTask.subtasks //Hier brauchen wir ein Fallback, falls subtask nicht gefunden wird. 
     let numberOfCurrentTasks = currentSubtasks.length //Hier ist das noch undefined, weil das hier in der Datenbank anders abgespeichert wird
     return numberOfCurrentTasks
 }
@@ -178,7 +194,7 @@ function initials(user) {
 
 
 function currentCompletedTasksNumber(currentTask) {
-    let allSubTasks= currentTask.subtask
+    let allSubTasks= currentTask.subtasks
     let count = 0
     for(let i=0; i < allSubTasks.length; i++) {
         if(allSubTasks[i].done ===true) {count++}
@@ -187,11 +203,13 @@ function currentCompletedTasksNumber(currentTask) {
     return count; 
 }
 
+//Diese zwei Funktionen sind gleich. Man könnte dann eine ersetzen und nur die ohne id nehmen.  
 
-function closeTaskOverlay(event) {
-    event.stopPropagation
+async function closeTaskOverlay(event) {
+    event.stopPropagation ()
     document.getElementById("task_full_view").classList.add("d_none")
-
+    renderBoardBasics()
+    await init(event)
 }
 
 function openTaskOverlay(id) {
@@ -201,6 +219,53 @@ function openTaskOverlay(id) {
     overlay.classList.remove("d_none")
 }
 
+function renderAssignedUsers(taskData) {
+    if (!taskData.assignedUsers || taskData.assignedUsers.length === 0) {
+        return '<p class="user_font">No users assigned</p>';
+    }
+
+    return taskData.assignedUsers.map((user, i) => `
+        <div class="user_row_layout">
+            <div class="user_icon color${taskData.assignedUserColors[i].replace('#', '')}">
+                ${initials(user)}
+            </div>
+            <p class="user_font">${user}</p>
+        </div>
+    `).join('');
+}
+
+function renderSubtasks(taskData) {
+    if (!taskData.subtasks || typeof taskData.subtasks !== "object") {
+        return '<p class="subtask_detail_font">No subtasks</p>';
+    }
+
+    const subtasksContainer = document.createElement("div");
+
+    Object.entries(taskData.subtasks).forEach(([key, currentSubtask]) => {
+        const subtaskDiv = document.createElement("div");
+        subtaskDiv.classList.add("subtask_check");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = `subtask_${key}`;
+        checkbox.checked = currentSubtask.done;
+
+        checkbox.addEventListener("change", (event) => {
+            toggleSubtask(event, key, taskData);
+        });
+
+        const label = document.createElement("label");
+        label.htmlFor = checkbox.id;
+        label.classList.add("subtask_label");
+        label.innerHTML = `<p class="subtask_detail_font">${currentSubtask.name}</p>`;
+
+        subtaskDiv.appendChild(checkbox);
+        subtaskDiv.appendChild(label);
+        subtasksContainer.appendChild(subtaskDiv);
+    });
+
+    return subtasksContainer;
+}
 
 function editTask(id) {
     const overlay = document.getElementById("task_full_view");
@@ -209,9 +274,153 @@ function editTask(id) {
     const overlayEdit = document.getElementById ("task_edit_view")
     overlayEdit.classList.remove("d_none")
     renderTaskEditCard(taskData)
+    renderAssignedUserIcons(taskData)
+    renderEditSubtasks(taskData)
 }
 
-function closeTaskOverlayEdit(event) {
+function renderEditSubtasks(taskData) {
+    const subtaskList = document.getElementById("subtask_list");
+    subtaskList.innerHTML = "";
+
+    if (!taskData.subtasks || Object.keys(taskData.subtasks).length === 0) {
+        subtaskList.innerHTML = "<li class='empty'>No subtasks</li>";
+        return;
+    }
+    Object.entries(taskData.subtasks).forEach(([index, subtask]) => {
+
+        const li = document.createElement("li");
+        li.classList.add("edit_subtask_item");
+        li.innerHTML = `
+            <span class="subtask_element">${subtasks.name}</span>
+        `;
+        subtaskList.appendChild(li);
+    });
+}
+
+function renderAssignedUserIcons(taskData) {
+    const alreadyAssignedContainer = document.getElementById("already_assigned");
+
+    if (!taskData.assignedUsers || taskData.assignedUsers.length === 0) {
+        alreadyAssignedContainer.innerHTML = ""; 
+        return;
+    }
+    const assignedIconsHtml = taskData.assignedUsers.map((user, i) => `
+        <div class="assigned_icon color${taskData.assignedUserColors[i].replace('#', '')}">
+            ${initials(user)}
+        </div>
+    `).join("");
+
+    alreadyAssignedContainer.innerHTML = assignedIconsHtml;
+}
+
+
+async function closeTaskOverlayEdit(event) {
     event.stopPropagation
     document.getElementById("task_edit_view").classList.add("d_none")
+    document.getElementById("task_full_view").classList.add("d_none")
+    renderBoardBasics()
+    await init(event)
+}
+
+//subtasks im overlay anhaken/haken entfernen
+
+async function toggleSubtask(event, indexSubtask, taskData) {
+    event.preventDefault();
+    const checkbox = document.getElementById(`subtask_${indexSubtask}`);
+    const newValue = checkbox.checked;   // Boolean wird umgedreht und in der UI verändert
+    checkbox.checked = newValue;
+    taskData.subtasks[indexSubtask].done = newValue; //Hier wird das nur im taskData des Overlays gespeichert.
+    const taskId = taskData.id;
+    allTasks[taskId].subtasks[indexSubtask].done = newValue;
+    await postSubtaskData(taskId, indexSubtask, newValue);
+}
+
+async function postSubtaskData (taskId, index, newValue){
+  const url = `${path}/${taskId}/subtasks/${index}/done.json`;
+
+    await fetch(url, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newValue)
+    });
+}
+
+
+//Ab hier functions for edit - hier assigned Users
+// const allUsers = ["Anna Müller", "Ben Kaiser", "Chris Sommer", "David Lenz"];
+// let selectedUsers = [];
+
+function toggleUserDropdown() {
+    document.getElementById("userDropdownList").classList.toggle("d-none");
+}
+
+function loadUserDropdown() {
+    const list = document.getElementById("userDropdownList");
+    list.innerHTML = "";
+
+    allUsers.forEach(user => {
+        const isSelected = selectedUsers.includes(user);
+
+        list.innerHTML += `
+            <div class="user-option" onclick="toggleUserSelect('${user}')">
+                <div class="user-icon">${user.split(" ").map(n => n[0]).join("")}</div>
+                <span>${user}</span>
+                <input type="checkbox" class="user-checkbox" ${isSelected ? "checked" : ""}>
+            </div>
+        `;
+    });
+}
+
+function toggleUserSelect(user) {
+    if (selectedUsers.includes(user)) {
+        selectedUsers = selectedUsers.filter(u => u !== user);
+    } else {
+        selectedUsers.push(user);
+    }
+
+    loadUserDropdown();
+    updateUserDropdownHeader();
+}
+
+function updateUserDropdownHeader() {
+    const header = document.querySelector(".user-dropdown-selected");
+
+    if (selectedUsers.length === 0) {
+        header.innerHTML = "Select users";
+        return;
+    }
+
+    header.innerHTML = selectedUsers.join(", ");
+}
+
+loadUserDropdown();
+
+
+//Funktionen um Bearbeitung in die Datenbank zu speichern. 
+
+async function saveEditedTask() {
+    const updatedTask = {
+        ...currentEditedTask,
+        title: document.getElementById("edit_title").value,
+        description: document.getElementById("edit_description").value,
+        dueDate: document.getElementById("edit_due_date").value,
+        priority: selectedPriority, // kommt von deinen Buttons
+    };
+
+    await updateTaskInFirebase(updatedTask);
+
+    closeEditOverlay();
+    init(); // Board neu rendern
+}
+
+async function updateTaskInFirebase(task) {
+    const url = `${path}/${task.id}.json`;
+
+    await fetch(url, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(task)
+    });
 }
