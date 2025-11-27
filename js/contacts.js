@@ -176,14 +176,26 @@ const ensureDialog=()=>{
   modal.setAttribute('onclick','event.stopPropagation()');
   modal.innerHTML=
     '<div class="contacts_modal_content">'+
-    '<div class="contacts_modal_header">New Contact'+
-    '<button class="contacts_modal_close" onclick="closeDialog()">×</button>'+
-    '</div><div class="contacts_modal_body">'+
-    '<input id="c_name" placeholder="Name">'+
-    '<input id="c_email" placeholder="E-Mail">'+
-    '<input id="c_phone" placeholder="Phone">'+
-    '<button class="contacts_create_btn" onclick="saveContact()">create contact ✓</button>'+
-    '</div></div>';
+      '<div class="contacts_modal_left_panel">'+
+        '<img src="../assets/img/join-logo-vector.svg" class="contacts_modal_logo">'+
+        '<div id="contacts_modal_title" class="contacts_modal_title">Edit contact</div>'+
+        '<div id="contacts_modal_subtitle" class="contacts_modal_subtitle"></div>'+
+      '</div>'+
+      '<div class="contacts_modal_right_panel">'+
+        '<div class="contacts_modal_header">'+
+          '<button class="contacts_modal_close" onclick="closeDialog()">×</button>'+
+        '</div>'+
+        '<div class="contacts_modal_body">'+
+          '<input id="c_name" placeholder="Name">'+
+          '<input id="c_email" placeholder="E-Mail">'+
+          '<input id="c_phone" placeholder="Phone">'+
+          '<div class="contacts_modal_actions">'+
+            '<button class="contacts_delete_btn" onclick="deleteContact()">Delete</button>'+
+            '<button class="contacts_create_btn" onclick="saveContact()">create contact ✓</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
   backdrop.appendChild(modal);
   document.body.appendChild(backdrop);
   return backdrop;
@@ -199,8 +211,14 @@ const openDialog=()=>{
     const el=document.getElementById(id);
     if(el) el.value='';
   });
+  const title=document.getElementById('contacts_modal_title');
+  const sub=document.getElementById('contacts_modal_subtitle');
+  if(title) title.textContent='Add contact';
+  if(sub) sub.textContent='Tasks are better with a team!';
   const btn=layer.querySelector('.contacts_create_btn');
   if(btn) btn.textContent='create contact ✓';
+  const del=layer.querySelector('.contacts_delete_btn');
+  if(del) del.textContent='cancel x';
 };
 
 
@@ -309,21 +327,31 @@ const fillProfile=(user,idx)=>{
   positionDetailRoot();
   root.innerHTML='';
   const head=document.createElement('div');
+  EDIT_ID=user.id||null;
   head.className='contact_detail_item';
   head.innerHTML=
     '<div class="detail_row">'+
     '<div class="detail_avatar" style="background:'+(user.color||'#666')+'">'+
     initials(user.name)+'</div>'+
     '<div><div class="detail_name">'+titleCase(user.name)+'</div>'+
-    '<div class="detail_edit" onclick="openEdit('+idx+')">edit</div></div>'+
+    '<div class="detail_actions"><div class="detail_edit" onclick="openEdit('+idx+')"><img src="assets/img/edit.svg" class="detail_action_icon">edit</div><div class="detail_delete"><img src="assets/img/delete.svg" class="detail_action_icon">delete</div></div></div>'+
     '</div>';
+  const del=head.querySelector('.detail_delete');
+  if(del) del.onclick=()=>deleteContact();
+  const section=document.createElement('div');
+  section.className='contact_detail_item detail_section_label';
+  section.textContent='Contact Information';
   const mail=document.createElement('div');
   mail.className='contact_detail_item';
   mail.textContent=user.email||'';
   const phone=document.createElement('div');
   phone.className='contact_detail_item';
-  phone.textContent=user.phone||'';
-  [head,mail,phone].forEach(el=>{
+  if(user.phone){
+    phone.textContent=user.phone;
+  }else{
+    phone.textContent='';
+  }
+  [head,section,mail,phone].forEach(el=>{
     el.classList.add('slide_in_right');
     root.appendChild(el);
   });
@@ -360,12 +388,33 @@ const openEdit=(idx)=>{
   if(N) N.value=user.name||'';
   if(E) E.value=user.email||'';
   if(P) P.value=user.phone||'';
+  const title=document.getElementById('contacts_modal_title');
+  const sub=document.getElementById('contacts_modal_subtitle');
+  if(title) title.textContent='Edit contact';
+  if(sub) sub.textContent='';
   const btn=layer.querySelector('.contacts_create_btn');
-  if(btn) btn.textContent='save';
+  if(btn) btn.textContent='save ✓';
+  const del=layer.querySelector('.contacts_delete_btn');
+  if(del) del.textContent='delete x';
 };
 
 
 // Initializes sidebar and loads contact list on page load
+
+const deleteContact=async()=>{
+  if(!EDIT_ID){closeDialog();return;}
+  if(!confirm('Delete this contact?')) return;
+  await fetch(DB+'/'+EDIT_ID+'.json',{method:'DELETE'});
+  const sidebar=ensureSidebar();
+  if(!sidebar) return;
+  const list=sidebar.querySelector('.contacts_sidebar_list');
+  renderContacts(list,await fetchContacts());
+  const root=document.querySelector('.contact_detail_root');
+  if(root) root.innerHTML='';
+  EDIT_ID=null;
+  closeDialog();
+};
+
 const init=async()=>{
   const sidebar=ensureSidebar();
   if(!sidebar) return;
@@ -385,6 +434,7 @@ else init();
 window.openDialog=openDialog;
 window.closeDialog=closeDialog;
 window.saveContact=saveContact;
+window.deleteContact=deleteContact;
 window.selectUserAt=selectUserAt;
 window.sidebarClick=sidebarClick;
 window.openEdit=openEdit;

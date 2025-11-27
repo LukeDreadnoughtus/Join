@@ -21,7 +21,7 @@ body {
   display: grid;
   grid-template-columns: 16.5% 1fr;
   height: 100vh;              
-  overflow-y: scroll;         
+  overflow-y: hidden;         
   scrollbar-gutter: stable;   
 }
 
@@ -288,4 +288,14 @@ body {
   max-width: 100%;
   height: auto;
   display: block;
+}
+
+
+.page .content{
+  height:100vh;
+  overflow-y:auto;
+}
+
+body.contacts-page .page .content{
+  overflow-y:hidden;
 }
