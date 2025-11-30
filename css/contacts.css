@@ -1,0 +1,66 @@
+/* Custom overrides for contacts dialog */
+
+/* Dialoghöhe: etwas höher als original, aber flexibel – min 30dvh */
+body.contacts-page .contacts_modal{
+  max-height:85dvh;
+  min-height:30dvh;
+}
+
+/* Modal-Inhalt soll die volle Höhe des Dialogs nutzen und alles vertikal mittig ausrichten */
+body.contacts-page .contacts_modal_content{
+  height:100%;
+  min-height:100%;
+  display:flex;
+  align-items:center;   /* Kinder (links, Avatar, rechts) in der Mitte des Dialogs */
+}
+
+/* Linkes schwarzes Panel: von oben bis unten durchgängig + Inhalt mittig */
+.contacts_modal_left_panel{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Avatar-Spalte zwischen links und rechts, ebenfalls vertikal mittig */
+.contacts_modal_avatar_col{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 24px;
+  box-sizing:border-box;
+  height:100%;
+}
+
+/* Rechte Panel-Seite: Inhalte vertikal zentrieren */
+.contacts_modal_right_panel{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  height:100%;
+}
+
+/* Slot und Avatar-Elemente */
+.contacts_modal_avatar_slot{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* detail_avatar und SVG gleich groß */
+.contacts_modal_avatar_slot .detail_avatar,
+.contacts_modal_avatar_slot .contacts_modal_avatar_image{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* SVG sauber in den Kreis einpassen */
+.contacts_modal_avatar_image{
+  object-fit:cover;
+}

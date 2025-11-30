@@ -20,7 +20,7 @@ main.content .contacts_sidebar_add {
   padding: 10px 12px;
   border: none;
   border-radius: 10px;
-  background: #111;
+  background: #091931;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
@@ -108,7 +108,7 @@ main.content .contacts_sidebar_add{
   cursor:pointer;
 }
 .contacts_name_row.is-selected{
-  background:#111;
+  background:#2A3647;
   color:#fff;
 }
 
@@ -202,9 +202,9 @@ body.contacts-page .contacts_modal_content{
 
 .contacts_modal_left_panel{
   flex:1;
-  background:#000;
+  background:#2A3647;
   color:#fff;
-  padding:24px 16px;
+  padding:200px 16px;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -304,3 +304,18 @@ body.contacts-page .contacts_modal_content{
 }
 
 .detail_section_label{font-size:12px;font-weight:700;margin-top:8px;margin-bottom:8px;}
+
+
+/* E-Mail-Adresse in den Kontaktdetails als Link darstellen */
+.contact_detail_email{
+  color:#1976d2;
+  text-decoration:underline;
+  cursor:pointer;
+  word-break:break-all;
+}
+
+/* Kontakt-Dialog insgesamt etwas breiter machen */
+body.contacts-page .contacts_modal{
+  width:900px;
+  max-width:95vw;
+}

@@ -1,6 +1,7 @@
 (function(){
 // Firebase Realtime Database URL
 const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/";
+const BOARD="https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/";
 
 // Predefined color palette for random color assignment
 const COLORS=[
@@ -181,6 +182,9 @@ const ensureDialog=()=>{
         '<div id="contacts_modal_title" class="contacts_modal_title">Edit contact</div>'+
         '<div id="contacts_modal_subtitle" class="contacts_modal_subtitle"></div>'+
       '</div>'+
+      '<div class="contacts_modal_avatar_col">'+
+        '<div id="contacts_modal_avatar_slot" class="contacts_modal_avatar_slot"></div>'+
+      '</div>'+
       '<div class="contacts_modal_right_panel">'+
         '<div class="contacts_modal_header">'+
           '<button class="contacts_modal_close" onclick="closeDialog()">×</button>'+
@@ -196,7 +200,7 @@ const ensureDialog=()=>{
         '</div>'+
       '</div>'+
     '</div>';
-  backdrop.appendChild(modal);
+backdrop.appendChild(modal);
   document.body.appendChild(backdrop);
   return backdrop;
 };
@@ -215,11 +219,17 @@ const openDialog=()=>{
   const sub=document.getElementById('contacts_modal_subtitle');
   if(title) title.textContent='Add contact';
   if(sub) sub.textContent='Tasks are better with a team!';
+  // Avatar: show default Group 13 icon when adding a new contact
+  const avatarSlot=layer.querySelector('#contacts_modal_avatar_slot');
+  if(avatarSlot){
+    avatarSlot.innerHTML=
+      '<img src="assets/img/Group 13.svg" alt="" class="contacts_modal_avatar_image">';
+  }
   const btn=layer.querySelector('.contacts_create_btn');
   if(btn) btn.textContent='create contact ✓';
   const del=layer.querySelector('.contacts_delete_btn');
   if(del) del.textContent='cancel x';
-};
+};;
 
 
 // Closes the modal dialog
@@ -335,16 +345,23 @@ const fillProfile=(user,idx)=>{
     '<div><div class="detail_name">'+titleCase(user.name)+'</div>'+
     '<div class="detail_actions"><div class="detail_edit" onclick="openEdit('+idx+')"><img src="assets/img/edit.svg" class="detail_action_icon">edit</div><div class="detail_delete"><img src="assets/img/delete.svg" class="detail_action_icon">delete</div></div></div>'+
     '</div>';
+  const del=head.querySelector('.detail_delete');
+  if(del) del.onclick=()=>{EDIT_ID=user.id||null;deleteContact();};
   const section=document.createElement('div');
   section.className='contact_detail_item detail_section_label';
   section.textContent='Contact Information';
-  const mailLabel=document.createElement('div');
+  const mailLabel=document.createElement('h4');
   mailLabel.className='contact_detail_item';
   mailLabel.textContent='E-Mail';
-  const mail=document.createElement('div');
-  mail.className='contact_detail_item';
-  mail.textContent=user.email||'';
-  const phoneLabel=document.createElement('div');
+  const mail=document.createElement('a');
+  mail.className='contact_detail_item contact_detail_email';
+  if(user.email){
+    mail.href='mailto:'+user.email;
+    mail.textContent=user.email;
+  }else{
+    mail.textContent='';
+  }
+  const phoneLabel=document.createElement('h4');
   phoneLabel.className='contact_detail_item';
   phoneLabel.textContent='Phone';
   const phone=document.createElement('div');
@@ -395,19 +412,48 @@ const openEdit=(idx)=>{
   const sub=document.getElementById('contacts_modal_subtitle');
   if(title) title.textContent='Edit contact';
   if(sub) sub.textContent='';
+  // Avatar: use detail_avatar only when editing
+  const avatarSlot=layer.querySelector('#contacts_modal_avatar_slot');
+  if(avatarSlot){
+    const bg=user.color||'#666';
+    const name=user.name||'';
+    avatarSlot.innerHTML=
+      '<div class="detail_avatar" style="background:'+bg+'">'+
+      initials(name)+'</div>';
+  }
   const btn=layer.querySelector('.contacts_create_btn');
   if(btn) btn.textContent='save ✓';
   const del=layer.querySelector('.contacts_delete_btn');
   if(del) del.textContent='Delete';
-};
+};;
 
 
 // Initializes sidebar and loads contact list on page load
 
-const deleteContact=()=>{
-  closeDialog();
+const removeUserFromTasks=async(id)=>{
+  if(!id) return;
+  const r=await fetch(BOARD+".json"),data=await r.json();
+  if(!data) return;
+  const body={};
+  Object.keys(data).forEach(k=>{
+    const t=data[k],a=t&&Array.isArray(t.assigned)?t.assigned:null;
+    if(a&&a.includes(id)) body[k+"/assigned"]=a.filter(x=>x!==id);
+  });
+  if(Object.keys(body).length)
+    await fetch(BOARD+".json",{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
 };
 
+const deleteContact=async()=>{
+  const id=EDIT_ID;
+  if(!id){closeDialog();return;}
+  await fetch(DB+'/'+id+'.json',{method:'DELETE'});
+  await removeUserFromTasks(id);
+  const sidebar=ensureSidebar(),list=sidebar&&sidebar.querySelector('.contacts_sidebar_list');
+  if(list) renderContacts(list,await fetchContacts());
+  clearSelection();
+  EDIT_ID=null;
+  closeDialog();
+};
 const init=async()=>{
   const sidebar=ensureSidebar();
   if(!sidebar) return;
