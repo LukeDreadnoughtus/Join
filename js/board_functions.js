@@ -219,6 +219,8 @@ function openTaskOverlay(id) {
     overlay.classList.remove("d_none")
 }
 
+
+
 function renderAssignedUsers(taskData) {
     if (!taskData.assignedUsers || taskData.assignedUsers.length === 0) {
         return '<p class="user_font">No users assigned</p>';
@@ -270,9 +272,13 @@ function renderSubtasks(taskData) {
 function editTask(id) {
     const overlay = document.getElementById("task_full_view");
     overlay.classList.add("d_none")
-    const taskData = allTasks[id];
     const overlayEdit = document.getElementById ("task_edit_view")
     overlayEdit.classList.remove("d_none")
+    renderEdit (id)
+}
+
+function renderEdit (id) {
+    const taskData = allTasks[id];
     renderTaskEditCard(taskData)
     renderAssignedUserIcons(taskData)
     renderEditSubtasks(taskData)
@@ -291,7 +297,7 @@ function renderEditSubtasks(taskData) {
         const li = document.createElement("li");
         li.classList.add("edit_subtask_item");
         li.innerHTML = `
-            <span class="subtask_element">${subtasks.name}</span>
+            <span class="subtask_element">${subtask.name}</span>
         `;
         subtaskList.appendChild(li);
     });
@@ -299,7 +305,7 @@ function renderEditSubtasks(taskData) {
 
 function renderAssignedUserIcons(taskData) {
     const alreadyAssignedContainer = document.getElementById("already_assigned");
-
+    alreadyAssignedContainer.innerHTML = ""
     if (!taskData.assignedUsers || taskData.assignedUsers.length === 0) {
         alreadyAssignedContainer.innerHTML = ""; 
         return;
@@ -352,75 +358,161 @@ async function postSubtaskData (taskId, index, newValue){
 // const allUsers = ["Anna Müller", "Ben Kaiser", "Chris Sommer", "David Lenz"];
 // let selectedUsers = [];
 
-function toggleUserDropdown() {
-    document.getElementById("userDropdownList").classList.toggle("d-none");
+async function toggleUserDropdown(id) {
+    const dropdown = document.getElementById("userDropdownList");
+    // toggle() gibt TRUE zurück, wenn die Klasse *hinzugefügt* wurde
+    const isNowHidden = dropdown.classList.toggle("d_none");
+
+    // Wenn das Dropdown JETZT sichtbar ist → loadUserDropdown
+    if (!isNowHidden) {
+        await loadUserDropdown(id);
+    } 
+    // Wenn das Dropdown JETZT verborgen ist → renderEdit
+    else {
+        renderEdit(id);
+    }
 }
 
-function loadUserDropdown() {
+
+//Hier wird das Dropdown zum User-Select geladen
+async function loadUserDropdown(id) {
+    const allUsers = await fetchAllUsers(id);
     const list = document.getElementById("userDropdownList");
     list.innerHTML = "";
-
     allUsers.forEach(user => {
-        const isSelected = selectedUsers.includes(user);
-
-        list.innerHTML += `
-            <div class="user-option" onclick="toggleUserSelect('${user}')">
-                <div class="user-icon">${user.split(" ").map(n => n[0]).join("")}</div>
-                <span>${user}</span>
-                <input type="checkbox" class="user-checkbox" ${isSelected ? "checked" : ""}>
-            </div>
-        `;
+        list.innerHTML += createUserTemplate(user, id); 
     });
 }
 
-function toggleUserSelect(user) {
-    if (selectedUsers.includes(user)) {
-        selectedUsers = selectedUsers.filter(u => u !== user);
-    } else {
-        selectedUsers.push(user);
-    }
+//Hier wird jede Reihe des Dropdowns gebildet
 
-    loadUserDropdown();
-    updateUserDropdownHeader();
+function createUserTemplate(user, id) {
+  const color = user.color || "#393737ff"; 
+  const iconColor = color.replace('#', '');
+  const usericon = initials(user.name)
+ 
+    return `
+        <div class="user_option">
+        <div class="selectable_user">
+          <div class="user_icon color${iconColor}">${usericon}</div>
+          <span>${user.name}</span>
+        </div>
+          <input type="checkbox" class="user_checkbox" onclick="toggleAssignedUsers('${color}','${user.name}','${id}', this)">
+        </div>
+    `;
 }
 
-function updateUserDropdownHeader() {
-    const header = document.querySelector(".user-dropdown-selected");
+async function fetchAllUsers(id) {
+    let allUsers = [];
+    try {
+        const response = await fetch(pathUser + ".json");
+        const userData = await response.json();
 
-    if (selectedUsers.length === 0) {
-        header.innerHTML = "Select users";
-        return;
+        for (const userId in userData) {
+            const userObj = userData[userId];
+            const userName = userObj.name;
+            const userColor = userObj.color;
+            if (assignedUserCheck(id, userName)) continue;
+            allUsers.push({
+                userId: userId,
+                name: userName,
+                color: userColor
+            });
+        }
+        return allUsers;
+    } catch (error) {
+        console.error("Fehler beim Laden der verfügbaren User:", error);
+        alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
+        return [];
     }
-
-    header.innerHTML = selectedUsers.join(", ");
 }
 
-loadUserDropdown();
+//Prüft ob der userName schon assigned ist. 
+
+function assignedUserCheck(id, userName) { 
+    const assignedUserProof = allTasks[id].assignedUsers
+    return assignedUserProof.includes(userName)
+}
+
+
+//Diese Funktion fügt neue assigned user hinzu. 
+function toggleAssignedUsers(userColor, userName, id, checkbox) {
+    // Wenn angehakt → hinzufügen
+    if (checkbox.checked) {
+        if (!allTasks[id].assignedUsers.includes(userName)) {
+            allTasks[id].assignedUsers.push(userName);
+            allTasks[id].assignedUserColors.push(userColor);
+        }
+    } 
+    // Wenn nicht angehakt → entfernen
+    else {
+        // Index des Users suchen
+        const index = allTasks[id].assignedUsers.indexOf(userName);
+        // Falls User existiert → beide Arrays synchron entfernen
+        if (index !== -1) {
+            allTasks[id].assignedUsers.splice(index, 1);
+            allTasks[id].assignedUserColors.splice(index, 1);
+        }
+    }
+    // UI aktualisieren
+    loadUserDropdown(id);
+}
+
+
+//Funktionen für subTask-Bearbeitung, zeigt auf das Icon
+function clearSubtaskInput(icon) {
+    const wrapper = icon.closest('.input_edit_subtask_wrapper');
+    const input = wrapper.querySelector('.input_edit_subtask');
+    input.value = "";
+}
+
+// Um eine subtask hinzuzufügen
+
+function addNewSubtask(id) {
+    const input = document.getElementById("edit_subtask_input");
+    const newSubtaskName = input.value.trim();
+    if (!newSubtaskName) return; 
+    const newSubtask = { 
+        done: false, 
+        name: newSubtaskName 
+    };
+    allTasks[id].subtasks.push(newSubtask);
+    input.value = ""; 
+    renderEdit(id);   
+}
+
 
 
 //Funktionen um Bearbeitung in die Datenbank zu speichern. 
 
-async function saveEditedTask() {
-    const updatedTask = {
-        ...currentEditedTask,
+//Funktioniert noch nicht - hier weiter machen. 
+
+async function saveEdits(id) {
+
+    const patchData = {
         title: document.getElementById("edit_title").value,
         description: document.getElementById("edit_description").value,
         dueDate: document.getElementById("edit_due_date").value,
-        priority: selectedPriority, // kommt von deinen Buttons
+        subtasks: allTasks[id].subtasks,
+        priority: allTasks[id].priority,
+        assignedUsers: allTasks[id].assignedUsers,
+        assignedUserColors: allTasks[id].assignedUserColors,
     };
 
-    await updateTaskInFirebase(updatedTask);
-
-    closeEditOverlay();
-    init(); // Board neu rendern
+    // alles, was gleich geblieben ist → NICHT senden
+    await updateTaskInFirebase(id, patchData);
+    document.getElementById("task_edit_view").classList.add("d_none")
+    const taskData = allTasks[id];
+    renderTaskCardFullView(taskData)
 }
 
-async function updateTaskInFirebase(task) {
-    const url = `${path}/${task.id}.json`;
+async function updateTaskInFirebase(id, data) {
+    const url = `${path}/${id}.json`;
 
     await fetch(url, {
-        method: "PUT",
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(task)
+        body: JSON.stringify(data)
     });
 }
+

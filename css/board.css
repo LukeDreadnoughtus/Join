@@ -716,12 +716,12 @@ transition: background-color 120ms ease;
     margin-bottom: 10px; 
 }
 /* assigned user selection */
-.user-dropdown {
+.user_dropdown {
     position: relative;
     width: 250px;
 }
 
-.user-dropdown-selected {
+.user_dropdown_selected {
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -733,11 +733,11 @@ transition: background-color 120ms ease;
     font-family: "inter";
 }
 
-.user-dropdown-list {
+.user_dropdown_list {
     position: absolute;
     top: 48px;
     left: 0;
-    width: 100%;
+    width: fit-content; 
     background: white;
     /* border: 1px solid #ccc; */
     border-radius: 8px;
@@ -747,18 +747,40 @@ transition: background-color 120ms ease;
     z-index: 100;
 }
 
-.user-option {
+.user_option {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 10px 12px;
+    width: 350px;
     cursor: pointer;
 }
 
-.user-option:hover {
-    background: #f5f5f5;
+.user_option:hover {
+    background: #777373;
 }
 
-.user-icon {
+.selectable_user {
+    display: flex;
+    justify-content: center;
+}
+
+.user_checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #2A3647;
+  border-radius: 4px; 
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  background-color: #fff;
+  transition: all 0.2s; 
+  margin-right:20px; 
+}
+
+.user_icon {
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -771,9 +793,7 @@ transition: background-color 120ms ease;
     margin-right: 10px;
 }
 
-.user-checkbox {
-    margin-left: auto;
-}
+
 
 .edit_subtasks {
     margin-top: 30px; 
@@ -808,6 +828,63 @@ transition: background-color 120ms ease;
 .subtask_element {
     margin-top: 10px; 
 }
+
+.input_edit_subtask_wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.input_edit_subtask {
+    width: 97%;
+    padding: 10px 60px 10px 20px; /* mehr Platz rechts */
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+}
+
+/* Icons */
+.subtask_icon {
+    position: absolute;
+    top: 58%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.left_icon {
+    right: 55px;
+}
+
+.right_icon {
+    right: 25px;
+}
+
+/* --- Separator --- */
+.subtask_separator {
+    position: absolute;
+    top: 58%;
+    right: 50px;      
+    transform: translateY(-50%);
+    width: 1px;
+    height: 18px;
+    background: #ccc;      /* dünner grauer Strich */
+    z-index: 2;
+    border-radius: 1px;
+}
+
+.subtask_icon img {
+    width: 14px;
+    height: 14px;
+    object-fit: contain; 
+    display: block;       
+    pointer-events: none; 
+}
+
 
 #input_edit_title::placeholder {
     color: #b0b0b0;
@@ -860,4 +937,25 @@ transition: background-color 120ms ease;
     border: 2px solid white; 
     z-index: 1;
     color:white; 
+}
+
+.edit_task_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 73px;
+  height: 56px;
+  background-color: #2a3647;
+  border-radius: 10px;
+  border: 0px;
+  margin-left: 290px; 
+  margin-top: 20px; 
+  gap:5px; 
+}
+
+.edit_task_button:hover {
+  background-color: #4caf50;
+  background-color: #2196f3;
+  color: white;
+  cursor: pointer;
 }

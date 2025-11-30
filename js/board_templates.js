@@ -129,6 +129,7 @@ function renderTaskCardFullView(taskData) {
 
 function renderTaskEditCard(taskData) {
   const overlayContent = document.getElementById("edit_task_overlay");
+  overlayContent.innerHTML =""; 
   overlayContent.innerHTML = ` 
   <div class="close_icon_wrapper close_icon_margin">
         <img src="./assets/img/close.svg" alt="close icon" class="close_icon" onclick="closeTaskOverlayEdit(event)">
@@ -136,17 +137,17 @@ function renderTaskEditCard(taskData) {
   <div class="scroll-area">
   <div class="edit_title">
     <h4>Title</h4>
-    <input class="input_edit_title input_style" type="text" id="" placeholder="Enter a title" required value="${taskData.title}" />
+    <input class="input_edit_title input_style" type="text" id="edit_title" placeholder="Enter a title" required value="${taskData.title}" />
   </div>
   <div class="edit_description">
     <h4>Description</h4>
-    <input class="input_edit_description input_style" type="text" id="" placeholder="Enter a Description" required value="${taskData.description}"/>
+    <input class="input_edit_description input_style" type="text" id="edit_description" placeholder="Enter a Description" required value="${taskData.description}"/>
   </div>
   <div class="edit_duedate">
     <h4>Due Date</h4>
     <div class="input_event">
     <img src="./assets/img/event.svg" class="event_icon">
-    <input class="input_edit_title input_style" type="text" id="" placeholder="dd/mm/yyyy" required value="${taskData.dueDate}"/>
+    <input class="input_edit_title input_style" type="text" id="edit_due_date" placeholder="dd/mm/yyyy" required value="${taskData.dueDate}"/>
     </div>
     </div>
   <div class="edit_priority">
@@ -199,23 +200,39 @@ function renderTaskEditCard(taskData) {
   </div>
   <div class="edit_assigned_to">
     <h4>Assigned to</h4>
-    <div class="user-dropdown">
-    <div class="user-dropdown-selected" onclick="toggleUserDropdown()">Select contacts to assign</div>
-    <div id="userDropdownList" class="user-dropdown-list d-none">
+    <div class="user_dropdown">
+    <div class="user_dropdown_selected" onclick="toggleUserDropdown('${taskData.id}')">Select contacts to assign</div>
+    <div id="userDropdownList" class="user_dropdown_list d_none">
         <!-- Wird mit JS gefüllt -->
     </div>
     </div>
     <div id="already_assigned" class="already_assigned">
     </div>
-
-    <div class="edit_subtasks">
+  </div>
+   <div class="edit_subtasks">
     <h4>Subtasks</h4>
-    <input class="input_edit_subtask" type="text" id="" placeholder="Add new subtask" required />
-    <ul id="subtask_list" class="subtasklist">
-    </ul>
+    <div class="input_edit_subtask_wrapper">
+        <input id="edit_subtask_input"
+            class="input_edit_subtask" 
+            type="text"
+            placeholder="Add new subtask"
+            required 
+        />
+        <div class="subtask_icon left_icon" onclick="clearSubtaskInput(this)">
+            <img src="./assets/img/close.svg">
+        </div>
+        <div class="subtask_separator"></div>
+        <div class="subtask_icon right_icon" onclick="addNewSubtask('${taskData.id}')">
+            <img src="./assets/img/check_black.svg">
+        </div>
     </div>
+    <ul id="subtask_list" class="subtasklist"></ul>
   </div>
   </div>
+  <button type="submit" class="edit_task_button" onclick="saveEdits('${taskData.id}')">
+          <span class="font_create">Ok</span>
+          <span class="check_svg"><img src="./assets/img/check.svg" alt="check icon" width="24px" height="24px"></span>
+  </button>
 `
 
 }
