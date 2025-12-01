@@ -153,7 +153,7 @@ function renderTaskEditCard(taskData) {
   <div class="edit_priority">
     <p class="bold_font">Priority</p>
       <div class="priority_btn_group">
-         <button id="" type="button" class="priority_button boxshadow" data-value="urgent">
+         <button id="" type="button" class="priority_button boxshadow priority_urgent" data-value="urgent">
                     <span class="priority_name">Urgent</span>
                     <svg class="urgent_icon" width="20" height="15" viewBox="0 0 20 15" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
@@ -165,7 +165,7 @@ function renderTaskEditCard(taskData) {
                         fill="currentColor" />
                     </svg>
                   </button>
-                  <button id="" type="button" class="priority_button boxshadow" data-value="medium">
+                  <button id="" type="button" class="priority_button boxshadow priority_medium" data-value="medium">
                     <span class="priority_name medium">Medium</span>
                     <svg class="medium_icon" width="20" height="15" viewBox="0 0 20 15" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
@@ -184,7 +184,7 @@ function renderTaskEditCard(taskData) {
                       </defs>
                     </svg>
                   </button>
-                  <button id="" type="button" class="priority_button boxshadow" data-value="low"><span
+                  <button id="" type="button" class="priority_button boxshadow priority_low" data-value="low"><span
                       class="priority_name">Low</span>
                     <svg class="low_icon" width="20" height="15" viewBox="0 0 20 15" fill="none"
                       xmlns="http://www.w3.org/2000/svg">

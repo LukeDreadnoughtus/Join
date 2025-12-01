@@ -687,29 +687,6 @@ transition: background-color 120ms ease;
     margin-top:0px; 
 }
 
-.boxshadow {
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-
-.priority_button {
-  padding: 5px 5px;
-  border-radius: 10px;
-  border: 0px;
-  background-color: white;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 1rem;
-  width: 136px;
-  height: 56px;
-  margin-bottom: 10px; 
-  margin-right: 5px; 
-  margin-left: 5px; 
-  display:flex; 
-  align-items:center; 
-  justify-content: center;
-  gap: 5px; 
-}
-
 
 .edit_assigned_to {
     margin-top: 20px; 
@@ -958,4 +935,63 @@ transition: background-color 120ms ease;
   background-color: #2196f3;
   color: white;
   cursor: pointer;
+}
+
+
+.boxshadow {
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.priority_button {
+  padding: 5px 5px;
+  border-radius: 10px;
+  border: 0px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  width: 136px;
+  height: 56px;
+  margin-bottom: 10px; 
+  margin-right: 5px; 
+  margin-left: 5px; 
+  display:flex; 
+  align-items:center; 
+  justify-content: center;
+  gap: 5px; 
+  background: white;
+  color: black;
+}
+
+/* SVG im nicht aktivierten Zustand */
+.priority_button[data-value="urgent"] svg path {
+    fill: #FF3D00; /* Rot */
+}
+
+.priority_button[data-value="medium"] svg path {
+    fill: #FFA800; /* Orange */
+}
+
+.priority_button[data-value="low"] svg path {
+    fill: #7AE229; /* Grün */
+}
+
+.priority_button.active_priority {
+    color: white; /* Text weiß */
+}
+
+.priority_button.active_priority[data-value="urgent"] {
+    background: #FF3D00;
+}
+
+.priority_button.active_priority[data-value="medium"] {
+    background: #FFA800;
+}
+
+.priority_button.active_priority[data-value="low"] {
+    background: #7AE229;
+}
+
+/* SVG im aktiven Zustand wird weiß */
+.priority_button.active_priority svg path {
+    fill: white;
 }

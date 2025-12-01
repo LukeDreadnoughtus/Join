@@ -280,9 +280,26 @@ function editTask(id) {
 function renderEdit (id) {
     const taskData = allTasks[id];
     renderTaskEditCard(taskData)
+    highlightCurrentPriority(taskData.priority)
     renderAssignedUserIcons(taskData)
     renderEditSubtasks(taskData)
 }
+
+//Hier weitermachen
+function highlightCurrentPriority(priorityValue) {
+    const buttons = document.querySelectorAll(".priority_button");
+
+    buttons.forEach(btn => {
+        const value = btn.getAttribute("data-value");
+
+        if (value === priorityValue) {
+            btn.classList.add("active_priority");
+        } else {
+            btn.classList.remove("active_priority");
+        }
+    });
+}
+
 
 function renderEditSubtasks(taskData) {
     const subtaskList = document.getElementById("subtask_list");
@@ -458,7 +475,6 @@ function toggleAssignedUsers(userColor, userName, id, checkbox) {
     loadUserDropdown(id);
 }
 
-
 //Funktionen für subTask-Bearbeitung, zeigt auf das Icon
 function clearSubtaskInput(icon) {
     const wrapper = icon.closest('.input_edit_subtask_wrapper');
@@ -481,7 +497,8 @@ function addNewSubtask(id) {
     renderEdit(id);   
 }
 
-
+// Die muss ich noch machen
+// function deleteTask(id) {}
 
 //Funktionen um Bearbeitung in die Datenbank zu speichern. 
 
