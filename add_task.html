@@ -13,6 +13,7 @@
   <link href="css/header.css" rel="stylesheet" />
   <link href="css/footer.css" rel="stylesheet" />
   <link href="css/fonts.css" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/colors.css" />
   <link rel="stylesheet" href="./css/footer.css" />
   <link href="assets/img/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
   <link href="assets/img/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
@@ -161,9 +162,9 @@
 
               <div class="form_group assigned_to">
                 <label for="task-assigned-to">Assigned to</label>
-                <div class="custom-select" id="task-assigned-to">
-                  <div class="select-options" id="assigned-options"></div>
+                <div class="custom_select" id="task-assigned-to">
                 </div>
+                <div class="assigned_users_icons" id="assigned-users-icons"></div>
               </div>
 
               <div class="form_group category">
@@ -178,7 +179,7 @@
 
               <div class="subtask-input-wrapper">
                 <label for="task-subtask">Subtasks</label>
-                <input placeholder="Add new subtask" type="text" id="subtask-tags" />
+                <input placeholder="Add new subtask" type="text" id="subtask-input" />
 
                 <svg id="subtask-add" class="icon hidden" viewBox="0 0 24 24">
                   <path d="M20 6L9 17l-5-5" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"
