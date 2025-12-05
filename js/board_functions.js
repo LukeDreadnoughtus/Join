@@ -54,9 +54,7 @@ async function buildTaskData(currentTask, key) {
       const currentTitle = currentTask.title
       const currentDescription = currentTask.description
       const currentPriority = currentTask.priority
-      const dateObj = new Date(currentTask.duedate);
-      const currentDuedate = dateObj.toLocaleDateString("de-DE");
-     
+      const currentDuedate = formatDateDDMMYYYY(currentTask.duedate);
 
       //subtasks
       const currentSubtask = Array.isArray(currentTask.subtasks)? currentTask.subtasks: [];
@@ -85,7 +83,7 @@ async function buildTaskData(currentTask, key) {
         categoryColor: categoryColor,
         title: currentTitle,
         description: currentDescription,
-        dueDate: currentDuedate,
+        duedate: currentDuedate,
         subtasksTotal: currentSubtasksNumber,
         subtasksDone: doneSubTasks,
         subtasks: currentSubtask,
@@ -95,6 +93,15 @@ async function buildTaskData(currentTask, key) {
       }
       return taskData
 }
+
+function formatDateDDMMYYYY(dateInput) {
+    const dateObj = new Date(dateInput);
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const year = dateObj.getFullYear();
+    return `${day}/${month}/${year}`;
+}
+
 
 async function fetchUserNames (currentAssignedUserids) {
     let assignedUsers =[]; 
@@ -283,22 +290,61 @@ function renderEdit (id) {
     highlightCurrentPriority(taskData.priority)
     renderAssignedUserIcons(taskData)
     renderEditSubtasks(taskData)
+    initEditDatepicker()
 }
 
-//Hier weitermachen
+function initEditDatepicker() {
+    const input = document.getElementById("edit_due_date");
+    const icon = document.getElementById("date_icon");
+    if (!input || !icon) return;
+    const picker = flatpickr(input, {
+        dateFormat: "d/m/Y",
+        allowInput: true
+    });
+    icon.addEventListener("click", () => {
+        picker.open();
+    });
+}
+
+
 function highlightCurrentPriority(priorityValue) {
     const buttons = document.querySelectorAll(".priority_button");
 
     buttons.forEach(btn => {
         const value = btn.getAttribute("data-value");
 
+        // Zurücksetzen
+        btn.classList.remove("active_priority");
+        btn.disabled = false;
+        btn.style.pointerEvents = "auto";
+
+        // Aktive Prio markieren
         if (value === priorityValue) {
             btn.classList.add("active_priority");
-        } else {
-            btn.classList.remove("active_priority");
+            btn.disabled = true;
+            btn.style.pointerEvents = "none";
         }
     });
 }
+
+function setPriority(prio, id) {
+    const buttons = document.querySelectorAll(".priority_button");
+
+    buttons.forEach(btn => {
+        btn.classList.remove("active_priority");
+        btn.disabled = false;
+        btn.style.pointerEvents = "auto";
+    });
+
+    const activeBtn = document.querySelector(`.priority_button[data-value="${prio}"]`);
+    activeBtn.classList.add("active_priority");
+    activeBtn.disabled = true;
+    activeBtn.style.pointerEvents = "none";
+
+    allTasks[id].priority = prio; 
+}
+
+
 
 
 function renderEditSubtasks(taskData) {
@@ -505,11 +551,19 @@ function addNewSubtask(id) {
 //Funktioniert noch nicht - hier weiter machen. 
 
 async function saveEdits(id) {
+    const newTitle = document.getElementById("edit_title").value
+    const newDescription = document.getElementById("edit_description").value
+    const rawDueDate = document.getElementById("edit_due_date").value;
+    const firebaseDate = convertDateToFirebaseFormat(rawDueDate);
+
+    allTasks[id].title = newTitle
+    allTasks[id].description = newDescription
+    allTasks[id].duedate = rawDueDate
 
     const patchData = {
-        title: document.getElementById("edit_title").value,
-        description: document.getElementById("edit_description").value,
-        dueDate: document.getElementById("edit_due_date").value,
+        title: newTitle,
+        description: newDescription ,
+        duedate: firebaseDate,
         subtasks: allTasks[id].subtasks,
         priority: allTasks[id].priority,
         assignedUsers: allTasks[id].assignedUsers,
@@ -531,5 +585,11 @@ async function updateTaskInFirebase(id, data) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
     });
+}
+
+function convertDateToFirebaseFormat(dateStr) {
+    if (!dateStr) return dateStr;
+    const [day, month, year] = dateStr.split("/");
+    return `${year}-${month}-${day}`;
 }
 
