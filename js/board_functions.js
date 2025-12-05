@@ -543,12 +543,8 @@ function addNewSubtask(id) {
     renderEdit(id);   
 }
 
-// Die muss ich noch machen
-// function deleteTask(id) {}
 
 //Funktionen um Bearbeitung in die Datenbank zu speichern. 
-
-//Funktioniert noch nicht - hier weiter machen. 
 
 async function saveEdits(id) {
     const newTitle = document.getElementById("edit_title").value
@@ -573,6 +569,7 @@ async function saveEdits(id) {
     // alles, was gleich geblieben ist → NICHT senden
     await updateTaskInFirebase(id, patchData);
     document.getElementById("task_edit_view").classList.add("d_none")
+    document.getElementById("task_full_view").classList.remove("d_none")
     const taskData = allTasks[id];
     renderTaskCardFullView(taskData)
 }
@@ -587,9 +584,22 @@ async function updateTaskInFirebase(id, data) {
     });
 }
 
+
+//Funktion um Kalender zu konvertieren
 function convertDateToFirebaseFormat(dateStr) {
     if (!dateStr) return dateStr;
     const [day, month, year] = dateStr.split("/");
     return `${year}-${month}-${day}`;
 }
 
+//Task-delete Funktion
+ // Lokal auch entfernen
+async function deleteTask(id, event) {
+    const url = `${path}/${id}.json`;
+    await fetch(url, {
+        method: "DELETE"
+    });
+    delete allTasks[id];
+    document.getElementById("task_full_view").classList.add("d_none")
+    init(event) //Das funktioniert hier noch nicht - ist buggy
+}

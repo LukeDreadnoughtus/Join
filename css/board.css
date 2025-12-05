@@ -841,6 +841,27 @@ transition: background-color 120ms ease;
     right: 25px;
 }
 
+.icon_wrapper {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 120ms ease;
+    cursor: pointer;
+}
+
+.icon_wrapper:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.icon_wrapper img {
+    width: 14px; 
+    height: 14px;
+    pointer-events: none; 
+}
+
 /* --- Separator --- */
 .subtask_separator {
     position: absolute;
