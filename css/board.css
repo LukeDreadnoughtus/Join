@@ -887,13 +887,14 @@ transition: background-color 120ms ease;
     transform: translateY(-50%);
     width: 20px;
     height: 20px;
-    pointer-events: none;
+    cursor: pointer;
 }
 
 .input_event input {
     width: 365px;
     padding-right: 40px; /* Platz für das SVG */
 }
+
 
 .already_assigned {
     padding-top: 10px;
@@ -995,3 +996,5 @@ transition: background-color 120ms ease;
 .priority_button.active_priority svg path {
     fill: white;
 }
+
+

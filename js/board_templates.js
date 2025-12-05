@@ -93,7 +93,7 @@ function renderTaskCardFullView(taskData) {
 
         <div class="due_date">
             <h4>Due date:</h4>
-            <p class="task_detail_font">${taskData.dueDate || 'No date set'}</p>
+            <p class="task_detail_font">${taskData.duedate || 'No date set'}</p>
         </div>
 
         <div class="priority">
@@ -146,14 +146,14 @@ function renderTaskEditCard(taskData) {
   <div class="edit_duedate">
     <h4>Due Date</h4>
     <div class="input_event">
-    <img src="./assets/img/event.svg" class="event_icon">
-    <input class="input_edit_title input_style" type="text" id="edit_due_date" placeholder="dd/mm/yyyy" required value="${taskData.dueDate}"/>
+    <img src="./assets/img/event.svg" class="event_icon" id="date_icon">
+    <input class="input_edit_title input_style" type="text" id="edit_due_date" placeholder="dd/mm/yyyy" required value="${taskData.duedate}"/>
     </div>
     </div>
   <div class="edit_priority">
     <p class="bold_font">Priority</p>
       <div class="priority_btn_group">
-         <button id="" type="button" class="priority_button boxshadow priority_urgent" data-value="urgent">
+         <button id="" type="button" class="priority_button boxshadow priority_urgent" data-value="urgent" onclick="setPriority('urgent','${taskData.id}')">
                     <span class="priority_name">Urgent</span>
                     <svg class="urgent_icon" width="20" height="15" viewBox="0 0 20 15" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
@@ -165,7 +165,7 @@ function renderTaskEditCard(taskData) {
                         fill="currentColor" />
                     </svg>
                   </button>
-                  <button id="" type="button" class="priority_button boxshadow priority_medium" data-value="medium">
+                  <button id="" type="button" class="priority_button boxshadow priority_medium" data-value="medium" onclick="setPriority('medium','${taskData.id}')">
                     <span class="priority_name medium">Medium</span>
                     <svg class="medium_icon" width="20" height="15" viewBox="0 0 20 15" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
@@ -184,7 +184,7 @@ function renderTaskEditCard(taskData) {
                       </defs>
                     </svg>
                   </button>
-                  <button id="" type="button" class="priority_button boxshadow priority_low" data-value="low"><span
+                  <button id="" type="button" class="priority_button boxshadow priority_low" data-value="low" onclick="setPriority('low','${taskData.id}')"><span
                       class="priority_name">Low</span>
                     <svg class="low_icon" width="20" height="15" viewBox="0 0 20 15" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
