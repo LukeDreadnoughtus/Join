@@ -49,7 +49,7 @@ function searchTasksForCurrentUser(userTasks, userId) {
         const assignedUsers = task.assigned;
        
          for (const userkey in assignedUsers) {
-            if(userId === userkey) {
+            if(userId === assignedUsers[userkey]) {
                 let boardPosition = task.boardslot
                 let taskPrio = task.priority
                 currentTasks.push(boardPosition) //alle Aufgaben des Users werden in currentTask gepusht

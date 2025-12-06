@@ -265,7 +265,6 @@ function removesAlert () {
     }
 }
 
-
 function removesRedBorderInput() {
     let redinput = document.getElementById("password_confirm")
     let userAlert = document.getElementById("password_registration")
@@ -278,7 +277,6 @@ function removesRedBorderInput() {
     document.getElementById("password_registration").classList.remove("input_style_red")
     }
 }
-
 
 function checkPassword () {
      const passwordInput = document.getElementById("password_registration");

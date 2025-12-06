@@ -586,6 +586,8 @@ async function saveEdits(id) {
     allTasks[id].title = newTitle
     allTasks[id].description = newDescription
     allTasks[id].duedate = rawDueDate
+    let currentAssignedUser = allTasks[id].assignedUsers
+    let assignedUserIds= await getUserId(currentAssignedUser)
 
     const patchData = {
         title: newTitle,
@@ -593,8 +595,7 @@ async function saveEdits(id) {
         duedate: firebaseDate,
         subtasks: allTasks[id].subtasks,
         priority: allTasks[id].priority,
-        assignedUsers: allTasks[id].assignedUsers,
-        assignedUserColors: allTasks[id].assignedUserColors,
+        assigned: assignedUserIds
     };
 
     // alles, was gleich geblieben ist → NICHT senden
@@ -603,6 +604,30 @@ async function saveEdits(id) {
     document.getElementById("task_full_view").classList.remove("d_none")
     const taskData = allTasks[id];
     renderTaskCardFullView(taskData)
+}
+
+async function getUserId(currentAssignedUser) {
+    let userIds = [];
+    try {
+        const response = await fetch(pathUser + ".json");
+        const userData = await response.json();
+
+        console.log("Fetched userData:", userData);
+
+        for (const userId in userData) {
+            const userObj = userData[userId];
+            console.log("Check:", userId, userObj.name);
+            if (currentAssignedUser.includes(userObj.name)) {
+                userIds.push(userId);
+            }
+        }
+        console.log("Check:", userIds);
+        return userIds;
+
+    } catch (error) {
+        console.error("Fehler beim Laden der UserIds:", error);
+        return [];
+    }
 }
 
 async function updateTaskInFirebase(id, data) {
