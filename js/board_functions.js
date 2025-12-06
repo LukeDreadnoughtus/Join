@@ -165,7 +165,6 @@ function findUserColor(user, userData) {
     const searchedUser = userData[user];
     let userColor = searchedUser.color || "#393737ff";
     return userColor
-    
 }
 
 
@@ -178,7 +177,6 @@ function checkNoTasks() {
         { id: "feedback", noTasksId: "no_feedback_tasks" },
         { id: "done", noTasksId: "no_done_tasks" }
     ];
-
     columns.forEach(col => {
         const columnEl = document.getElementById(col.id);
         const noTasksEl = document.getElementById(col.noTasksId);
@@ -210,7 +208,7 @@ function currentCompletedTasksNumber(currentTask) {
     return count; 
 }
 
-//Diese zwei Funktionen sind gleich. Man könnte dann eine ersetzen und nur die ohne id nehmen.  
+//close and open TaskOverlay 
 
 async function closeTaskOverlay(event) {
     event.stopPropagation ()
@@ -225,8 +223,6 @@ function openTaskOverlay(id) {
     const overlay = document.getElementById("task_full_view");
     overlay.classList.remove("d_none")
 }
-
-
 
 function renderAssignedUsers(taskData) {
     if (!taskData.assignedUsers || taskData.assignedUsers.length === 0) {
@@ -243,9 +239,47 @@ function renderAssignedUsers(taskData) {
     `).join('');
 }
 
+// function renderSubtasks(taskData) {
+//     if (!taskData.subtasks || typeof taskData.subtasks !== "object") {
+//         return '<p class="subtask_detail_font">No subtasks</p>';
+//     }
+
+//     const subtasksContainer = document.createElement("div");
+
+//     Object.entries(taskData.subtasks).forEach(([key, currentSubtask]) => {
+//         const subtaskDiv = document.createElement("div");
+//         subtaskDiv.classList.add("subtask_check");
+
+//         const checkbox = document.createElement("input");
+//         checkbox.type = "checkbox";
+//         checkbox.id = `subtask_${key}`;
+//         checkbox.checked = currentSubtask.done;
+
+//         checkbox.addEventListener("change", (event) => {
+//             toggleSubtask(event, key, taskData);
+//         });
+
+//         const label = document.createElement("label");
+//         label.htmlFor = checkbox.id;
+//         label.classList.add("subtask_label");
+//         label.innerHTML = `<p class="subtask_detail_font">${currentSubtask.name}</p>`;
+
+//         subtaskDiv.appendChild(checkbox);
+//         subtaskDiv.appendChild(label);
+//         subtasksContainer.appendChild(subtaskDiv);
+//     });
+
+//     return subtasksContainer;
+// }
+
 function renderSubtasks(taskData) {
-    if (!taskData.subtasks || typeof taskData.subtasks !== "object") {
-        return '<p class="subtask_detail_font">No subtasks</p>';
+
+    // Wenn keine Subtasks vorhanden
+    if (!taskData.subtasks || Object.keys(taskData.subtasks).length === 0) {
+        const noSubtasks = document.createElement("p");
+        noSubtasks.classList.add("no_subtaks");
+        noSubtasks.textContent = "No subtasks yet";
+        return noSubtasks;
     }
 
     const subtasksContainer = document.createElement("div");
@@ -275,6 +309,7 @@ function renderSubtasks(taskData) {
 
     return subtasksContainer;
 }
+
 
 function editTask(id) {
     const overlay = document.getElementById("task_full_view");
@@ -344,15 +379,11 @@ function setPriority(prio, id) {
     allTasks[id].priority = prio; 
 }
 
-
-
-
 function renderEditSubtasks(taskData) {
     const subtaskList = document.getElementById("subtask_list");
     subtaskList.innerHTML = "";
 
     if (!taskData.subtasks || Object.keys(taskData.subtasks).length === 0) {
-        subtaskList.innerHTML = "<li class='empty'>No subtasks</li>";
         return;
     }
     Object.entries(taskData.subtasks).forEach(([index, subtask]) => {
@@ -584,7 +615,6 @@ async function updateTaskInFirebase(id, data) {
     });
 }
 
-
 //Funktion um Kalender zu konvertieren
 function convertDateToFirebaseFormat(dateStr) {
     if (!dateStr) return dateStr;
@@ -600,6 +630,5 @@ async function deleteTask(id, event) {
         method: "DELETE"
     });
     delete allTasks[id];
-    document.getElementById("task_full_view").classList.add("d_none")
-    init(event) //Das funktioniert hier noch nicht - ist buggy
+    closeTaskOverlay(event)
 }

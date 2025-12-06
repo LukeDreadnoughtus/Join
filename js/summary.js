@@ -1,5 +1,5 @@
-let currentTasks = []; 
-let levels =[]; 
+let currentTasks = []; //object mit allen Aufgaben des Users
+let prios =[]; //priority aller Aufgaben des Users
 let path = "https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/"
 
 //Fehlt noch: Anrede je nach Tageszeit
@@ -37,6 +37,8 @@ async function getTasksOfCurrentUser(userId,event) {
     }
 }
 
+
+//Hier werden die Tasks gesucht, zu welchen diese userID assigned ist. 
 function searchTasksForCurrentUser(userTasks, userId) {
 
     const keys = Object.keys(userTasks); 
@@ -49,15 +51,17 @@ function searchTasksForCurrentUser(userTasks, userId) {
          for (const userkey in assignedUsers) {
             if(userId === userkey) {
                 let boardPosition = task.boardslot
-                let taskLevel = task.level
-                currentTasks.push(boardPosition) //alle Aufgaben werden in currentTask gepusht
-                levels.push(taskLevel) //alle Level werden in dieses array gepusht
+                let taskPrio = task.priority
+                currentTasks.push(boardPosition) //alle Aufgaben des Users werden in currentTask gepusht
+                prios.push(taskPrio) //alle priorities werden der Reihenfolge nach in dieses array gepusht
             } 
          }
     }
 }
 
 //tasks aus currenttasks herauslesen
+//Hier wird gezählt, wie viele Aufgaben jeweils in welchem Boardslot sind
+//Im letzten Schritt wird gezählt wie oft das level urgent im Array prios vorkommt, denn nur das wird in summary angezeigt. 
 
 function renderTasksToSummary (){
     document.getElementById("tasks_in_board").innerHTML = currentTasks.length
@@ -91,9 +95,9 @@ function renderTasksToSummary (){
     document.getElementById("awaiting_feedback").innerHTML = count
     }   
 
-    for (let i = 0; i < levels.length; i++) {
+    for (let i = 0; i < prios.length; i++) {
         let count = 0
-    if (levels[i] === "urgent") {count++;}
+    if (prios[i] === "urgent") {count++;}
     document.getElementById("urgent").innerHTML = count
     } 
 }

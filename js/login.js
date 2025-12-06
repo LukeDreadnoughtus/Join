@@ -111,16 +111,37 @@ function checkAllInputs() {
 }
 
 
+// function checkAllFieldsFilled() {
+//     const name = document.getElementById("name_registration").value.trim();
+//     const email = document.getElementById("email_registration").value.trim();
+//     const password = document.getElementById("password_registration").value.trim();
+//     const passwordConfirm = document.getElementById("password_confirm").value.trim();
+//     let allFilled = true;
+//     allFilled = checkName(name) && allFilled;
+//     allFilled = checkEmail(email) && allFilled;
+//     allFilled = checkPassword(password) && allFilled;
+//     allFilled = checkPasswordConfirm(passwordConfirm) && allFilled;
+//     return allFilled;
+// }
+
 function checkAllFieldsFilled() {
     const name = document.getElementById("name_registration").value.trim();
     const email = document.getElementById("email_registration").value.trim();
     const password = document.getElementById("password_registration").value.trim();
     const passwordConfirm = document.getElementById("password_confirm").value.trim();
+
+    console.log("Name:", checkName(name));
+    console.log("Email:", checkEmail(email));
+    console.log("Password:", checkPassword(password));
+    console.log("Password Confirm:", checkPasswordConfirm(passwordConfirm));
+
     let allFilled = true;
     allFilled = checkName(name) && allFilled;
     allFilled = checkEmail(email) && allFilled;
-    allFilled = checkPassword(password) && allFilled;
+    allFilled = checkPasswordregistration(password) && allFilled;
     allFilled = checkPasswordConfirm(passwordConfirm) && allFilled;
+
+    console.log("Ergebnis ALL:", allFilled);
     return allFilled;
 }
 
@@ -145,7 +166,7 @@ function checkEmail (email) {
 }
 
 
-function checkPassword(password) {
+function checkPasswordregistration(password) {
     if(!password) {
     document.getElementById("password_registration").classList.add("input_style_red")
     document.getElementById("password_registration").classList.remove("input_style")
@@ -230,12 +251,10 @@ function showVisibilityIcon2(event) {
   }
 }
 
-
 function checkInputUserfeedback () {
     removesAlert ()
     removesRedBorderInput()
 }
-
 
 function removesAlert () {
     let alert = document.getElementById("passwordmatch");
@@ -312,12 +331,12 @@ function showPassword2(event) {
 
 async function registration (event) {
     event.preventDefault();
-    removeUserFeedbackCheckAllFields() 
-    if( checkBoxProof() === false) 
+    if(checkBoxProof() === false) 
         {return}
     if (!checkAllFieldsFilled()) {
         document.getElementById("userfeedback_allFields").classList.remove("d_none")
         return}
+    removeUserFeedbackCheckAllFields() 
     let userData = createUserDataObject() 
     if(await proofEmail (userData) === true) return
     await postUserData (event, userData)

@@ -381,6 +381,17 @@
     vertical-align: middle;
 }
 
+
+.no_subtaks {
+    margin-top: 20px; 
+    font-family: "inter";
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+}
+
 .subtasks_list {
     display:flex; 
     flex-direction: column; 
