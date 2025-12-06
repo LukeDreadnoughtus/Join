@@ -24,14 +24,17 @@ function getUserIdFromLocalStorage() {
 
 
 //tasks des aktuellen Nutzers aus Firebase laden und dann in Array current tasks pushen
-async function getTasksOfCurrentUser(userId,event) {
-    event.preventDefault();
+async function getTasksOfCurrentUser(userId, event) {
+    if (event && typeof event.preventDefault === "function") {
+        event.preventDefault();}
+    currentTasks = [];
+    prios = [];
     try {
         const response = await fetch(path + ".json");
         const userTasks = await response.json();
-        searchTasksForCurrentUser(userTasks, userId)
-
-     } catch (error) {
+        if (!userTasks) return;
+        searchTasksForCurrentUser(userTasks, userId);
+    } catch (error) {
         console.error("Fehler beim Laden der Tasks aus Firebase:", error);
         alert("Ein Fehler ist aufgetreten. Deine Tasks konnten leider nicht geladen werden.");
     }
@@ -40,67 +43,49 @@ async function getTasksOfCurrentUser(userId,event) {
 
 //Hier werden die Tasks gesucht, zu welchen diese userID assigned ist. 
 function searchTasksForCurrentUser(userTasks, userId) {
-
-    const keys = Object.keys(userTasks); 
-
-    for (let i = 0; i < keys.length; i++) {
-        const key = keys[i];       
-        const task = userTasks[key]; 
-        const assignedUsers = task.assigned;
-       
-         for (const userkey in assignedUsers) {
-            if(userId === assignedUsers[userkey]) {
-                let boardPosition = task.boardslot
-                let taskPrio = task.priority
-                currentTasks.push(boardPosition) //alle Aufgaben des Users werden in currentTask gepusht
-                prios.push(taskPrio) //alle priorities werden der Reihenfolge nach in dieses array gepusht
-            } 
-         }
-    }
+    const tasks = Object.values(userTasks || {});
+    tasks.forEach(task => {
+        if (!task || !task.assigned) return;
+        const assignedArray = Array.isArray(task.assigned)
+            ? task.assigned
+            : Object.values(task.assigned);
+        if (assignedArray.includes(userId)) {
+            currentTasks.push(String(task.boardslot || ""));
+            prios.push(String(task.priority || ""));
+        }
+    });
 }
 
 //tasks aus currenttasks herauslesen
 //Hier wird gezählt, wie viele Aufgaben jeweils in welchem Boardslot sind
 //Im letzten Schritt wird gezählt wie oft das level urgent im Array prios vorkommt, denn nur das wird in summary angezeigt. 
 
-function renderTasksToSummary (){
-    document.getElementById("tasks_in_board").innerHTML = currentTasks.length
-/** so müssten dann die boardslots auch bei den tasks heißen, wenn wir das board mit dem drag&drop aufsetzen */
-    let toDo = "todo"
-    let done ="done"
-    let tasksInProgress = "progress"
-    let awaitingFeedback = "feedback"
-
-    for (let i = 0; i < currentTasks.length; i++) {
-        let count = 0
-    if (currentTasks[i] === toDo) {count++;}
-    document.getElementById("to_do").innerHTML = count
-    }   
-
-    for (let i = 0; i < currentTasks.length; i++) {
-        let count = 0
-    if (currentTasks[i] === done) {count++;}
-    document.getElementById("done").innerHTML = count
-    }   
-
-    for (let i = 0; i < currentTasks.length; i++) {
-        let count = 0
-    if (currentTasks[i] === tasksInProgress) {count++;}
-    document.getElementById("tasks_in_progress").innerHTML = count
-    }   
-
-    for (let i = 0; i < currentTasks.length; i++) {
-        let count = 0
-    if (currentTasks[i] === awaitingFeedback) {count++;}
-    document.getElementById("awaiting_feedback").innerHTML = count
-    }   
-
-    for (let i = 0; i < prios.length; i++) {
-        let count = 0
-    if (prios[i] === "urgent") {count++;}
-    document.getElementById("urgent").innerHTML = count
-    } 
+function renderTasksToSummary() {
+    document.getElementById("tasks_in_board").innerHTML = currentTasks.length;
+    document.getElementById("to_do").innerHTML = countBoardSlot(currentTasks, "todo");
+    document.getElementById("done").innerHTML = countBoardSlot(currentTasks, "done");
+    document.getElementById("tasks_in_progress").innerHTML = countBoardSlot(currentTasks, "progress");
+    document.getElementById("awaiting_feedback").innerHTML = countBoardSlot(currentTasks, "feedback");
+    document.getElementById("urgent").innerHTML = countUrgent(prios, "urgent");
 }
+
+
+function countUrgent(arr, value) {
+    let count = 0;
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === value) count++;
+    }
+    return count;
+}
+
+function countBoardSlot(arr, slotName) {
+    let count = 0;
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === slotName) count++;
+    }
+    return count;
+}
+
 
 
 
