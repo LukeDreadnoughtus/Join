@@ -768,6 +768,24 @@ transition: background-color 120ms ease;
   margin-right:20px; 
 }
 
+.user_checkbox:checked {
+  background-color: #2A3647;
+  border-color: #2A3647;
+}
+
+.user_checkbox:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+
 .user_icon {
     width: 32px;
     height: 32px;

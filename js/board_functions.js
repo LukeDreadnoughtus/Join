@@ -46,52 +46,60 @@ async function renderAllTasks(tasks) {
   }
 }
 
+//next functions to build taskDataObject
 async function buildTaskData(currentTask, key) {
-      const taskId = currentTask.id || key || crypto.randomUUID(); // ID aus der Datenbank übernehmen oder generieren (Fallback)
-      const currentBoardSlot = currentTask.boardslot
-      const currentCategory = currentTask.category
-      const categoryColor = currentCategoryColor(currentCategory)
-      const currentTitle = currentTask.title
-      const currentDescription = currentTask.description
-      const currentPriority = currentTask.priority
-      const currentDuedate = formatDateDDMMYYYY(currentTask.duedate);
+    const base = extractBaseData(currentTask, key);
+    const subtasks = extractSubtaskData(currentTask);
+    const assigned = await extractAssignedUsers(currentTask);
+    return {
+        ...base,
+        ...subtasks,
+        ...assigned,
+    };
+}
 
-      //subtasks
-      const currentSubtask = Array.isArray(currentTask.subtasks)? currentTask.subtasks: [];
-      let currentSubtasksNumber = 0;
-      let doneSubTasks = 0;
-      if (currentSubtask.length > 0) {
-      currentSubtasksNumber = currentSubtaskNumber(currentTask);
-      doneSubTasks = currentCompletedTasksNumber(currentTask);
-      }
+function extractBaseData(task, key) {
+    return {
+        id: task.id || key || crypto.randomUUID(),
+        boardSlot: task.boardslot,
+        category: task.category,
+        categoryColor: currentCategoryColor(task.category),
+        title: task.title,
+        description: task.description,
+        duedate: formatDateDDMMYYYY(task.duedate),
+        priority: task.priority,
+    };
+}
 
-       // Assigned Users
-      const currentAssignedUserids = Array.isArray(currentTask.assigned) && currentTask.assigned.length > 0 ? currentTask.assigned : null;
-      let assignedUsers = [];
-      let assignedUserColors = [];
-      if (currentAssignedUserids) {
-      assignedUsers = await fetchUserNames (currentAssignedUserids)
-      assignedUserColors = await fetchUsercolors(currentAssignedUserids)
-      } else {// Fallback: Noch keine User assigned
-        assignedUsers = [];
-        assignedUserColors = []; 
-      }
-      const taskData = {
-        id: taskId,
-        boardSlot: currentBoardSlot,
-        category: currentCategory,
-        categoryColor: categoryColor,
-        title: currentTitle,
-        description: currentDescription,
-        duedate: currentDuedate,
-        subtasksTotal: currentSubtasksNumber,
-        subtasksDone: doneSubTasks,
-        subtasks: currentSubtask,
-        priority: currentPriority,
-        assignedUsers: assignedUsers,
-        assignedUserColors: assignedUserColors,
-      }
-      return taskData
+function extractSubtaskData(task) {
+    const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
+
+    if (subtasks.length === 0) {
+        return {
+            subtasksTotal: 0,
+            subtasksDone: 0,
+            subtasks: [],
+        };
+    }
+    return {
+        subtasksTotal: currentSubtaskNumber(task),
+        subtasksDone: currentCompletedTasksNumber(task),
+        subtasks: subtasks,
+    };
+}
+
+async function extractAssignedUsers(task) {
+    const ids = Array.isArray(task.assigned) && task.assigned.length > 0? task.assigned: [];
+    if (ids.length === 0) {
+        return {
+            assignedUsers: [],
+            assignedUserColors: [],
+        };
+    }
+    return {
+        assignedUsers: await fetchUserNames(ids),
+        assignedUserColors: await fetchUsercolors(ids),
+    };
 }
 
 function formatDateDDMMYYYY(dateInput) {
@@ -101,7 +109,6 @@ function formatDateDDMMYYYY(dateInput) {
     const year = dateObj.getFullYear();
     return `${day}/${month}/${year}`;
 }
-
 
 async function fetchUserNames (currentAssignedUserids) {
     let assignedUsers =[]; 
@@ -128,8 +135,8 @@ function findUserName(user, userData) {
 }
 
 function currentSubtaskNumber(currentTask) {
-    let currentSubtasks = currentTask.subtasks //Hier brauchen wir ein Fallback, falls subtask nicht gefunden wird. 
-    let numberOfCurrentTasks = currentSubtasks.length //Hier ist das noch undefined, weil das hier in der Datenbank anders abgespeichert wird
+    let currentSubtasks = currentTask.subtasks
+    let numberOfCurrentTasks = currentSubtasks.length 
     return numberOfCurrentTasks
 }
 
@@ -148,7 +155,6 @@ async function fetchUsercolors(currentAssignedUserids) {
     try {
         const response = await fetch(pathUser + ".json");
         const userData = await response.json();
-
     for (const user of currentAssignedUserids) {
         let userColor = findUserColor(user,userData)
         assignedUsercolors.push(userColor)
@@ -166,7 +172,6 @@ function findUserColor(user, userData) {
     let userColor = searchedUser.color || "#393737ff";
     return userColor
 }
-
 
 //checkt, ob die einzelnen Spalten genau zwei Kindelemente haben, wenn ja, sind keine Aufgaben gerendert worden
 //dann wird das userFeedback angezeigt. 
@@ -189,14 +194,12 @@ function checkNoTasks() {
     });
 }
 
-
 function initials(user) {
  const parts=String(user||'').trim().split(/\s+/);
   const first=(parts[0]||'').charAt(0).toUpperCase();
   const second=(parts[1]||'').charAt(0).toUpperCase();
   return first+(second||'');
 };
-
 
 function currentCompletedTasksNumber(currentTask) {
     let allSubTasks= currentTask.subtasks
@@ -228,7 +231,6 @@ function renderAssignedUsers(taskData) {
     if (!taskData.assignedUsers || taskData.assignedUsers.length === 0) {
         return '<p class="user_font">No users assigned</p>';
     }
-
     return taskData.assignedUsers.map((user, i) => `
         <div class="user_row_layout">
             <div class="user_icon color${taskData.assignedUserColors[i].replace('#', '')}">
@@ -239,77 +241,95 @@ function renderAssignedUsers(taskData) {
     `).join('');
 }
 
-// function renderSubtasks(taskData) {
-//     if (!taskData.subtasks || typeof taskData.subtasks !== "object") {
-//         return '<p class="subtask_detail_font">No subtasks</p>';
-//     }
-
-//     const subtasksContainer = document.createElement("div");
-
-//     Object.entries(taskData.subtasks).forEach(([key, currentSubtask]) => {
-//         const subtaskDiv = document.createElement("div");
-//         subtaskDiv.classList.add("subtask_check");
-
-//         const checkbox = document.createElement("input");
-//         checkbox.type = "checkbox";
-//         checkbox.id = `subtask_${key}`;
-//         checkbox.checked = currentSubtask.done;
-
-//         checkbox.addEventListener("change", (event) => {
-//             toggleSubtask(event, key, taskData);
-//         });
-
-//         const label = document.createElement("label");
-//         label.htmlFor = checkbox.id;
-//         label.classList.add("subtask_label");
-//         label.innerHTML = `<p class="subtask_detail_font">${currentSubtask.name}</p>`;
-
-//         subtaskDiv.appendChild(checkbox);
-//         subtaskDiv.appendChild(label);
-//         subtasksContainer.appendChild(subtaskDiv);
-//     });
-
-//     return subtasksContainer;
-// }
-
+/**
+ * Rendert alle Subtasks eines Tasks
+ */
 function renderSubtasks(taskData) {
-
-    // Wenn keine Subtasks vorhanden
-    if (!taskData.subtasks || Object.keys(taskData.subtasks).length === 0) {
-        const noSubtasks = document.createElement("p");
-        noSubtasks.classList.add("no_subtaks");
-        noSubtasks.textContent = "No subtasks yet";
-        return noSubtasks;
+    if (noSubtasksExist(taskData)) {
+        return renderNoSubtasksMessage();
     }
 
-    const subtasksContainer = document.createElement("div");
-
-    Object.entries(taskData.subtasks).forEach(([key, currentSubtask]) => {
-        const subtaskDiv = document.createElement("div");
-        subtaskDiv.classList.add("subtask_check");
-
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.id = `subtask_${key}`;
-        checkbox.checked = currentSubtask.done;
-
-        checkbox.addEventListener("change", (event) => {
-            toggleSubtask(event, key, taskData);
-        });
-
-        const label = document.createElement("label");
-        label.htmlFor = checkbox.id;
-        label.classList.add("subtask_label");
-        label.innerHTML = `<p class="subtask_detail_font">${currentSubtask.name}</p>`;
-
-        subtaskDiv.appendChild(checkbox);
-        subtaskDiv.appendChild(label);
-        subtasksContainer.appendChild(subtaskDiv);
-    });
-
-    return subtasksContainer;
+    const container = createSubtasksContainer();
+    appendRenderedSubtasks(container, taskData);
+    return container;
 }
 
+/**
+ * Prüft ob keine Subtasks existieren
+ */
+function noSubtasksExist(taskData) {
+    return (
+        !taskData.subtasks ||
+        Object.keys(taskData.subtasks).length === 0
+    );
+}
+
+/**
+ * Rendert die "No subtasks yet" Nachricht
+ */
+function renderNoSubtasksMessage() {
+    const noSubtasks = document.createElement("p");
+    noSubtasks.classList.add("no_subtaks");
+    noSubtasks.textContent = "No subtasks yet";
+    return noSubtasks;
+}
+
+/**
+ * Erstellt den Container für alle Subtasks
+ */
+function createSubtasksContainer() {
+    return document.createElement("div");
+}
+
+/**
+ * Fügt jeden Subtask dem Container hinzu
+ */
+function appendRenderedSubtasks(container, taskData) {
+    Object.entries(taskData.subtasks).forEach(([key, subtask]) => {
+        const subtaskEl = renderSingleSubtask(key, subtask, taskData);
+        container.appendChild(subtaskEl);
+    });
+}
+
+/**
+ * Rendert einen einzelnen Subtask
+ */
+function renderSingleSubtask(key, subtask, taskData) {
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("subtask_check");
+    const checkbox = createSubtaskCheckbox(key, subtask, taskData);
+    const label = createSubtaskLabel(key, subtask);
+    wrapper.appendChild(checkbox);
+    wrapper.appendChild(label);
+    return wrapper;
+}
+
+/**
+ * Checkbox für Subtask
+ */
+function createSubtaskCheckbox(key, subtask, taskData) {
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = `subtask_${key}`;
+    checkbox.checked = subtask.done;
+    checkbox.addEventListener("change", (event) => {
+        toggleSubtask(event, key, taskData);
+    });
+    return checkbox;
+}
+
+/**
+ * Label für Subtask
+ */
+function createSubtaskLabel(key, subtask) {
+    const label = document.createElement("label");
+    label.htmlFor = `subtask_${key}`;
+    label.classList.add("subtask_label");
+    label.innerHTML = `<p class="subtask_detail_font">${subtask.name}</p>`;
+    return label;
+}
+
+//öffnet Edit-Ansicht
 
 function editTask(id) {
     const overlay = document.getElementById("task_full_view");
@@ -341,18 +361,14 @@ function initEditDatepicker() {
     });
 }
 
-
 function highlightCurrentPriority(priorityValue) {
     const buttons = document.querySelectorAll(".priority_button");
-
     buttons.forEach(btn => {
         const value = btn.getAttribute("data-value");
-
         // Zurücksetzen
         btn.classList.remove("active_priority");
         btn.disabled = false;
         btn.style.pointerEvents = "auto";
-
         // Aktive Prio markieren
         if (value === priorityValue) {
             btn.classList.add("active_priority");
@@ -364,30 +380,25 @@ function highlightCurrentPriority(priorityValue) {
 
 function setPriority(prio, id) {
     const buttons = document.querySelectorAll(".priority_button");
-
     buttons.forEach(btn => {
         btn.classList.remove("active_priority");
         btn.disabled = false;
         btn.style.pointerEvents = "auto";
     });
-
     const activeBtn = document.querySelector(`.priority_button[data-value="${prio}"]`);
     activeBtn.classList.add("active_priority");
     activeBtn.disabled = true;
     activeBtn.style.pointerEvents = "none";
-
     allTasks[id].priority = prio; 
 }
 
 function renderEditSubtasks(taskData) {
     const subtaskList = document.getElementById("subtask_list");
     subtaskList.innerHTML = "";
-
     if (!taskData.subtasks || Object.keys(taskData.subtasks).length === 0) {
         return;
     }
     Object.entries(taskData.subtasks).forEach(([index, subtask]) => {
-
         const li = document.createElement("li");
         li.classList.add("edit_subtask_item");
         li.innerHTML = `
@@ -409,7 +420,6 @@ function renderAssignedUserIcons(taskData) {
             ${initials(user)}
         </div>
     `).join("");
-
     alreadyAssignedContainer.innerHTML = assignedIconsHtml;
 }
 
@@ -447,16 +457,12 @@ async function postSubtaskData (taskId, index, newValue){
     });
 }
 
-
 //Ab hier functions for edit - hier assigned Users
-// const allUsers = ["Anna Müller", "Ben Kaiser", "Chris Sommer", "David Lenz"];
-// let selectedUsers = [];
 
 async function toggleUserDropdown(id) {
     const dropdown = document.getElementById("userDropdownList");
     // toggle() gibt TRUE zurück, wenn die Klasse *hinzugefügt* wurde
     const isNowHidden = dropdown.classList.toggle("d_none");
-
     // Wenn das Dropdown JETZT sichtbar ist → loadUserDropdown
     if (!isNowHidden) {
         await loadUserDropdown(id);
@@ -467,89 +473,74 @@ async function toggleUserDropdown(id) {
     }
 }
 
-
 //Hier wird das Dropdown zum User-Select geladen
 async function loadUserDropdown(id) {
-    const allUsers = await fetchAllUsers(id);
+    const allUsers = await fetchAllUsers();
+    const assigned = allTasks[id].assignedUsers;
     const list = document.getElementById("userDropdownList");
-    list.innerHTML = "";
-    allUsers.forEach(user => {
-        list.innerHTML += createUserTemplate(user, id); 
-    });
+
+    list.innerHTML = allUsers.map(user =>
+        createUserTemplate(user, id, assigned.includes(user.name))
+    ).join("");
 }
 
 //Hier wird jede Reihe des Dropdowns gebildet
 
-function createUserTemplate(user, id) {
-  const color = user.color || "#393737ff"; 
-  const iconColor = color.replace('#', '');
-  const usericon = initials(user.name)
- 
+function createUserTemplate(user, id, isAssigned) {
+    const color = user.color || "#393737ff"; 
+    const iconColor = color.replace('#', '');
+    const usericon = initials(user.name);
     return `
         <div class="user_option">
-        <div class="selectable_user">
-          <div class="user_icon color${iconColor}">${usericon}</div>
-          <span>${user.name}</span>
-        </div>
-          <input type="checkbox" class="user_checkbox" onclick="toggleAssignedUsers('${color}','${user.name}','${id}', this)">
+            <div class="selectable_user">
+                <div class="user_icon color${iconColor}">${usericon}</div>
+                <span>${user.name}</span>
+            </div>
+            <input 
+                type="checkbox" 
+                class="user_checkbox"
+                ${isAssigned ? "checked" : ""}
+                onclick="toggleAssignedUsers('${user.color}','${user.name}','${id}', this)"
+            >
         </div>
     `;
 }
 
-async function fetchAllUsers(id) {
-    let allUsers = [];
+
+async function fetchAllUsers() {
     try {
         const response = await fetch(pathUser + ".json");
         const userData = await response.json();
-
-        for (const userId in userData) {
-            const userObj = userData[userId];
-            const userName = userObj.name;
-            const userColor = userObj.color;
-            if (assignedUserCheck(id, userName)) continue;
-            allUsers.push({
-                userId: userId,
-                name: userName,
-                color: userColor
-            });
-        }
-        return allUsers;
+        return Object.entries(userData).map(([userId, data]) => ({
+            userId,
+            name: data.name,
+            color: data.color
+        }));
     } catch (error) {
-        console.error("Fehler beim Laden der verfügbaren User:", error);
+        console.error("Fehler beim Laden der User:", error);
         alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
         return [];
     }
 }
 
-//Prüft ob der userName schon assigned ist. 
-
-function assignedUserCheck(id, userName) { 
-    const assignedUserProof = allTasks[id].assignedUsers
-    return assignedUserProof.includes(userName)
-}
-
-
 //Diese Funktion fügt neue assigned user hinzu. 
+// Sicherheit: Falls Arrays noch nicht existieren
 function toggleAssignedUsers(userColor, userName, id, checkbox) {
-    // Wenn angehakt → hinzufügen
+    const task = allTasks[id];
+    if (!task.assignedUsers) task.assignedUsers = [];
+    if (!task.assignedUserColors) task.assignedUserColors = [];
     if (checkbox.checked) {
-        if (!allTasks[id].assignedUsers.includes(userName)) {
-            allTasks[id].assignedUsers.push(userName);
-            allTasks[id].assignedUserColors.push(userColor);
+        if (!task.assignedUsers.includes(userName)) {
+            task.assignedUsers.push(userName);
+            task.assignedUserColors.push(userColor);
         }
-    } 
-    // Wenn nicht angehakt → entfernen
-    else {
-        // Index des Users suchen
-        const index = allTasks[id].assignedUsers.indexOf(userName);
-        // Falls User existiert → beide Arrays synchron entfernen
+    } else {
+        const index = task.assignedUsers.indexOf(userName);
         if (index !== -1) {
-            allTasks[id].assignedUsers.splice(index, 1);
-            allTasks[id].assignedUserColors.splice(index, 1);
+            task.assignedUsers.splice(index, 1);
+            task.assignedUserColors.splice(index, 1);
         }
     }
-    // UI aktualisieren
-    loadUserDropdown(id);
 }
 
 //Funktionen für subTask-Bearbeitung, zeigt auf das Icon
@@ -574,60 +565,107 @@ function addNewSubtask(id) {
     renderEdit(id);   
 }
 
-
 //Funktionen um Bearbeitung in die Datenbank zu speichern. 
 
+/**
+ * Speichert die Änderungen eines Tasks
+ */
 async function saveEdits(id) {
-    const newTitle = document.getElementById("edit_title").value
-    const newDescription = document.getElementById("edit_description").value
-    const rawDueDate = document.getElementById("edit_due_date").value;
-    const firebaseDate = convertDateToFirebaseFormat(rawDueDate);
-
-    allTasks[id].title = newTitle
-    allTasks[id].description = newDescription
-    allTasks[id].duedate = rawDueDate
-    let currentAssignedUser = allTasks[id].assignedUsers
-    let assignedUserIds= await getUserId(currentAssignedUser)
-
-    const patchData = {
-        title: newTitle,
-        description: newDescription ,
-        duedate: firebaseDate,
-        subtasks: allTasks[id].subtasks,
-        priority: allTasks[id].priority,
-        assigned: assignedUserIds
-    };
-
-    // alles, was gleich geblieben ist → NICHT senden
+    const input = collectEditInputs();
+    const firebaseDate = convertDateToFirebaseFormat(input.rawDueDate);
+    updateLocalTask(id, input);
+    const assignedUserIds = await prepareAssignedUserIds(id);
+    const patchData = buildPatchData(id, firebaseDate, assignedUserIds);
     await updateTaskInFirebase(id, patchData);
-    document.getElementById("task_edit_view").classList.add("d_none")
-    document.getElementById("task_full_view").classList.remove("d_none")
-    const taskData = allTasks[id];
-    renderTaskCardFullView(taskData)
+    toggleEditView();
+    renderTaskCardFullView(allTasks[id]);
 }
 
+/**
+ * Liest alle Input-Felder ein
+ */
+function collectEditInputs() {
+    return {
+        newTitle: document.getElementById("edit_title").value,
+        newDescription: document.getElementById("edit_description").value,
+        rawDueDate: document.getElementById("edit_due_date").value
+    };
+}
+
+/**
+ * Updated den lokalen Task im allTasks Array
+ */
+function updateLocalTask(id, input) {
+    const task = allTasks[id];
+    task.title = input.newTitle;
+    task.description = input.newDescription;
+    task.duedate = input.rawDueDate;
+}
+
+/**
+ * Holt User-IDs für assigned Users
+ */
+async function prepareAssignedUserIds(id) {
+    const currentAssignedUser = allTasks[id].assignedUsers;
+    return await getUserId(currentAssignedUser);
+}
+
+/**
+ * Baut das Patch-Objekt für Firebase
+ */
+function buildPatchData(id, firebaseDate, assignedUserIds) {
+    const t = allTasks[id];
+    return {
+        title: t.title,
+        description: t.description,
+        duedate: firebaseDate,
+        subtasks: t.subtasks,
+        priority: t.priority,
+        assigned: assignedUserIds
+    };
+}
+
+/**
+ * Wechselt zurück von Edit View zur normalen Detailansicht
+ */
+function toggleEditView() {
+    document.getElementById("task_edit_view").classList.add("d_none");
+    document.getElementById("task_full_view").classList.remove("d_none");
+}
+
+/**
+ * Liefert die User-IDs anhand der zugewiesenen Usernamen.
+ */
 async function getUserId(currentAssignedUser) {
-    let userIds = [];
     try {
-        const response = await fetch(pathUser + ".json");
-        const userData = await response.json();
-
-        console.log("Fetched userData:", userData);
-
-        for (const userId in userData) {
-            const userObj = userData[userId];
-            console.log("Check:", userId, userObj.name);
-            if (currentAssignedUser.includes(userObj.name)) {
-                userIds.push(userId);
-            }
-        }
-        console.log("Check:", userIds);
-        return userIds;
-
+        const userData = await loadAllUsers();
+        return findMatchingUserIds(userData, currentAssignedUser);
     } catch (error) {
         console.error("Fehler beim Laden der UserIds:", error);
         return [];
     }
+}
+
+/**
+ * Lädt alle User aus Firebase
+ */
+async function loadAllUsers() {
+    const response = await fetch(pathUser + ".json");
+    return await response.json();
+}
+
+/**
+ * Vergleicht Namen → liefert passende User-IDs zurück
+ */
+function findMatchingUserIds(userData, currentAssignedUser) {
+    const userIds = [];
+    for (const userId in userData) {
+        const user = userData[userId];
+        if (currentAssignedUser.includes(user.name)) {
+            userIds.push(userId);
+        }
+    }
+    return userIds;
 }
 
 async function updateTaskInFirebase(id, data) {

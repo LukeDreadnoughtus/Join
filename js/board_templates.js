@@ -233,5 +233,4 @@ function renderTaskEditCard(taskData) {
           <span class="check_svg"><img src="./assets/img/check.svg" alt="check icon" width="24px" height="24px"></span>
   </button>
 `
-
 }
