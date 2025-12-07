@@ -131,7 +131,7 @@ function renderTaskEditCard(taskData) {
   overlayContent.innerHTML =""; 
   overlayContent.innerHTML = ` 
   <div class="close_icon_wrapper close_icon_margin">
-        <img src="./assets/img/close.svg" alt="close icon" class="close_icon" onclick="closeTaskOverlayEdit(event)">
+        <img src="./assets/img/close.svg" alt="close icon" class="close_icon" onclick="closeTaskOverlayEdit(event, '${taskData.id}')">
   </div>
   <div class="scroll-area">
   <div class="edit_title">

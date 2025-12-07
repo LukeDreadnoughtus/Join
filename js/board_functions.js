@@ -438,25 +438,31 @@ function addSubtaskHoverBehavior(li) {
 }
 
 //subtask löschen 
-// 1) Lokal löschen
-// 2) Ausgelagerter Firebase-Update
-// 3) UI aktualisieren
-// async function deleteSubtask(id, subtaskKey) {
-//     if (!confirm("Delete this subtask?")) return;
-//     delete allTasks[id].subtasks[subtaskKey];
-//     await updateSubtasksInFirebase(id, allTasks[id].subtasks);
-//     renderEdit(id);
-// }
-
-// async function updateSubtasksInFirebase(taskId, subtasks) {
-//     const url = `${path}/${taskId}/subtasks.json`;
-//     await fetch(url, {
-//         method: "PUT",
-//         body: JSON.stringify(subtasks)
-//     });
-// }
 
 /** Reindexiert ein Subtask-Objekt zurück zu 0,1,2,... */
+/**
+ * Reindexes a subtask object so that all numeric keys become a continuous
+ * zero-based sequence (0, 1, 2, ...).  
+ *
+ * This function extracts all properties whose keys are strictly numeric,
+ * sorts them by their numeric value, and rebuilds a new object with
+ * consecutive numeric keys.  
+ *
+ * Non-numeric keys are ignored.  
+ * The original object is not modified.
+ *
+ * @param {Object} subtasks - The subtask collection as an object with numeric keys.
+ * @returns {Object} A new object with sequential numeric keys starting at 0.
+ *
+ * @example
+ * // Input:
+ * // { "0": {...}, "2": {...}, "5": {...} }
+ *
+ * const result = reindexSubtasksObject(subtasks);
+ *
+ * // Output:
+ * // { "0": {...}, "1": {...}, "2": {...} }
+ */
 
 function reindexSubtasksObject(subtasks) {
     if (!subtasks || typeof subtasks !== "object") return {};
@@ -480,19 +486,14 @@ function reindexSubtasksObject(subtasks) {
 /** Löscht einen Subtask, indexiert danach neu und speichert in Firebase */
 async function deleteSubtask(id, subtaskKey) {
     if (!confirm("Delete this subtask?")) return;
-
     // 1) lokal löschen
     delete allTasks[id].subtasks[subtaskKey];
-
     // 2) neu indexieren
     const reindexed = reindexSubtasksObject(allTasks[id].subtasks);
-
     // 3) zurückschreiben ins lokale Objekt
     allTasks[id].subtasks = reindexed;
-
     // 4) in Firebase speichern
     await updateSubtasksInFirebase(id, reindexed);
-
     // 5) UI neu rendern
     renderEdit(id);
 }
@@ -506,33 +507,54 @@ async function updateSubtasksInFirebase(taskId, subtasks) {
     });
 }
 
-
 //subtask bearbeiten 
 
 function editSubtask(taskId, subtaskKey) {
     const task = allTasks[taskId];
     const subtask = task.subtasks[subtaskKey];
+
     const listItem = document.querySelector(
         `.edit_subtask_item:nth-child(${parseInt(subtaskKey) + 1})`
     );
-    const span = listItem.querySelector(".subtask_element");
-    span.outerHTML = `
+
+    listItem.classList.add("editing");
+    const inner = listItem.querySelector(".subtask_inner");
+
+    inner.innerHTML = `
         <input type="text" 
                class="subtask_edit_input"
                value="${subtask.name}"
-               onblur="saveSubtaskEdit('${taskId}', '${subtaskKey}', this)">
+               autofocus>
+
+        <div class="subtask_edit_actions">
+             <img src="./assets/img/delete.svg" 
+                 class="subtask_delete_icon subtask_edit_icons" 
+                 onclick="deleteSubtask('${taskId}', '${subtaskKey}')">
+            <img src="./assets/img/check_black.svg" 
+                 class="subtask_check_icon subtask_edit_icons" 
+                 onclick="saveSubtaskEdit('${taskId}', '${subtaskKey}', this.closest('li'))">
+        </div>
     `;
 }
 
-//subtask speichern 
-function saveSubtaskEdit(taskId, subtaskKey, inputElement) {
-    const newValue = inputElement.value.trim();
-    if (!newValue) return;
 
-    allTasks[taskId].subtasks[subtaskKey].name = newValue;
+//bearbeitete subtask speichern 
+async function saveSubtaskEdit(taskId, subtaskKey, liElement) {
+    const input = liElement.querySelector(".subtask_edit_input");
+    const newName = input.value.trim();
 
-    renderEdit(taskId); // UI aktualisieren
+    if (!newName) return;
+
+    // local update
+    allTasks[taskId].subtasks[subtaskKey].name = newName;
+
+    // save to Firebase
+    await updateSubtasksInFirebase(taskId, allTasks[taskId].subtasks);
+    liElement.classList.remove("editing");
+    // re-render UI
+    renderEdit(taskId);
 }
+
 
 
 function renderAssignedUserIcons(taskData) {
@@ -550,8 +572,8 @@ function renderAssignedUserIcons(taskData) {
     alreadyAssignedContainer.innerHTML = assignedIconsHtml;
 }
 
-
-async function closeTaskOverlayEdit(event) {
+//close edit overlay
+async function closeTaskOverlayEdit(event, id) {
     event.stopPropagation
     document.getElementById("task_edit_view").classList.add("d_none")
     document.getElementById("task_full_view").classList.add("d_none")
@@ -676,9 +698,9 @@ function clearSubtaskInput(icon) {
     input.value = "";
 }
 
-// Um eine subtask hinzuzufügen
+// Um eine subtask hinzuzufügen und diese in der Datenbank abzuspeichern 
 
-function addNewSubtask(id) {
+async function addNewSubtask(id) {
     const input = document.getElementById("edit_subtask_input");
     const newSubtaskName = input.value.trim();
     if (!newSubtaskName) return; 
@@ -687,12 +709,12 @@ function addNewSubtask(id) {
         name: newSubtaskName 
     };
     allTasks[id].subtasks.push(newSubtask);
+    await updateSubtasksInFirebase (id, allTasks[id].subtasks);
     input.value = ""; 
     renderEdit(id);   
 }
 
 //Funktionen um Bearbeitung in die Datenbank zu speichern. 
-
 /**
  * Speichert die Änderungen eines Tasks
  */

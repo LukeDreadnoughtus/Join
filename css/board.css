@@ -1067,8 +1067,26 @@ ul#subtask_list {
     padding-left:20px; 
 }
 
+.edit_subtask_item.editing::before {
+    content: none;
+}
+
+.edit_subtask_item.editing::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background-color: #29ABE2;
+}
+
 .edit_subtask_item:hover {
     background-color: #e4e4e4;
+}
+
+.edit_subtask_item.editing:hover {
+    background-color: transparent !important;
 }
 
 .subtask_inner {
@@ -1103,5 +1121,52 @@ ul#subtask_list {
 .subtask_edit_icon:hover,
 .subtask_delete_icon:hover {
     opacity: 1;
+}
+
+/* Inputfeld beim Subtask bearbeiten */
+.subtask_edit_input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    /* border-bottom: 2px solid #29ABE2; */
+    border: none;
+    padding: 4px 4px;
+    font-size: 15px;
+    outline: none;
+}
+
+.subtask_edit_actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.subtask_check_icon,
+.subtask_delete_icon {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.15s ease;
+}
+
+.subtask_check_icon:hover,
+.subtask_delete_icon:hover {
+    opacity: 1;
+}
+
+/* Icons im Editor: gleiche Grundgröße + runde Fläche */
+.subtask_edit_icons {
+    width: 18px;
+    height: 18px;
+    padding: 6px;           /* sorgt für die kreisrunde Fläche */
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+/* Hover-Effekt NUR wenn die Subtask gerade editiert wird */
+.edit_subtask_item.editing .subtask_edit_icons:hover {
+    background-color: #e6e6e6;
 }
 
