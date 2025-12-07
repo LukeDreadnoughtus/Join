@@ -526,14 +526,24 @@ function editSubtask(taskId, subtaskKey) {
                value="${subtask.name}"
                autofocus>
 
-        <div class="subtask_edit_actions">
-             <img src="./assets/img/delete.svg" 
-                 class="subtask_delete_icon subtask_edit_icons" 
-                 onclick="deleteSubtask('${taskId}', '${subtaskKey}')">
-            <img src="./assets/img/check_black.svg" 
-                 class="subtask_check_icon subtask_edit_icons" 
-                 onclick="saveSubtaskEdit('${taskId}', '${subtaskKey}', this.closest('li'))">
-        </div>
+    <div class="subtask_edit_actions">
+    
+    <div class="icon_wrapper_edit">
+        <img src="./assets/img/delete.svg" 
+             class="subtask_delete_icon" 
+             onclick="deleteSubtask('${taskId}', '${subtaskKey}')">
+    </div>
+
+    <div class="subtask_separator_edit"></div>
+
+    <div class="icon_wrapper_edit">
+        <img src="./assets/img/check_black.svg" 
+             class="subtask_check_icon" 
+             onclick="saveSubtaskEdit('${taskId}', '${subtaskKey}', this.closest('li'))">
+    </div>
+
+</div>
+
     `;
 }
 
