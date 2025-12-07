@@ -824,15 +824,8 @@ transition: background-color 120ms ease;
 }
 
 .subtasklist {
-    margin-top: 20px; 
-}
-
-.subtasklist li {
-    margin-top: 8px;
-}
-
-.subtask_element {
-    margin-top: 10px; 
+    margin-top: 20px;
+    margin-bottom: 20px; 
 }
 
 .input_edit_subtask_wrapper {
@@ -1042,9 +1035,73 @@ transition: background-color 120ms ease;
     background: #7AE229;
 }
 
-/* SVG im aktiven Zustand wird weiß */
-.priority_button.active_priority svg path {
-    fill: white;
+#subtask_list {      
+    margin-right: 10px; 
 }
 
+ul#subtask_list {
+    padding-left: 0 !important;
+    padding-inline-start: 0 !important;
+}
+
+.edit_subtask_item {
+    display: flex;             
+    align-items: center;            
+    padding: 1px 5px 3px 40px;   
+    position: relative;
+    margin: 9px 0;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.15s ease;
+    list-style: none;            
+}
+
+.edit_subtask_item::before {
+    content: "•";                 
+    position: absolute;
+    left: 1px;                   
+    top: 50%;
+    transform: translateY(-50%);
+    color: #333;
+    font-size: 14px;
+    padding-left:20px; 
+}
+
+.edit_subtask_item:hover {
+    background-color: #e4e4e4;
+}
+
+.subtask_inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 10px; 
+    min-height: 22px; 
+    width: 100%; 
+}
+
+.subtask_element {
+    flex: 1;
+    padding-right: 10px;
+}
+
+.subtask_actions {
+    display: flex;
+    gap: 6px;
+}
+
+.subtask_edit_icon,
+.subtask_delete_icon {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.15s ease;
+    margin-right: 10px; 
+}
+
+.subtask_edit_icon:hover,
+.subtask_delete_icon:hover {
+    opacity: 1;
+}
 

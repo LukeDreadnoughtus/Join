@@ -392,6 +392,9 @@ function setPriority(prio, id) {
     allTasks[id].priority = prio; 
 }
 
+//Hier werden die schon vorhandenen subtasks in einer Liste gerendert
+//funktion für die subtasks in der edit ansicht + ausgelagerte Funktionen
+
 function renderEditSubtasks(taskData) {
     const subtaskList = document.getElementById("subtask_list");
     subtaskList.innerHTML = "";
@@ -399,14 +402,138 @@ function renderEditSubtasks(taskData) {
         return;
     }
     Object.entries(taskData.subtasks).forEach(([index, subtask]) => {
-        const li = document.createElement("li");
-        li.classList.add("edit_subtask_item");
-        li.innerHTML = `
-            <span class="subtask_element">${subtask.name}</span>
-        `;
+        const li = createSubtaskListItem(taskData, index, subtask);
+        addSubtaskHoverBehavior(li);
         subtaskList.appendChild(li);
     });
 }
+
+function createSubtaskListItem(taskData, index, subtask) {
+    const li = document.createElement("li");
+    li.classList.add("edit_subtask_item");
+    li.innerHTML = `
+        <div class="subtask_inner">
+            <span class="subtask_element">${subtask.name}</span>
+
+            <div class="subtask_actions d_none">
+                <img src="./assets/img/edit.svg" class="subtask_edit_icon"
+                     onclick="editSubtask('${taskData.id}', '${index}')">
+                <div class="subtask_separator"></div>
+                <img src="./assets/img/delete.svg" class="subtask_delete_icon"
+                     onclick="deleteSubtask('${taskData.id}', '${index}')">
+            </div>
+        </div>
+    `;
+    return li;
+}
+
+function addSubtaskHoverBehavior(li) {
+    const actionContainer = li.querySelector(".subtask_actions");
+    li.addEventListener("mouseenter", () => {
+        actionContainer.classList.remove("d_none");
+    });
+    li.addEventListener("mouseleave", () => {
+        actionContainer.classList.add("d_none");
+    });
+}
+
+//subtask löschen 
+// 1) Lokal löschen
+// 2) Ausgelagerter Firebase-Update
+// 3) UI aktualisieren
+// async function deleteSubtask(id, subtaskKey) {
+//     if (!confirm("Delete this subtask?")) return;
+//     delete allTasks[id].subtasks[subtaskKey];
+//     await updateSubtasksInFirebase(id, allTasks[id].subtasks);
+//     renderEdit(id);
+// }
+
+// async function updateSubtasksInFirebase(taskId, subtasks) {
+//     const url = `${path}/${taskId}/subtasks.json`;
+//     await fetch(url, {
+//         method: "PUT",
+//         body: JSON.stringify(subtasks)
+//     });
+// }
+
+/** Reindexiert ein Subtask-Objekt zurück zu 0,1,2,... */
+
+function reindexSubtasksObject(subtasks) {
+    if (!subtasks || typeof subtasks !== "object") return {};
+    const numericEntries = Object.keys(subtasks)
+        .map(key => {
+            const n = Number(key);
+            return (!isNaN(n) && String(n) === key)
+                ? { n, val: subtasks[key] }
+                : null;
+        })
+        .filter(e => e !== null)
+        .sort((a, b) => a.n - b.n);
+
+    const reindexed = {};
+    numericEntries.forEach((entry, index) => {
+        reindexed[index] = entry.val;
+    });
+    return reindexed;
+}
+
+/** Löscht einen Subtask, indexiert danach neu und speichert in Firebase */
+async function deleteSubtask(id, subtaskKey) {
+    if (!confirm("Delete this subtask?")) return;
+
+    // 1) lokal löschen
+    delete allTasks[id].subtasks[subtaskKey];
+
+    // 2) neu indexieren
+    const reindexed = reindexSubtasksObject(allTasks[id].subtasks);
+
+    // 3) zurückschreiben ins lokale Objekt
+    allTasks[id].subtasks = reindexed;
+
+    // 4) in Firebase speichern
+    await updateSubtasksInFirebase(id, reindexed);
+
+    // 5) UI neu rendern
+    renderEdit(id);
+}
+
+/** Speichert nur den Subtasks-Bereich in Firebase */
+async function updateSubtasksInFirebase(taskId, subtasks) {
+    const url = `${path}/${taskId}/subtasks.json`;
+    await fetch(url, {
+        method: "PUT",
+        body: JSON.stringify(subtasks)
+    });
+}
+
+
+//subtask bearbeiten 
+
+function editSubtask(taskId, subtaskKey) {
+    const task = allTasks[taskId];
+    const subtask = task.subtasks[subtaskKey];
+    const listItem = document.querySelector(
+        `.edit_subtask_item:nth-child(${parseInt(subtaskKey) + 1})`
+    );
+    const span = listItem.querySelector(".subtask_element");
+    span.outerHTML = `
+        <input type="text" 
+               class="subtask_edit_input"
+               value="${subtask.name}"
+               onblur="saveSubtaskEdit('${taskId}', '${subtaskKey}', this)">
+    `;
+}
+
+//subtask speichern 
+function saveSubtaskEdit(taskId, subtaskKey, inputElement) {
+    const newValue = inputElement.value.trim();
+    if (!newValue) return;
+
+    allTasks[taskId].subtasks[subtaskKey].name = newValue;
+
+    renderEdit(taskId); // UI aktualisieren
+}
+
 
 function renderAssignedUserIcons(taskData) {
     const alreadyAssignedContainer = document.getElementById("already_assigned");
@@ -505,7 +632,6 @@ function createUserTemplate(user, id, isAssigned) {
         </div>
     `;
 }
-
 
 async function fetchAllUsers() {
     try {
