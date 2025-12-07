@@ -8,6 +8,7 @@ event.preventDefault();
 removeUserfeedback()
 await showTasks()
 checkNoTasks();
+renderUserIcon();
 }
 
 //ToDo: task: overlay erstellen
