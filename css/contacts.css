@@ -52,8 +52,8 @@ body.contacts-page .contacts_modal_content{
 /* detail_avatar und SVG gleich groß */
 .contacts_modal_avatar_slot .detail_avatar,
 .contacts_modal_avatar_slot .contacts_modal_avatar_image{
-  width:40px;
-  height:40px;
+  width:120px;
+  height:120px;
   border-radius:50%;
   display:flex;
   align-items:center;
@@ -64,3 +64,51 @@ body.contacts-page .contacts_modal_content{
 .contacts_modal_avatar_image{
   object-fit:cover;
 }
+
+
+
+body.contacts-page #c_name,
+body.contacts-page #c_email,
+body.contacts-page #c_phone {
+  padding-right: 40px;             /* Platz für das Icon am rechten Rand */
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px 16px;      /* Icon-Größe */
+}
+
+/* Person-Icon im Namensfeld */
+body.contacts-page #c_name {
+}
+
+/* Mail-Icon im E-Mail-Feld */
+body.contacts-page #c_email {
+}
+
+/* Call-Icon im Telefonfeld */
+body.contacts-page #c_phone {
+}
+
+
+
+/* Icons in den Kontakt-Inputfeldern (rechts im Feld, nur Design) */
+body.contacts-page #c_name,
+body.contacts-page #c_email,
+body.contacts-page #c_phone {
+  padding-right: 40px; /* Platz für das Icon am rechten Rand */
+}
+
+body.contacts-page #c_name {
+  background: url("../assets/img/person.svg") no-repeat right 12px center;
+  background-size: 16px 16px;
+}
+
+body.contacts-page #c_email {
+  background: url("../assets/img/mail.svg") no-repeat right 12px center;
+  background-size: 16px 16px;
+}
+
+body.contacts-page #c_phone {
+  background: url("../assets/img/call.svg") no-repeat right 12px center;
+  background-size: 16px 16px;
+}
+

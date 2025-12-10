@@ -1,487 +1,516 @@
 (function(){
-// Firebase Realtime Database URL
-const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/";
-const BOARD="https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/";
+  // Firebase Realtime Database URL
+  const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/";
+  const BOARD="https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/";
 
-// Predefined color palette for random color assignment
-const COLORS=[
-  '#FF0000','#00FF00','#0000FF','#FFFF00','#00FFFF','#FF00FF',
-  '#8A2BE2','#ff8800','#0f8558','#00afff','#cd6839','#f9c20cff'
-];// In-memory array of contacts in render order
-let ORDER=[];
-let EDIT_ID=null;
+  // Predefined color palette for random color assignment
+  const COLORS=[
+    '#FF0000','#00FF00','#0000FF','#FFFF00','#00FFFF','#FF00FF',
+    '#8A2BE2','#ff8800','#0f8558','#00afff','#cd6839','#f9c20cff'
+  ];
 
-// Creates the sidebar and "Add new contact" button if missing
-// Ensures onclick works even if sidebar already exists
-const ensureSidebar=()=>{
-  const content=document.querySelector('main.content');
-  if(!content) return null;
-  let sidebar=content.querySelector('.contacts_sidebar');
-  if(!sidebar){
-    sidebar=document.createElement('div');
+  // In-memory array of contacts in render order
+  let ORDER=[];
+  let EDIT_ID=null;
+
+  const T=window.contactsTemplates||{};
+
+  const normalizeInitial=(name)=>{
+    if(!name) return '#';
+    const first=name.trim().charAt(0).toUpperCase();
+    if('ÄÖÜ'.includes(first)) return first;
+    if(first>='A'&&first<='Z') return first;
+    return '#';
+  };
+
+  const titleCase=(fullName)=>{
+    if(!fullName) return "";
+    return fullName
+      .split(/\s+/)
+      .map(w=>w?w[0].toUpperCase()+w.slice(1).toLowerCase():"")
+      .join(" ");
+  };
+
+  const initials=(fullName)=>{
+    if(!fullName) return "";
+    return fullName
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0,2)
+      .map(p=>p[0].toUpperCase())
+      .join("");
+  };
+
+  const pickColor=()=>{
+    const idx=ORDER.length%COLORS.length;
+    return COLORS[idx];
+  };
+
+  const createSidebarAddButton=()=>{
+    const btn=document.createElement('button');
+    btn.className='contacts_sidebar_add';
+    btn.setAttribute('onclick','openDialog()');
+    btn.innerHTML=T.sidebarAddButton?T.sidebarAddButton():'Add contact';
+    return btn;
+  };
+
+  const createSidebarSkeleton=(content)=>{
+    const sidebar=document.createElement('div');
     sidebar.className='contacts_sidebar';
     sidebar.setAttribute('onclick','sidebarClick(event)');
-    const addBtn=document.createElement('button');
-    addBtn.className='contacts_sidebar_add';
-    addBtn.setAttribute('onclick','openDialog()');
-        addBtn.innerHTML='<span class="contacts_add_label">Add new contact</span><img src="assets/img/person_add.svg" class="contacts_add_icon">';
+    const addBtn=createSidebarAddButton();
     const list=document.createElement('div');
     list.className='contacts_sidebar_list';
     sidebar.append(addBtn,list);
     content.insertBefore(sidebar,content.firstChild);
-  }else sidebar.setAttribute('onclick','sidebarClick(event)');
-  const btn=sidebar.querySelector('.contacts_sidebar_add');
-  if(btn){
-    btn.setAttribute('onclick','openDialog()');
-    if(!btn.querySelector('img')){
-                  btn.innerHTML='<span class="contacts_add_label">Add new contact</span><img src="assets/img/person_add.svg" class="contacts_add_icon">';
+    return sidebar;
+  };
+
+  const ensureSidebar=()=>{
+    const content=document.querySelector('main.content');
+    if(!content) return null;
+    let sidebar=content.querySelector('.contacts_sidebar');
+    if(!sidebar) sidebar=createSidebarSkeleton(content);
+    const btn=sidebar.querySelector('.contacts_sidebar_add');
+    if(btn){
+      btn.setAttribute('onclick','openDialog()');
+      if(!btn.querySelector('img')&&T.sidebarAddButton)
+        btn.innerHTML=T.sidebarAddButton();
     }
-  }
-  return sidebar;
-};
+    return sidebar;
+  };
 
+  const mapContact=(key,u)=>{
+    if(!u||!u.name) return null;
+    return {
+      id:key,
+      name:String(u.name),
+      email:u.email||"",
+      phone:u.phone||"",
+      color:u.color||u.colors||null
+    };
+  };
 
-// Normalizes first letter for group indexing (A–Z)
-// Removes diacritics and converts to uppercase
-const normalizeInitial=(name)=>{
-  let first=String(name||'').trim().charAt(0).toUpperCase();
-  try{
-    first=first.normalize('NFD').replace(/\p{Diacritic}+/gu,'');
-  }catch(e){}
-  return /^[A-Z]$/.test(first)?first:'#';
-};
+  const fetchContacts=async()=>{
+    const response=await fetch(DB+".json");
+    const data=await response.json();
+    if(!data) return [];
+    return Object.keys(data)
+      .map(k=>mapContact(k,data[k]))
+      .filter(Boolean);
+  };
 
+  const createNameAvatar=(user)=>{
+    const avatar=document.createElement('div');
+    avatar.className='contacts_avatar';
+    avatar.textContent=initials(user.name);
+    avatar.style.background=user.color||'#666';
+    return avatar;
+  };
 
-// Converts each word of a name to Title Case
-// Example: "Johanna flock" - "Johanna Flock"
-const titleCase=(fullName)=>{
-  return String(fullName||'')
-    .trim()
-    .split(/\s+/)
-    .map(word=>{
-      const first=word.charAt(0).toUpperCase();
-      const rest=word.slice(1).toLowerCase();
-      return first+rest;
-    })
-    .join(' ');
-};
+  const createNameTexts=(user)=>{
+    const texts=document.createElement('div');
+    texts.className='contacts_texts';
+    const label=document.createElement('div');
+    label.className='contacts_name';
+    label.textContent=titleCase(user.name);
+    const email=document.createElement('div');
+    email.className='contacts_email';
+    email.textContent=user.email||'';
+    texts.append(label,email);
+    return texts;
+  };
 
+  const createNameRow=(user,idx)=>{
+    const row=document.createElement('div');
+    row.className='contacts_name_row';
+    row.dataset.idx=idx;
+    row.setAttribute('onclick','selectUserAt('+idx+')');
+    row.append(createNameAvatar(user),createNameTexts(user));
+    return row;
+  };
 
-// Extracts initials from first and last name
-// Example: "Luke Heller" - "LH"
-const initials=(fullName)=>{
-  return String(fullName||'')
-    .trim()
-    .split(/\s+/)
-    .map(part=>part.charAt(0).toUpperCase())
-    .join('');
-};
-
-
-// Picks a random color from the COLORS array
-// Uses getUserColor() from login.js if defined
-const pickColor=()=>{
-  const idx=Math.floor(Math.random()*COLORS.length);
-  return COLORS[idx];
-};
-
-
-// Fetches all contacts from Firebase Realtime Database
-// Returns array with name, email, phone, and color
-const fetchContacts=async()=>{
-  const response=await fetch(DB+".json");
-  const data=await response.json();
-  if(!data) return [];
-  const list=[];
-  Object.keys(data).forEach(key=>{
-    const u=data[key];
-    if(u&&u.name){
-      list.push({
-        id:key,
-        name:String(u.name),
-        email:u.email||'',
-        phone:u.phone||'',
-        color:u.color||u.colors||null
+  const groupContactsByInitial=(users)=>{
+    const groups={};
+    users.slice()
+      .sort((a,b)=>a.name.localeCompare(b.name,'de',{sensitivity:'base'}))
+      .forEach(u=>{
+        const letter=normalizeInitial(u.name);
+        (groups[letter]||(groups[letter]=[])).push(u);
       });
-    }
-  });
-  return list;
-};
+    return groups;
+  };
 
-
-// Creates one visible contact row (circle + name + email)
-const createNameRow=(user,idx)=>{
-  const row=document.createElement('div');
-  row.className='contacts_name_row';
-  row.dataset.idx=idx;
-  row.setAttribute('onclick','selectUserAt('+idx+')');
-  const avatar=document.createElement('div');
-  avatar.className='contacts_avatar';
-  avatar.textContent=initials(user.name);
-  avatar.style.background=(user.color||'#666');
-  const texts=document.createElement('div');
-  texts.className='contacts_texts';
-  const label=document.createElement('div');
-  label.className='contacts_name';
-  label.textContent=titleCase(user.name);
-  const email=document.createElement('div');
-  email.className='contacts_email';
-  email.textContent=user.email||'';
-  texts.append(label,email);
-  row.append(avatar,texts);
-  return row;
-};
-
-
-// Groups contacts by first letter
-// Creates letter headers with a divider below each
-const renderContacts=(root,users)=>{
-  root.innerHTML='';
-  ORDER=[];
-  const groups={};
-  users.slice()
-    .sort((a,b)=>a.name.localeCompare(b.name,'de',{sensitivity:'base'}))
-    .forEach(user=>{
-      const letter=normalizeInitial(user.name);
-      (groups[letter]||(groups[letter]=[])).push(user);
-    });
-  Object.keys(groups).sort().forEach(letter=>{
+  const createGroupHeader=(letter)=>{
     const section=document.createElement('div');
     section.className='contacts_group';
     const head=document.createElement('div');
     head.className='contacts_group_label';
     head.textContent=letter;
-    section.appendChild(head);
     const divider=document.createElement('div');
     divider.className='contacts_divider';
-    section.appendChild(divider);
-    groups[letter].forEach(u=>{
+    section.append(head,divider);
+    return section;
+  };
+
+  const appendUsersToGroup=(section,users)=>{
+    users.forEach(u=>{
       const idx=ORDER.push(u)-1;
       section.appendChild(createNameRow(u,idx));
     });
+  };
+
+  const appendGroupToRoot=(root,letter,users)=>{
+    const section=createGroupHeader(letter);
+    appendUsersToGroup(section,users);
     root.appendChild(section);
+  };
+
+  const renderContacts=(root,users)=>{
+    root.innerHTML='';
+    ORDER=[];
+    const groups=groupContactsByInitial(users);
+    Object.keys(groups).sort().forEach(letter=>{
+      appendGroupToRoot(root,letter,groups[letter]);
+    });
+  };
+
+  const ensureDialog=()=>{
+    let backdrop=document.querySelector('.contacts_modal_backdrop');
+    if(backdrop) return backdrop;
+    backdrop=document.createElement('div');
+    backdrop.className='contacts_modal_backdrop';
+    backdrop.setAttribute('onclick','closeDialog()');
+    const modal=document.createElement('div');
+    modal.className='contacts_modal';
+    modal.setAttribute('onclick','event.stopPropagation()');
+    modal.innerHTML=T.dialog?T.dialog():"";
+    backdrop.appendChild(modal);
+    document.body.appendChild(backdrop);
+    return backdrop;
+  };
+
+  const resetDialogInputs=()=>{
+    ['c_name','c_email','c_phone'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el) el.value='';
+    });
+  };
+
+  const configureCreateMode=(layer)=>{
+    const title=document.getElementById('contacts_modal_title');
+    const sub=document.getElementById('contacts_modal_subtitle');
+    if(title) title.textContent='Add contact';
+    if(sub) sub.textContent='Tasks are better with a team!';
+    const avatarSlot=layer.querySelector('#contacts_modal_avatar_slot');
+    if(avatarSlot&&T.createDialogAvatar)
+      avatarSlot.innerHTML=T.createDialogAvatar();
+    const btn=layer.querySelector('.contacts_create_btn');
+    if(btn) btn.textContent='create contact ✓';
+    const del=layer.querySelector('.contacts_delete_btn');
+    if(del) del.textContent='cancel x';
+  };
+
+  const openDialog=()=>{
+    EDIT_ID=null;
+    const layer=ensureDialog();
+    if(!layer) return;
+    layer.classList.add('is-open');
+    resetDialogInputs();
+    configureCreateMode(layer);
+  };
+
+  const closeDialog=()=>{
+    const layer=document.querySelector('.contacts_modal_backdrop');
+    if(layer) layer.classList.remove('is-open');
+  };
+
+  const readContactForm=()=>({
+    name:document.getElementById('c_name')?.value.trim(),
+    email:document.getElementById('c_email')?.value.trim(),
+    phone:document.getElementById('c_phone')?.value.trim()
   });
-};
 
+  const hasRequiredFields=(f)=>!!(f.name&&f.email);
 
-// Builds the modal dialog (only once)
-// Includes name/email/phone fields and create button
-const ensureDialog=()=>{
-  let backdrop=document.querySelector('.contacts_modal_backdrop');
-  if(backdrop) return backdrop;
-  backdrop=document.createElement('div');
-  backdrop.className='contacts_modal_backdrop';
-  backdrop.setAttribute('onclick','closeDialog()');
-  const modal=document.createElement('div');
-  modal.className='contacts_modal';
-  modal.setAttribute('onclick','event.stopPropagation()');
-  modal.innerHTML=
-    '<div class="contacts_modal_content">'+
-      '<div class="contacts_modal_left_panel">'+
-        '<img src="../assets/img/join-logo-vector.svg" class="contacts_modal_logo">'+
-        '<div id="contacts_modal_title" class="contacts_modal_title">Edit contact</div>'+
-        '<div id="contacts_modal_subtitle" class="contacts_modal_subtitle"></div>'+
-      '</div>'+
-      '<div class="contacts_modal_avatar_col">'+
-        '<div id="contacts_modal_avatar_slot" class="contacts_modal_avatar_slot"></div>'+
-      '</div>'+
-      '<div class="contacts_modal_right_panel">'+
-        '<div class="contacts_modal_header">'+
-          '<button class="contacts_modal_close" onclick="closeDialog()">×</button>'+
-        '</div>'+
-        '<div class="contacts_modal_body">'+
-          '<input id="c_name" placeholder="Name">'+
-          '<input id="c_email" placeholder="E-Mail">'+
-          '<input id="c_phone" placeholder="Phone">'+
-          '<div class="contacts_modal_actions">'+
-            '<button class="contacts_delete_btn" onclick="deleteContact()">Delete</button>'+
-            '<button class="contacts_create_btn" onclick="saveContact()">create contact ✓</button>'+
-          '</div>'+
-        '</div>'+
-      '</div>'+
-    '</div>';
-backdrop.appendChild(modal);
-  document.body.appendChild(backdrop);
-  return backdrop;
-};
+  const findEmailConflict=(all,email,id)=>{
+    const lower=email.toLowerCase();
+    return all.find(u=>(u.email||'').toLowerCase()===lower&&u.id!==id);
+  };
 
+  const isEditMode=(layer)=>{
+    const btn=layer?.querySelector('.contacts_create_btn');
+    const label=btn?.textContent?.trim().toLowerCase()||'';
+    return label.startsWith('save');
+  };
 
-// Opens modal dialog and clears old input fields
-const openDialog=()=>{
-  EDIT_ID=null;
-  const layer=ensureDialog();
-  layer.classList.add('is-open');
-  ['c_name','c_email','c_phone'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) el.value='';
-  });
-  const title=document.getElementById('contacts_modal_title');
-  const sub=document.getElementById('contacts_modal_subtitle');
-  if(title) title.textContent='Add contact';
-  if(sub) sub.textContent='Tasks are better with a team!';
-  // Avatar: show default Group 13 icon when adding a new contact
-  const avatarSlot=layer.querySelector('#contacts_modal_avatar_slot');
-  if(avatarSlot){
-    avatarSlot.innerHTML=
-      '<img src="assets/img/Group 13.svg" alt="" class="contacts_modal_avatar_image">';
-  }
-  const btn=layer.querySelector('.contacts_create_btn');
-  if(btn) btn.textContent='create contact ✓';
-  const del=layer.querySelector('.contacts_delete_btn');
-  if(del) del.textContent='cancel x';
-};;
-
-
-// Closes the modal dialog
-const closeDialog=()=>{
-  const layer=document.querySelector('.contacts_modal_backdrop');
-  if(layer) layer.classList.remove('is-open');
-};
-
-
-// Saves new contact to Firebase 
-// Generates a random color and re-renders list
-const saveContact=async()=>{
-  const name=document.getElementById('c_name')?.value.trim();
-  const email=document.getElementById('c_email')?.value.trim();
-  const phone=document.getElementById('c_phone')?.value.trim();
-  if(!name||!email) return;
-  const all=await fetchContacts();
-  const lower=email.toLowerCase();
-  const conflict=all.find(u=>(u.email||'').toLowerCase()===lower&&u.id!==EDIT_ID);
-  if(conflict){alert('E-Mail already exists.');return;}
-  const layer=document.querySelector('.contacts_modal_backdrop');
-  const btn=layer?.querySelector('.contacts_create_btn');
-  const isEdit=btn&&btn.textContent.trim().toLowerCase().startsWith('save');
-  if(isEdit&&EDIT_ID){
+  const saveExistingContact=async(all,form)=>{
     const current=all.find(u=>u.id===EDIT_ID);
     const color=current?.color||pickColor();
-    const body={name,email,phone:phone||'',colors:color};
+    const body={name:form.name,email:form.email,phone:form.phone||'',colors:color};
     await fetch(DB+'/'+EDIT_ID+'.json',{
       method:'PATCH',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify(body)
     });
-  }else{
-    const body={name,email,phone:phone||'',colors:pickColor()};
+  };
+
+  const createNewContact=async(form)=>{
+    const body={
+      name:form.name,
+      email:form.email,
+      phone:form.phone||'',
+      colors:pickColor()
+    };
     await fetch(DB+'.json',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify(body)
     });
-  }
-  const sidebar=ensureSidebar();
-  const list=sidebar.querySelector('.contacts_sidebar_list');
-  renderContacts(list,await fetchContacts());
-  EDIT_ID=null;
-  closeDialog();
-};
+  };
 
+  const refreshContactsUI=async()=>{
+    const sidebar=ensureSidebar();
+    if(!sidebar) return;
+    const list=sidebar.querySelector('.contacts_sidebar_list');
+    renderContacts(list,await fetchContacts());
+  };
 
-// Ensures container for detail elements on the right
+  const saveContact=async()=>{
+    const form=readContactForm();
+    if(!hasRequiredFields(form)) return;
+    const all=await fetchContacts();
+    if(findEmailConflict(all,form.email,EDIT_ID)){
+      alert('E-Mail already exists.');
+      return;
+    }
+    const layer=document.querySelector('.contacts_modal_backdrop');
+    if(isEditMode(layer)&&EDIT_ID) await saveExistingContact(all,form);
+    else await createNewContact(form);
+    await refreshContactsUI();
+    EDIT_ID=null;
+    closeDialog();
+  };
 
-const ensureDetailHeader=()=>{
-  let h=document.querySelector('.contact_detail_header');
-  if(h) return h;
-  h=document.createElement('div');
-  h.className='contact_detail_header';
-  const t=document.createElement('div');
-  t.className='cdh_title';
-  t.textContent='Contacts';
-  const line=document.createElement('div');
-  line.className='cdh_line';
-  const sub=document.createElement('div');
-  sub.className='cdh_sub';
-  sub.textContent='better with a team';
-  h.append(t,line,sub);
-  document.body.appendChild(h);
-  return h;
-};
+  const createDetailHeader=()=>{
+    const h=document.createElement('div');
+    h.className='contact_detail_header';
+    const t=document.createElement('div');
+    t.className='cdh_title';
+    t.textContent='Contacts';
+    const line=document.createElement('div');
+    line.className='cdh_line';
+    const sub=document.createElement('div');
+    sub.className='cdh_sub';
+    sub.textContent='better with a team';
+    h.append(t,line,sub);
+    document.body.appendChild(h);
+    return h;
+  };
 
-const ensureDetailRoot=()=>{
-  let root=document.querySelector('.contact_detail_root');
-  if(root) return root;
-  ensureDetailHeader();
-  root=document.createElement('div');
-  root.className='contact_detail_root';
-  document.body.appendChild(root);
-  return root;
-};
+  const ensureDetailHeader=()=>{
+    let h=document.querySelector('.contact_detail_header');
+    if(h) return h;
+    return createDetailHeader();
+  };
 
- 
-// Positions detail root 20px to the right of sidebar
-const positionDetailRoot=()=>{
-  const root=document.querySelector('.contact_detail_root');
-  const sidebar=document.querySelector('.contacts_sidebar');
-  const head=document.querySelector('.contact_detail_header');
-  if(!root||!sidebar) return;
-  const rect=sidebar.getBoundingClientRect();
-  const left=(rect.right+20)+'px';
-  root.style.left=left;
-  if(head) head.style.left=left;
-};
+  const ensureDetailRoot=()=>{
+    let root=document.querySelector('.contact_detail_root');
+    if(root) return root;
+    ensureDetailHeader();
+    root=document.createElement('div');
+    root.className='contact_detail_root';
+    document.body.appendChild(root);
+    return root;
+  };
 
+  const positionDetailRoot=()=>{
+    const root=document.querySelector('.contact_detail_root');
+    const sidebar=document.querySelector('.contacts_sidebar');
+    const head=document.querySelector('.contact_detail_header');
+    if(!root||!sidebar) return;
+    const rect=sidebar.getBoundingClientRect();
+    const left=(rect.right+20)+'px';
+    root.style.left=left;
+    if(head) head.style.left=left;
+  };
 
-// Clears selection and removes detail elements
-const clearSelection=()=>{
-  document.querySelectorAll('.contacts_name_row.is-selected')
-    .forEach(el=>el.classList.remove('is-selected'));
-  const root=document.querySelector('.contact_detail_root');
-  if(root) root.innerHTML='';
-};
+  const clearSelection=()=>{
+    document.querySelectorAll('.contacts_name_row.is-selected')
+      .forEach(el=>el.classList.remove('is-selected'));
+    const root=document.querySelector('.contact_detail_root');
+    if(root) root.innerHTML='';
+  };
 
+  const buildDetailHead=(user,idx)=>{
+    const head=document.createElement('div');
+    head.className='contact_detail_item';
+    const init=initials(user.name);
+    const color=user.color||'#666';
+    const name=titleCase(user.name);
+    head.innerHTML=T.detailHead
+      ? T.detailHead(init,name,color,idx)
+      : name;
+    const del=head.querySelector('.detail_delete');
+    if(del) del.onclick=()=>{EDIT_ID=user.id||null;deleteContact();};
+    return head;
+  };
 
-// Fills detail area with avatar, name, edit, email, phone
-const fillProfile=(user,idx)=>{
-  const root=ensureDetailRoot();
-  positionDetailRoot();
-  root.innerHTML='';
-  const head=document.createElement('div');
-  head.className='contact_detail_item';
-  head.innerHTML=
-    '<div class="detail_row">'+
-    '<div class="detail_avatar" style="background:'+(user.color||'#666')+'">'+
-    initials(user.name)+'</div>'+
-    '<div><div class="detail_name">'+titleCase(user.name)+'</div>'+
-    '<div class="detail_actions"><div class="detail_edit" onclick="openEdit('+idx+')"><img src="assets/img/edit.svg" class="detail_action_icon">edit</div><div class="detail_delete"><img src="assets/img/delete.svg" class="detail_action_icon">delete</div></div></div>'+
-    '</div>';
-  const del=head.querySelector('.detail_delete');
-  if(del) del.onclick=()=>{EDIT_ID=user.id||null;deleteContact();};
-  const section=document.createElement('div');
-  section.className='contact_detail_item detail_section_label';
-  section.textContent='Contact Information';
-  const mailLabel=document.createElement('h4');
-  mailLabel.className='contact_detail_item';
-  mailLabel.textContent='E-Mail';
-  const mail=document.createElement('a');
-  mail.className='contact_detail_item contact_detail_email';
-  if(user.email){
-    mail.href='mailto:'+user.email;
-    mail.textContent=user.email;
-  }else{
-    mail.textContent='';
-  }
-  const phoneLabel=document.createElement('h4');
-  phoneLabel.className='contact_detail_item';
-  phoneLabel.textContent='Phone';
-  const phone=document.createElement('div');
-  phone.className='contact_detail_item';
-  if(user.phone){
-    phone.textContent=user.phone;
-  }else{
-    phone.textContent='';
-  }
-  [head,section,mailLabel,mail,phoneLabel,phone].forEach(el=>{
-    el.classList.add('slide_in_right');
-    root.appendChild(el);
-  });
-};
+  const buildEmailElements=(user)=>{
+    const label=document.createElement('h4');
+    label.className='contact_detail_item font_weight_700';
+    label.textContent='E-Mail';
+    const mail=document.createElement('a');
+    mail.className='contact_detail_item contact_detail_email';
+    if(user.email){
+      mail.href='mailto:'+user.email;
+      mail.textContent=user.email;
+    }else mail.textContent='';
+    return {label,mail};
+  };
 
+  const buildPhoneElements=(user)=>{
+    const label=document.createElement('h4');
+    label.className='contact_detail_item font_weight_700';
+    label.textContent='Phone';
+    const phone=document.createElement('div');
+    phone.className='contact_detail_item';
+    phone.textContent=user.phone||'';
+    return {label,phone};
+  };
 
-// Selects a user row, highlights it and shows profile
-const selectUserAt=(idx)=>{
-  clearSelection();
-  const row=document.querySelector('.contacts_name_row[data-idx="'+idx+'"]');
-  if(!row) return;
-  row.classList.add('is-selected');
-  const user=ORDER[idx];
-  if(user) fillProfile(user,idx);
-};
+  const createContactInfoSection=()=>{
+    const section=document.createElement('div');
+    section.className='contact_detail_item detail_section_label';
+    section.textContent='Contact Information';
+    return section;
+  };
 
+  const appendProfileElements=(root,elements)=>{
+    elements.forEach(el=>{
+      el.classList.add('slide_in_right');
+      root.appendChild(el);
+    });
+  };
 
-// Handles clicks in sidebar to clear selection on empty area
-const sidebarClick=(e)=>{
-  if(!e.target.closest('.contacts_name_row')) clearSelection();
-};
+  const fillProfile=(user,idx)=>{
+    const root=ensureDetailRoot();
+    positionDetailRoot();
+    root.innerHTML='';
+    const head=buildDetailHead(user,idx);
+    const section=createContactInfoSection();
+    const {label:mailLabel,mail}=buildEmailElements(user);
+    const {label:phoneLabel,phone}=buildPhoneElements(user);
+    appendProfileElements(root,[head,section,mailLabel,mail,phoneLabel,phone]);
+  };
 
+  const selectUserAt=(idx)=>{
+    clearSelection();
+    const row=document.querySelector('.contacts_name_row[data-idx="'+idx+'"]');
+    if(row) row.classList.add('is-selected');
+    const user=ORDER[idx];
+    if(user) fillProfile(user,idx);
+  };
 
-// Opens dialog prefilled for editing, changes button to "save"
-const openEdit=(idx)=>{
-  const user=ORDER[idx];
-  if(!user) return;
-  EDIT_ID=user.id||null;
-  const layer=ensureDialog();
-  layer.classList.add('is-open');
-  const N=document.getElementById('c_name');
-  const E=document.getElementById('c_email');
-  const P=document.getElementById('c_phone');
-  if(N) N.value=user.name||'';
-  if(E) E.value=user.email||'';
-  if(P) P.value=user.phone||'';
-  const title=document.getElementById('contacts_modal_title');
-  const sub=document.getElementById('contacts_modal_subtitle');
-  if(title) title.textContent='Edit contact';
-  if(sub) sub.textContent='';
-  // Avatar: use detail_avatar only when editing
-  const avatarSlot=layer.querySelector('#contacts_modal_avatar_slot');
-  if(avatarSlot){
+  const sidebarClick=(e)=>{
+    if(!e.target.closest('.contacts_name_row')) clearSelection();
+  };
+
+  const configureEditMode=(layer)=>{
+    const title=document.getElementById('contacts_modal_title');
+    const sub=document.getElementById('contacts_modal_subtitle');
+    if(title) title.textContent='Edit contact';
+    if(sub) sub.textContent='';
+    const btn=layer.querySelector('.contacts_create_btn');
+    if(btn) btn.textContent='save ✓';
+    const del=layer.querySelector('.contacts_delete_btn');
+    if(del) del.textContent='Delete';
+  };
+
+  const updateEditAvatar=(layer,user)=>{
+    const slot=layer.querySelector('#contacts_modal_avatar_slot');
+    if(!slot) return;
     const bg=user.color||'#666';
-    const name=user.name||'';
-    avatarSlot.innerHTML=
-      '<div class="detail_avatar" style="background:'+bg+'">'+
-      initials(name)+'</div>';
-  }
-  const btn=layer.querySelector('.contacts_create_btn');
-  if(btn) btn.textContent='save ✓';
-  const del=layer.querySelector('.contacts_delete_btn');
-  if(del) del.textContent='Delete';
-};;
+    const init=initials(user.name||'');
+    if(T.editDialogAvatar) slot.innerHTML=T.editDialogAvatar(bg,init);
+    else slot.textContent=init;
+  };
 
+  const fillEditInputs=(user)=>{
+    const N=document.getElementById('c_name');
+    const E=document.getElementById('c_email');
+    const P=document.getElementById('c_phone');
+    if(N) N.value=user.name||'';
+    if(E) E.value=user.email||'';
+    if(P) P.value=user.phone||'';
+  };
 
-// Initializes sidebar and loads contact list on page load
+  const openEdit=(idx)=>{
+    const user=ORDER[idx];
+    if(!user) return;
+    EDIT_ID=user.id||null;
+    const layer=ensureDialog();
+    if(!layer) return;
+    layer.classList.add('is-open');
+    fillEditInputs(user);
+    configureEditMode(layer);
+    updateEditAvatar(layer,user);
+  };
 
-const removeUserFromTasks=async(id)=>{
-  if(!id) return;
-  const r=await fetch(BOARD+".json"),data=await r.json();
-  if(!data) return;
-  const body={};
-  Object.keys(data).forEach(k=>{
-    const t=data[k],a=t&&Array.isArray(t.assigned)?t.assigned:null;
-    if(a&&a.includes(id)) body[k+"/assigned"]=a.filter(x=>x!==id);
-  });
-  if(Object.keys(body).length)
-    await fetch(BOARD+".json",{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-};
+  const removeUserFromTasks=async(id)=>{
+    if(!id) return;
+    const r=await fetch(BOARD+".json");
+    const data=await r.json();
+    if(!data) return;
+    const body={};
+    Object.keys(data).forEach(k=>{
+      const t=data[k];
+      const a=t&&Array.isArray(t.assigned)?t.assigned:null;
+      if(a&&a.includes(id)) body[k+"/assigned"]=a.filter(x=>x!==id);
+    });
+    if(Object.keys(body).length){
+      await fetch(BOARD+".json",{
+        method:'PATCH',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(body)
+      });
+    }
+  };
 
-const deleteContact=async()=>{
-  const id=EDIT_ID;
-  if(!id){closeDialog();return;}
-  await fetch(DB+'/'+id+'.json',{method:'DELETE'});
-  await removeUserFromTasks(id);
-  const sidebar=ensureSidebar(),list=sidebar&&sidebar.querySelector('.contacts_sidebar_list');
-  if(list) renderContacts(list,await fetchContacts());
-  clearSelection();
-  EDIT_ID=null;
-  closeDialog();
-};
-const init=async()=>{
-  const sidebar=ensureSidebar();
-  if(!sidebar) return;
-  const list=sidebar.querySelector('.contacts_sidebar_list');
-  renderContacts(list,await fetchContacts());
-  ensureDetailHeader();
-  ensureDetailRoot();
-  positionDetailRoot();
-};
+  const deleteContact=async()=>{
+    if(!EDIT_ID){closeDialog();return;}
+    await removeUserFromTasks(EDIT_ID);
+    await fetch(DB+'/'+EDIT_ID+'.json',{method:'DELETE'});
+    await refreshContactsUI();
+    EDIT_ID=null;
+    closeDialog();
+  };
 
- 
-// Auto-initialize when page is ready
-if(document.readyState!=='complete'&&document.readyState!=='interactive') window.onload=init;
-else init();
+  const init=async()=>{
+    const sidebar=ensureSidebar();
+    if(!sidebar) return;
+    const list=sidebar.querySelector('.contacts_sidebar_list');
+    renderContacts(list,await fetchContacts());
+    ensureDetailHeader();
+    ensureDetailRoot();
+    positionDetailRoot();
+  };
 
-// Make dialog functions available globally
-window.openDialog=openDialog;
-window.closeDialog=closeDialog;
-window.saveContact=saveContact;
-window.deleteContact=deleteContact;
-window.selectUserAt=selectUserAt;
-window.sidebarClick=sidebarClick;
-window.openEdit=openEdit;
-window.positionDetailRoot=positionDetailRoot;
-window.clearSelection=clearSelection;
-window.fillProfile=fillProfile;
-window.ensureDetailRoot=ensureDetailRoot;
-window.ensureSidebar=ensureSidebar;
+  if(document.readyState==='loading')
+    document.addEventListener('DOMContentLoaded',init);
+  else init();
 
-window.onresize=positionDetailRoot;
+  window.openDialog=openDialog;
+  window.closeDialog=closeDialog;
+  window.saveContact=saveContact;
+  window.deleteContact=deleteContact;
+  window.selectUserAt=selectUserAt;
+  window.sidebarClick=sidebarClick;
+  window.openEdit=openEdit;
+  window.positionDetailRoot=positionDetailRoot;
+  window.clearSelection=clearSelection;
+  window.fillProfile=fillProfile;
+  window.ensureDetailRoot=ensureDetailRoot;
+  window.ensureSidebar=ensureSidebar;
+  window.onresize=positionDetailRoot;
 }());

@@ -12,7 +12,7 @@ main.content .contacts_sidebar {
   position: sticky;
   top: 0;
   max-height: 100dvh;
-  overflow-y: auto;
+  overflow-y: hidden; /* Sidebar selbst scrollt nicht, nur die Liste */
 }
  
 main.content .contacts_sidebar_add {
@@ -30,7 +30,12 @@ main.content .contacts_sidebar_add {
   gap:8px;
 }
 
-main.content .contacts_sidebar_list { display: flex; flex-direction: column; gap: 0; }
+main.content .contacts_sidebar_list {
+  padding-bottom: 70px;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  overflow-y: auto; /* Nur diese Liste scrollt */
+}
 main.content .contacts_group { padding: 8px 0; }
 main.content .contacts_group_label { font-size: 12px; font-weight: 700; letter-spacing: .08em; opacity: .7; margin: 6px 0 4px 0; }
 main.content .contacts_name { padding: 8px 4px; }
@@ -119,7 +124,7 @@ main.content .contacts_sidebar_add{
   max-width:320px;
   display:flex;
   flex-direction:column;
-  gap:8px;
+  gap:4px;
   z-index:900;
 }
 
@@ -140,8 +145,8 @@ main.content .contacts_sidebar_add{
   gap:10px;
 }
 .detail_avatar{
-  width:40px;
-  height:40px;
+  width:80px;
+  height:80px;
   border-radius:50%;
   display:flex;
   align-items:center;
@@ -185,7 +190,7 @@ main.content .contacts_sidebar_add{
 .cdh_line{
   flex:1;
   height:32px;
-  background:blue;
+  background:#29ABE2;
   min-width:1px;
 }
 .cdh_sub{
@@ -247,19 +252,20 @@ body.contacts-page .contacts_modal_content{
   max-width:100%;
   height:auto;
   margin-bottom:12px;
+  align-self:flex-start;
 }
 
 .contacts_modal_title{
   color:#fff;
   font-weight:700;
-  font-size:16px;
+  font-size:48px;
   text-align:center;
 }
 
 
 .contacts_modal_subtitle{
   color:#fff;
-  font-size:13px;
+  font-size:24px;
   opacity:.8;
   margin-top:4px;
   text-align:center;
@@ -303,7 +309,9 @@ body.contacts-page .contacts_modal_content{
   cursor:pointer;
 }
 
-.detail_section_label{font-size:12px;font-weight:700;margin-top:8px;margin-bottom:8px;}
+.detail_section_label{
+  font-size:12px;margin-top:8px;margin-bottom:24px;
+}
 
 
 /* E-Mail-Adresse in den Kontaktdetails als Link darstellen */
@@ -319,3 +327,69 @@ body.contacts-page .contacts_modal{
   width:900px;
   max-width:95vw;
 }
+
+
+/* Extra scroll space fix */
+.contacts_sidebar_list {
+  padding-bottom: 70px;
+  box-sizing: border-box;
+}
+
+.contacts_sidebar_list::after {
+  content: "";
+  display: block;
+  height: 70px;
+  flex-shrink: 0;
+}
+
+
+.font_weight_700{
+  font-weight: 700;
+}
+
+/* --- Icone in den Kontakt-Inputfeldern (rechts im Feld, nur Design) --- */
+body.contacts-page #c_name,
+body.contacts-page #c_email,
+body.contacts-page #c_phone {
+  padding-right: 40px;             /* Platz für das Icon am rechten Rand */
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px 16px;      /* Icon-Größe */
+}
+
+/* Person-Icon im Namensfeld */
+body.contacts-page #c_name {
+}
+
+/* Mail-Icon im E-Mail-Feld */
+body.contacts-page #c_email {
+}
+
+/* Call-Icon im Telefonfeld */
+body.contacts-page #c_phone {
+}
+
+
+
+/* Icons in den Kontakt-Inputfeldern (rechts im Feld, nur Design) */
+body.contacts-page #c_name,
+body.contacts-page #c_email,
+body.contacts-page #c_phone {
+  padding-right: 40px; /* Platz für das Icon am rechten Rand */
+}
+
+body.contacts-page #c_name {
+  background: url("../img/person.svg") no-repeat right 12px center;
+  background-size: 16px 16px;
+}
+
+body.contacts-page #c_email {
+  background: url("../img/mail.svg") no-repeat right 12px center;
+  background-size: 16px 16px;
+}
+
+body.contacts-page #c_phone {
+  background: url("../img/call.svg") no-repeat right 12px center;
+  background-size: 16px 16px;
+}
+
