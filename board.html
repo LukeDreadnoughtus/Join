@@ -63,7 +63,13 @@
         <div class="header_icons">
             <img class="help_icon" src="./assets/img/help.svg" onclick="toHelpPage()"></img>
             <div class="my_icon" onclick="openUserMenu()"></div>
-            <!-- <div class="user_menu"></div> -->
+            <nav class="user_menu d_none" id="user_menu">
+            <ul>
+            <li><a href="legal_notice.html"><span>Legal Notice</span></a></li>
+            <li><a href="privacy_policy.html"><span>Privacy Policy</span></a></li>
+            <li><a href="" onclick="logoutUser(event)"><span>Log out</span></a></li>
+            </ul>
+            </nav>
         </div>
         
 </header>
