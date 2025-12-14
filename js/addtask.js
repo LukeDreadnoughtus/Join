@@ -2,8 +2,8 @@
  * Firebase Realtime Database paths
  * @type {string}
  */
-const path = "https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/";
-const pathRegister = "https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/";
+const ADD_TASK_PATH = "https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/";
+const ADD_TASK_PATH_REGISTER = "https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/";
 
 /**
  * DOM elements for priority buttons
@@ -311,7 +311,7 @@ async function createTask(event) {
  * @returns {Promise<void>}
  */
 async function saveTaskToFirebase(newTask) {
-  const response = await fetch(path + ".json", {
+  const response = await fetch(ADD_TASK_PATH + ".json", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newTask),
@@ -434,7 +434,7 @@ async function loadUserAssignments() {
  * @returns {Promise<Object>} User data from database
  */
 async function fetchUserData() {
-  const response = await fetch(pathRegister + ".json");
+  const response = await fetch(ADD_TASK_PATH_REGISTER + ".json");
   return await response.json();
 }
 

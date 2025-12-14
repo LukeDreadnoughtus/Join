@@ -1,8 +1,6 @@
 function openAddTaskOverlay() {
-    document.getElementById("taskCeateButton").addEventListener("click", () => {
+    document.getElementById("taskCreateButton").addEventListener("click", () => {
         const overlay = document.getElementById("overlay");
-        const frame = document.getElementById("add-task-frame");
-        frame.src = "add_task.html";
         overlay.classList.remove("hidden");
     });
     document.getElementById("overlay").addEventListener("click", (e) => {
@@ -10,9 +8,6 @@ function openAddTaskOverlay() {
     });
 }
 
+
+
 openAddTaskOverlay();
-
-
-
-
-

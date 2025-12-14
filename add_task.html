@@ -20,7 +20,7 @@
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
 </head>
 
-<body onload="init()">
+<body>
   <div class="page">
     <div aria-hidden="true" class="left">
       <div aria-hidden="true" class="logo-spacer"></div>
@@ -73,6 +73,9 @@
           </button>
         </div>
       </header>
+
+
+
       <h2 class="add_task_heading">Add Task</h2>
       <div class="split_container">
 
@@ -104,7 +107,7 @@
             <div class="add_controll_form">
 
               <div class="form_group priority">
-                <label for="task-priority">Priority</label>
+                <span class="priority_name">Priority</span>
                 <div class="priority_container">
                   <button id="urgent" type="button" class="priority_btn urgent" data-value="urgent">
                     <span class="priority_name">Urgent</span>
@@ -161,7 +164,7 @@
               </div>
 
               <div class="form_group assigned_to">
-                <label for="task-assigned-to">Assigned to</label>
+                <label>Assigned to</label>
                 <div class="custom_select" id="task-assigned-to">
                 </div>
                 <div class="assigned_users_icons" id="assigned-users-icons"></div>
@@ -192,10 +195,9 @@
                 </svg>
               </div>
 
-              <div id="subtask-list"></div>
-
-
-
+              <ul id="subtask-list">
+                
+              </ul>
             </div>
           </div>
         </div>
@@ -219,7 +221,7 @@
     </main>
   </div>
   <div id="notification-container"></div>
-  <script src="js/addtask.js"></script>
+   <script src="js/addtask.js"></script>
   <script src="js/script.js"></script>
   <script src="js/navigate.js"></script>
 </body>

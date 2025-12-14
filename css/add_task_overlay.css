@@ -1,0 +1,16 @@
+.overlay-wrapper main {
+  height: auto;
+  min-height: unset;
+}
+
+.overlay-wrapper .split_container {
+  height: auto;
+}
+
+.overlay-wrapper footer {
+  position: static;
+}
+
+.overlay-wrapper header {
+  display: none;
+}
