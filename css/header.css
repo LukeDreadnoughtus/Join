@@ -86,4 +86,6 @@ ul {
   letter-spacing: 1px;               
 }
 
-
+.d_none {
+  display: none;
+}
