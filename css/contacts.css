@@ -112,3 +112,93 @@ body.contacts-page #c_phone {
   background-size: 16px 16px;
 }
 
+
+/* ===== Hover fixes ===== */
+
+/* ===== Modal: Logo smaller + blue separator line (Edit/Add) ===== */
+
+/* Logo in left panel */
+.contacts_modal_logo{
+  width:56px;
+  max-width:56px;
+  height:auto;
+}
+
+/* Blue line under title when opened via Edit */
+body.contacts-page .contacts_modal_backdrop.mode-edit .contacts_modal_title::after{
+  content:"";
+  display:block;
+  width:92px;
+  height:3px;
+  background:#1976d2;
+  margin:12px auto 0;
+  border-radius:2px;
+}
+
+/* Blue line under subtitle when opened via Add new contact */
+body.contacts-page .contacts_modal_backdrop.mode-create .contacts_modal_subtitle::after{
+  content:"";
+  display:block;
+  width:92px;
+  height:3px;
+  background:#1976d2;
+  margin:12px auto 0;
+  border-radius:2px;
+}
+
+/* Detail edit & delete text + icons */
+.detail_edit:hover,
+.detail_delete:hover {
+    color: #1976d2;
+}
+
+.detail_edit:hover img,
+.detail_delete:hover img {
+    filter: brightness(0) saturate(100%)
+            invert(32%) sepia(85%) saturate(2871%)
+            hue-rotate(199deg) brightness(91%) contrast(94%);
+}
+
+/* Create & Save buttons */
+.contacts_create_btn:hover {
+    background-color: #1976d2 !important;
+    border-color: #1976d2 !important;
+    color: #ffffff !important;
+}
+
+/* Delete & Cancel buttons */
+.contacts_delete_btn:hover {
+    border-color: #1976d2 !important;
+    color: #1976d2 !important;
+    background-color: transparent !important;
+}
+
+
+/* === Alignment fixes: logo, title/subtitle, divider left-aligned === */
+body.contacts-page .contacts_modal_left_panel{
+  align-items:flex-start !important;
+  padding-left:48px !important;
+}
+
+body.contacts-page .contacts_modal_logo{
+  width:48px !important;
+  max-width:48px !important;
+  height:auto;
+  margin-left:0 !important;
+}
+
+/* Ensure title & subtitle start exactly where the logo starts */
+body.contacts-page .contacts_modal_title,
+body.contacts-page .contacts_modal_subtitle{
+  text-align:left !important;
+  margin-left:0 !important;
+}
+
+/* Divider should start at the very beginning of the dialog content (same x as logo) */
+body.contacts-page .contacts_modal_backdrop.mode-edit .contacts_modal_title::after{
+  margin:12px 0 0 0 !important;
+}
+
+body.contacts-page .contacts_modal_backdrop.mode-create .contacts_modal_subtitle::after{
+  margin:12px 0 0 0 !important;
+}

@@ -4,7 +4,7 @@
   const BOARD="https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/";
 
   // Predefined color palette for random color assignment
-  const COLORS=[
+  const COLOR=[
     '#FF0000','#00FF00','#0000FF','#FFFF00','#00FFFF','#FF00FF',
     '#8A2BE2','#ff8800','#0f8558','#00afff','#cd6839','#f9c20cff'
   ];
@@ -42,8 +42,8 @@
   };
 
   const pickColor=()=>{
-    const idx=ORDER.length%COLORS.length;
-    return COLORS[idx];
+    const idx=ORDER.length%COLOR.length;
+    return COLOR[idx];
   };
 
   const createSidebarAddButton=()=>{
@@ -198,6 +198,11 @@
   };
 
   const configureCreateMode=(layer)=>{
+    // mode flag for CSS (blue separator line under subtitle)
+    if(layer){
+      layer.classList.add('mode-create');
+      layer.classList.remove('mode-edit');
+    }
     const title=document.getElementById('contacts_modal_title');
     const sub=document.getElementById('contacts_modal_subtitle');
     if(title) title.textContent='Add contact';
@@ -417,6 +422,11 @@
   };
 
   const configureEditMode=(layer)=>{
+    // mode flag for CSS (blue separator line under title)
+    if(layer){
+      layer.classList.add('mode-edit');
+      layer.classList.remove('mode-create');
+    }
     const title=document.getElementById('contacts_modal_title');
     const sub=document.getElementById('contacts_modal_subtitle');
     if(title) title.textContent='Edit contact';
