@@ -854,3 +854,47 @@ async function deleteTask(id, event) {
     delete allTasks[id];
     closeTaskOverlay(event)
 }
+
+//Drag and Drop
+
+let currentDraggedTask;  
+function startDragging(id) {
+    currentDraggedTask = id
+}
+
+function onDragOverColumn(event, slot) {
+    event.preventDefault();
+    highlightDragArea(slot);
+}
+
+async function moveTo (slot, event) {
+const taskId = currentDraggedTask;
+allTasks[taskId].boardSlot = slot
+updateBoardSlotInFirebase(taskId, slot) 
+renderBoardBasics()
+await init(event)
+}
+
+async function updateBoardSlotInFirebase(taskId, slot) {
+    const url = `${path}/${taskId}.json`;
+
+    await fetch(url, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({boardslot: slot})
+    });
+}
+
+function onDragLeaveColumn(event, slot) {
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+        removeHighlight(slot);
+    }
+}
+
+function highlightDragArea(slot) { //idslot
+document.getElementById(slot).classList.add("drag_area_hightlight")
+}
+
+function removeHighlight(slot) { //idslot
+document.getElementById(slot).classList.add("drag_area_hightlight")
+}
