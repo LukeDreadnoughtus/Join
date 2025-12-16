@@ -50,7 +50,7 @@ if (taskData.assignedUsers.length === 0) {
  });
  }
  const taskHtml = `
-    <div class="task_card" onclick="openTaskOverlay('${taskData.id}')" draggable ="true" ondragstart="startDragging('${taskData.id}')">
+    <div class="task_card" onclick="openTaskOverlay('${taskData.id}')" draggable ="true" ondragstart="startDragging(event,'${taskData.id}')" ondragend="stopDragging(event)">
       <div class="task_category_card task_category_color_${taskData.categoryColor}">${taskData.category}</div>
       <div class="task_titel_card">${taskData.title}</div>
       <div class="task_description_card">${taskData.description}</div>

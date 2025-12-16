@@ -273,14 +273,14 @@
     </div>
     <div id="no_progress_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks To do</p></div>
   </div>
-  <div id="feedback" class="board_column">
+  <div id="feedback" class="board_column" ondrop="moveTo('feedback',event)" ondragover="onDragOverColumn(event, 'feedback')" ondragleave="onDragLeaveColumn(event, 'feedback')">
     <div class="column_head">
       <h3>Await feedback</h3>
       <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
     </div>
     <div id="no_feedback_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks To do</p></div>
   </div>
-  <div id="done" class="board_column">
+  <div id="done" class="board_column" ondrop="moveTo('done',event)" ondragover="onDragOverColumn(event, 'done')" ondragleave="onDragLeaveColumn(event, 'done')">
     <div class="column_head">
       <h3>Done</h3>
     </div>
