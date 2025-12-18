@@ -20,13 +20,19 @@
    ========================= */
 .overlay {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;     /* statt nur inset:0 */
+  height: 100vh;
   z-index: 9999;
+
   display: flex;
   align-items: center;
   justify-content: center;
 
   padding: 24px;
+  box-sizing: border-box;
+
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
