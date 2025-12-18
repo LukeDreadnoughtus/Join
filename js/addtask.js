@@ -742,14 +742,23 @@ function requiredFieldMarker() {
   });
 }
 
+function renderUserIcon() {
+    const user = localStorage.getItem("username") || "";
+    const iconDiv = document.querySelector(".my_icon");
+    if (iconDiv) {
+        iconDiv.textContent = initials(user);
+    }
+}
+
 /**
  * Initializes the add task page on load
  */
 function init() {
   loadUserAssignments();
   requiredFieldMarker();
-  document.querySelector(".add_task_create_button").addEventListener("click", createTask);
-  document.querySelector(".add_task_clear_button").addEventListener("click", clearForm);
+  document.getElementById("create-button").addEventListener("click", createTask);
+  document.getElementById("clear-button").addEventListener("click", clearForm);
+  renderUserIcon();
 }
 
 init();

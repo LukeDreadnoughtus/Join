@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="css/header.css"/>
 <link rel="stylesheet" href="css/footer.css"/>
 <link rel="stylesheet" href="css/fonts.css"/>
+<link rel="stylesheet" href="css/add_task_overlay.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <link href="assets/img/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="assets/img/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
@@ -95,45 +96,46 @@
 
 
 
-<div id="overlay" class="overlay hidden">
+<div id="overlay" class="overlay_hidden">
   <div class="overlay-content">
     <div class="overlay-wrapper">
-    <h2 class="add_task_heading">Add Task</h2>
-      <div class="split_container">
+      <h2 class="overlay_add_task_heading">Add Task</h2>
+      <div class="overlay_split_container">
 
-        <div class="left_split">
-          <div class="add_task_container">
-            <form class="add_task_form">
-              <div class="form_group title">
-                <label class="task_title" for="task-title">Title</label>
+        <div class="overlay_left_split">
+          <div class="overlay_add_task_container">
+            <form class="overlay_add_task_form">
+              <div class="overlay_form_group overlay_title">
+                <label class="overlay_task_title" for="task-title">Title</label>
                 <input placeholder="Enter a Title" type="text" id="task-title" name="task-title" required />
               </div>
-              <div class="form_group description">
+
+              <div class="overlay_form_group overlay_description">
                 <label for="task-description">Description</label>
-                <textarea placeholder="Enter a Description" id="task-description" name="task-description"
-                  rows="4"></textarea>
+                <textarea placeholder="Enter a Description" id="task-description" name="task-description" rows="4"></textarea>
               </div>
 
-              <div class="form_group due_date">
+              <div class="overlay_form_group overlay_due_date">
                 <label for="task-due-date">Due Date</label>
-                <input class="due_date_input" type="date" id="task-due-date" name="task-due-date" required />
+                <input class="overlay_due_date_input" type="date" id="task-due-date" name="task-due-date" required />
               </div>
             </form>
           </div>
         </div>
-        <div class="divider"></div>
 
-        <div class="right_split">
+        <div class="overlay_divider"></div>
 
-          <div class="add_controll_task">
-            <div class="add_controll_form">
+        <div class="overlay_right_split">
+          <div class="overlay_add_controll_task">
+            <div class="overlay_add_controll_form">
 
-              <div class="form_group priority">
+              <div class="overlay_form_group overlay_priority">
                 <label for="task-priority">Priority</label>
-                <div class="priority_container">
-                  <button id="urgent" type="button" class="priority_btn urgent" data-value="urgent">
-                    <span class="priority_name">Urgent</span>
-                    <svg class="urgent_icon" width="20" height="15" viewBox="0 0 20 15" fill="none"
+
+                <div class="overlay_priority_container">
+                  <button id="urgent" type="button" class="overlay_priority_btn overlay_urgent" data-value="urgent">
+                    <span class="overlay_priority_name">Urgent</span>
+                    <svg class="overlay_urgent_icon" width="20" height="15" viewBox="0 0 20 15" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M18.9043 14.5096C18.6696 14.51 18.4411 14.4351 18.2522 14.2961L10.0001 8.21288L1.74809 14.2961C1.63224 14.3816 1.50066 14.4435 1.36086 14.4783C1.22106 14.513 1.07577 14.5199 0.933305 14.4986C0.790837 14.4772 0.653973 14.428 0.530528 14.3538C0.407083 14.2796 0.299474 14.1818 0.213845 14.0661C0.128216 13.9503 0.0662437 13.8188 0.0314671 13.6791C-0.00330956 13.5394 -0.0102098 13.3943 0.0111604 13.2519C0.0543195 12.9644 0.21001 12.7058 0.443982 12.533L9.34809 5.96249C9.53679 5.8229 9.76536 5.74756 10.0001 5.74756C10.2349 5.74756 10.4635 5.8229 10.6522 5.96249L19.5563 12.533C19.7422 12.6699 19.8801 12.862 19.9503 13.0819C20.0204 13.3018 20.0193 13.5382 19.9469 13.7573C19.8746 13.9765 19.7349 14.1673 19.5476 14.3024C19.3604 14.4375 19.1352 14.51 18.9043 14.5096Z"
@@ -143,9 +145,10 @@
                         fill="currentColor" />
                     </svg>
                   </button>
-                  <button id="medium" type="button" class="priority_btn medium active" data-value="medium">
-                    <span class="priority_name medium">Medium</span>
-                    <svg class="medium_icon" width="20" height="15" viewBox="0 0 20 15" fill="none"
+
+                  <button id="medium" type="button" class="overlay_priority_btn overlay_medium overlay_active" data-value="medium">
+                    <span class="overlay_priority_name overlay_medium">Medium</span>
+                    <svg class="overlay_medium_icon" width="20" height="15" viewBox="0 0 20 15" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <g clip-path="url(#clip0_395425_5845)">
                         <path
@@ -162,9 +165,10 @@
                       </defs>
                     </svg>
                   </button>
-                  <button id="low" type="button" class="priority_btn low" data-value="low"><span
-                      class="priority_name">Low</span>
-                    <svg class="low_icon" width="20" height="15" viewBox="0 0 20 15" fill="none"
+
+                  <button id="low" type="button" class="overlay_priority_btn overlay_low" data-value="low">
+                    <span class="overlay_priority_name">Low</span>
+                    <svg class="overlay_low_icon" width="20" height="15" viewBox="0 0 20 15" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M10 8.76077C9.7654 8.76118 9.53687 8.68634 9.34802 8.54726L0.444913 1.97752C0.329075 1.89197 0.231235 1.78445 0.15698 1.66111C0.0827245 1.53777 0.033508 1.40102 0.0121402 1.25868C-0.031014 0.971193 0.0418855 0.678356 0.214802 0.444584C0.387718 0.210811 0.646486 0.0552534 0.934181 0.0121312C1.22188 -0.0309911 1.51493 0.0418545 1.74888 0.214643L10 6.29712L18.2511 0.214643C18.367 0.129087 18.4985 0.0671675 18.6383 0.0324205C18.7781 -0.00232646 18.9234 -0.00922079 19.0658 0.0121312C19.2083 0.0334832 19.3451 0.0826633 19.4685 0.156864C19.592 0.231064 19.6996 0.328831 19.7852 0.444584C19.8708 0.560336 19.9328 0.691806 19.9676 0.831488C20.0023 0.97117 20.0092 1.11633 19.9879 1.25868C19.9665 1.40102 19.9173 1.53777 19.843 1.66111C19.7688 1.78445 19.6709 1.89197 19.5551 1.97752L10.652 8.54726C10.4631 8.68634 10.2346 8.76118 10 8.76077Z"
@@ -175,73 +179,82 @@
                     </svg>
                   </button>
                 </div>
+
                 <input type="hidden" name="task-priority" id="task-priority" value="medium" required>
               </div>
 
-              <div class="board_slot hidden">
+              <div class="overlay_board_slot overlay_hidden">
                 <label for="board-slot">Board Slot</label>
-                <select class="board_slot" id="board-slot" required>
+                <select class="overlay_board_slot" id="board-slot" required>
                   <option value="todo" selected hidden></option>
                 </select>
               </div>
 
-              <div class="form_group assigned_to">
+              <div class="overlay_form_group overlay_assigned_to">
                 <label for="task-assigned-to">Assigned to</label>
-                <div class="custom_select" id="task-assigned-to">
-                </div>
-                <div class="assigned_users_icons" id="assigned-users-icons"></div>
+                <div class="overlay_custom_select" id="task-assigned-to"></div>
+                <div class="overlay_assigned_users_icons" id="assigned-users-icons"></div>
               </div>
 
-              <div class="form_group category">
+              <div class="overlay_form_group overlay_category">
                 <label for="task-category">Category</label>
-                <select class="task_category" id="task-category" required>
+                <select class="overlay_task_category" id="task-category" required>
                   <option value="" disabled selected hidden>Select task category</option>
                   <option value="Technical Task">Technical Task</option>
                   <option value="User Story">User Story</option>
                 </select>
               </div>
 
-
-              <div class="subtask-input-wrapper">
+              <div class="overlay_subtask-input-wrapper">
                 <label for="task-subtask">Subtasks</label>
                 <input placeholder="Add new subtask" type="text" id="subtask-input" />
 
-                <svg id="subtask-add" class="icon hidden" viewBox="0 0 24 24">
+                <svg id="subtask-add" class="overlay_icon overlay_hidden" viewBox="0 0 24 24">
                   <path d="M20 6L9 17l-5-5" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"
                     stroke-linejoin="round" />
                 </svg>
-                <div id="dividerSubtasks" class="divider_subtasks hidden"></div>
-                <svg id="subtask-clear" class="icon hidden" viewBox="0 0 24 24">
+
+                <div id="dividerSubtasks" class="overlay_divider_subtasks overlay_hidden"></div>
+
+                <svg id="subtask-clear" class="overlay_icon overlay_hidden" viewBox="0 0 24 24">
                   <line x1="18" y1="6" x2="6" y2="18" stroke="black" stroke-width="2" stroke-linecap="round" />
                   <line x1="6" y1="6" x2="18" y2="18" stroke="black" stroke-width="2" stroke-linecap="round" />
                 </svg>
               </div>
 
-              <ul id="subtask-list">
-                
-              </ul>
+              <ul id="subtask-list"></ul>
+
             </div>
           </div>
         </div>
       </div>
-      <div class="task_controls_buttons">
-        <button type="submit" class="add_task_create_button">
-          <span class="font_create">Create Task</span>
-          <span class="check_svg"><img src="./assets/img/check.svg" alt="check icon" width="24px" height="24px"></span>
+
+      <div class="overlay_task_controls_buttons">
+        <button type="submit" class="overlay_add_task_create_button" id="create-button"> 
+          <span class="overlay_font_create">Create Task</span>
+          <span class="overlay_check_svg">
+            <img src="./assets/img/check.svg" alt="check icon" width="24px" height="24px">
+          </span>
         </button>
-        <button type="reset" id="clear-button" class="add_task_clear_button">
-          <span class="font_clear">Clear</span>
-          <span class="clear_svg"><img src="./assets/img/clear.svg" alt="clear icon" width="24px" height="24px"></span>
+
+        <button type="reset" id="clear-button" class="overlay_add_task_clear_button">
+          <span class="overlay_font_clear">Clear</span>
+          <span class="overlay_clear_svg">
+            <img src="./assets/img/clear.svg" alt="clear icon" width="24px" height="24px">
+          </span>
         </button>
       </div>
+
       </form>
+
       <footer>
-        <div class="footer_content">
-          <p class="footer_text">This field is required<span style="color:red">*</span></p>
+        <div class="overlay_footer_content">
+          <p class="overlay_footer_text">This field is required<span style="color:red">*</span></p>
         </div>
       </footer>
+
+    </div>
   </div>
-</div>
 </div>
 
 
