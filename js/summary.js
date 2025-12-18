@@ -12,6 +12,7 @@ async function init(event) {
     }
     await getTasksOfCurrentUser(userId,event)
     renderTasksToSummary()
+    renderUserIcon()
 }
 
 function getUserFromLocalStorage() {

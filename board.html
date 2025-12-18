@@ -64,9 +64,14 @@
         <div class="header_icons">
             <img class="help_icon" src="./assets/img/help.svg" onclick="toHelpPage()"></img>
             <div class="my_icon" onclick="openUserMenu()"></div>
-            <!-- <div class="user_menu"></div> -->
+            <nav class="user_menu d_none" id="user_menu">
+            <ul>
+            <li><a href="legal_notice.html"><span>Legal Notice</span></a></li>
+            <li><a href="privacy_policy.html"><span>Privacy Policy</span></a></li>
+            <li><a href="" onclick="logoutUser(event)"><span>Log out</span></a></li>
+            </ul>
+            </nav>
         </div>
-        
 </header>
 <div id="task_full_view" class="transparent_overlay d_none" onclick="closeTaskOverlay(event)">
 <div id="show_task_overlay" class="show_task_overlay" onclick="event.stopPropagation()">
@@ -267,14 +272,14 @@
 </div>
 <div class="userfeedback_no_tasks d_none" id="userfeedback"><p>No tasks are loaded - please reload the page</p></div>
 <div class="board_layout">
-  <div id="todo" class="board_column">
+  <div id="todo" class="board_column" ondrop="moveTo('todo',event)" ondragover="onDragOverColumn(event,'todo')" ondragleave="onDragLeaveColumn(event,'todo')">
     <div class="column_head">
       <h3>To do</h3>
       <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
     </div>
     <div id="no_todo_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks To do</p></div>
   </div>
-  <div id="progress" class="board_column">
+  <div id="progress" class="board_column" ondrop="moveTo('progress',event)" ondragover="onDragOverColumn(event, 'progress')" ondragleave="onDragLeaveColumn(event, 'progress')">
     <div class="column_head">
       <h3>In progress</h3>
       <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">

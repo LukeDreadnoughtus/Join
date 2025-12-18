@@ -50,21 +50,29 @@
 </a>
 </div>
 </div>
-<main class="content"><header>
-        <div class="header-title">
-          <h4 class="add-task-title">Kanban Project Management Tool</h4>
+<main class="content">
+<header>
+        <div class="header_div">
+        <h4>Kanban Project Management Tool</h4>
         </div>
-        <div class="header-help">
-          <button class="help-button" aria-label="Hilfe">
-            <object data="assets/img/help.svg" type="image/svg+xml" width="32" height="32"></object>
-          </button>
+        <div class="header_icons">
+            <img class="help_icon" src="./assets/img/help.svg" onclick="toHelpPage()"></img>
+            <div class="my_icon" onclick="openUserMenu()"></div>
+            <nav class="user_menu d_none" id="user_menu">
+            <ul>
+            <li><a href="legal_notice.html"><span>Legal Notice</span></a></li>
+            <li><a href="privacy_policy.html"><span>Privacy Policy</span></a></li>
+            <li><a href="" onclick="logoutUser(event)"><span>Log out</span></a></li>
+            </ul>
+            </nav>
         </div>
-</header><div class="contacts_sidebar"><button class="contacts_sidebar_add">Add new contact</button><div class="contacts_sidebar_list"></div></div>
+</header>
+<div class="contacts_sidebar"><button class="contacts_sidebar_add">Add new contact</button><div class="contacts_sidebar_list"></div></div>
 </main>
 </div>
 <script src="js/script.js"></script>
 <script src="js/navigate.js"></script>
 <script src="js/contacts_templates.js"></script>
-    <script src="js/contacts.js"></script>
+<script src="js/contacts.js"></script>
 </body>
 </html>

@@ -13,11 +13,13 @@ function renderBoardBasics() {
       </div>
       <div id="no_todo_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks To do</p></div>
       </div>` 
-    document.getElementById(`progress`).innerHTML =`<div class="column_head">
+    document.getElementById(`progress`).innerHTML =`
+      <div class="column_head">
       <h3>In progress</h3>
       <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
       </div>
-      <div id="no_progress_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks To do</p></div>
+      <div id="no_progress_tasks" class="no_tasks d_none"> 
+      <p class="font_no_task">No tasks To do</p></div>
       </div>`
     document.getElementById(`feedback`).innerHTML =`<div class="column_head">
       <h3>Await feedback</h3>
@@ -48,7 +50,7 @@ if (taskData.assignedUsers.length === 0) {
  });
  }
  const taskHtml = `
-    <div class="task_card" onclick="openTaskOverlay('${taskData.id}')">
+    <div class="task_card" onclick="openTaskOverlay('${taskData.id}')" draggable ="true" ondragstart="startDragging('${taskData.id}')">
       <div class="task_category_card task_category_color_${taskData.categoryColor}">${taskData.category}</div>
       <div class="task_titel_card">${taskData.title}</div>
       <div class="task_description_card">${taskData.description}</div>

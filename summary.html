@@ -55,6 +55,22 @@
 </div>
 </div>
 <main class="content">
+<header>
+        <div class="header_div">
+        <h4>Kanban Project Management Tool</h4>
+        </div>
+        <div class="header_icons">
+            <img class="help_icon" src="./assets/img/help.svg" onclick="toHelpPage()"></img>
+            <div class="my_icon" onclick="openUserMenu()"></div>
+            <nav class="user_menu d_none" id="user_menu">
+            <ul>
+            <li><a href="legal_notice.html"><span>Legal Notice</span></a></li>
+            <li><a href="privacy_policy.html"><span>Privacy Policy</span></a></li>
+            <li><a href="" onclick="logoutUser(event)"><span>Log out</span></a></li>
+            </ul>
+            </nav>
+        </div>
+</header>
 <h2>Guten Morgen</h2>
 <h1 id="username">Username</h1>
 <h4>To-do<h2 id="to_do"></h2></h4>

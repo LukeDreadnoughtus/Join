@@ -8,6 +8,4 @@ function openAddTaskOverlay() {
     });
 }
 
-
-
 openAddTaskOverlay();
