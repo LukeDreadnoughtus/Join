@@ -85,6 +85,13 @@ window.location.href = "help.html"
 }
 
 function openUserMenu() {
-  
+  document.getElementById("user_menu").classList.toggle("d_none")
+}
 
+function logoutUser(event) {
+  event.preventDefault();
+  localStorage.removeItem('username')
+  localStorage.removeItem('userid')
+  localStorage.removeItem('usercolor')
+  window.location.href = 'index.html';
 }

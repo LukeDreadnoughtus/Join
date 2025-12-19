@@ -854,3 +854,89 @@ async function deleteTask(id, event) {
     delete allTasks[id];
     closeTaskOverlay(event)
 }
+
+//Drag and Drop
+
+
+//doc - Dragging-Klasse setzen
+// //verhindert das standardmäßige „Ghost“-Bild
+// WICHTIG: echtes Element als DragImage verwenden 
+
+let currentDraggedTask;  
+function startDragging(event, id) {
+    currentDraggedTask = id
+    // const el = event.currentTarget;
+    // el.classList.add("dragging");
+    // const rect = el.getBoundingClientRect();
+    // event.dataTransfer.setDragImage(
+    //     el,
+    //     rect.width / 2,
+    //     rect.height / 2
+    // );
+    const original = event.currentTarget;
+    original.classList.add("dragging");
+    const clone = original.cloneNode(true);
+    clone.style.position = "absolute";
+    clone.style.top = "-9999px";
+    clone.style.left = "-9999px";
+    clone.style.pointerEvents = "none";
+    clone.style.opacity = "1";
+    clone.style.transform = "scale(1.03)";
+    clone.style.boxShadow = "0 12px 25px rgba(0,0,0,0.25)";
+    clone.classList.add("dragging");
+
+    document.body.appendChild(clone);
+
+    const rect = original.getBoundingClientRect();
+    event.dataTransfer.setDragImage(
+        clone,
+        rect.width / 2,
+        rect.height / 2
+    );
+
+    // Clone nach Start wieder entfernen
+    setTimeout(() => clone.remove(), 0);
+}
+
+function onDragOverColumn(event, slot) {
+    event.preventDefault();
+    highlightDragArea(slot);
+}
+
+async function moveTo (slot, event) {
+const taskId = currentDraggedTask;
+allTasks[taskId].boardSlot = slot
+removeHighlight(slot);
+await updateBoardSlotInFirebase(taskId, slot) 
+renderBoardBasics()
+await init(event)
+}
+
+async function updateBoardSlotInFirebase(taskId, slot) {
+    const url = `${path}/${taskId}.json`;
+
+    await fetch(url, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({boardslot: slot})
+    });
+}
+
+function onDragLeaveColumn(event, slot) {
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+        removeHighlight(slot);
+    }
+}
+
+function highlightDragArea(slot) { //idslot
+document.getElementById(slot).classList.add("drag_area_hightlight")
+}
+
+function removeHighlight(slot) { //idslot
+document.getElementById(slot).classList.remove("drag_area_hightlight")
+}
+
+function stopDragging(event) {
+    event.currentTarget.classList.remove("dragging");
+}
+

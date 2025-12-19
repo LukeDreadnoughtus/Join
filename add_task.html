@@ -64,26 +64,29 @@
     </div>
     <main class="content">
       <header>
-        <div class="header_title">
-          <h4 class="add_task_title">Kanban Project Management Tool</h4>
+        <div class="header_div">
+          <h4>Kanban Project Management Tool</h4>
         </div>
-        <div class="header_help">
-          <button class="help_button" aria-label="Hilfe">
-            <object data="assets/img/help.svg" type="image/svg+xml" width="32" height="32"></object>
-          </button>
+        <div class="header_icons">
+          <img class="help_icon" src="./assets/img/help.svg" onclick="toHelpPage()"></img>
+          <div class="my_icon" id="myIcon" onclick="openUserMenu()"></div>
+          <nav class="user_menu d_none" id="user_menu">
+            <ul>
+              <li><a href="legal_notice.html"><span>Legal Notice</span></a></li>
+              <li><a href="privacy_policy.html"><span>Privacy Policy</span></a></li>
+              <li><a href="" onclick="logoutUser(event)"><span>Log out</span></a></li>
+            </ul>
+          </nav>
         </div>
       </header>
-
-
-
       <h2 class="add_task_heading">Add Task</h2>
       <div class="split_container">
 
         <div class="left_split">
           <div class="add_task_container">
-            <form class="add_task_form">
+            <form class="add_task_form" id="addTaskForm">
               <div class="form_group title">
-                <label class="task_title" for="task-title">Title</label>
+                <label class="task_title" for="task-title" id="label-task-title">Title</label>
                 <input placeholder="Enter a Title" type="text" id="task-title" name="task-title" required />
               </div>
               <div class="form_group description">
@@ -93,7 +96,7 @@
               </div>
 
               <div class="form_group due_date">
-                <label for="task-due-date">Due Date</label>
+                <label id="label-task-due-date" for="task-due-date">Due Date</label>
                 <input class="due_date_input" type="date" id="task-due-date" name="task-due-date" required />
               </div>
             </form>
@@ -157,7 +160,7 @@
               </div>
 
               <div class="board_slot hidden">
-                <label for="board-slot">Board Slot</label>
+                <label id="label-board-slot" for="board-slot">Board Slot</label>
                 <select class="board_slot" id="board-slot" required>
                   <option value="todo" selected hidden></option>
                 </select>
@@ -171,7 +174,7 @@
               </div>
 
               <div class="form_group category">
-                <label for="task-category">Category</label>
+                <label id="label-task-category" for="task-category">Category</label>
                 <select class="task_category" id="task-category" required>
                   <option value="" disabled selected hidden>Select task category</option>
                   <option value="Technical Task">Technical Task</option>
@@ -196,14 +199,14 @@
               </div>
 
               <ul id="subtask-list">
-                
+
               </ul>
             </div>
           </div>
         </div>
       </div>
-      <div class="task_controls_buttons">
-        <button type="submit" class="add_task_create_button">
+      <div class="task_controls_buttons" id="taskControlsButtons">
+        <button type="submit" class="add_task_create_button" id="create-button">
           <span class="font_create">Create Task</span>
           <span class="check_svg"><img src="./assets/img/check.svg" alt="check icon" width="24px" height="24px"></span>
         </button>
@@ -221,7 +224,7 @@
     </main>
   </div>
   <div id="notification-container"></div>
-   <script src="js/addtask.js"></script>
+  <script src="js/addtask.js"></script>
   <script src="js/script.js"></script>
   <script src="js/navigate.js"></script>
 </body>

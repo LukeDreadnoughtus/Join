@@ -37,7 +37,6 @@ function proofUserData(userData) {
    setUserFeedbackFailedLogIn() 
 }
 
-
 /** show userfeedback "password/username is false" and highlights input borders red */
 
 function setUserFeedbackFailedLogIn() {
@@ -94,11 +93,9 @@ function toRegistration() {
     window.location.href = "registration.html";
 }
 
-
 function backToLogIn() {
     window.location.href = "index.html";
 }
-
 
 /** these next functions check if the inputs are filled when die checkbox for privacy policy is checked */
 function checkAllInputs() {
@@ -109,7 +106,6 @@ function checkAllInputs() {
         checkAllFieldsFilled()
     } 
 }
-
 
 // function checkAllFieldsFilled() {
 //     const name = document.getElementById("name_registration").value.trim();
@@ -145,7 +141,6 @@ function checkAllFieldsFilled() {
     return allFilled;
 }
 
-
 function checkName (name) {
      if(!name) {
     document.getElementById("name_registration").classList.add("input_style_red")
@@ -154,7 +149,6 @@ function checkName (name) {
     }
     else return true;
 }
-
 
 function checkEmail (email) {
     if(!email) {
@@ -165,7 +159,6 @@ function checkEmail (email) {
     else return true;
 }
 
-
 function checkPasswordregistration(password) {
     if(!password) {
     document.getElementById("password_registration").classList.add("input_style_red")
@@ -174,7 +167,6 @@ function checkPasswordregistration(password) {
     }
     else return true;
 }
-
 
 function checkPasswordConfirm(passwordConfirm) {
     if(!passwordConfirm) {
@@ -215,7 +207,6 @@ function checkNameField(event) {
  *  4)checkPassword - checks if the passwords match and are the same; if not it shows userfeedback
  */
 
-
 function handlePasswordInput (event) {
     event.stopPropagation();
     const input = event.target;
@@ -229,7 +220,6 @@ function handlePasswordInput (event) {
     checkPassword ();
 }
 
-
 function showVisibilityIcon(event) {
     event.stopPropagation();
     const input = event.target
@@ -239,7 +229,6 @@ function showVisibilityIcon(event) {
     input.dataset.iconShown = "true";
   }
 }
-
 
 function showVisibilityIcon2(event) {
     event.stopPropagation();
@@ -387,7 +376,6 @@ async function proofEmail (userData) {
     return true; }
     }
 
-
 async function postUserData (event, userData) {
      event.preventDefault();
      try {
@@ -424,7 +412,6 @@ function getUserColor() {
   const randomIndex = Math.floor(Math.random() * basicColors.length);
   return basicColors[randomIndex];
 }
-
 
 function toLogIn() {
     document.getElementById("userfeedback_sign_up").classList.remove("d_none")

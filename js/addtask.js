@@ -5,6 +5,18 @@
 const ADD_TASK_PATH = "https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/";
 const ADD_TASK_PATH_REGISTER = "https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/";
 
+
+let subtaskUid = 0;
+
+const REQUIRED_FIELD_IDS = [
+  "task-title",
+  "task-due-date",
+  "task-priority",
+  "board-slot",
+  "task-category",
+];
+
+
 /**
  * DOM elements for priority buttons
  * @type {HTMLElement}
@@ -13,6 +25,10 @@ const lowBtn = document.getElementById('low');
 const mediumBtn = document.getElementById('medium');
 const urgentBtn = document.getElementById('urgent');
 const hiddenInput = document.getElementById('task-priority');
+const HIDDEN_CLASS = "overlay_hidden";
+const ACTIVE_CLASS = "overlay_active";
+
+
 
 /**
  * Maximum number of subtasks
@@ -78,6 +94,7 @@ function initials(user) {
   return first + (second || '');
 }
 
+
 /**
  * Creates a dot element for subtasks
  * @returns {HTMLElement} Dot element
@@ -87,6 +104,7 @@ function createDot() {
   dot.className = "subtask-dot";
   return dot;
 }
+
 
 /**
  * Creates a text span element
@@ -99,6 +117,7 @@ function createSpan(text) {
   span.textContent = text;
   return span;
 }
+
 
 /**
  * Creates a button with icon and click handler
@@ -129,8 +148,15 @@ function cloneButton(id) {
  * @returns {number} Number of subtasks
  */
 function getSubtaskCount() {
-  return document.querySelectorAll("#subtask-list .subtask-item").length;
+  const ul = document.getElementById("subtask-list");
+  if (!ul) return 0;
+  let count = 0;
+  for (const child of ul.children) {
+    if (child.classList && child.classList.contains("subtask-item")) count++;
+  }
+  return count;
 }
+
 
 /**
  * Hides the divider between input and subtasks
@@ -148,16 +174,12 @@ function clearDivider() {
  * Updates the display text and shows icons of selected users
  */
 function updateDisplayText() {
-  const display = document.querySelector(".select-display");
-  const assignedUsersContainer = document.getElementById('assigned-users-icons');
-  
-  if (!assignedUsersContainer) return;
-  
-  const count = window.selectedUsers.size;
+  const display = document.getElementById("assignedDisplay");
+  const assignedUsersContainer = document.getElementById("assigned-users-icons");
+  if (!display || !assignedUsersContainer) return;
   rebuildDisplayElement(display);
-  assignedUsersContainer.innerHTML = '';
-  
-  if (count > 0) {
+  assignedUsersContainer.innerHTML = "";
+  if (window.selectedUsers && window.selectedUsers.size > 0) {
     displaySelectedUserIcons(assignedUsersContainer);
   }
 }
@@ -167,15 +189,18 @@ function updateDisplayText() {
  * @param {HTMLElement} display - The display element
  */
 function rebuildDisplayElement(display) {
-  const arrow = display.querySelector(".icon-assign");
-  const textWrapper = document.createElement("span");
-  textWrapper.className = "select-display-text";
-  textWrapper.textContent = "Select contacts to assign";
-  
-  display.innerHTML = '';
-  display.appendChild(textWrapper);
-  display.appendChild(arrow);
+  display.innerHTML = "";
+  const text = document.createElement("span");
+  text.className = "select-display-text";
+  text.id = "assignedDisplayText";
+  text.textContent = "Select contacts to assign";
+  const arrow = document.createElement("span");
+  arrow.className = "icon-assign";
+  arrow.id = "assignedArrow";
+  arrow.textContent = "▼";
+  display.append(text, arrow);
 }
+
 
 /**
  * Displays icons for all selected users
@@ -194,19 +219,16 @@ function displaySelectedUserIcons(container) {
  * @returns {HTMLElement|null} Icon element or null
  */
 function createSelectedUserIcon(id) {
-  const optionItem = document.querySelector(`.option-item[data-id="${id}"]`);
-  if (!optionItem) return null;
-  
-  const userName = optionItem.querySelector('.option-user-name').textContent.trim();
-  const userIcon = optionItem.querySelector('.user_icon');
-  const bgColor = window.getComputedStyle(userIcon).backgroundColor;
-  
-  const newIcon = document.createElement('div');
-  newIcon.className = 'assigned_user_icon';
+  const nameEl = document.getElementById(`option-name-${id}`);
+  const iconEl = document.getElementById(`option-icon-${id}`);
+  if (!nameEl || !iconEl) return null;
+  const userName = nameEl.textContent.trim();
+  const bgColor = window.getComputedStyle(iconEl).backgroundColor;
+  const newIcon = document.createElement("div");
+  newIcon.className = "assigned_user_icon";
   newIcon.style.backgroundColor = bgColor;
   newIcon.title = userName;
   newIcon.textContent = initials(userName);
-  
   return newIcon;
 }
 
@@ -219,15 +241,13 @@ function createSelectedUserIcon(id) {
  * @param {HTMLElement} activeBtn - The clicked priority button
  */
 function setActivePriority(activeBtn) {
-  const priorityButtons = [lowBtn, mediumBtn, urgentBtn];
-  priorityButtons.forEach(btn => {
-    if (btn !== activeBtn) {
-      btn.classList.remove('active');
-    }
-  });
-  activeBtn.classList.add('active');
+  lowBtn.classList.remove(ACTIVE_CLASS);
+  mediumBtn.classList.remove(ACTIVE_CLASS);
+  urgentBtn.classList.remove(ACTIVE_CLASS);
+  activeBtn.classList.add(ACTIVE_CLASS);
   hiddenInput.value = activeBtn.dataset.value;
 }
+
 
 /**
  * Event listeners for priority button clicks
@@ -235,11 +255,9 @@ function setActivePriority(activeBtn) {
 lowBtn.addEventListener('click', () => {
   setActivePriority(lowBtn);
 });
-
 mediumBtn.addEventListener('click', () => {
   setActivePriority(mediumBtn);
 });
-
 urgentBtn.addEventListener('click', () => {
   setActivePriority(urgentBtn);
 });
@@ -253,7 +271,6 @@ input.addEventListener("input", () => {
   divider.classList.toggle("hidden", !hasText);
   clearIcon.classList.toggle("hidden", !hasText);
 });
-
 addIcon.addEventListener("click", () => {
   const text = input.value.trim();
   if (!text) return;
@@ -262,7 +279,6 @@ addIcon.addEventListener("click", () => {
   addIcon.classList.add("hidden");
   clearIcon.classList.add("hidden");
 });
-
 clearIcon.addEventListener("click", () => {
   input.value = "";
   divider.classList.add("hidden");
@@ -296,7 +312,6 @@ function getTaskDataFromForm() {
 async function createTask(event) {
   event.preventDefault();
   if (!validateForm()) return;
-  
   const newTask = getTaskDataFromForm();
   try {
     await saveTaskToFirebase(newTask);
@@ -316,7 +331,6 @@ async function saveTaskToFirebase(newTask) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newTask),
   });
-  
   if (response.ok) {
     showSuccessMessage();
     clearForm();
@@ -330,17 +344,17 @@ async function saveTaskToFirebase(newTask) {
  * @returns {boolean} True if all fields are valid, otherwise false
  */
 function validateForm() {
-  const requiredFields = document.querySelectorAll("input[required], select[required], textarea[required]");
   clearPreviousErrors();
   let isValid = true;
-  
-  requiredFields.forEach(field => {
-    if (!field.value.trim()) {
+  for (const id of REQUIRED_FIELD_IDS) {
+    const field = document.getElementById(id);
+    if (!field) continue;
+    const value = String(field.value ?? "").trim();
+    if (!value) {
       markFieldAsInvalid(field);
       isValid = false;
     }
-  });
-  
+  }
   return isValid;
 }
 
@@ -348,8 +362,12 @@ function validateForm() {
  * Clears previous validation error messages
  */
 function clearPreviousErrors() {
-  document.querySelectorAll(".error_message").forEach(e => e.remove());
-  document.querySelectorAll(".input-error").forEach(f => f.classList.remove("input-error"));
+  for (const id of REQUIRED_FIELD_IDS) {
+    const field = document.getElementById(id);
+    if (field) field.classList.remove("input-error");
+    const errorEl = document.getElementById(`error-${id}`);
+    if (errorEl) errorEl.remove();
+  }
 }
 
 /**
@@ -358,8 +376,11 @@ function clearPreviousErrors() {
  */
 function markFieldAsInvalid(field) {
   field.classList.add("input-error");
+  const existing = document.getElementById(`error-${field.id}`);
+  if (existing) existing.remove();
   const error = document.createElement("span");
-  error.classList.add("error-message");
+  error.id = `error-${field.id}`;
+  error.className = "error-message";
   error.textContent = "This field is required";
   field.insertAdjacentElement("afterend", error);
 }
@@ -388,23 +409,27 @@ function clearFormInputs() {
  * Resets priority to medium
  */
 function resetPriority() {
-  const hiddenInput = document.getElementById("task-priority");
   hiddenInput.value = "medium";
-  const priorityButtons = document.querySelectorAll('.priority_btn');
-  priorityButtons.forEach(btn => btn.classList.remove('active'));
-  document.getElementById('medium').classList.add('active');
+  lowBtn.classList.remove(ACTIVE_CLASS);
+  urgentBtn.classList.remove(ACTIVE_CLASS);
+  mediumBtn.classList.add(ACTIVE_CLASS);
 }
 
 /**
  * Clears the assigned dropdown and resets selectedUsers
  */
 function clearAssignedDropdown() {
-  const container = document.getElementById("task-assigned-to");
-  const options = container.querySelectorAll(".option-item");
-  options.forEach(item => item.classList.remove("checked"));
+  const options = document.getElementById("assignedOptions");
+  if (options) {
+    for (const child of options.children) {
+      child.classList.remove("checked");
+    }
+  }
+
   if (window.selectedUsers) window.selectedUsers.clear();
   updateDisplayText();
 }
+
 
 /**
  * Removes all subtasks from the list
@@ -415,12 +440,14 @@ function clearSubtasks() {
   updateAddUIState();
 }
 
+
 /**
  * Loads user data and creates the assigned dropdown
  * @returns {Promise<void>}
  */
 async function loadUserAssignments() {
   const container = document.getElementById("task-assigned-to");
+  if (!container) return;
   try {
     const data = await fetchUserData();
     buildDropdown(container, data);
@@ -428,6 +455,7 @@ async function loadUserAssignments() {
     console.error("Error loading users:", error);
   }
 }
+
 
 /**
  * Fetches user data from Firebase
@@ -438,6 +466,7 @@ async function fetchUserData() {
   return await response.json();
 }
 
+
 /**
  * Creates the dropdown menu for user assignments
  * @param {HTMLElement} container - Container for the dropdown
@@ -445,8 +474,9 @@ async function fetchUserData() {
  */
 function buildDropdown(container, data) {
   container.innerHTML = "";
-  const display = createDisplayElement();
-  const options = createOptionsContainer(data);
+  window.selectedUsers = new Set();
+  const display = createDisplayElement();        // #assignedDisplay
+  const options = createOptionsContainer(data);  // #assignedOptions
   container.append(display, options);
 }
 
@@ -456,18 +486,18 @@ function buildDropdown(container, data) {
  */
 function createDisplayElement() {
   const el = document.createElement("div");
-  el.classList.add("select-display");
-  const textWrapper = document.createElement("span");
-  textWrapper.className = "select-display-text";
-  textWrapper.textContent = "Select contacts to assign";
-  
-  const arrow = document.createElement("span");
-  arrow.classList.add("icon-assign");
-  arrow.textContent = "▼";
-  
-  el.appendChild(textWrapper);
-  el.appendChild(arrow);
+  el.className = "select-display";
+  el.id = "assignedDisplay";
   el.onclick = toggleDropdown;
+  const text = document.createElement("span");
+  text.className = "select-display-text";
+  text.id = "assignedDisplayText";
+  text.textContent = "Select contacts to assign";
+  const arrow = document.createElement("span");
+  arrow.className = "icon-assign";
+  arrow.id = "assignedArrow";
+  arrow.textContent = "▼";
+  el.append(text, arrow);
   return el;
 }
 
@@ -478,9 +508,11 @@ function createDisplayElement() {
  */
 function createOptionsContainer(data) {
   const options = document.createElement("div");
-  options.classList.add("select-options");
-  window.selectedUsers = new Set();
-  Object.keys(data).forEach((key) => addOptionItem(options, key, data[key]));
+  options.className = "select-options";
+  options.id = "assignedOptions";
+  for (const key of Object.keys(data || {})) {
+    addOptionItem(options, key, data[key]);
+  }
   return options;
 }
 
@@ -492,28 +524,46 @@ function createOptionsContainer(data) {
  */
 function addOptionItem(container, id, user) {
   const item = document.createElement("div");
-  item.classList.add("option-item");
-  item.setAttribute("data-id", id);
-  const usericon = initials(user.name);
-  const color = user.color || "#393737";
-  
+  item.className = "option-item";
+  item.id = `option-${id}`;
+  item.dataset.id = id;
+  const userName = (user?.name || "").trim();
+  const userIconText = initials(userName);
+  const color = user?.color || "#393737";
   item.innerHTML = `
-    <div class="user_icon" style="background-color: ${color}">${usericon}</div>
-    <span class="option-user-name">${user.name}</span>
+    <div class="user_icon" id="option-icon-${id}" style="background-color: ${color}">${userIconText}</div>
+    <span class="option-user-name" id="option-name-${id}">${userName}</span>
     <span class="checkbox-square"></span>
   `;
-  
-  item.onclick = () => toggleUser(item, id);
+  item.onclick = () => toggleUserById(id);
   container.appendChild(item);
 }
+
+
+function toggleUserById(id) {
+  const item = document.getElementById(`option-${id}`);
+  if (!item) return;
+  if (!window.selectedUsers) window.selectedUsers = new Set();
+  if (window.selectedUsers.has(id)) {
+    window.selectedUsers.delete(id);
+    item.classList.remove("checked");
+  } else {
+    window.selectedUsers.add(id);
+    item.classList.add("checked");
+  }
+  updateDisplayText();
+}
+
+
 
 /**
  * Toggles the visibility of the dropdown menu
  */
 function toggleDropdown() {
-  const options = document.querySelector(".select-options");
-  options.classList.toggle("show");
+  const options = document.getElementById("assignedOptions");
+  if (options) options.classList.toggle("show");
 }
+
 
 /**
  * Toggles a user in the selection and updates the display
@@ -527,10 +577,6 @@ function toggleUser(item, id) {
   updateDisplayText();
 }
 
-/**
- * Adds a new subtask
- * @param {string} text - Text of the subtask
- */
 function addSubtask(text) {
   if (!text.trim()) return;
   if (getSubtaskCount() >= MAX_SUBTASKS) {
@@ -539,7 +585,6 @@ function addSubtask(text) {
     updateAddUIState();
     return;
   }
-  
   const item = createSubtaskElement(text);
   document.getElementById("subtask-list").appendChild(item);
   clearDivider();
@@ -548,24 +593,33 @@ function addSubtask(text) {
 }
 
 /**
- * Creates a subtask element
- * @param {string} text - Subtask text
- * @returns {HTMLElement} Subtask element
+ * Adds a new subtask
+ * @param {string} text - Text of the subtask
  */
+
+
 function createSubtaskElement(text) {
+  subtaskUid++;
   const item = document.createElement("div");
   item.className = "subtask-item";
+  item.id = `subtask-item-${subtaskUid}`;
   const left = document.createElement("div");
   left.className = "subtask-left";
-  
+  left.id = `subtask-left-${subtaskUid}`;
   const dot = createDot();
+  dot.id = `subtask-dot-${subtaskUid}`;
   const span = createSpan(text);
+  span.id = `subtask-text-${subtaskUid}`;
   left.append(dot, span);
-  
   const buttons = createButtons(item, span);
+  buttons.id = `subtask-buttons-${subtaskUid}`;
+  item.dataset.leftId = left.id;
+  item.dataset.textId = span.id;
+  item.dataset.buttonsId = buttons.id;
   item.append(left, buttons);
   return item;
 }
+
 
 /**
  * Creates edit and delete buttons for a subtask
@@ -589,16 +643,21 @@ function createButtons(item, span) {
  * @param {HTMLElement} buttons - Button container
  */
 function enterEditMode(item, span, buttons) {
-  const left = item.querySelector(".subtask-left");
-  const input = document.createElement("input");
-  input.type = "text";
-  input.value = span.textContent;
-  input.className = "edit-input";
-  buttons.style.display = "none";
-  
-  rebuildLeft(left, createDot(), input);
-  appendEditControls(left, input, span, buttons);
+  const left = document.getElementById(item.dataset.leftId);
+  const btns = document.getElementById(item.dataset.buttonsId);
+  const textSpan = document.getElementById(item.dataset.textId);
+  if (!left || !btns || !textSpan) return;
+  const editInput = document.createElement("input");
+  editInput.type = "text";
+  editInput.value = textSpan.textContent;
+  editInput.className = "edit-input";
+  editInput.id = `edit-input-${item.id}`;
+  btns.style.display = "none";
+  rebuildLeft(left, createDot(), editInput);
+  appendEditControls(left, editInput, textSpan, btns);
 }
+
+
 
 /**
  * Appends edit control buttons to the left container
@@ -612,7 +671,6 @@ function appendEditControls(left, input, span, buttons) {
   const cancel = cloneButton("subtask-clear");
   check.onclick = () => saveEdit(left, span, input, buttons);
   cancel.onclick = () => cancelEdit(left, span, buttons);
-  
   const wrapper = document.createElement("div");
   wrapper.className = "subtask-input-wrapper";
   wrapper.append(input, check, cancel);
@@ -665,7 +723,6 @@ function showMessage(message, type = "info") {
   note.className = `notification ${type}`;
   note.textContent = message;
   container.appendChild(note);
-  
   setTimeout(() => {
     note.style.animation = "fadeOut 0.3s forwards";
   }, 2500);
@@ -676,16 +733,20 @@ function showMessage(message, type = "info") {
  * Disables the subtask input field
  */
 function disableSubtaskInput() {
-  document.getElementById("subtask-input").disabled = true;
-  document.getElementById("subtask-add").disabled = true;
+  const input = document.getElementById("subtask-input");
+  const add = document.getElementById("subtask-add");
+  if (input) input.disabled = true;
+  if (add) add.disabled = true;
 }
 
 /**
  * Enables the subtask input field
  */
 function enableSubtaskInput() {
-  document.getElementById("subtask-input").disabled = false;
-  document.getElementById("subtask-add").disabled = false;
+  const input = document.getElementById("subtask-input");
+  const add = document.getElementById("subtask-add");
+  if (input) input.disabled = false;
+  if (add) add.disabled = false;
 }
 
 /**
@@ -698,21 +759,26 @@ function updateAddUIState() {
     enableSubtaskInput();
   }
 }
-
 /**
  * Collects all subtasks for the database
  * @returns {Object} Subtask object with name and status
  */
 function getSubtasksForDB() {
-  const items = document.querySelectorAll("#subtask-list .subtask-item");
+  const ul = document.getElementById("subtask-list");
   const subtasks = {};
-  items.forEach((item, index) => {
-    const name = item.querySelector(".subtask-left span").innerText.trim();
+  if (!ul) return subtasks;
+  let index = 0;
+  for (const item of ul.children) {
+    if (!item.classList || !item.classList.contains("subtask-item")) continue;
+    const left = item.getElementsByClassName("subtask-left")[0];
+    const spans = left ? left.getElementsByTagName("span") : null;
+    const name = spans && spans[0] ? spans[0].innerText.trim() : "";
     const done = item.classList.contains("done") || false;
-    subtasks[index] = { name, done };
-  });
+    subtasks[index++] = { name, done };
+  }
   return subtasks;
 }
+
 
 /**
  * Displays a success message for task creation
@@ -724,23 +790,36 @@ function showSuccessMessage() {
   msg.style.marginTop = "10px";
   msg.style.fontWeight = "bold";
   msg.style.textAlign = "center";
-  document.querySelector(".task_controls_buttons").appendChild(msg);
+  const host = document.getElementById("taskControlsButtons");
+  if (host) host.appendChild(msg);
   setTimeout(() => msg.remove(), 3000);
 }
+
 
 /**
  * Marks required form fields with an asterisk (*)
  */
 function requiredFieldMarker() {
-  document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll("input[required], select[required], textarea[required]").forEach((field) => {
-      const label = document.querySelector(`label[for="${field.id}"]`);
-      if (label && !label.innerHTML.includes("*")) {
-        label.innerHTML += ' <span style="color:red">*</span>';
-      }
-    });
-  });
+  for (const id of REQUIRED_FIELD_IDS) {
+    const field = document.getElementById(id);
+    if (!field) continue;
+    const label = document.querySelector(`label[for="${id}"]`);
+    if (!label) continue;
+    if (label.dataset.requiredMarked === "1") continue;
+    const star = document.createElement("span");
+    star.style.color = "red";
+    star.textContent = " *";
+    label.appendChild(star);
+    label.dataset.requiredMarked = "1";
+  }
 }
+
+function renderUserIcon() {
+  const user = localStorage.getItem("username") || "";
+  const iconDiv = document.getElementById("myIcon");
+  if (iconDiv) iconDiv.textContent = initials(user);
+}
+
 
 /**
  * Initializes the add task page on load
@@ -748,8 +827,10 @@ function requiredFieldMarker() {
 function init() {
   loadUserAssignments();
   requiredFieldMarker();
-  document.querySelector(".add_task_create_button").addEventListener("click", createTask);
-  document.querySelector(".add_task_clear_button").addEventListener("click", clearForm);
+  document.getElementById("create-button").addEventListener("click", createTask);
+  document.getElementById("clear-button").addEventListener("click", clearForm);
+  renderUserIcon();
+  updateAddUIState(); // <-- hinzufügen
 }
 
 init();
