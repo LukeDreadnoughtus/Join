@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="css/header.css"/>
 <link rel="stylesheet" href="css/footer.css"/>
 <link rel="stylesheet" href="css/fonts.css"/>
+<link rel="stylesheet" href="css/summary.css"/>
 <link href="assets/img/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="assets/img/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
 <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"/>
@@ -57,12 +58,73 @@
 <main class="content">
 <h2>Guten Morgen</h2>
 <h1 id="username">Username</h1>
-<h4>To-do<h2 id="to_do"></h2></h4>
-<h4>done<h2 id="done"></h2></h4>
-<h4>Urgent<h2 id="urgent"></h2></h4>
-<h4>Tasks in Board<h2 id="tasks_in_board"></h2></h4>
-<h4>Tasks In Progress<h2 id="tasks_in_progress"></h2></h4>
-<h4>Awaiting Feedback<h2 id="awaiting_feedback"></h2></h4>
+<div class="summary-grid">
+  <button class="summary-btn summary-btn--todo" type="button">
+    <div class="summary-btn__content">
+      <div class="summary-btn__icon" aria-hidden="true">
+        <img class="summary-btn__icon-img" src="./assets/img/edit.svg" alt="">
+      </div>
+      <div class="summary-btn__text">
+        <h2 id="to_do">0</h2>
+        <h4>To-do</h4>
+      </div>
+    </div>
+  </button>
+
+  <button class="summary-btn summary-btn--done" type="button">
+    <div class="summary-btn__content">
+      <div class="summary-btn__icon" aria-hidden="true">
+        <img class="summary-btn__icon-img" src="./assets/img/check_black.svg" alt="">
+      </div>
+      <div class="summary-btn__text">
+        <h2 id="done">0</h2>
+        <h4>done</h4>
+      </div>
+    </div>
+  </button>
+
+  <button class="summary-btn summary-btn--urgent" type="button">
+    <div class="summary-btn__content">
+      <div class="summary-btn__icon summary-btn__icon--urgent" aria-hidden="true">
+        <img class="summary-btn__icon-img--urgent" src="./assets/img/Frame 59.svg" alt="">
+      </div>
+      <div class="summary-btn__text">
+        <h2 id="urgent">0</h2>
+        <h4>Urgent</h4>
+      </div>
+    </div>
+  </button>
+
+  <button class="summary-btn summary-btn--board" type="button">
+    <div class="summary-btn__content">
+      
+      <div class="summary-btn__text">
+        <h2 id="tasks_in_board">0</h2>
+        <h4>Tasks in Board</h4>
+      </div>
+    </div>
+  </button>
+
+  <button class="summary-btn summary-btn--progress" type="button">
+    <div class="summary-btn__content">
+      
+      <div class="summary-btn__text">
+        <h2 id="tasks_in_progress">0</h2>
+        <h4>Tasks In Progress</h4>
+      </div>
+    </div>
+  </button>
+
+  <button class="summary-btn summary-btn--feedback" type="button">
+    <div class="summary-btn__content">
+      
+      <div class="summary-btn__text">
+        <h2 id="awaiting_feedback">0</h2>
+        <h4>Awaiting Feedback</h4>
+      </div>
+    </div>
+  </button>
+</div>
 </main>
 </div>
 
