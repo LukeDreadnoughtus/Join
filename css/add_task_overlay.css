@@ -14,3 +14,379 @@
 .overlay-wrapper header {
   display: none;
 }
+
+/* =========================
+   Overlay Base
+   ========================= */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;     /* statt nur inset:0 */
+  height: 100vh;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+  box-sizing: border-box;
+
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.overlay_hidden {
+  display: none !important;
+}
+
+/* =========================
+   Overlay Card / Container
+   ========================= */
+.overlay-content {
+  width: min(1100px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.overlay-wrapper {
+  padding: 28px;
+}
+
+.overlay_add_task_heading {
+  margin: 0 0 18px 0;
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* =========================
+   Layout Split
+   ========================= */
+.overlay_split_container {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.overlay_divider {
+  width: 1px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* Responsive: stack columns */
+@media (max-width: 900px) {
+  .overlay-wrapper {
+    padding: 18px;
+  }
+
+  .overlay_split_container {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .overlay_divider {
+    display: none;
+  }
+}
+
+/* =========================
+   Form Blocks
+   ========================= */
+.overlay_add_task_container,
+.overlay_add_controll_task {
+  background: #f9fafb;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.overlay_form_group {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.overlay_form_group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.overlay_add_task_form input[type="text"],
+.overlay_add_task_form input[type="date"],
+.overlay_add_task_form textarea,
+.overlay_task_category,
+.overlay_custom_select,
+#subtask-input,
+#board-slot {
+  width: 100%;
+  box-sizing: border-box;
+
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: #111827;
+  border-radius: 10px;
+
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.35;
+
+  outline: none;
+  transition: border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+}
+
+.overlay_add_task_form textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* Focus states */
+.overlay_add_task_form input:focus,
+.overlay_add_task_form textarea:focus,
+.overlay_task_category:focus,
+#subtask-input:focus,
+#board-slot:focus {
+  border-color: rgba(37, 99, 235, 0.6);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+
+/* =========================
+   Priority Buttons
+   ========================= */
+.overlay_priority_container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.overlay_priority_btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  background: #ffffff;
+
+  padding: 10px 12px;
+  cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+}
+
+.overlay_priority_btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.10);
+}
+
+.overlay_priority_btn:active {
+  transform: translateY(0px);
+}
+
+.overlay_priority_name {
+  font-weight: 700;
+}
+
+.overlay_urgent_icon,
+.overlay_medium_icon,
+.overlay_low_icon {
+  display: block;
+}
+
+/* Active button */
+.overlay_active {
+  border-color: rgba(37, 99, 235, 0.6);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+
+/* Optional subtle coloring by priority */
+.overlay_urgent {
+  color: #b91c1c;
+}
+.overlay_medium {
+  color: #1f2937;
+}
+.overlay_low {
+  color: #047857;
+}
+
+/* =========================
+   Board Slot (hidden wrapper)
+   ========================= */
+.overlay_board_slot {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+/* =========================
+   Assigned To
+   ========================= */
+.overlay_custom_select {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.overlay_assigned_users_icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* If you render avatar chips inside assigned users */
+.overlay_assigned_users_icons > * {
+  border-radius: 999px;
+}
+
+/* =========================
+   Subtasks
+   ========================= */
+.overlay_subtask-input-wrapper {
+  display: grid;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.overlay_icon {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+}
+
+.overlay_divider_subtasks {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+#subtask-list {
+  list-style: none;
+  padding: 10px 0 0 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+/* If you add <li> items, they’ll look clean by default */
+#subtask-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+}
+
+/* =========================
+   Footer & Required Hint
+   ========================= */
+.overlay_footer_content {
+  padding-top: 14px;
+}
+
+.overlay_footer_text {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* =========================
+   Action Buttons
+   ========================= */
+.overlay_task_controls_buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.overlay_add_task_create_button,
+.overlay_add_task_clear_button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 12px 14px;
+  border-radius: 12px;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+}
+
+.overlay_add_task_create_button:hover,
+.overlay_add_task_clear_button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.10);
+}
+
+.overlay_add_task_create_button:active,
+.overlay_add_task_clear_button:active {
+  transform: translateY(0px);
+}
+
+/* Primary (Create) */
+.overlay_add_task_create_button {
+  border-color: rgba(37, 99, 235, 0.35);
+  box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+}
+
+.overlay_add_task_create_button .overlay_font_create {
+  color: #1d4ed8;
+}
+
+/* Secondary (Clear) */
+.overlay_add_task_clear_button .overlay_font_clear {
+  color: #374151;
+}
+
+/* Icon wrappers */
+.overlay_check_svg,
+.overlay_clear_svg {
+  display: inline-flex;
+  align-items: center;
+}
+
+.overlay_check_svg img,
+.overlay_clear_svg img {
+  display: block;
+}
+
+/* Responsive buttons */
+@media (max-width: 520px) {
+  .overlay_task_controls_buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .overlay_add_task_create_button,
+  .overlay_add_task_clear_button {
+    width: 100%;
+  }
+}
