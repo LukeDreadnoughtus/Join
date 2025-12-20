@@ -72,10 +72,7 @@ const addIcon = document.getElementById("subtask-add");
 const clearIcon = document.getElementById("subtask-clear");
 const list = document.getElementById("subtask-list");
 const divider = document.getElementById("dividerSubtasks");
-const delBtn = createButton(deleteIcon, () => {
-  item.remove();
-  updateAddUIState();
-});
+
 
 
 // ============================================================================
@@ -138,8 +135,18 @@ function createButton(html, onClick) {
  * @returns {HTMLElement} Cloned button
  */
 function cloneButton(id) {
-  const btn = document.getElementById(id).cloneNode(true);
+  const original = document.getElementById(id);
+  if (!original) return null;
+
+  const btn = original.cloneNode(true);
+
+  // Wichtig: keine doppelten IDs im DOM erzeugen
+  btn.removeAttribute("id");
+
+  // beide "hidden"-Varianten unterstützen
   btn.classList.remove("hidden");
+  btn.classList.remove("overlay_hidden");
+
   return btn;
 }
 
@@ -241,11 +248,17 @@ function createSelectedUserIcon(id) {
  * @param {HTMLElement} activeBtn - The clicked priority button
  */
 function setActivePriority(activeBtn) {
-  lowBtn.classList.remove(ACTIVE_CLASS);
-  mediumBtn.classList.remove(ACTIVE_CLASS);
-  urgentBtn.classList.remove(ACTIVE_CLASS);
-  activeBtn.classList.add(ACTIVE_CLASS);
-  hiddenInput.value = activeBtn.dataset.value;
+  const all = [lowBtn, mediumBtn, urgentBtn].filter(Boolean);
+
+  all.forEach(btn => {
+    btn.classList.remove("active");
+    btn.classList.remove("overlay_active");
+  });
+
+  activeBtn.classList.add("active");
+  activeBtn.classList.add("overlay_active");
+
+  if (hiddenInput) hiddenInput.value = activeBtn.dataset.value;
 }
 
 
@@ -265,26 +278,47 @@ urgentBtn.addEventListener('click', () => {
 /**
  * Event listeners for subtask input
  */
-input.addEventListener("input", () => {
-  const hasText = input.value.trim().length > 0;
-  addIcon.classList.toggle("hidden", !hasText);
-  divider.classList.toggle("hidden", !hasText);
-  clearIcon.classList.toggle("hidden", !hasText);
-});
-addIcon.addEventListener("click", () => {
-  const text = input.value.trim();
-  if (!text) return;
-  addSubtask(text);
-  input.value = "";
-  addIcon.classList.add("hidden");
-  clearIcon.classList.add("hidden");
-});
-clearIcon.addEventListener("click", () => {
-  input.value = "";
-  divider.classList.add("hidden");
-  addIcon.classList.add("hidden");
-  clearIcon.classList.add("hidden");
-});
+if (input && addIcon && clearIcon && divider) {
+  input.addEventListener("input", () => {
+    const hasText = input.value.trim().length > 0;
+
+    addIcon.classList.toggle("hidden", !hasText);
+    addIcon.classList.toggle("overlay_hidden", !hasText);
+
+    divider.classList.toggle("hidden", !hasText);
+    divider.classList.toggle("overlay_hidden", !hasText);
+
+    clearIcon.classList.toggle("hidden", !hasText);
+    clearIcon.classList.toggle("overlay_hidden", !hasText);
+  });
+}
+
+
+if (addIcon && input) {
+  addIcon.addEventListener("click", () => {
+    const text = input.value.trim();
+    if (!text) return;
+
+    addSubtask(text);
+
+    input.value = "";
+
+    addIcon.classList.add("hidden", "overlay_hidden");
+    clearIcon?.classList.add("hidden", "overlay_hidden");
+    divider?.classList.add("hidden", "overlay_hidden");
+  });
+}
+
+
+
+if (clearIcon && input) {
+  clearIcon.addEventListener("click", () => {
+    input.value = "";
+    divider?.classList.add("hidden", "overlay_hidden");
+    addIcon?.classList.add("hidden", "overlay_hidden");
+    clearIcon?.classList.add("hidden", "overlay_hidden");
+  });
+}
 
 
 /**
@@ -409,10 +443,14 @@ function clearFormInputs() {
  * Resets priority to medium
  */
 function resetPriority() {
-  hiddenInput.value = "medium";
-  lowBtn.classList.remove(ACTIVE_CLASS);
-  urgentBtn.classList.remove(ACTIVE_CLASS);
-  mediumBtn.classList.add(ACTIVE_CLASS);
+  if (hiddenInput) hiddenInput.value = "medium";
+
+  [lowBtn, urgentBtn, mediumBtn].forEach(btn => {
+    if (!btn) return;
+    btn.classList.remove("active", "overlay_active");
+  });
+
+  if (mediumBtn) mediumBtn.classList.add("active", "overlay_active");
 }
 
 /**
@@ -478,6 +516,7 @@ function buildDropdown(container, data) {
   const display = createDisplayElement();        // #assignedDisplay
   const options = createOptionsContainer(data);  // #assignedOptions
   container.append(display, options);
+  attachOutsideClickHandlerForAssignedDropdown();
 }
 
 /**
@@ -531,10 +570,12 @@ function addOptionItem(container, id, user) {
   const userIconText = initials(userName);
   const color = user?.color || "#393737";
   item.innerHTML = `
+  <div class="option-left">
     <div class="user_icon" id="option-icon-${id}" style="background-color: ${color}">${userIconText}</div>
     <span class="option-user-name" id="option-name-${id}">${userName}</span>
-    <span class="checkbox-square"></span>
-  `;
+  </div>
+  <span class="checkbox-square"></span>
+`;
   item.onclick = () => toggleUserById(id);
   container.appendChild(item);
 }
@@ -564,6 +605,32 @@ function toggleDropdown() {
   if (options) options.classList.toggle("show");
 }
 
+
+
+function closeAssignedDropdown() {
+  const options = document.getElementById("assignedOptions");
+  if (options) options.classList.remove("show");
+}
+
+
+function isClickInsideAssignedDropdown(target) {
+  const display = document.getElementById("assignedDisplay");
+  const options = document.getElementById("assignedOptions");
+  return (display && display.contains(target)) || (options && options.contains(target));
+}
+
+
+function attachOutsideClickHandlerForAssignedDropdown() {
+  // Mehrfach-Registrierung vermeiden
+  if (window.__assignedOutsideClickBound) return;
+  window.__assignedOutsideClickBound = true;
+
+  document.addEventListener("click", (e) => {
+    if (!isClickInsideAssignedDropdown(e.target)) {
+      closeAssignedDropdown();
+    }
+  });
+}
 
 /**
  * Toggles a user in the selection and updates the display
@@ -631,7 +698,10 @@ function createButtons(item, span) {
   const buttons = document.createElement("div");
   buttons.className = "subtask-buttons";
   const editBtn = createButton(editIcon, () => enterEditMode(item, span, buttons));
-  const delBtn = createButton(deleteIcon, () => item.remove());
+  const delBtn = createButton(deleteIcon, () => {
+    item.remove();
+    updateAddUIState();
+  });
   buttons.append(editBtn, delBtn);
   return buttons;
 }
@@ -733,26 +803,24 @@ function showMessage(message, type = "info") {
  * Disables the subtask input field
  */
 function disableSubtaskInput() {
-  const input = document.getElementById("subtask-input");
-  const add = document.getElementById("subtask-add");
-  if (input) input.disabled = true;
+  const i = input || document.getElementById("subtask-input");
+  const add = addIcon || document.getElementById("subtask-add");
+  if (i) i.disabled = true;
   if (add) add.disabled = true;
 }
 
-/**
- * Enables the subtask input field
- */
 function enableSubtaskInput() {
-  const input = document.getElementById("subtask-input");
-  const add = document.getElementById("subtask-add");
-  if (input) input.disabled = false;
+  const i = input || document.getElementById("subtask-input");
+  const add = addIcon || document.getElementById("subtask-add");
+  if (i) i.disabled = false;
   if (add) add.disabled = false;
 }
 
-/**
- * Updates the UI state based on subtask count
- */
 function updateAddUIState() {
+  // wenn es die Subtask-Liste auf der Seite nicht gibt, nichts tun
+  const ul = list || document.getElementById("subtask-list");
+  if (!ul) return;
+
   if (getSubtaskCount() >= MAX_SUBTASKS) {
     disableSubtaskInput();
   } else {
@@ -825,12 +893,32 @@ function renderUserIcon() {
  * Initializes the add task page on load
  */
 function init() {
-  loadUserAssignments();
+  // nur ausführen, wenn die Kern-Felder existieren
+  const createBtn = document.getElementById("create-button");
+  const clearBtn = document.getElementById("clear-button");
+
+  if (createBtn) createBtn.addEventListener("click", createTask);
+  if (clearBtn) clearBtn.addEventListener("click", clearForm);
+
+  // Priority Listener nur wenn Buttons existieren
+  if (lowBtn && mediumBtn && urgentBtn) {
+    lowBtn.addEventListener("click", () => setActivePriority(lowBtn));
+    mediumBtn.addEventListener("click", () => setActivePriority(mediumBtn));
+    urgentBtn.addEventListener("click", () => setActivePriority(urgentBtn));
+  }
+
+  // nur wenn assigned-to existiert
+  if (document.getElementById("task-assigned-to")) {
+    loadUserAssignments();
+  }
+
+  // Marker nur wenn die Felder vorhanden sind
   requiredFieldMarker();
-  document.getElementById("create-button").addEventListener("click", createTask);
-  document.getElementById("clear-button").addEventListener("click", clearForm);
+
   renderUserIcon();
-  updateAddUIState(); // <-- hinzufügen
+
+  // UI state nur wenn Subtask-Bereich existiert
+  updateAddUIState();
 }
 
 init();
