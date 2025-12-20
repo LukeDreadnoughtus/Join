@@ -74,9 +74,7 @@ if (taskData.assignedUsers.length === 0) {
 
 function renderTaskCardFullView(taskData) {
     const overlayContent = document.getElementById("show_task_overlay");
-
     const assignedUsersHtml = renderAssignedUsers(taskData);
-
     overlayContent.innerHTML = `
         <div class="task_view_head">
             <div class="task_category_card_overlay task_category_color_${taskData.categoryColor}">
@@ -86,6 +84,7 @@ function renderTaskCardFullView(taskData) {
                 <img src="./assets/img/close.svg" alt="close icon" class="close_icon" onclick="closeTaskOverlay(event,'${taskData.id}')">
             </div>
         </div>
+        <div class="scroll-area">
         <h2 class="padding_btm">${taskData.title}</h2>
 
         <div class="task_description_overlay">
@@ -111,6 +110,7 @@ function renderTaskCardFullView(taskData) {
         <div class="subtasks_list">
             <h4>Subtasks</h4>
             <div id="subtasks_container"></div>
+        </div>
         </div>
         <div class="edit_delete_task"> <div class="delete_task" onclick="deleteTask('${taskData.id}', event)"> 
         <svg class="delete-icon" width="16" height="18" viewBox="0 0 16 18" xmlns="http://www.w3.org/2000/svg"> 

@@ -1,0 +1,290 @@
+.transparent_overlay {
+    height:100vh; 
+    width: 100vw; 
+    position: absolute; 
+}
+
+.show_task_overlay {
+    position: absolute; 
+    display:flex; 
+    flex-direction: column; 
+    width: 396px; 
+    height: 724px; 
+    border-radius: 30px;
+    padding: 32px 24px;
+    box-shadow: 0px 0px 4px 0px #00000029;
+    background-color: #FFFFFF;
+    z-index: 1000;
+    top: 10%; 
+    left: 25%; 
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.task_category_card_overlay {
+    width: 164px; 
+    height: 36px; 
+    color:white; 
+    border-radius:8px;
+    padding: 4px 24px; 
+    display:flex; 
+    align-items: center;
+    justify-content: center; 
+    font-weight: 400; 
+    line-height: 120%;
+    margin-bottom: 15px; 
+    font-size: 23px;
+}
+
+.padding_btm {
+    padding-bottom: 20px;
+}
+
+.due_date {
+    display:flex; 
+    justify-content: flex-start;
+    gap: 15px; 
+    height: 24px; 
+    width: 365px;
+    color: #2A3647;
+    padding-top: 20px;  
+    padding-bottom: 20px; 
+}
+
+.priority {
+    display:flex; 
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    height: 32px;
+    width: 365px;
+    color: #2A3647; 
+    padding-bottom: 20px; 
+}
+
+.task_description_overlay {
+    width: 365px;
+    color: black; 
+}
+
+.assigned_to {
+    display:flex; 
+    flex-direction: column; 
+    width: 365px;
+    height: auto; 
+}
+
+.user_row_layout {
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 365px;
+    gap: 20px; 
+    padding: 7px 16px; 
+}
+
+.priority_fullview {
+    width:17px;
+    height:12px; 
+
+}
+
+.user_font {
+    margin: 0px; 
+    font-family: "inter";
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+}
+
+.task_detail_font {
+    margin: 0px; 
+    font-family: "inter";
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+}
+
+.subtask_detail_font {
+    margin: 0px; 
+    font-family: "inter";
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+}
+
+.no_subtaks {
+    margin-top: 20px; 
+    font-family: "inter";
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+}
+
+.subtasks_list {
+    display:flex; 
+    flex-direction: column; 
+    gap: 5px;
+    padding-top: 20px;
+}
+
+.subtask_check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  padding: 4px 8px;               /* Abstand innen, damit Background nicht direkt an Text klebt */
+  border-radius: 10px; 
+  height: 32px; 
+  width: 344px;           /* runde Ecken für Highlight */
+  transition: background-color 0.2s; /* sanfte Animation */
+  cursor: pointer;                /* optional, zeigt an dass es interaktiv ist */
+}
+
+.subtask_check:hover {
+  background-color: rgba(200, 200, 200, 0.3); /* sanftes Grau für gesamte Zeile */
+}
+
+.subtask_check .subtask_detail_font {
+  margin: 0;           
+  line-height: 1.2; 
+  display: inline-block;    
+}
+
+.subtask_check input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #2A3647;
+  border-radius: 4px; 
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  background-color: #fff;
+  transition: all 0.2s;
+}
+
+.subtask_check input[type="checkbox"]:checked {
+   background-color: #fff;         
+   border-color: #2A3647; 
+}
+
+.subtask_check input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  top: -5px;               /* leicht nach oben, um über Checkbox zu ragen */
+  left: 6px;               /* leicht nach links */
+  width: 4px;              /* größer */
+  height: 14px;            /* größer */
+  border: solid #2A3647;   /* Farbe wie Border */
+  border-width: 0 3px 3px 0; /* dickere Linien */
+  transform: rotate(45deg);
+}
+
+.subtask_check:hover input[type="checkbox"]::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;        
+  height: 20px;
+  background-color: rgba(0,0,0,0.2); 
+  border-radius: 50%;    
+  transform: translate(-50%, -50%); 
+  pointer-events: none;  
+  z-index: 1;
+  transition: all 0.2s;
+}
+
+.subtask_check input[type="checkbox"]:hover::before {
+  border-radius: 0%;    
+  background-color: rgba(0,0,0,0.25); 
+}
+
+.edit_delete_task {
+    display:flex; 
+    justify-content: flex-end;
+    align-items: center; 
+    width: 335px;
+    gap:4px; 
+    height: auto; 
+    margin-top: 30px;
+}
+
+.edit_task_font {
+    font-family: Inter;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    color: #2A3647;
+    margin:0px; 
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.edit_task:hover .edit_task_font {
+    font-weight: bold;
+    color: #29ABE2;
+    transform: scale(1.03);
+    transition: all 0.2s;
+}
+
+.edit-icon {
+  color: #2A3647;        
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.edit_task:hover .edit-icon {
+    color: #29ABE2;
+    transform: scale(1.03);
+}
+
+.seperator {
+    width: 0px;
+    height: 24px;
+    opacity: 1;
+    border: 1px solid #D1D1D1
+}
+
+.edit_task {
+    display:flex; 
+    justify-content: center;
+    cursor:pointer; 
+    gap:3px; 
+}
+
+.delete_task {
+    display:flex; 
+    justify-content: center;
+    cursor:pointer; 
+    gap:3px; 
+}
+
+.delete-icon {
+  color: #2A3647;       
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.delete_task:hover .delete-icon {
+    color: #29ABE2;
+    transform: scale(1.03);
+}
+
+.delete_task:hover .edit_task_font {
+    font-weight: bold;
+    color: #29ABE2;
+    transform: scale(1.03);
+    transition: all 0.2s;
+}

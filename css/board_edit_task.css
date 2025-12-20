@@ -1,0 +1,605 @@
+.edit_task_overlay {
+    position: absolute; 
+    display:flex; 
+    flex-direction: column; 
+    width: 396px; 
+    height: 724px; 
+    border-radius: 30px;
+    padding: 32px 24px;
+    box-shadow: 0px 0px 4px 0px #00000029;
+    background-color: #FFFFFF;
+    z-index: 1000;
+    top: 10%; 
+    left: 25%; 
+}
+
+.no_assignies { 
+    white-space: nowrap;
+    margin: 0px; 
+}
+
+.no_assignies p{ 
+    margin: 5px; 
+}
+
+.close_icon {
+width: 13px;
+height: 13px;
+cursor: pointer;
+}
+
+.close_icon_wrapper:hover {
+    background-color: rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.close_icon_wrapper {
+width: 24px;
+height: 24px;
+border-radius: 50%;
+display: flex;
+justify-content: center;
+align-items: center;
+transition: background-color 120ms ease;
+}
+
+/* Dieser hover muss noch bearbeitet werden */
+.task_view_head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 20px; 
+}
+
+.input_edit_title {
+    width: 365px;
+    height:auto; 
+    margin-top: 7px; 
+}
+
+.input_edit_description { 
+    width: 365px;
+    margin-top: 7px; 
+    padding-top: 8px;    
+    padding-bottom: 40px; 
+    padding-left: 5px;  
+    padding-right: 10px; 
+    box-sizing: border-box;
+}
+
+.edit_description {
+    margin-top: 20px; 
+}
+
+.edit_duedate {
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+}
+
+.edit_priority {
+    display:flex; 
+    flex-direction: column;
+    margin-top: 40px; 
+}
+
+.input_style {
+    border: 1px solid #29ABE2;
+    border-radius: 7px;
+    font-size: 20px;
+    font-family: "Inter";
+    outline: none;
+    padding-top: 8px;    
+    padding-bottom: 8px; 
+    padding-left: 5px;  
+    padding-right: 10px; 
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.close_icon_margin {
+    margin-left: 350px; 
+    margin-bottom: 20px; 
+}
+
+.scroll-area {
+    max-height: 600px;   
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+}
+
+.scroll-area::-webkit-scrollbar {
+    width: 6px;                
+}
+
+.scroll-area::-webkit-scrollbar-track {
+    background: #f2f2f2;        
+    border-radius: 10px;
+}
+
+.scroll-area::-webkit-scrollbar-thumb {
+    background: #cccccc;       
+    border-radius: 10px;
+}
+
+.scroll-area::-webkit-scrollbar-thumb:hover {
+    background: #b3b3b3;     
+}
+
+.priority_btn_group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px; 
+}
+
+.bold_font {
+    font-weight: bold;
+    font-size: 20px;
+    font-family: "Inter";
+    color:#2A3647; 
+    margin-top:0px; 
+}
+
+.edit_assigned_to {
+    margin-top: 20px; 
+    margin-bottom: 10px; 
+}
+/* assigned user selection */
+.user_dropdown {
+    position: relative;
+    width: 250px;
+}
+
+.user_dropdown_selected {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    width: 350px; 
+    margin-top:20px; 
+    font-size: 20px;
+    font-family: "inter";
+}
+
+.user_dropdown_list {
+    position: absolute;
+    top: 48px;
+    left: 0;
+    width: fit-content; 
+    background: white;
+    /* border: 1px solid #ccc; */
+    border-radius: 8px;
+    max-height: 347px;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 100;
+}
+
+.user_option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    width: 350px;
+    cursor: pointer;
+}
+
+.user_option:hover {
+    background: #777373;
+}
+
+.selectable_user {
+    display: flex;
+    justify-content: center;
+}
+
+.user_checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #2A3647;
+  border-radius: 4px; 
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  background-color: #fff;
+  transition: all 0.2s; 
+  margin-right:20px; 
+}
+
+.user_checkbox:checked {
+  background-color: #2A3647;
+  border-color: #2A3647;
+}
+
+.user_checkbox:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.user_icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #007bff;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.edit_subtasks {
+    margin-top: 30px; 
+}
+
+.input_edit_subtask {
+    height: 50px; 
+    width: 365px;
+    border: 1px solid #D1D1D1;
+    border-radius: 7px;
+    font-size: 20px;
+    font-family: "Inter";
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-top: 7px; 
+}
+
+#input_edit_subtask::placeholder {
+    color: #b0b0b0;
+    font-family: "Inter";
+    font-size: 20px;
+}
+
+.subtasklist {
+    margin-bottom: 20px; 
+}
+
+.input_edit_subtask_wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.input_edit_subtask {
+    width: 97%;
+    padding: 10px 60px 10px 20px; /* mehr Platz rechts */
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+}
+
+/* Icons */
+.subtask_icon {
+    position: absolute;
+    top: 58%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.left_icon {
+    right: 55px;
+}
+
+.right_icon {
+    right: 25px;
+}
+
+.icon_wrapper {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 120ms ease;
+    cursor: pointer;
+}
+
+.icon_wrapper:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.icon_wrapper img {
+    width: 14px; 
+    height: 14px;
+    pointer-events: none; 
+}
+
+/* --- Separator --- */
+.subtask_separator {
+    position: absolute;
+    top: 58%;
+    right: 50px;      
+    transform: translateY(-50%);
+    width: 1px;
+    height: 18px;
+    background: #ccc;      /* dünner grauer Strich */
+    z-index: 2;
+    border-radius: 1px;
+}
+
+.subtask_icon img {
+    width: 14px;
+    height: 14px;
+    object-fit: contain; 
+    display: block;       
+    pointer-events: none; 
+}
+
+#input_edit_title::placeholder {
+    color: #b0b0b0;
+    font-family: "Inter";
+    font-size: 20px;
+}
+
+#input_edit_description::placeholder {
+    color: #b0b0b0;
+    font-family: "Inter";
+    font-size: 20px;
+}
+
+.input_event {
+    position: relative;
+    width: 325px;
+}
+
+.event_icon {
+    position: absolute;
+    top: 60%;
+    right: -30px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.input_event input {
+    width: 365px;
+    padding-right: 40px; /* Platz für das SVG */
+}
+
+.already_assigned {
+    padding-top: 10px;
+    display:flex; 
+    justify-content: flex-start;
+    gap:7px; 
+}
+
+.assigned_icon {
+    height: 32px; 
+    width: 32px; 
+    border-radius: 45%;
+    display: flex;              
+    align-items: center;
+    justify-content: center;  
+    font-weight: 300;
+    border: 2px solid white; 
+    z-index: 1;
+    color:white; 
+}
+
+.edit_task_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 73px;
+  height: 56px;
+  background-color: #2a3647;
+  border-radius: 10px;
+  border: 0px;
+  margin-left: 290px; 
+  margin-top: 20px; 
+  gap:5px; 
+}
+
+.edit_task_button:hover {
+  background-color: #4caf50;
+  background-color: #2196f3;
+  color: white;
+  cursor: pointer;
+}
+
+.boxshadow {
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.priority_button {
+  padding: 5px 5px;
+  border-radius: 10px;
+  border: 0px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  width: 136px;
+  height: 56px;
+  margin-bottom: 10px; 
+  margin-right: 5px; 
+  margin-left: 5px; 
+  display:flex; 
+  align-items:center; 
+  justify-content: center;
+  gap: 5px; 
+  background: white;
+  color: black;
+}
+
+/* SVG im nicht aktivierten Zustand */
+.priority_button[data-value="urgent"] svg path {
+    fill: #FF3D00; /* Rot */
+}
+
+.priority_button[data-value="medium"] svg path {
+    fill: #FFA800; /* Orange */
+}
+
+.priority_button[data-value="low"] svg path {
+    fill: #7AE229; /* Grün */
+}
+
+.priority_button.active_priority {
+    color: white; /* Text weiß */
+}
+
+.priority_button.active_priority[data-value="urgent"] {
+    background: #FF3D00;
+}
+
+.priority_button.active_priority[data-value="medium"] {
+    background: #FFA800;
+}
+
+.priority_button.active_priority[data-value="low"] {
+    background: #7AE229;
+}
+
+#subtask_list {      
+    margin-right: 10px; 
+}
+
+ul#subtask_list {
+    padding-left: 0 !important;
+    padding-inline-start: 0 !important;
+}
+
+.edit_subtask_item {
+    display: flex;             
+    align-items: center;            
+    padding: 1px 5px 3px 40px;   
+    position: relative;
+    margin: 9px 0;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.15s ease;
+    list-style: none;            
+}
+
+.edit_subtask_item::before {
+    content: "•";                 
+    position: absolute;
+    left: 1px;                   
+    top: 50%;
+    transform: translateY(-50%);
+    color: #333;
+    font-size: 14px;
+    padding-left:20px; 
+}
+
+.edit_subtask_item.editing::before {
+    content: none;
+}
+
+.edit_subtask_item.editing::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background-color: #29ABE2;
+}
+
+.edit_subtask_item:hover {
+    background-color: #e4e4e4;
+}
+
+.edit_subtask_item.editing:hover {
+    background-color: transparent !important;
+}
+
+.subtask_inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 13px; 
+    min-height: 22px; 
+    width: 100%; 
+}
+
+.subtask_element {
+    flex: 1;
+    padding-right: 10px;
+}
+
+.subtask_actions {
+    display: flex;
+    gap: 28px;
+}
+
+.subtask_edit_icon,
+.subtask_delete_icon {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.15s ease;
+}
+
+.subtask_edit_icon:hover,
+.subtask_delete_icon:hover {
+    opacity: 1;
+}
+
+/* Inputfeld beim Subtask bearbeiten */
+.subtask_edit_input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    /* border-bottom: 2px solid #29ABE2; */
+    border: none;
+    padding: 4px 4px;
+    font-size: 15px;
+    outline: none;
+}
+
+.subtask_edit_actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0px;
+}
+
+.icon_wrapper_edit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;               /* Platz für den Kreis */
+    border-radius: 50%;         /* Kreisform */
+    transition: background-color 0.15s ease;
+}
+
+.icon_wrapper_edit:hover {
+    background-color: #e4e4e4;  /* hellgrauer Hover-Kreis */
+}
+
+/* Icons selbst NICHT verändern */
+.subtask_edit_icon,
+.subtask_delete_icon,
+.subtask_check_icon {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.subtask_separator_edit {
+    width: 1px;
+    height: 20px;
+    background-color: #cfcfcf;
+    margin: 0 8px;
+}
