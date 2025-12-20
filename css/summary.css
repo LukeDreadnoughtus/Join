@@ -1,0 +1,195 @@
+/* Summary page KPI buttons layout */
+.summary-grid{
+  display: grid;
+
+  /*
+    Use a 6-column grid so we can span elements cleanly:
+    - To-do and Done each take 3 columns (same end point as full width elements)
+    - Urgent takes all 6 columns
+    - Board / Progress / Feedback each take 2 columns
+  */
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-areas:
+    "todo todo todo done done done"
+    "urgent urgent urgent urgent urgent urgent"
+    "board board progress progress feedback feedback";
+
+  gap: 16px;
+  margin-top: 24px;
+  /* keep the 5% left start point, but make the whole block shorter */
+  margin-left: 5%;
+  margin-right: 5%;
+  width: calc(100% - 40%);
+}
+
+/* placeholder (unused) */
+.summary-btn--empty{ grid-area: empty; }
+
+.summary-btn{
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  background: #fff;
+  /* smaller overall button footprint */
+  padding: 12px;
+  /* ensure every button in a row has identical height */
+  height: 128px;
+  cursor: pointer;
+
+  /* center the inner content container inside the button */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+
+  transition: background-color 120ms ease, transform 120ms ease;
+}
+
+.summary-btn:active{
+  transform: translateY(1px);
+}
+
+.summary-btn:hover{
+  background-color: #2A3647;
+  transform: scale(1.03);
+}
+
+.summary-btn:hover h2,
+.summary-btn:hover h4{
+  color: #fff;
+}
+
+/* icon background behavior */
+.summary-btn:hover .summary-btn__icon{
+  background-color: #fff;
+}
+
+.summary-btn:hover .summary-btn__icon-img{
+  filter: none;
+}
+
+/* New inner layout: icon left, number+text right */
+.summary-btn__content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.summary-btn__text{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.summary-btn__icon{
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border-radius: 50%;
+  background-color: #2A3647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 120ms ease;
+}
+
+.summary-btn__icon-img{
+  width: 18px;
+  height: 18px;
+  display: block;
+  filter: brightness(0) invert(1);
+}
+
+/* URGENT icon image: separate class so To-do/Done stay 18px */
+.summary-btn__icon-img--urgent{
+  width: 48px;
+  height: 48px;
+  display: block;
+  filter: none;
+}
+
+
+.summary-btn h4{
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.summary-btn h2{
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* grid placement */
+.summary-btn--todo{ grid-area: todo; }
+.summary-btn--done{ grid-area: done; }
+.summary-btn--urgent{ grid-area: urgent; }
+.summary-btn--board{ grid-area: board; }
+.summary-btn--progress{ grid-area: progress; }
+.summary-btn--feedback{ grid-area: feedback; }
+
+/* Responsive: stack nicely on smaller screens */
+@media (max-width: 900px){
+  .summary-grid{
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "todo done"
+      "urgent urgent"
+      "board progress"
+      "feedback feedback";
+  }
+}
+
+@media (max-width: 520px){
+  .summary-grid{
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "todo"
+      "done"
+      "urgent"
+      "board"
+      "progress"
+      "feedback";
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .summary-btn h2{
+    font-size: 34px;
+  }
+}
+
+
+/* --- Scoped fixes (do not affect To-do / Done icons) --- */
+
+/* URGENT: use the original SVG colors (Frame 59 breaks with global invert filter) */
+.summary-btn--urgent .summary-btn__icon-img--urgent{
+  filter: none;
+}
+
+/* URGENT: icon background is white by default; on hover use rgb(42, 54, 71) */
+.summary-btn--urgent .summary-btn__icon--urgent{
+  background-color: #fff;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+}
+
+
+.summary-btn--urgent:hover .summary-btn__icon--urgent{
+  background-color: rgb(42, 54, 71);
+}
+
+/* URGENT: keep SVG unfiltered on hover as well (prevents outline turning black) */
+.summary-btn--urgent:hover .summary-btn__icon-img--urgent{
+  filter: none;
+}
+

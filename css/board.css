@@ -1163,7 +1163,6 @@ ul#subtask_list {
     cursor: pointer;
 }
 
-
 .subtask_separator_edit {
     width: 1px;
     height: 20px;
@@ -1172,7 +1171,26 @@ ul#subtask_list {
 }
 
 .drag_area_hightlight {
-    height: auto; 
-    width: 244px; 
-    background-color:#8cfc9d ;
+    background-color: #e4e4e4;
+    border-radius: 24px;
+    box-shadow: 20px 0 0 44px #e4e4e4;
 }
+
+/* ---- Task während Drag ---- */
+
+.task_card.dragging {
+    animation: dragWiggle 0.4s ease-in-out infinite;
+    transform: scale(1.03);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+    z-index: 9999;
+    cursor: grabbing;
+}
+
+/* ---- Wackel-Animation ---- */
+@keyframes dragWiggle {
+    0%   { transform: rotate(0deg)   scale(1.03); }
+    25%  { transform: rotate(0.8deg) scale(1.03); }
+    50%  { transform: rotate(0deg)   scale(1.03); }
+    75%  { transform: rotate(-0.8deg) scale(1.03); }
+    100% { transform: rotate(0deg)   scale(1.03); }
+} 
