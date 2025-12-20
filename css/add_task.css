@@ -437,11 +437,11 @@ label {
 
 .option-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   padding: 8px 10px;
   cursor: pointer;
-  gap: 8px;
+  gap: 12px;
 }
 
 .option-item:hover {
@@ -457,6 +457,15 @@ label {
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  margin-left: auto; /* zusätzliche Absicherung */
+  flex: 0 0 auto;
+}
+
+.option-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0; /* wichtig für sauberes Kürzen */
 }
 
 .option-item.checked .checkbox-square::after {
@@ -472,6 +481,9 @@ label {
   font-weight: 400;
   line-height: 120%;
   color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .subtask-input-wrapper {
