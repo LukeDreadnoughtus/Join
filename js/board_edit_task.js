@@ -364,8 +364,34 @@ async function deleteTask(id, event) {
         method: "DELETE"
     });
     delete allTasks[id];
-    closeTaskOverlay(event)
+    const fakeEvent = new Event('click'); 
+    await closeTaskOverlay(fakeEvent)
 }
+
+let currentId = null
+
+async function openModal(event, id) {
+   event.stopPropagation()
+   currentId = id
+   document.getElementById("userfeedback_delete_task").classList.remove("d_none")
+}
+
+function cancelDeleteTask(event) {
+    event.stopPropagation()
+    document.getElementById("userfeedback_delete_task").classList.add("d_none")
+    currentId = null
+}
+
+async function confirmDeleteTask(event) {
+    event.stopPropagation()
+    if (currentId !== null) {
+        await deleteTask(currentId)
+    }
+    document.getElementById("userfeedback_delete_task").classList.add("d_none")
+    currentId = null
+}
+
+
 
 
 
