@@ -209,7 +209,7 @@ function createSubtaskListItem(taskData, index, subtask) {
                      onclick="editSubtask('${taskData.id}', '${index}')">
                 <div class="subtask_separator"></div>
                 <img src="./assets/img/delete.svg" class="subtask_delete_icon"
-                     onclick="deleteSubtask('${taskData.id}', '${index}')">
+                     onclick="openDeleteModal('${taskData.id}', '${index}')">
             </div>
         </div>
     `;
@@ -274,7 +274,7 @@ function reindexSubtasksObject(subtasks) {
 
 /** Löscht einen Subtask, indexiert danach neu und speichert in Firebase */
 async function deleteSubtask(id, subtaskKey) {
-    if (!confirm("Delete this subtask?")) return;
+    // if (!confirm("Delete this subtask?")) return;
     // 1) lokal löschen
     delete allTasks[id].subtasks[subtaskKey];
     // 2) neu indexieren
@@ -285,7 +285,47 @@ async function deleteSubtask(id, subtaskKey) {
     await updateSubtasksInFirebase(id, reindexed);
     // 5) UI neu rendern
     renderEdit(id);
+    
+    requestAnimationFrame(() => {
+        focusSubtaskInput();
+    });
 }
+
+let currentTaskId = null;
+let currentSubtaskKey = null;
+
+function openDeleteModal(id, subtaskKey) {
+console.log("Modal öffnen für Task:", id, "Subtask:", subtaskKey);
+currentTaskId = id;
+currentSubtaskKey = subtaskKey;
+document.getElementById("userfeedback_delete_subtask").classList.remove("d_none");
+}
+
+function confirmDeleteSubtask(event) {
+    event.stopPropagation();
+    if (currentTaskId !== null && currentSubtaskKey !== null) {
+        deleteSubtask(currentTaskId, currentSubtaskKey);
+    }
+    document.getElementById("userfeedback_delete_subtask").classList.add("d_none");
+    currentTaskId = null;
+    currentSubtaskKey = null;
+}
+
+function cancelDeleteSubtask(event) {
+    event.stopPropagation();
+    document.getElementById("userfeedback_delete_subtask").classList.add("d_none");
+    currentTaskId = null;
+    currentSubtaskKey = null;
+    focusSubtaskInput();
+}
+
+function focusSubtaskInput() {
+    const input = document.getElementById("edit_subtask_input");
+    if (input) {
+        input.focus();
+    }
+}
+
 
 /** Speichert nur den Subtasks-Bereich in Firebase */
 async function updateSubtasksInFirebase(taskId, subtasks) {

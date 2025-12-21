@@ -288,3 +288,70 @@
     75%  { transform: rotate(-0.8deg) scale(1.03); }
     100% { transform: rotate(0deg)   scale(1.03); }
 } 
+
+.userfeedback_delete_subtask {
+    position: absolute;
+    background-color: #2A3647;
+    color: white; 
+    border-radius: 10px; 
+    top:312px; 
+    width: 250px; 
+    height: 230px; 
+    font-size: 24px; 
+    display:flex; 
+    align-items: center; 
+    flex-direction: column;
+    padding-left: 10px; 
+    padding-right: 10px; 
+    font-weight: 200;
+    left: 18%; 
+    z-index: 1200;
+}
+
+.button_delete_subtask {
+    padding: 5px 5px;
+    border-radius: 10px;
+    border: 0px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 20px;
+    width: 136px;
+    height: 56px;
+    margin-bottom: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: white;
+    color: black;
+}
+
+.delete_buttons_subtask {
+    display: flex; 
+    flex-direction: column;
+    /* align-items: center;
+    justify-content: center; */
+    gap: 10px; 
+}
+
+.button_green {
+background: #7AE229;
+opacity: 0.8; 
+}
+
+.button_red {
+background: #FF3D00;
+opacity: 0.8; 
+}
+
+.button_green:hover {
+background: #7AE229; 
+opacity: 1;
+}
+
+.button_red:hover {
+background: #FF3D00;
+opacity: 1; 
+}

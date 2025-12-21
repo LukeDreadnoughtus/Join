@@ -132,10 +132,17 @@ function renderTaskEditCard(taskData) {
   const overlayContent = document.getElementById("edit_task_overlay");
   overlayContent.innerHTML =""; 
   overlayContent.innerHTML = ` 
-  <div class="close_icon_wrapper close_icon_margin">
-        <img src="./assets/img/close.svg" alt="close icon" class="close_icon" onclick="closeTaskOverlayEdit(event, '${taskData.id}')">
+  <div class="userfeedback_delete_subtask d_none" id="userfeedback_delete_subtask">
+  <p>Delete this subtask?</p>
+  <div class="delete_buttons_subtask">
+  <button type="button" class="button_delete_subtask button_green" id="deleteYes" onclick="confirmDeleteSubtask(event)">Yes</button>
+  <button type="button" class="button_delete_subtask button_red" id="deleteNo" onclick="cancelDeleteSubtask(event)" >No</button>
   </div>
-  <div class="scroll-area">
+  </div>
+  <div class="close_icon_wrapper close_icon_margin">
+        <img src="./assets/img/close.svg" alt="close icon" class="close_icon" onclick="closeTaskOverlayEdit(event)">
+  </div>
+  <div class="scroll-area" onclick="closeUserDropdown(event, '${taskData.id}')">
   <div class="edit_title">
     <h4>Title</h4>
     <input class="input_edit_title input_style" type="text" id="edit_title" placeholder="Enter a title" required value="${taskData.title}" />
@@ -202,7 +209,7 @@ function renderTaskEditCard(taskData) {
   <div class="edit_assigned_to">
     <h4>Assigned to</h4>
     <div class="user_dropdown">
-    <div class="user_dropdown_selected" onclick="toggleUserDropdown('${taskData.id}')">Select contacts to assign</div>
+    <div class="user_dropdown_selected" onclick="toggleUserDropdown('${taskData.id}', event)">Select contacts to assign</div>
     <div id="userDropdownList" class="user_dropdown_list d_none">
         <!-- Wird mit JS gefüllt -->
     </div>
@@ -218,6 +225,7 @@ function renderTaskEditCard(taskData) {
             type="text"
             placeholder="Add new subtask"
             required 
+            onkeydown="handleSubtaskEnter(event,'${taskData.id}')"
         />
         <div class="icon_wrapper subtask_icon left_icon" onclick="clearSubtaskInput(this)">
             <img src="./assets/img/close.svg">
@@ -235,4 +243,8 @@ function renderTaskEditCard(taskData) {
           <span class="check_svg"><img src="./assets/img/check.svg" alt="check icon" width="24px" height="24px"></span>
   </button>
 `
+const dropdown = document.getElementById("userDropdownList");
+    dropdown.addEventListener("click", (e) => {
+        e.stopPropagation();
+    });
 }

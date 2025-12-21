@@ -20,7 +20,7 @@ function editSubtask(taskId, subtaskKey) {
     <div class="icon_wrapper_edit">
         <img src="./assets/img/delete.svg" 
              class="subtask_delete_icon" 
-             onclick="deleteSubtask('${taskId}', '${subtaskKey}')">
+             onclick="openDeleteModal('${taskId}', '${subtaskKey}')">
     </div>
     <div class="subtask_separator_edit"></div>
     <div class="icon_wrapper_edit">
@@ -28,7 +28,6 @@ function editSubtask(taskId, subtaskKey) {
              class="subtask_check_icon" 
              onclick="saveSubtaskEdit('${taskId}', '${subtaskKey}', this.closest('li'))">
     </div>
-
 </div>
     `;
 }
@@ -66,8 +65,8 @@ function renderAssignedUserIcons(taskData) {
 }
 
 //close edit overlay
-async function closeTaskOverlayEdit(event, id) {
-    event.stopPropagation
+async function closeTaskOverlayEdit(event) {
+    event.stopPropagation()
     document.getElementById("task_edit_view").classList.add("d_none")
     document.getElementById("task_full_view").classList.add("d_none")
     document.body.classList.remove("no-scroll");
@@ -102,7 +101,8 @@ async function postSubtaskData (taskId, index, newValue){
 
 //Ab hier functions for edit - hier assigned Users
 
-async function toggleUserDropdown(id) {
+async function toggleUserDropdown(id, event) {
+    event.stopPropagation();
     const dropdown = document.getElementById("userDropdownList");
     // toggle() gibt TRUE zurück, wenn die Klasse *hinzugefügt* wurde
     const isNowHidden = dropdown.classList.toggle("d_none");
@@ -112,8 +112,26 @@ async function toggleUserDropdown(id) {
     } 
     // Wenn das Dropdown JETZT verborgen ist → renderEdit
     else {
-        renderEdit(id);
+        renderEdit(id)
     }
+}
+//damit sich karte nicht mit Klick schließt, sondern nur userdropdown
+document.addEventListener("DOMContentLoaded", () => {
+    const overlay = document.getElementById("edit_task_overlay");
+
+    overlay.addEventListener("click", () => {
+        closeUserDropdown();
+    });
+});
+
+function closeUserDropdown(event, id) {
+    event.stopPropagation(); // verhindert Overlay-Close
+
+    const dropdown = document.getElementById("userDropdownList");
+    if (dropdown) {
+        dropdown.classList.add("d_none");
+    }
+    renderEdit(id)
 }
 
 //Hier wird das Dropdown zum User-Select geladen
@@ -205,7 +223,18 @@ async function addNewSubtask(id) {
     allTasks[id].subtasks.push(newSubtask);
     await updateSubtasksInFirebase (id, allTasks[id].subtasks);
     input.value = ""; 
-    renderEdit(id);   
+    renderEdit(id);  
+    const newInput = document.getElementById("edit_subtask_input");
+    newInput.focus();
+}
+
+//Um eine subtask mit enter hinzuzufügens
+
+function handleSubtaskEnter(event, id) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // verhindert Formular-Submit
+        addNewSubtask(id);
+    }
 }
 
 //Funktionen um Bearbeitung in die Datenbank zu speichern. 
@@ -337,3 +366,6 @@ async function deleteTask(id, event) {
     delete allTasks[id];
     closeTaskOverlay(event)
 }
+
+
+
