@@ -345,38 +345,36 @@ function currentCompletedTasksNumber(currentTask) {
 // Funktion, die in Echtzeit bei Tastendruck filtert
 function searchTask() {
     const input = document.getElementById("search").value.toLowerCase().trim();
-
-    // Board leeren
     clearBoardSlots();
-    //Boardbasics rendern
     renderBoardBasics()
-    // Alle Tasks als Array holen
+    toggleNoTasksFound(false);
     const tasksArray = Object.values(allTasks);
-
-    // Wenn Suche leer → alle Tasks rendern
     if (!input) {
         tasksArray.forEach(task => taskTemplate(task));
         checkNoTasks();
-        return;
-    }
-    // Filtern nach Titel oder Beschreibung
-    const filteredTasks = tasksArray.filter(task =>
-        task.title.toLowerCase().includes(input) ||
-        task.description.toLowerCase().includes(input)
-    );
-    // Keine Treffer → Feedback anzeigen
+        return;}
+    const filteredTasks = filterTasks(tasksArray, input)
     if (filteredTasks.length === 0) {
-         //Das hier noch etwas umschreiben. Damit dasteht: no tasks found
-        return;
-    }
-    // Nur gefundene Tasks rendern
+        toggleNoTasksFound(true);
+        return;}
     filteredTasks.forEach(task => taskTemplate(task));
     checkNoTasks();
 }
 
-
 function clearBoardSlots() {
     const boardSlots = document.querySelectorAll(".board_column");
     boardSlots.forEach(slot => slot.innerHTML = "");
+}
+
+function filterTasks(tasksArray, input) {
+    return tasksArray.filter(task =>
+        task.title.toLowerCase().includes(input) ||
+        task.description.toLowerCase().includes(input)
+    );
+}
+
+function toggleNoTasksFound(show) {
+    const element = document.getElementById("no_tasks_found");
+    element.classList.toggle("d_none", !show);
 }
 
