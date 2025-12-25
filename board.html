@@ -87,8 +87,9 @@
 <h2>Board</h2>
 <div class="toolbar">
 <div class="input-wrapper">
-  <input d="search" class="search_task" type= "text" placeholder="Find Task                            |">
+  <input id="search" class="search_task" type= "text" placeholder="Find Task                            |" onkeyup="searchTask()">
   <img src="assets/img/search.svg" alt="" class="search" onclick="searchTask()">
+  <!-- <div id="found_tasks"></div> -->
 </div>
 <button id="taskCreateButton"  class="task-create-button">
           <span class="font-create">Add Task</span>

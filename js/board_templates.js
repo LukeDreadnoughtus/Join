@@ -150,11 +150,11 @@ function renderTaskEditCard(taskData) {
         <img src="./assets/img/close.svg" alt="close icon" class="close_icon" onclick="closeTaskOverlayEdit(event)">
   </div>
   <div class="scroll-area" onclick="closeUserDropdown(event, '${taskData.id}')">
-  <div class="edit_title">
+  <div class="edit_title"  onclick="event.stopPropagation()">
     <h4>Title</h4>
     <input class="input_edit_title input_style" type="text" id="edit_title" placeholder="Enter a title" required value="${taskData.title}" />
   </div>
-  <div class="edit_description">
+  <div class="edit_description" onclick="event.stopPropagation()">
     <h4>Description</h4>
     <input class="input_edit_description input_style" type="text" id="edit_description" placeholder="Enter a Description" required value="${taskData.description}"/>
   </div>
@@ -226,7 +226,7 @@ function renderTaskEditCard(taskData) {
   </div>
    <div class="edit_subtasks">
     <h4>Subtasks</h4>
-    <div class="input_edit_subtask_wrapper">
+    <div class="input_edit_subtask_wrapper" onclick="event.stopPropagation()">
         <input id="edit_subtask_input"
             class="input_edit_subtask" 
             type="text"
