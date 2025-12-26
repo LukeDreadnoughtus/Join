@@ -1,63 +1,4 @@
 /**
- * Switches a subtask into edit mode and renders the edit UI.
- *
- * Retrieves the selected subtask, marks its list item as being edited,
- * and replaces its content with the editable template.
- *
- * @param {string|number} taskId - The ID of the parent task
- * @param {string|number} subtaskKey - The key/index of the subtask to edit
- */
-function editSubtask(taskId, subtaskKey) {
-    const task = allTasks[taskId];
-    const subtask = task.subtasks[subtaskKey];
-
-    const listItem = getSubtaskListItem(subtaskKey);
-    setSubtaskEditingState(listItem);
-    renderSubtaskEditTemplate(listItem, taskId, subtaskKey, subtask.name);
-}
-
-/**
- * Returns the list item element of a subtask based on its index.
- *
- * @param {string|number} subtaskKey - Subtask index
- * @returns {HTMLLIElement}
- */
-function getSubtaskListItem(subtaskKey) {
-    return document.querySelector(
-        `.edit_subtask_item:nth-child(${parseInt(subtaskKey) + 1})`
-    );
-}
-
-/**
- * Marks a subtask list item as being edited.
- *
- * @param {HTMLLIElement} listItem
- */
-function setSubtaskEditingState(listItem) {
-    listItem.classList.add("editing");
-}
-
-/**
- * Saves the edited subtask name and updates it in Firebase.
- *
- * Reads the new subtask name from the input field, updates the local task data,
- * persists the change to Firebase, and re-renders the edit view.
- *
- * @param {string|number} taskId - ID of the parent task
- * @param {string|number} subtaskKey - Key/index of the subtask
- * @param {HTMLLIElement} liElement - List item element containing the edit input
- */
-async function saveSubtaskEdit(taskId, subtaskKey, liElement) {
-    const input = liElement.querySelector(".subtask_edit_input");
-    const newName = input.value.trim();
-    if (!newName) return;
-    allTasks[taskId].subtasks[subtaskKey].name = newName;
-    await updateSubtasksInFirebase(taskId, allTasks[taskId].subtasks);
-    liElement.classList.remove("editing");
-    renderEdit(taskId);
-}
-
-/**
  * Renders the icons of users already assigned to a task.
  *
  * Displays user initials with color-coded backgrounds based on assigned users.
@@ -95,46 +36,6 @@ async function closeTaskOverlayEdit(event) {
     document.body.classList.remove("no-scroll");
     renderBoardBasics()
     await init(event)
-}
-
-/**
- * Toggles the completion state of a subtask.
- *
- * Updates the checkbox state, synchronizes the change with local task data,
- * and persists the update to Firebase.
- *
- * @param {Event} event - Change event from the checkbox
- * @param {string|number} indexSubtask - Index of the subtask
- * @param {Object} taskData - Task object from the overlay view
- */
-async function toggleSubtask(event, indexSubtask, taskData) {
-    event.preventDefault();
-    const checkbox = document.getElementById(`subtask_${indexSubtask}`);
-    const newValue = checkbox.checked;   // Boolean wird umgedreht und in der UI verändert
-    checkbox.checked = newValue;
-    taskData.subtasks[indexSubtask].done = newValue; //Hier wird das nur im taskData des Overlays gespeichert.
-    const taskId = taskData.id;
-    allTasks[taskId].subtasks[indexSubtask].done = newValue;
-    await postSubtaskData(taskId, indexSubtask, newValue);
-}
-
-/**
- * Updates the completion state of a single subtask in Firebase.
- *
- * @param {string|number} taskId - ID of the parent task
- * @param {string|number} index - Index of the subtask
- * @param {boolean} newValue - New completion state
- */
-async function postSubtaskData (taskId, index, newValue){
-  const url = `${path}/${taskId}/subtasks/${index}/done.json`;
-
-    await fetch(url, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(newValue)
-    });
 }
 
 /**
@@ -229,6 +130,15 @@ function getUserIconData(user) {
     };
 }
 
+/**
+ * Fetches all users from Firebase.
+ *
+ * Converts the user object returned by Firebase into an array of user objects
+ * containing ID, name, and color.
+ *
+ * @returns {Promise<Array<{userId: string, name: string, color: string}>>}
+ *          A promise resolving to an array of user objects
+ */
 async function fetchAllUsers() {
     try {
         const response = await fetch(pathUser + ".json");
@@ -245,63 +155,74 @@ async function fetchAllUsers() {
     }
 }
 
-//Diese Funktion fügt neue assigned user hinzu. 
-// Sicherheit: Falls Arrays noch nicht existieren
+/**
+ * Toggles the assignment of a user to a task.
+ *
+ * Ensures the assigned user arrays exist and adds or removes
+ * the user based on the checkbox state.
+ *
+ * @param {string} userColor - Color associated with the user
+ * @param {string} userName - Name of the user
+ * @param {string|number} id - ID of the task
+ * @param {HTMLInputElement} checkbox - Checkbox element indicating assignment state
+ */
 function toggleAssignedUsers(userColor, userName, id, checkbox) {
     const task = allTasks[id];
+    ensureAssignedUserArrays(task);
+
+    if (checkbox.checked) {
+        addAssignedUser(task, userName, userColor);
+    } else {
+        removeAssignedUser(task, userName);
+    }
+}
+
+/**
+ * Ensures that assigned user arrays exist on the task.
+ *
+ * @param {Object} task - Task object
+ */
+function ensureAssignedUserArrays(task) {
     if (!task.assignedUsers) task.assignedUsers = [];
     if (!task.assignedUserColors) task.assignedUserColors = [];
-    if (checkbox.checked) {
-        if (!task.assignedUsers.includes(userName)) {
-            task.assignedUsers.push(userName);
-            task.assignedUserColors.push(userColor);
-        }
-    } else {
-        const index = task.assignedUsers.indexOf(userName);
-        if (index !== -1) {
-            task.assignedUsers.splice(index, 1);
-            task.assignedUserColors.splice(index, 1);
-        }
-    }
 }
 
-//Funktionen für subTask-Bearbeitung, zeigt auf das Icon
-function clearSubtaskInput(icon) {
-    const wrapper = icon.closest('.input_edit_subtask_wrapper');
-    const input = wrapper.querySelector('.input_edit_subtask');
-    input.value = "";
-}
-
-// Um eine subtask hinzuzufügen und diese in der Datenbank abzuspeichern 
-
-async function addNewSubtask(id) {
-    const input = document.getElementById("edit_subtask_input");
-    const newSubtaskName = input.value.trim();
-    if (!newSubtaskName) return; 
-    const newSubtask = { 
-        done: false, 
-        name: newSubtaskName 
-    };
-    allTasks[id].subtasks.push(newSubtask);
-    await updateSubtasksInFirebase (id, allTasks[id].subtasks);
-    input.value = ""; 
-    renderEdit(id);  
-    const newInput = document.getElementById("edit_subtask_input");
-    newInput.focus();
-}
-
-//Um eine subtask mit enter hinzuzufügens
-
-function handleSubtaskEnter(event, id) {
-    if (event.key === 'Enter') {
-        event.preventDefault(); // verhindert Formular-Submit
-        addNewSubtask(id);
-    }
-}
-
-//Funktionen um Bearbeitung in die Datenbank zu speichern. 
 /**
- * Speichert die Änderungen eines Tasks
+ * Adds a user to the assigned users list if not already present.
+ *
+ * @param {Object} task - Task object
+ * @param {string} userName - User name
+ * @param {string} userColor - User color
+ */
+function addAssignedUser(task, userName, userColor) {
+    if (!task.assignedUsers.includes(userName)) {
+        task.assignedUsers.push(userName);
+        task.assignedUserColors.push(userColor);
+    }
+}
+
+/**
+ * Removes a user from the assigned users list.
+ *
+ * @param {Object} task - Task object
+ * @param {string} userName - User name
+ */
+function removeAssignedUser(task, userName) {
+    const index = task.assignedUsers.indexOf(userName);
+    if (index !== -1) {
+        task.assignedUsers.splice(index, 1);
+        task.assignedUserColors.splice(index, 1);
+    }
+}
+
+/**
+ * Saves all edits made to a task.
+ *
+ * Collects input values, updates the local task data,
+ * prepares assigned user IDs, persists changes to Firebase,
+ * and switches back to the task detail view.
+ *
+ * @param {string|number} id - Task ID
  */
 async function saveEdits(id) {
     const input = collectEditInputs();
@@ -315,7 +236,9 @@ async function saveEdits(id) {
 }
 
 /**
- * Liest alle Input-Felder ein
+ * Collects all input values from the edit form.
+ *
+ * @returns {{newTitle: string, newDescription: string, rawDueDate: string}}
  */
 function collectEditInputs() {
     return {
@@ -326,7 +249,10 @@ function collectEditInputs() {
 }
 
 /**
- * Updated den lokalen Task im allTasks Array
+ * Updates the local task object with edited values.
+ *
+ * @param {string|number} id - Task ID
+ * @param {{newTitle: string, newDescription: string, rawDueDate: string}} input
  */
 function updateLocalTask(id, input) {
     const task = allTasks[id];
@@ -336,7 +262,12 @@ function updateLocalTask(id, input) {
 }
 
 /**
- * Holt User-IDs für assigned Users
+ * Prepares user IDs for assigned users of a task.
+ *
+ * Converts assigned user names into their corresponding user IDs.
+ *
+ * @param {string|number} id - Task ID
+ * @returns {Promise<Array<string>>}
  */
 async function prepareAssignedUserIds(id) {
     const currentAssignedUser = allTasks[id].assignedUsers;
@@ -344,7 +275,12 @@ async function prepareAssignedUserIds(id) {
 }
 
 /**
- * Baut das Patch-Objekt für Firebase
+ * Builds the Firebase PATCH payload for a task update.
+ *
+ * @param {string|number} id - Task ID
+ * @param {string} firebaseDate - Due date in Firebase format
+ * @param {Array<string>} assignedUserIds - User IDs assigned to the task
+ * @returns {Object} Patch data object
  */
 function buildPatchData(id, firebaseDate, assignedUserIds) {
     const t = allTasks[id];
@@ -359,7 +295,7 @@ function buildPatchData(id, firebaseDate, assignedUserIds) {
 }
 
 /**
- * Wechselt zurück von Edit View zur normalen Detailansicht
+ * Switches from the edit view back to the task detail view.
  */
 function toggleEditView() {
     document.getElementById("task_edit_view").classList.add("d_none");
@@ -367,7 +303,12 @@ function toggleEditView() {
 }
 
 /**
- * Liefert die User-IDs anhand der zugewiesenen Usernamen.
+ * Resolves user IDs for the given assigned user names.
+ *
+ * Loads all users and matches their IDs to the provided user names.
+ *
+ * @param {Array<string>} currentAssignedUser - Assigned user names
+ * @returns {Promise<Array<string>>}
  */
 async function getUserId(currentAssignedUser) {
     try {
@@ -380,7 +321,9 @@ async function getUserId(currentAssignedUser) {
 }
 
 /**
- * Lädt alle User aus Firebase
+ * Loads all users from Firebase.
+ *
+ * @returns {Promise<Object>} A promise resolving to the raw user data object
  */
 async function loadAllUsers() {
     const response = await fetch(pathUser + ".json");
@@ -388,7 +331,14 @@ async function loadAllUsers() {
 }
 
 /**
- * Vergleicht Namen → liefert passende User-IDs zurück
+ * Matches assigned user names to their corresponding user IDs.
+ *
+ * Iterates over all users and returns the IDs of users whose names
+ * are included in the assigned user list.
+ *
+ * @param {Object} userData - Raw user data object from Firebase
+ * @param {Array<string>} currentAssignedUser - List of assigned user names
+ * @returns {Array<string>} Matching user IDs
  */
 function findMatchingUserIds(userData, currentAssignedUser) {
     const userIds = [];
@@ -401,6 +351,12 @@ function findMatchingUserIds(userData, currentAssignedUser) {
     return userIds;
 }
 
+/**
+ * Updates a task in Firebase using a PATCH request.
+ *
+ * @param {string|number} id - Task ID
+ * @param {Object} data - Data object containing updated task fields
+ */
 async function updateTaskInFirebase(id, data) {
     const url = `${path}/${id}.json`;
 
@@ -411,15 +367,26 @@ async function updateTaskInFirebase(id, data) {
     });
 }
 
-//Funktion um Kalender zu konvertieren
+/**
+ * Converts a date from DD/MM/YYYY format to Firebase-compatible YYYY-MM-DD format.
+ *
+ * @param {string} dateStr - Date string in DD/MM/YYYY format
+ * @returns {string} Converted date string in YYYY-MM-DD format
+ */
 function convertDateToFirebaseFormat(dateStr) {
     if (!dateStr) return dateStr;
     const [day, month, year] = dateStr.split("/");
     return `${year}-${month}-${day}`;
 }
 
-//Task-delete Funktion
- // Lokal auch entfernen
+/**
+ * Deletes a task from Firebase and removes it locally.
+ *
+ * Closes the task overlay after deletion.
+ *
+ * @param {string|number} id - Task ID
+ * @param {Event} event - Trigger event
+ */
 async function deleteTask(id, event) {
     const url = `${path}/${id}.json`;
     await fetch(url, {
@@ -432,18 +399,38 @@ async function deleteTask(id, event) {
 
 let currentId = null
 
+/**
+ * Opens the delete confirmation modal for a task.
+ *
+ * Stores the task ID temporarily and prevents event bubbling.
+ *
+ * @param {Event} event - Click event
+ * @param {string|number} id - Task ID
+ */
 async function openModal(event, id) {
    event.stopPropagation()
    currentId = id
    document.getElementById("userfeedback_delete_task").classList.remove("d_none")
 }
 
+/**
+ * Cancels task deletion and closes the confirmation modal.
+ *
+ * @param {Event} event - Click event
+ */
 function cancelDeleteTask(event) {
     event.stopPropagation()
     document.getElementById("userfeedback_delete_task").classList.add("d_none")
     currentId = null
 }
 
+/**
+ * Confirms and executes task deletion.
+ *
+ * Deletes the task if a valid task ID is stored and closes the modal.
+ *
+ * @param {Event} event - Click event
+ */
 async function confirmDeleteTask(event) {
     event.stopPropagation()
     if (currentId !== null) {

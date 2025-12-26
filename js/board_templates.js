@@ -275,10 +275,10 @@ function createSubtaskListItem(taskData, index, subtask) {
 
             <div class="subtask_actions d_none">
                 <img src="./assets/img/edit.svg" class="subtask_edit_icon"
-                     onclick="editSubtask('${taskData.id}', '${index}')">
+                     onclick="editSubtask(event,'${taskData.id}', '${index}')">
                 <div class="subtask_separator"></div>
                 <img src="./assets/img/delete.svg" class="subtask_delete_icon"
-                     onclick="openDeleteModal('${taskData.id}', '${index}')">
+                     onclick="openDeleteModal(event,'${taskData.id}', '${index}')">
             </div>
         </div>
     `;
@@ -300,13 +300,14 @@ function renderSubtaskEditTemplate(listItem, taskId, subtaskKey, subtaskName) {
         <input type="text"
                class="subtask_edit_input"
                value="${subtaskName}"
-               autofocus>
+               autofocus
+               onclick="event.stopPropagation()">
 
         <div class="subtask_edit_actions">
             <div class="icon_wrapper_edit">
                 <img src="./assets/img/delete.svg"
                      class="subtask_delete_icon"
-                     onclick="openDeleteModal('${taskId}', '${subtaskKey}')">
+                     onclick="openDeleteModal(event,'${taskId}', '${subtaskKey}')">
             </div>
 
             <div class="subtask_separator_edit"></div>
@@ -314,7 +315,7 @@ function renderSubtaskEditTemplate(listItem, taskId, subtaskKey, subtaskName) {
             <div class="icon_wrapper_edit">
                 <img src="./assets/img/check_black.svg"
                      class="subtask_check_icon"
-                     onclick="saveSubtaskEdit('${taskId}', '${subtaskKey}', this.closest('li'))">
+                     onclick="saveSubtaskEdit(event,'${taskId}', '${subtaskKey}', this.closest('li'))">
             </div>
         </div>
     `;
