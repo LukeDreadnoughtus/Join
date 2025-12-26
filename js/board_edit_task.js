@@ -1,54 +1,70 @@
-//subtask bearbeiten 
-
+/**
+ * Switches a subtask into edit mode and renders the edit UI.
+ *
+ * Retrieves the selected subtask, marks its list item as being edited,
+ * and replaces its content with the editable template.
+ *
+ * @param {string|number} taskId - The ID of the parent task
+ * @param {string|number} subtaskKey - The key/index of the subtask to edit
+ */
 function editSubtask(taskId, subtaskKey) {
     const task = allTasks[taskId];
     const subtask = task.subtasks[subtaskKey];
 
-    const listItem = document.querySelector(
-        `.edit_subtask_item:nth-child(${parseInt(subtaskKey) + 1})`
-    );
-
-    listItem.classList.add("editing");
-    const inner = listItem.querySelector(".subtask_inner");
-
-    inner.innerHTML = `
-        <input type="text" 
-               class="subtask_edit_input"
-               value="${subtask.name}"
-               autofocus>
-    <div class="subtask_edit_actions">
-    <div class="icon_wrapper_edit">
-        <img src="./assets/img/delete.svg" 
-             class="subtask_delete_icon" 
-             onclick="openDeleteModal('${taskId}', '${subtaskKey}')">
-    </div>
-    <div class="subtask_separator_edit"></div>
-    <div class="icon_wrapper_edit">
-        <img src="./assets/img/check_black.svg" 
-             class="subtask_check_icon" 
-             onclick="saveSubtaskEdit('${taskId}', '${subtaskKey}', this.closest('li'))">
-    </div>
-</div>
-    `;
+    const listItem = getSubtaskListItem(subtaskKey);
+    setSubtaskEditingState(listItem);
+    renderSubtaskEditTemplate(listItem, taskId, subtaskKey, subtask.name);
 }
 
-//bearbeitete subtask speichern 
+/**
+ * Returns the list item element of a subtask based on its index.
+ *
+ * @param {string|number} subtaskKey - Subtask index
+ * @returns {HTMLLIElement}
+ */
+function getSubtaskListItem(subtaskKey) {
+    return document.querySelector(
+        `.edit_subtask_item:nth-child(${parseInt(subtaskKey) + 1})`
+    );
+}
+
+/**
+ * Marks a subtask list item as being edited.
+ *
+ * @param {HTMLLIElement} listItem
+ */
+function setSubtaskEditingState(listItem) {
+    listItem.classList.add("editing");
+}
+
+/**
+ * Saves the edited subtask name and updates it in Firebase.
+ *
+ * Reads the new subtask name from the input field, updates the local task data,
+ * persists the change to Firebase, and re-renders the edit view.
+ *
+ * @param {string|number} taskId - ID of the parent task
+ * @param {string|number} subtaskKey - Key/index of the subtask
+ * @param {HTMLLIElement} liElement - List item element containing the edit input
+ */
 async function saveSubtaskEdit(taskId, subtaskKey, liElement) {
     const input = liElement.querySelector(".subtask_edit_input");
     const newName = input.value.trim();
-
     if (!newName) return;
-
-    // local update
     allTasks[taskId].subtasks[subtaskKey].name = newName;
-
-    // save to Firebase
     await updateSubtasksInFirebase(taskId, allTasks[taskId].subtasks);
     liElement.classList.remove("editing");
-    // re-render UI
     renderEdit(taskId);
 }
 
+/**
+ * Renders the icons of users already assigned to a task.
+ *
+ * Displays user initials with color-coded backgrounds based on assigned users.
+ * Clears the container if no users are assigned.
+ *
+ * @param {Object} taskData - Task object containing assigned user data
+ */
 function renderAssignedUserIcons(taskData) {
     const alreadyAssignedContainer = document.getElementById("already_assigned");
     alreadyAssignedContainer.innerHTML = ""
@@ -64,7 +80,14 @@ function renderAssignedUserIcons(taskData) {
     alreadyAssignedContainer.innerHTML = assignedIconsHtml;
 }
 
-//close edit overlay
+/**
+ * Closes the task edit overlay and resets the board view.
+ *
+ * Hides all task overlays, restores page scrolling,
+ * re-renders the board, and reloads task data.
+ *
+ * @param {Event} event - Click event
+ */
 async function closeTaskOverlayEdit(event) {
     event.stopPropagation()
     document.getElementById("task_edit_view").classList.add("d_none")
@@ -74,8 +97,16 @@ async function closeTaskOverlayEdit(event) {
     await init(event)
 }
 
-//subtasks im overlay anhaken/haken entfernen
-
+/**
+ * Toggles the completion state of a subtask.
+ *
+ * Updates the checkbox state, synchronizes the change with local task data,
+ * and persists the update to Firebase.
+ *
+ * @param {Event} event - Change event from the checkbox
+ * @param {string|number} indexSubtask - Index of the subtask
+ * @param {Object} taskData - Task object from the overlay view
+ */
 async function toggleSubtask(event, indexSubtask, taskData) {
     event.preventDefault();
     const checkbox = document.getElementById(`subtask_${indexSubtask}`);
@@ -87,6 +118,13 @@ async function toggleSubtask(event, indexSubtask, taskData) {
     await postSubtaskData(taskId, indexSubtask, newValue);
 }
 
+/**
+ * Updates the completion state of a single subtask in Firebase.
+ *
+ * @param {string|number} taskId - ID of the parent task
+ * @param {string|number} index - Index of the subtask
+ * @param {boolean} newValue - New completion state
+ */
 async function postSubtaskData (taskId, index, newValue){
   const url = `${path}/${taskId}/subtasks/${index}/done.json`;
 
@@ -99,34 +137,43 @@ async function postSubtaskData (taskId, index, newValue){
     });
 }
 
-//Ab hier functions for edit - hier assigned Users
-
+/**
+ * Toggles the visibility of the assigned user dropdown.
+ *
+ * Loads the user list when opened and re-renders the edit view when closed.
+ *
+ * @param {string|number} id - Task ID
+ * @param {Event} event - Click event
+ */
 async function toggleUserDropdown(id, event) {
     event.stopPropagation();
     const dropdown = document.getElementById("userDropdownList");
-    // toggle() gibt TRUE zurück, wenn die Klasse *hinzugefügt* wurde
     const isNowHidden = dropdown.classList.toggle("d_none");
-    // Wenn das Dropdown JETZT sichtbar ist → loadUserDropdown
     if (!isNowHidden) {
         await loadUserDropdown(id);
     } 
-    // Wenn das Dropdown JETZT verborgen ist → renderEdit
     else {
         renderEdit(id)
     }
 }
-//damit sich karte nicht mit Klick schließt, sondern nur userdropdown
+//prevents event bubbling while closing the userDropdownList
 document.addEventListener("DOMContentLoaded", () => {
     const overlay = document.getElementById("edit_task_overlay");
-
     overlay.addEventListener("click", () => {
         closeUserDropdown();
     });
 });
 
+/**
+ * Closes the user selection dropdown.
+ *
+ * Prevents overlay closure and re-renders the edit view.
+ *
+ * @param {Event} event - Click event
+ * @param {string|number} id - Task ID
+ */
 function closeUserDropdown(event, id) {
     event.stopPropagation(); // verhindert Overlay-Close
-
     const dropdown = document.getElementById("userDropdownList");
     if (dropdown) {
         dropdown.classList.add("d_none");
@@ -134,7 +181,13 @@ function closeUserDropdown(event, id) {
     renderEdit(id)
 }
 
-//Hier wird das Dropdown zum User-Select geladen
+/**
+ * Loads and renders the user selection dropdown.
+ *
+ * Fetches all users and marks already assigned users as selected.
+ *
+ * @param {string|number} id - Task ID
+ */
 async function loadUserDropdown(id) {
     const allUsers = await fetchAllUsers();
     const assigned = allTasks[id].assignedUsers;
@@ -145,26 +198,35 @@ async function loadUserDropdown(id) {
     ).join("");
 }
 
-//Hier wird jede Reihe des Dropdowns gebildet
-
+/**
+ * Creates the HTML template for a single user row in the user selection dropdown.
+ *
+ * Prepares the user icon data (initials and color) and builds
+ * the HTML structure for the user, including the checkbox
+ * to indicate assignment.
+ *
+ * @param {Object} user - The user object containing at least `name` and optional `color`
+ * @param {string|number} id - The ID of the task the user may be assigned to
+ * @param {boolean} isAssigned - Whether the user is already assigned to the task
+ * @returns {string} HTML string representing the user row in the dropdown
+ */
 function createUserTemplate(user, id, isAssigned) {
-    const color = user.color || "#393737ff"; 
-    const iconColor = color.replace('#', '');
-    const usericon = initials(user.name);
-    return `
-        <div class="user_option">
-            <div class="selectable_user">
-                <div class="user_icon color${iconColor}">${usericon}</div>
-                <span>${user.name}</span>
-            </div>
-            <input 
-                type="checkbox" 
-                class="user_checkbox"
-                ${isAssigned ? "checked" : ""}
-                onclick="toggleAssignedUsers('${user.color}','${user.name}','${id}', this)"
-            >
-        </div>
-    `;
+    const iconData = getUserIconData(user);
+    return buildUserTemplate(iconData, user, id, isAssigned);
+}
+
+/**
+ * Extracts icon-related data for a user.
+ *
+ * @param {Object} user - User object
+ * @returns {{iconColor: string, initials: string}}
+ */
+function getUserIconData(user) {
+    const color = user.color || "#393737ff";
+    return {
+        iconColor: color.replace("#", ""),
+        initials: initials(user.name)
+    };
 }
 
 async function fetchAllUsers() {

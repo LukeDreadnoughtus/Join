@@ -10,9 +10,6 @@ function openAddTaskOverlay() {
 
 openAddTaskOverlay();
 
-
-//render Board_functions
-
 let path = "https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/"
 let pathUser = "https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/"
 
@@ -123,13 +120,13 @@ function extractBaseData(task, key) {
         priority: task.priority,
     };
 }
+
 /**
  * Extracts and prepares subtask data including progress counters.
  *
  * @param {Object} task - Task containing subtasks
  * @returns {Object} Subtask-related data
  */
-
 function extractSubtaskData(task) {
     const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
 
@@ -339,10 +336,15 @@ function currentCompletedTasksNumber(currentTask) {
     return count; 
 }
 
-//Suchfunktion Titel + Beschreibung muss suchbegriff enthalten
-//leere Suchanfrage oder Löschen Suchbegriff = alle Aufgaben
-//Wenn keine Tasks gefunden: Meldung keine Ergebnisse
-// Funktion, die in Echtzeit bei Tastendruck filtert
+/**
+ * Performs a real-time search for tasks.
+ * - Clears all board columns and renders the basic board structure.
+ * - Hides the "No tasks found" message by default.
+ * - If the search input is empty, all tasks are displayed.
+ * - If a search term is entered, only tasks whose title or description
+ *   include the term are displayed.
+ * - Shows the "No tasks found" message if no tasks match the search.
+ */
 function searchTask() {
     const input = document.getElementById("search").value.toLowerCase().trim();
     clearBoardSlots();
@@ -361,11 +363,22 @@ function searchTask() {
     checkNoTasks();
 }
 
+/**
+ * Clears the content of all board columns so that tasks can be re-rendered.
+ */
 function clearBoardSlots() {
     const boardSlots = document.querySelectorAll(".board_column");
     boardSlots.forEach(slot => slot.innerHTML = "");
 }
 
+/**
+ * Filters the array of tasks objects by a search term.
+ * A task is included if its title or description contains the search term.
+ *
+ * @param {Array<Object>} tasksArray - Array of task objects ( from allTasks)
+ * @param {string} input - Search term to filter tasks
+ * @returns {Array<Object>} Filtered array of task objects
+ */
 function filterTasks(tasksArray, input) {
     return tasksArray.filter(task =>
         task.title.toLowerCase().includes(input) ||
@@ -373,6 +386,11 @@ function filterTasks(tasksArray, input) {
     );
 }
 
+/**
+ * Shows or hides the "No tasks found" message.
+ *
+ * @param {boolean} show - true to display the message, false to hide it
+ */
 function toggleNoTasksFound(show) {
     const element = document.getElementById("no_tasks_found");
     element.classList.toggle("d_none", !show);

@@ -149,7 +149,7 @@ function renderTaskEditCard(taskData) {
   <div class="close_icon_wrapper close_icon_margin">
         <img src="./assets/img/close.svg" alt="close icon" class="close_icon" onclick="closeTaskOverlayEdit(event)">
   </div>
-  <div class="scroll-area" onclick="closeUserDropdown(event, '${taskData.id}')">
+  <div class="scroll-area" onclick="closeUserDropdown(event,'${taskData.id}')">
   <div class="edit_title"  onclick="event.stopPropagation()">
     <h4>Title</h4>
     <input class="input_edit_title input_style" type="text" id="edit_title" placeholder="Enter a title" required value="${taskData.title}" />
@@ -254,4 +254,97 @@ const dropdown = document.getElementById("userDropdownList");
     dropdown.addEventListener("click", (e) => {
         e.stopPropagation();
     });
+}
+
+
+/**
+ * Creates a list item element for a subtask in the edit view.
+ * Includes action icons for editing and deleting the subtask.
+ *
+ * @param {Object} taskData - Task object
+ * @param {string} index - Subtask index
+ * @param {Object} subtask - Subtask object
+ * @returns {HTMLLIElement} List item element for the subtask
+ */
+function createSubtaskListItem(taskData, index, subtask) {
+    const li = document.createElement("li");
+    li.classList.add("edit_subtask_item");
+    li.innerHTML = `
+        <div class="subtask_inner">
+            <span class="subtask_element">${subtask.name}</span>
+
+            <div class="subtask_actions d_none">
+                <img src="./assets/img/edit.svg" class="subtask_edit_icon"
+                     onclick="editSubtask('${taskData.id}', '${index}')">
+                <div class="subtask_separator"></div>
+                <img src="./assets/img/delete.svg" class="subtask_delete_icon"
+                     onclick="openDeleteModal('${taskData.id}', '${index}')">
+            </div>
+        </div>
+    `;
+    return li;
+}
+
+/**
+ * Renders the edit template for a subtask.
+ *
+ * @param {HTMLLIElement} listItem - Subtask list item
+ * @param {string|number} taskId - Task ID
+ * @param {string|number} subtaskKey - Subtask index
+ * @param {string} subtaskName - Current subtask name
+ */
+function renderSubtaskEditTemplate(listItem, taskId, subtaskKey, subtaskName) {
+    const inner = listItem.querySelector(".subtask_inner");
+
+    inner.innerHTML = `
+        <input type="text"
+               class="subtask_edit_input"
+               value="${subtaskName}"
+               autofocus>
+
+        <div class="subtask_edit_actions">
+            <div class="icon_wrapper_edit">
+                <img src="./assets/img/delete.svg"
+                     class="subtask_delete_icon"
+                     onclick="openDeleteModal('${taskId}', '${subtaskKey}')">
+            </div>
+
+            <div class="subtask_separator_edit"></div>
+
+            <div class="icon_wrapper_edit">
+                <img src="./assets/img/check_black.svg"
+                     class="subtask_check_icon"
+                     onclick="saveSubtaskEdit('${taskId}', '${subtaskKey}', this.closest('li'))">
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * Builds the HTML template for a selectable user entry.
+ *
+ * @param {{iconColor: string, initials: string}} iconData - Prepared icon data
+ * @param {Object} user - User object
+ * @param {string|number} taskId - Task ID
+ * @param {boolean} isAssigned - Whether the user is already assigned
+ * @returns {string} HTML string for the user dropdown item
+ */
+function buildUserTemplate(iconData, user, taskId, isAssigned) {
+    return `
+        <div class="user_option">
+            <div class="selectable_user">
+                <div class="user_icon color${iconData.iconColor}">
+                    ${iconData.initials}
+                </div>
+                <span>${user.name}</span>
+            </div>
+
+            <input 
+                type="checkbox"
+                class="user_checkbox"
+                ${isAssigned ? "checked" : ""}
+                onclick="toggleAssignedUsers('${user.color}','${user.name}','${taskId}', this)"
+            >
+        </div>
+    `;
 }
