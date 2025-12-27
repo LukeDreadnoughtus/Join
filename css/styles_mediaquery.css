@@ -3,7 +3,7 @@
   - Up to 600px: move the left navigation to the bottom.
 */
 
-@media (max-width: 600px) {
+@media (max-width: 1024px) {
   /* Layout: single column + bottom navigation */
   .page {
     grid-template-columns: 1fr;

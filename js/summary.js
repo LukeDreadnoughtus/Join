@@ -11,6 +11,19 @@ async function init(event) {
     await getTasksOfCurrentUser(userId, event);
     renderTasksToSummary();
     renderUserIcon();
+    setupSummaryButtons();
+}
+
+/**
+ * On the Summary page, every KPI button should take the user to the Board.
+ */
+function setupSummaryButtons() {
+    const buttons = document.querySelectorAll('.summary-grid .summary-btn');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            window.location.href = 'board.html';
+        });
+    });
 }
 
 function getUserFromLocalStorage() {
