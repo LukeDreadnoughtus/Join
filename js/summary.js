@@ -1,18 +1,16 @@
-let currentTasks = []; //object mit allen Aufgaben des Users
-let prios =[]; //priority aller Aufgaben des Users
-let path = "https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/"
+let currentTasks = []; // I keep the board slots of the current user's tasks in here
+let prios = []; // I store priorities too (not shown on the summary right now, but still useful)
+let dueDates = []; // I collect due dates (only for tasks that are NOT done)
 
-//Fehlt noch: Anrede je nach Tageszeit
+const FIREBASE_PATH = "https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/";
 
 async function init(event) {
-    let username = getUserFromLocalStorage()
-    let userId = getUserIdFromLocalStorage()
-    if (username) {
-      document.getElementById("username").textContent = username;
-    }
-    await getTasksOfCurrentUser(userId,event)
-    renderTasksToSummary()
-    renderUserIcon()
+    const username = getUserFromLocalStorage();
+    const userId = getUserIdFromLocalStorage();
+    setUsername(username);
+    await getTasksOfCurrentUser(userId, event);
+    renderTasksToSummary();
+    renderUserIcon();
 }
 
 function getUserFromLocalStorage() {
@@ -23,60 +21,156 @@ function getUserIdFromLocalStorage() {
     return localStorage.getItem("userid");
 }
 
+function setUsername(username) {
+    if (!username) return;
+    const el = document.getElementById("username");
+    if (el) el.textContent = formatDisplayName(username);
+}
 
-//tasks des aktuellen Nutzers aus Firebase laden und dann in Array current tasks pushen
+// I load tasks for the logged-in user from Firebase and store everything in my local arrays
 async function getTasksOfCurrentUser(userId, event) {
-    if (event && typeof event.preventDefault === "function") {
-        event.preventDefault();}
-    currentTasks = [];
-    prios = [];
+    safePreventDefault(event);
+    resetSummaryState();
     try {
-        const response = await fetch(path + ".json");
-        const userTasks = await response.json();
+        const userTasks = await loadTasksFromFirebase();
         if (!userTasks) return;
         searchTasksForCurrentUser(userTasks, userId);
     } catch (error) {
-        console.error("Fehler beim Laden der Tasks aus Firebase:", error);
-        alert("Ein Fehler ist aufgetreten. Deine Tasks konnten leider nicht geladen werden.");
+        handleTaskLoadError(error);
     }
 }
 
+function safePreventDefault(event) {
+    if (event && typeof event.preventDefault === "function") event.preventDefault();
+}
 
-//Hier werden die Tasks gesucht, zu welchen diese userID assigned ist. 
+function resetSummaryState() {
+    currentTasks = [];
+    prios = [];
+    dueDates = [];
+}
+
+async function loadTasksFromFirebase() {
+    const response = await fetch(`${FIREBASE_PATH}.json`);
+    return response.json();
+}
+
+function handleTaskLoadError(error) {
+    console.error("Error while loading tasks from Firebase:", error);
+    alert("Something went wrong. I couldn't load your tasks.");
+}
+
+// Here I pick the tasks where the current user is assigned
 function searchTasksForCurrentUser(userTasks, userId) {
     const tasks = Object.values(userTasks || {});
     tasks.forEach(task => {
         if (!task || !task.assigned) return;
-        const assignedArray = Array.isArray(task.assigned)
-            ? task.assigned
-            : Object.values(task.assigned);
-        if (assignedArray.includes(userId)) {
-            currentTasks.push(String(task.boardslot || ""));
-            prios.push(String(task.priority || ""));
-        }
+        const assigned = toAssignedArray(task.assigned);
+        if (!assigned.includes(userId)) return;
+        addTaskMetaToSummary(task);
     });
 }
 
-//tasks aus currenttasks herauslesen
-//Hier wird gezählt, wie viele Aufgaben jeweils in welchem Boardslot sind
-//Im letzten Schritt wird gezählt wie oft das level urgent im Array prios vorkommt, denn nur das wird in summary angezeigt. 
-
-function renderTasksToSummary() {
-    document.getElementById("tasks_in_board").innerHTML = currentTasks.length;
-    document.getElementById("to_do").innerHTML = countBoardSlot(currentTasks, "todo");
-    document.getElementById("done").innerHTML = countBoardSlot(currentTasks, "done");
-    document.getElementById("tasks_in_progress").innerHTML = countBoardSlot(currentTasks, "progress");
-    document.getElementById("awaiting_feedback").innerHTML = countBoardSlot(currentTasks, "feedback");
-    document.getElementById("urgent").innerHTML = countUrgent(prios, "urgent");
+function toAssignedArray(assigned) {
+    return Array.isArray(assigned) ? assigned : Object.values(assigned || {});
 }
 
+function addTaskMetaToSummary(task) {
+    const slot = normalizeSlot(task.boardslot);
+    currentTasks.push(slot);
+    prios.push(String(task.priority || ""));
+    if (slot !== "done") dueDates.push(String(task.duedate || ""));
+}
 
-function countUrgent(arr, value) {
-    let count = 0;
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i] === value) count++;
+function normalizeSlot(slot) {
+    return String(slot || "").toLowerCase();
+}
+
+function renderTasksToSummary() {
+    setText("tasks_in_board", currentTasks.length);
+    setText("to_do", countBoardSlot(currentTasks, "todo"));
+    setText("done", countBoardSlot(currentTasks, "done"));
+    setText("tasks_in_progress", countBoardSlot(currentTasks, "progress"));
+    setText("awaiting_feedback", countBoardSlot(currentTasks, "feedback"));
+    setText("urgent", countDueWithinNext14Days(dueDates));
+    renderUpcomingDeadline(dueDates);
+}
+
+function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = value;
+}
+
+function renderUpcomingDeadline(dateArr) {
+    const nearest = getNearestDueDateWithinNext14Days(dateArr);
+    const el = document.getElementById("upcoming_duedate");
+    if (!el) return;
+    el.textContent = nearest ? formatDateDE(nearest) : "—";
+}
+
+// Nearest due date within the next 14 days (including today)
+function getNearestDueDateWithinNext14Days(dateArr) {
+    const win = getDateWindow(14);
+    const dates = getDatesInWindow(dateArr, win);
+    dates.sort((a, b) => a - b);
+    return dates[0] || null;
+}
+
+function countDueWithinNext14Days(dateArr) {
+    const win = getDateWindow(14);
+    const dates = getDatesInWindow(dateArr, win);
+    return dates.length;
+}
+
+function getDateWindow(days) {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const end = new Date(start);
+    end.setDate(end.getDate() + days);
+    return { start, end };
+}
+
+function getDatesInWindow(dateArr, win) {
+    return (dateArr || [])
+        .map(parseDateOnly)
+        .filter(Boolean)
+        .filter(d => isWithinWindow(d, win));
+}
+
+function parseDateOnly(raw) {
+    if (!raw) return null;
+    const d = new Date(raw); // expected format from <input type="date">: YYYY-MM-DD
+    if (isNaN(d.getTime())) return null;
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
+function isWithinWindow(d, win) {
+    return d >= win.start && d < win.end;
+}
+
+function formatDateDE(dateObj) {
+    const intl = tryFormatDateIntl(dateObj);
+    if (intl) return intl;
+    return formatDateFallbackDE(dateObj);
+}
+
+function tryFormatDateIntl(dateObj) {
+    try {
+        return new Intl.DateTimeFormat("de-DE", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+        }).format(dateObj);
+    } catch (_) {
+        return "";
     }
-    return count;
+}
+
+function formatDateFallbackDE(dateObj) {
+    const dd = String(dateObj.getDate()).padStart(2, "0");
+    const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const yyyy = String(dateObj.getFullYear());
+    return `${dd}.${mm}.${yyyy}`;
 }
 
 function countBoardSlot(arr, slotName) {
@@ -87,6 +181,18 @@ function countBoardSlot(arr, slotName) {
     return count;
 }
 
+// I capitalize each name part split by spaces (hyphens stay as-is on purpose)
+function formatDisplayName(name) {
+    return splitNameParts(name)
+        .map(capitalizeFirstLetter)
+        .join(" ");
+}
 
+function splitNameParts(name) {
+    if (!name) return [];
+    return String(name).trim().split(/\s+/).filter(Boolean);
+}
 
-
+function capitalizeFirstLetter(part) {
+    return part.charAt(0).toUpperCase() + part.slice(1);
+}
