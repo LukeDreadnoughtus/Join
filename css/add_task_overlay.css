@@ -2,11 +2,9 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: clamp(12px, 2.5vw, 32px);
   background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(6px);
@@ -17,21 +15,17 @@
   display: none;
 }
 
-/* Modal Container: groß, aber mit Rand -> nicht Fullscreen */
+
 #overlay .overlay-content {
   width: 100%;
   max-width: min(1100px, calc(100vw - 2 * clamp(12px, 2.5vw, 32px)));
   max-height: calc(100vh - 2 * clamp(12px, 2.5vw, 32px));
-
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
-
-  /* wichtig: kein Scroll im Modal */
   overflow: hidden;
 }
 
-/* Wrapper: Grid -> Titel / Inhalt / Buttons / Footer */
 #overlay .overlay-wrapper {
   height: 100%;
   max-height: calc(100vh - 2 * clamp(12px, 2.5vw, 32px));
@@ -41,20 +35,18 @@
   gap: clamp(10px, 1.6vw, 18px);
 
   padding: clamp(16px, 2vw, 28px);
-  overflow: hidden; /* kein Scroll */
+  overflow: hidden;
 }
 
-/* Titel */
 #overlay .overlay_add_task_heading {
   margin: 0;
   font-size: clamp(22px, 2.2vw, 36px);
   line-height: 1.15;
 }
 
-/* Inhalt: 2 Spalten */
 #overlay .overlay_split_container {
-  min-height: 0; /* wichtig im Grid */
-  overflow: hidden; /* kein Scroll */
+  min-height: 0;
+  overflow: hidden;
   display: flex;
   gap: clamp(12px, 2vw, 28px);
   width: 100%;
@@ -65,7 +57,7 @@
   flex: 1;
   min-width: 0;
   min-height: 0;
-  overflow: hidden; /* verhindert, dass Inhalt Buttons nach unten drückt */
+  overflow: hidden;
 }
 
 #overlay .overlay_divider {
@@ -73,38 +65,31 @@
   background: #ccc;
 }
 
-/* Form Groups */
 #overlay .overlay_form_group {
   padding: 12px 0;
 }
 
-/* Labels */
 #overlay label {
   display: block;
   padding-bottom: 8px;
-
   font-family: "Inter", sans-serif;
   font-size: 20px;
   font-weight: 400;
   line-height: 120%;
 }
 
-/* Inputs/Select/Textarea (Overlay only) */
 #overlay input,
 #overlay select,
 #overlay textarea {
   width: 100%;
   box-sizing: border-box;
-
   border: 1px solid #d1d1d1;
   border-radius: 10px;
   outline: none;
-
   font-family: "Inter", sans-serif;
   font-weight: 400;
   font-size: 1rem;
   line-height: 120%;
-
   padding: 10px 12px;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
@@ -121,17 +106,14 @@
   resize: none;
 }
 
-/* Due-Date (optional wie bei dir) */
 #overlay .overlay_due_date_input {
   padding-left: 12px;
-  color: rgba(0, 0, 0, 0);
   transition: color 0.2s ease;
 }
 #overlay .overlay_due_date_input.has-value {
   color: #000;
 }
 
-/* Priority */
 #overlay .overlay_priority_container {
   display: flex;
   gap: 12px;
@@ -140,17 +122,14 @@
 #overlay .overlay_priority_btn {
   flex: 1;
   height: 56px;
-
   border: 0;
   border-radius: 10px;
   background: #fff;
-
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-
   box-shadow: 0 0 0 1px #d1d1d1 inset;
   transition: all 0.2s ease;
 }
@@ -166,7 +145,6 @@
   line-height: 120%;
 }
 
-/* Active States (dein JS nutzt overlay_active) */
 #overlay .overlay_priority_btn.overlay_active.overlay_low {
   background: #7ae229;
   color: #fff;
@@ -183,31 +161,23 @@
   box-shadow: none;
 }
 
-/* =========================
-   Assigned To: Dropdown oben, Icons darunter rechts in einer Reihe
-   ========================= */
-
 #overlay .overlay_form_group.overlay_assigned_to {
   display: block;
 }
 
-/* Dropdown Container */
 #overlay .overlay_custom_select {
   width: 100%;
 }
 
-/* Icons darunter: rechts ausgerichtet, eine Reihe, kein Umbruch */
 #overlay .overlay_assigned_users_icons {
   margin-top: 12px;
-
   display: flex;
-  justify-content: flex-end; /* rechts */
+  justify-content: flex-end;
   align-items: center;
   gap: 10px;
-
-  flex-wrap: nowrap; /* eine Reihe */
-  overflow: hidden; /* kein Scroll, keine zweite Zeile */
-  white-space: nowrap; /* zusätzliche Sicherheit */
+  flex-wrap: nowrap;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 #overlay .overlay_assigned_users_icons {
@@ -219,7 +189,6 @@
   overflow: hidden;
 }
 
-/* Dropdown Styles (JS erzeugt .select-display/.select-options etc.) */
 #overlay #task-assigned-to {
   position: relative;
   width: 100%;
@@ -230,7 +199,6 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   background: #fff;
-
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -242,17 +210,14 @@
   font-size: 12px;
 }
 
-/* Dropdown Optionen dürfen scrollbar haben (nicht das Overlay) */
 #overlay .select-options {
   display: none;
   position: absolute;
   width: 100%;
   margin-top: 6px;
-
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 10px;
-
   max-height: 200px;
   overflow-y: auto;
   z-index: 50;
@@ -275,7 +240,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  min-width: 0; /* wichtig für sauberes Kürzen */
+  min-width: 0;
 }
 
 #overlay .option-user-name {
@@ -288,7 +253,6 @@
   background: #f3f3f3;
 }
 
-/* Checkbox */
 #overlay .checkbox-square {
   width: 18px;
   height: 18px;
@@ -298,7 +262,7 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  margin-left: auto; /* zusätzliche Absicherung */
+  margin-left: auto;
   flex: 0 0 auto;
 }
 
@@ -308,20 +272,16 @@
   font-size: 20px;
 }
 
-/* User Icons (aus deinem Stil) */
 #overlay .assigned_user_icon {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   color: #fff;
   font-weight: 700;
   font-size: 12px;
-
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -329,17 +289,14 @@
   height: 32px;
   width: 32px;
   border-radius: 45%;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-weight: 300;
   border: 2px solid #fff;
   color: #fff;
 }
 
-/* Subtask Input Wrapper */
 #overlay .overlay_subtask-input-wrapper {
   position: relative;
 }
@@ -348,15 +305,12 @@
   height: 48px;
 }
 
-/* Subtask Icons (rechts im Input) */
 #overlay .overlay_icon {
   width: 24px;
   height: 24px;
-
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-
   cursor: pointer;
   padding: 4px;
   border-radius: 50%;
@@ -388,20 +342,17 @@
   display: none;
 }
 
-/* Subtask List: begrenzen, damit Buttons nicht springen (kein Scrollbar im Overlay) */
 #overlay #subtask-list {
   margin: 0;
   padding: 0;
-
-  max-height: 120px; /* anpassen nach Geschmack */
-  overflow: hidden; /* kein Scroll */
+  max-height: 120px;
+  overflow: hidden;
 }
 
 #overlay .subtask-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 6px;
   margin-top: 5px;
 }
@@ -423,26 +374,22 @@
   font-size: 14px;
 }
 
-/* Buttons unten: Grid sorgt dafür, dass sie nicht durch Content nach unten geschoben werden */
 #overlay .overlay_task_controls_buttons {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-
   padding-top: 8px;
-  min-height: 56px; /* stabil */
+  min-height: 56px;
 }
 
 #overlay .overlay_add_task_create_button,
 #overlay .overlay_add_task_clear_button {
   height: 56px;
   border-radius: 10px;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-
   padding: 0 16px;
   cursor: pointer;
 }
@@ -451,7 +398,6 @@
   background: #2a3647;
   border: 0;
   color: #fff;
-
   min-width: 180px;
   transition: background-color 0.3s ease;
 }
@@ -464,7 +410,6 @@
   background: #f6f7f8;
   border: 1px solid #ccc;
   color: #2a3647;
-
   min-width: 120px;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -474,7 +419,6 @@
   color: #fff;
 }
 
-/* Footer Hinweiszeile */
 #overlay .overlay_footer_content {
   padding-top: 6px;
   border-top: 1px solid #eee;
@@ -485,3 +429,83 @@
   font-size: 14px;
   color: #2a3647;
 }
+
+#overlay #subtask-list {
+  margin: 0;
+  padding: 0;
+}
+
+#overlay .subtask-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 32px;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+#overlay .subtask-item:hover {
+  background: #f3f3f3;
+}
+
+#overlay .subtask-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+#overlay .subtask-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #000;
+  flex: 0 0 auto;
+}
+
+#overlay .subtask-text {
+  font-size: 14px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#overlay .subtask-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+#overlay .subtask-item:hover .subtask-actions,
+#overlay .subtask-item:focus-within .subtask-actions {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+#overlay .subtask-action-btn {
+  border: 0;
+  background: none;
+  padding: 2px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#overlay .subtask-action-btn svg {
+  display: block;
+}
+
+#overlay .subtask-separator {
+  width: 1px;
+  height: 16px;
+  background: #ccc;
+}
+
