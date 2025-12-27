@@ -22,6 +22,80 @@
   width: calc(100% - 40%);
 }
 
+/* Headline above KPI grid */
+.summary-headline{
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.summary-headline__brand{
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.summary-headline__text{
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: rgba(0,0,0,0.6);
+}
+.summary-headline__divider{
+  display: inline-block;
+  width: 3px;
+  height: 28px;
+  background-color: rgb(41, 171, 226);
+  border-radius: 2px;
+}
+
+/* Greeting next to the urgent button (does not affect button width) */
+.summary-greeting{
+  position: absolute;
+  left: calc(100% + 32px);
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.summary-greeting__title{
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  color: rgba(0,0,0,0.6);
+}
+.summary-greeting__name{
+  margin: 0;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.0;
+}
+
+@media (max-width: 1100px){
+  .summary-greeting{
+    position: static;
+    transform: none;
+    margin-top: 12px;
+    white-space: normal;
+  }
+  .summary-urgent-wrap{
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 950px){
+  .summary-headline{
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+
 /* placeholder (unused) */
 .summary-btn--empty{ grid-area: empty; }
 
@@ -130,7 +204,8 @@
 /* grid placement */
 .summary-btn--todo{ grid-area: todo; }
 .summary-btn--done{ grid-area: done; }
-.summary-btn--urgent{ grid-area: urgent; }
+.summary-urgent-wrap{ grid-area: urgent; position: relative; }
+.summary-btn--urgent{ grid-area: auto; }
 .summary-btn--board{ grid-area: board; }
 .summary-btn--progress{ grid-area: progress; }
 .summary-btn--feedback{ grid-area: feedback; }
@@ -193,3 +268,48 @@
   filter: none;
 }
 
+/* --- URGENT: divider + upcoming deadline inside the button --- */
+.summary-btn--urgent .summary-btn__content{
+  justify-content: center;
+}
+
+.summary-btn__divider{
+  display: inline-block;
+  width: 2px;
+  height: 72px;
+  background-color: rgba(0, 0, 0, 0.12);
+  border-radius: 2px;
+  margin: 0 12px;
+  flex: 0 0 auto;
+}
+
+.summary-btn__deadline{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 6px;
+  min-width: 160px;
+}
+
+.summary-btn__duedate{
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.summary-btn__deadline-label{
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0,0,0,0.6);
+}
+
+/* keep urgent hover colors consistent */
+.summary-btn--urgent:hover .summary-btn__divider{
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.summary-btn--urgent:hover .summary-btn__deadline-label,
+.summary-btn--urgent:hover .summary-btn__duedate{
+  color: #fff;
+}

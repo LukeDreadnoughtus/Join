@@ -72,8 +72,11 @@
             </nav>
         </div>
 </header>
-<h2>Guten Morgen</h2>
-<h1 id="username">Username</h1>
+<div class="summary-headline">
+  <span class="summary-headline__brand">Join 360</span>
+  <span class="summary-headline__divider" aria-hidden="true"></span>
+  <span class="summary-headline__text">Key Matrics at a Glance</span>
+</div>
 <div class="summary-grid">
   <button class="summary-btn summary-btn--todo" type="button">
     <div class="summary-btn__content">
@@ -99,6 +102,7 @@
     </div>
   </button>
 
+  <div class="summary-urgent-wrap">
   <button class="summary-btn summary-btn--urgent" type="button">
     <div class="summary-btn__content">
       <div class="summary-btn__icon summary-btn__icon--urgent" aria-hidden="true">
@@ -108,8 +112,20 @@
         <h2 id="urgent">0</h2>
         <h4>Urgent</h4>
       </div>
+
+      <!-- UI divider + upcoming deadline inside the urgent button -->
+      <span class="summary-btn__divider" aria-hidden="true"></span>
+      <div class="summary-btn__deadline" aria-label="Nächste Deadline">
+        <div class="summary-btn__duedate" id="upcoming_duedate">—</div>
+        <div class="summary-btn__deadline-label">Upcoming Deadline</div>
+      </div>
     </div>
   </button>
+    <div class="summary-greeting" aria-label="Begrüßung">
+      <h2 class="summary-greeting__title">Guten Morgen</h2>
+      <h1 class="summary-greeting__name" id="username">Username</h1>
+    </div>
+  </div>
 
   <button class="summary-btn summary-btn--board" type="button">
     <div class="summary-btn__content">
