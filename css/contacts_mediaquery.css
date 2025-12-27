@@ -1,0 +1,91 @@
+/*
+  Contacts responsive rules
+  - Up to 400px: sidebar takes full width.
+  - Contact details open as full-screen overlay (white background) and hide sidebar.
+*/
+
+@media (max-width: 400px) {
+  /* Sidebar is full width by default */
+  main.content .contacts_sidebar {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    border-right: none;
+    position: relative;
+    max-height: none;
+    height: calc(100dvh - 110px); /* leave room for bottom nav (<=600px layout) */
+  }
+
+  /* Hide detail header/root unless overlay is open */
+  .contact_detail_header,
+  .contact_detail_root {
+    display: none;
+  }
+
+  body.contacts-page.contacts-overlay-open {
+    overflow: hidden;
+  }
+
+  body.contacts-page.contacts-overlay-open main.content .contacts_sidebar {
+    display: none;
+  }
+
+  /* Overlay header */
+  body.contacts-page.contacts-overlay-open .contact_detail_header {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0 !important;
+    right: 0;
+    height: 56px;
+    padding: 10px 14px;
+    box-sizing: border-box;
+    background: #ffffff;
+    border-bottom: 1px solid rgba(0,0,0,.08);
+    z-index: 1000;
+    gap: 10px;
+  }
+
+  /* Back button inserted by JS */
+  body.contacts-page.contacts-overlay-open .contacts_overlay_back {
+    border: none;
+    background: transparent;
+    font-size: 22px;
+    line-height: 1;
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+
+  /* Overlay detail content */
+  body.contacts-page.contacts-overlay-open .contact_detail_root {
+    display: flex;
+    position: fixed;
+    top: 56px;
+    left: 0 !important;
+    right: 0;
+    bottom: 96px;
+    width: 100%;
+    max-width: none;
+    padding: 14px;
+    box-sizing: border-box;
+    background: #ffffff;
+    overflow-y: auto;
+    z-index: 1000;
+  }
+
+  /* No slide-in-from-right on mobile overlay (feels like a new page) */
+  body.contacts-page.contacts-overlay-open .contact_detail_item.slide_in_right {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Keep header line simple on small screens */
+  body.contacts-page.contacts-overlay-open .cdh_line {
+    display: none;
+  }
+
+  body.contacts-page.contacts-overlay-open .cdh_sub {
+    display: none;
+  }
+}

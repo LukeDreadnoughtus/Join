@@ -1,0 +1,91 @@
+/*
+  Global responsive rules
+  - Up to 600px: move the left navigation to the bottom.
+*/
+
+@media (max-width: 600px) {
+  /* Layout: single column + bottom navigation */
+  .page {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+  }
+
+  /* Keep main content visible above the bottom bar */
+  main.content {
+    padding-bottom: 110px;
+  }
+
+  /* Bottom nav */
+  .left {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 96px;
+    padding: 8px 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2000;
+  }
+
+  /* Hide the big logo on mobile bottom bar */
+  .left::before,
+  .left .logo-spacer {
+    display: none !important;
+  }
+
+  /* Make the navigation rows sit in one line */
+  .left .main-links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+  }
+
+  /* Put text blocks under the SVG icons */
+  .left .main-links .link-row{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .left .main-links .link-row .link-icon{
+    display: block;
+  }
+
+  .left .main-links .link-row .link-text{
+    display: block;
+  }
+
+
+  .left .link-row {
+    width: 25%;
+    justify-content: center;
+  }
+
+  /* Legal links should stay visible (requested) */
+  .left .legal-area {
+    margin: 0;
+    padding: 0 6px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .left .legal-area .legal-row {
+    padding: 6px 8px;
+    width: auto;
+  }
+
+  .left .legal-area svg {
+    width: 92px;
+    height: auto;
+  }
+}
