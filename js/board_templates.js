@@ -5,7 +5,6 @@ function noTasksTemplate() {
     document.getElementById("done").innerHTML +=`<div id="no_done_tasks" class="no_tasks"> <p class="font_no_task">No tasks To do</p></div>`
 }
 
-
 function renderBoardBasics() {
     document.getElementById(`todo`).innerHTML =`<div class="column_head">
       <h3>To do</h3>
@@ -239,20 +238,20 @@ function createSubtaskListItem(taskData, index, subtask) {
     const li = document.createElement("li");
     li.classList.add("edit_subtask_item");
     li.innerHTML = `
-        <div class="subtask_inner">
+        <div class="subtask_inner" onclick="editSubtask(event, '${taskData.id}', '${index}')">
             <span class="subtask_element">${subtask.name}</span>
 
             <div class="subtask_actions d_none">
-                <img src="./assets/img/edit.svg" class="subtask_edit_icon"
-                     onclick="editSubtask(event,'${taskData.id}', '${index}')">
+                <img src="./assets/img/edit.svg" class="subtask_edit_icon">
                 <div class="subtask_separator"></div>
                 <img src="./assets/img/delete.svg" class="subtask_delete_icon"
-                     onclick="openDeleteModal(event,'${taskData.id}', '${index}')">
+                     onclick="openDeleteModal(event,'${taskData.id}', '${index}'); event.stopPropagation();">
             </div>
         </div>
     `;
     return li;
 }
+
 
 /**
  * Renders the edit template for a subtask.

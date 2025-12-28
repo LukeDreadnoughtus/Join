@@ -160,8 +160,8 @@
   width: 344px;          
   transition: background-color 0.2s; 
   cursor: pointer; 
-  flex-wrap: wrap;       
-  max-width: 100%; 
+  flex-wrap: nowrap;       
+  max-width: 90%; 
 
 }
 
@@ -169,7 +169,8 @@
     white-space: normal;       /* erlaubt Umbruch */
     overflow-wrap: break-word; /* bricht lange Wörter */
     word-break: break-word;    /* zusätzliche Sicherheit */
-    flex: 1 1 auto;            /* Label nimmt den verfügbaren Platz ein */
+    flex: 1;           /* Label nimmt den verfügbaren Platz ein */
+    min-width: 0;
 }
 
 .subtask_check:hover {
