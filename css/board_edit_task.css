@@ -581,7 +581,6 @@ ul#subtask_list {
 
 .subtask_actions {
     display: flex;           
-    /* flex-direction: row;       */
     align-items: flex-start;
     gap: 8px;
     flex-shrink: 0;

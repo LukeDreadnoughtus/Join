@@ -18,12 +18,40 @@ body {
 
 /* for help-page */
 
-.help_page {
-  margin-left: 90px; 
-  margin-top: 90px; 
-  width: 958px; 
+.arrow_help {
+  width: 40px !important;
+  height: 40px !important;
+  vertical-align: middle; /* optional, falls inline-block */
 }
 
+.header_wrapper {
+  display: flex;
+  align-items: center; 
+  gap: 750px;           
+  position: relative; 
+  width: 100%;
+}
+
+.arrow_wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s;
+}
+
+.arrow_wrapper:hover {
+  background-color: #e4e4e4;
+  cursor: pointer;
+}
+
+.help_page {
+  margin-left: 90px;
+  margin-top: 90px;
+  width: 958px;
+}
 
 .join {
   color: #29ABE2;

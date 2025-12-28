@@ -96,3 +96,7 @@ function logoutUser(event) {
   window.location.href = 'index.html';
 }
 //Für help page
+
+function backToLastPage() {
+    window.history.back();
+}
