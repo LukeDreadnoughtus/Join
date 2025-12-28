@@ -95,3 +95,4 @@ function logoutUser(event) {
   localStorage.removeItem('usercolor')
   window.location.href = 'index.html';
 }
+//Für help page
