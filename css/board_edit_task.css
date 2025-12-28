@@ -135,7 +135,8 @@ transition: background-color 120ms ease;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap:10px; 
+    gap:8px; 
+    margin-right: 15px; 
 }
 
 .bold_font {
@@ -495,6 +496,12 @@ transition: background-color 120ms ease;
 .priority_button.active_priority {
     color: white; /* Text weiß */
 }
+
+/* Icons im aktiven Zustand weiß machen */
+.priority_button.active_priority svg path {
+    fill: white;
+}
+
 
 .priority_button.active_priority[data-value="urgent"] {
     background: #FF3D00;
