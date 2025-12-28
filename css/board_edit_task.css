@@ -562,8 +562,7 @@ ul#subtask_list {
 .subtask_inner {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    /* align-items: stretch; */
+    align-items: flex-start;
     margin-right: 13px; 
     min-height: 22px; 
     width: 100%; 
