@@ -55,7 +55,6 @@ body {
 
 .join {
   color: #29ABE2;
-  font-weight: bold;
 }
 
 .pages_font {
@@ -69,34 +68,29 @@ body {
 
 }
 
-/* Stil für die nummerierte Liste mit Klasse */
 .steps_list {
-  counter-reset: step;        /* Zähler für Nummerierung zurücksetzen */
-  list-style: none;           /* Standardnummerierung entfernen */
-  padding-left: 0;            /* Kein Einzug links */
+  counter-reset: step;       
+  list-style: none;         
+  padding-left: 0;           
 }
 
-/* Stil für Listeneinträge mit Klasse */
 .steps_list .step_item {
-  counter-increment: step;    /* Zähler hochzählen */
-  margin-bottom: 1em;         /* Abstand zwischen Einträgen */
-  position: relative;         /* Für Pseudo-Element */
-  padding-left: 35px;         /* Platz für die Nummer */
+  counter-increment: step;   
+  margin-bottom: 1em;        
+  position: relative;         
+  padding-left: 35px;        
 }
 
-/* Nummern fetten und größer darstellen */
 .steps_list .step_item::before {
-  content: counter(step) "."; /* Nummer + Punkt */
-  position: absolute;
+  content: counter(step) "."; 
   left: 0;
   font-weight: bold;
   font-size: 27px;
 }
 
-/* Stil für strong-Tags innerhalb der Liste */
 .steps_list .step_item strong {
   font-size: 20px;
-  display: block;  /* Damit der Text unter der Nummer startet */
+  display: block; 
   margin-bottom: 0.3em;
 }
 
