@@ -34,13 +34,13 @@ letter-spacing: 0%;
 }
 
 .contact {
-    list-style-type: disc;   /* Punkte */
-    margin-bottom: 20px;     /* Abstand zum nächsten Element */
-    padding-left: 20px;      /* Einzug der Punkte */
+    list-style-type: disc;  
+    margin-bottom: 20px;    
+    padding-left: 20px;     
 }
 
 a {
-    text-decoration: none; /* keine Unterstreichung */
-    color: #000;           /* schwarz */
+    text-decoration: none;
+    color: #000;       
 }
 

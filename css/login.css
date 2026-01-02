@@ -76,9 +76,7 @@
     height: 630px; 
     width: 598px;
     box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
-    /* margin-top: 287.5px; 
-    margin-bottom: 287.5px; */
-    margin: 70px auto;
+    margin: 90px auto;
     display:flex; 
     padding-top: 0px; 
     align-items: center;
@@ -86,6 +84,7 @@
     background-color: white;
     border-radius: 30px;
     position: relative; 
+    top: 100px;
 }
 
 .login_button {
@@ -188,11 +187,11 @@
 
 .div_sign_up_form {
     width: 422px; 
-    height: 286px; 
+    /* height: 286px;  */
     margin-top: 20px; 
     cursor: pointer;
+    padding-bottom: 20px; 
 }
-
 
 .margin_input {
     margin-top:24px; 
@@ -300,6 +299,7 @@ a {
     align-items: center;
     gap: 20px; 
     font-size: 16px;
+    margin-top: 100px; 
 }
 
 .footer_login a {
@@ -317,7 +317,7 @@ a {
 }
 
 .margin_155 {
-    margin-left: 155px !important; 
+    margin-left: 165px !important; 
 }
 
 .overlay_userfeedback {

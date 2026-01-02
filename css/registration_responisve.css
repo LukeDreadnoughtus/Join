@@ -1,0 +1,103 @@
+@media (max-width: 1200px) {
+.div_sign_up {
+    top: 184px;
+}
+
+}
+
+@media (max-width:650px) {
+.div_sign_up {
+    width: 450px;
+    height: 595px;
+    margin: 0px auto;  
+}
+
+.arrow_blue {
+    right: 180px;
+}
+
+.login_icon {
+    top: 40px;
+    height: 100px;
+    width: 80px;
+}
+
+.footer_login{
+    margin-top: 200px;
+}
+}
+
+@media (max-width:500px) {
+.div_sign_up {
+    width: 396px;
+    margin: 0px auto;  
+}
+
+.arrow_blue {
+    right: 155px;
+}
+
+.login_icon {
+    top: 60px;
+    height: 78px;
+    width: 64px;
+}
+.input_registration {
+    height: 50px;
+    width: 364px; 
+    box-sizing: border-box;
+    padding-right: 37px;
+}
+.div_sign_up_form {
+    width: 365px;
+    margin-top: 10px; 
+}
+.checkbox {
+    margin-left: 70px;
+}
+
+.margin_155 {
+    margin-left: 135px !important;
+}
+}
+
+@media (max-width:400px) {
+.div_sign_up {
+    width: 300px;
+    height: 550px; 
+}
+
+.arrow_blue {
+    right: 115px;
+}
+
+.login_icon {
+    top: 60px;
+    height: 78px;
+    width: 64px;
+}
+.input_registration {
+    height: 40px;
+    width: 280px; 
+}
+.div_sign_up_form {
+    width: 280px; 
+}
+
+h2 {
+    font-size: 47px;
+}
+
+.checkbox {
+    margin-left: 20px;
+}
+
+.margin_155 {
+    margin-left: 85px !important;
+}
+
+.div_sign_up input::placeholder {
+    font-size: 16px;
+}
+
+}

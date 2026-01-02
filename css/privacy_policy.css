@@ -22,8 +22,8 @@ letter-spacing: 0%;
 }
 
 a {
-    text-decoration: none; /* keine Unterstreichung */
-    color: #000;           /* schwarz */
+    text-decoration: none; 
+    color: #000;          
 }
 
 .contact {
