@@ -2,19 +2,37 @@
     scroll-behavior: smooth;
 }
 
-.toc { list-style: none; padding-left: 0; margin: 0; }
-
-
 html {
   scroll-behavior: smooth;
 }
 
-h3 {
-  margin-bottom: 0;
+.privacy_policy_page {
+  margin-left: 90px;
+  margin-top: 90px;
+  width: 958px;
 }
 
-h4 {
-  margin-bottom: 0;
-  font-weight: 600;
+.strong_fonts {
+font-family: Inter;
+font-weight: 700;
+font-style: Bold;
+font-size: 20px; 
+line-height: 120%;
+letter-spacing: 0%;
 }
+
+a {
+    text-decoration: none; /* keine Unterstreichung */
+    color: #000;           /* schwarz */
+}
+
+.contact {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.contact li {
+    margin-bottom: 6px;
+}
+
 
