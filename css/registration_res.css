@@ -22,12 +22,17 @@
     width: 80px;
 }
 
-.footer_login{
-    margin-top: 200px;
+.footer_registration{
+    margin-top: 260px;
 }
 }
 
-@media (max-width:500px) {
+@media (max-width:540px) {
+
+h2 {
+    font-size: 47px;
+}
+
 .div_sign_up {
     width: 396px;
     margin: 0px auto;  
@@ -59,9 +64,10 @@
 .margin_155 {
     margin-left: 135px !important;
 }
+
 }
 
-@media (max-width:400px) {
+@media (max-width:430px) {
 .div_sign_up {
     width: 300px;
     height: 550px; 
@@ -69,6 +75,10 @@
 
 .arrow_blue {
     right: 115px;
+}
+
+.button_fonts {
+    font-size: 16px;
 }
 
 .login_icon {
@@ -84,10 +94,6 @@
     width: 280px; 
 }
 
-h2 {
-    font-size: 47px;
-}
-
 .checkbox {
     margin-left: 20px;
 }
@@ -98,6 +104,10 @@ h2 {
 
 .div_sign_up input::placeholder {
     font-size: 16px;
+}
+
+.footer_registration{
+    margin-top: 310px;
 }
 
 }
