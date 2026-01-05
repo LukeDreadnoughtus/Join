@@ -16,92 +16,14 @@ body {
   font-size:16px; 
 }
 
-/* for help-page */
-
-.arrow_help {
-  width: 40px !important;
-  height: 40px !important;
-  vertical-align: middle; /* optional, falls inline-block */
-}
-
-.header_wrapper {
-  display: flex;
-  align-items: center; 
-  gap: 750px;           
-  position: relative; 
-  width: 100%;
-}
-
-.arrow_wrapper {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background 0.3s;
-}
-
-.arrow_wrapper:hover {
-  background-color: #e4e4e4;
-  cursor: pointer;
-}
-
-.help_page {
-  margin-left: 90px;
-  margin-top: 90px;
-  width: 958px;
-}
-
-.join {
-  color: #29ABE2;
-}
-
-.pages_font {
-  font-family: Inter;
-  font-weight: 700;
-  font-style: Bold;
-  font-size: 27px;
-  line-height: 120%;
-  letter-spacing: 0%;
-  margin-bottom: 24px;
-
-}
-
-.steps_list {
-  counter-reset: step;       
-  list-style: none;         
-  padding-left: 0;           
-}
-
-.steps_list .step_item {
-  counter-increment: step;   
-  margin-bottom: 1em;        
-  position: relative;         
-  padding-left: 35px;        
-}
-
-.steps_list .step_item::before {
-  content: counter(step) "."; 
-  left: 0;
-  font-weight: bold;
-  font-size: 27px;
-}
-
-.steps_list .step_item strong {
-  font-size: 20px;
-  display: block; 
-  margin-bottom: 0.3em;
-}
-
-
 /* for main tasks */
 .page {
   display: grid;
   grid-template-columns: 16.5% 1fr;
   height: 100vh;              
   overflow-y: hidden;         
-  scrollbar-gutter: stable;   
+  scrollbar-gutter: stable; 
+  /* max-width: 1440px;   */
 }
 
 .left {
