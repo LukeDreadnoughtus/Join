@@ -4,7 +4,39 @@
   - Contact details open as full-screen overlay (white background) and hide sidebar.
 */
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
+  /* Hide the full-width "Add new contact" button on very small screens.
+     It is replaced by a floating action button (FAB) in the sidebar. */
+  main.content .contacts_sidebar .contacts_sidebar_add {
+    display: none;
+  }
+
+  /* Sidebar "Add contact" FAB (separate from the overlay 3-dots FAB).
+     Visible only while the sidebar is shown (i.e. NOT in detail overlay). */
+  body.contacts-page:not(.contacts-overlay-open) .contacts_sidebar_add_fab {
+    position: fixed;
+    right: 16px;
+    bottom: 122px; /* above bottom nav */
+    width: 56px;
+    height: 56px;
+    background: #2A3647;
+    border: 1px solid #ffffff;
+    border-radius: 56px;
+    z-index: 1100;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  body.contacts-page:not(.contacts-overlay-open) .contacts_sidebar_add_fab img {
+    width: 26px;
+    height: 26px;
+    display: block;
+  }
+
   /* Sidebar is full width by default */
   main.content .contacts_sidebar {
     width: 100%;
@@ -26,41 +58,96 @@
     overflow: hidden;
   }
 
+  /* Keep global header visible above the overlay */
+  body.contacts-page.contacts-overlay-open header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1101; /* above overlay header/root */
+  }
+
+
   body.contacts-page.contacts-overlay-open main.content .contacts_sidebar {
     display: none;
   }
 
   /* Overlay header */
   body.contacts-page.contacts-overlay-open .contact_detail_header {
-    display: flex;
+    display: grid;
     position: fixed;
-    top: 0;
+    top: 96px;
     left: 0 !important;
     right: 0;
-    height: 56px;
+    /* 3-row header (title+back | subtitle | blue line) */
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto;
+    align-items: center;
     padding: 10px 14px;
     box-sizing: border-box;
     background: #ffffff;
     border-bottom: 1px solid rgba(0,0,0,.08);
     z-index: 1000;
-    gap: 10px;
+    row-gap: 4px;
+    column-gap: 10px;
+  }
+
+  /* Title (row 1, left) */
+  body.contacts-page.contacts-overlay-open .cdh_title {
+    grid-row: 1;
+    grid-column: 1;
+    margin: 0;
+    font-size: 22px;
+    line-height: 1.1;
   }
 
   /* Back button inserted by JS */
   body.contacts-page.contacts-overlay-open .contacts_overlay_back {
+    grid-row: 1;
+    grid-column: 2;
     border: none;
     background: transparent;
-    font-size: 22px;
-    line-height: 1;
-    padding: 6px 10px;
+    padding: 6px 6px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  body.contacts-page.contacts-overlay-open .contacts_overlay_back_icon {
+    width: 26px;
+    height: 26px;
+    display: block;
+  }
+
+  /* Subtitle (row 2) – sits under Contacts */
+  body.contacts-page.contacts-overlay-open .cdh_sub {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    display: block;
+    font-size: 20px;
+    opacity: .7;
+    white-space: normal;
+  }
+
+  /* Blue line (row 3) – horizontal under subtitle */
+  body.contacts-page.contacts-overlay-open .cdh_line {
+    grid-row: 3;
+    grid-column: 1 / -1;
+    display: block;
+    width: 92px;
+    height: 3px;
+    background: #29ABE2;
+    border-radius: 2px;
+    margin-top: 2px;
   }
 
   /* Overlay detail content */
   body.contacts-page.contacts-overlay-open .contact_detail_root {
     display: flex;
     position: fixed;
-    top: 56px;
+    /* below the 3-row overlay header */
+    top: 190px;
     left: 0 !important;
     right: 0;
     bottom: 96px;
@@ -73,6 +160,104 @@
     z-index: 1000;
   }
 
+  /* Avatar in overlay should be smaller on very small screens */
+  body.contacts-page.contacts-overlay-open .detail_avatar {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+    min-height: 80px;
+  }
+
+  /* Bottom-right circular placeholder for a future SVG */
+  body.contacts-page.contacts-overlay-open .contacts_overlay_fab {
+    position: fixed;
+    right: 16px;
+    /* a little more distance to the bottom navigation (.left in mobile layout) */
+    bottom: 122px; /* above bottom nav */
+    /* Requirement: 56x56 with radius 56px */
+    width: 56px;
+    height: 56px;
+    background: #2A3647;
+    border: 1px solid #ffffff;
+    border-radius: 56px;
+    z-index: 1102; /* above header/overlay; modal backdrop is raised on mobile so this sits behind the dialog */
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 3-dots icon inside the FAB */
+  body.contacts-page.contacts-overlay-open .contacts_overlay_fab img{
+    width: 22px;
+    height: 22px;
+    display: block;
+  }
+
+  /* Hide inline Edit/Delete actions on very small screens.
+     They will be provided via the FAB menu instead. */
+  body.contacts-page.contacts-overlay-open .detail_actions .detail_edit,
+  body.contacts-page.contacts-overlay-open .detail_actions .detail_delete {
+    display: none;
+  }
+
+  /* FAB menu (opens from the right, no background dimming) */
+  body.contacts-page .contacts_fab_menu {
+    position: fixed;
+    right: 8px;
+    bottom: 120px; /* sits above the 56px FAB (bottom:122px) + 8px gap */
+    width: 100px;
+    height: 116px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 8px 22px rgba(0,0,0,.18);
+    z-index: 1103;
+    box-sizing: border-box;
+    padding: 10px 8px;
+    /* Keep the menu in the render tree so transitions can animate.
+       (display:none -> display:flex would skip the slide-in animation.) */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    transform: translateX(140px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 180ms ease, opacity 180ms ease, visibility 0s linear 180ms;
+    will-change: transform, opacity;
+  }
+
+  body.contacts-page.contacts-fab-menu-open .contacts_fab_menu {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: transform 180ms ease, opacity 180ms ease, visibility 0s;
+  }
+
+  /* Ensure the menu's items look tappable and stack vertically */
+  body.contacts-page .contacts_fab_menu .detail_edit,
+  body.contacts-page .contacts_fab_menu .detail_delete {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 6px;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  body.contacts-page .contacts_fab_menu .detail_edit:active,
+  body.contacts-page .contacts_fab_menu .detail_delete:active {
+    background: rgba(0,0,0,.06);
+  }
+
+  body.contacts-page .contacts_fab_menu .detail_action_icon {
+    width: 18px;
+    height: 18px;
+  }
+
   /* No slide-in-from-right on mobile overlay (feels like a new page) */
   body.contacts-page.contacts-overlay-open .contact_detail_item.slide_in_right {
     animation: none !important;
@@ -80,12 +265,142 @@
     opacity: 1 !important;
   }
 
-  /* Keep header line simple on small screens */
-  body.contacts-page.contacts-overlay-open .cdh_line {
-    display: none;
+  /* ===== Contacts dialog (Add/Edit contact) – mobile layout =====
+     Requirement at <= 400px:
+     - Left (dark) panel should be on top (no longer left)
+     - White panel below
+     - Avatar (.detail_avatar / SVG) centered on the seam between both panels
+     - Close button (×) in the top-right of the left panel
+  */
+
+  body.contacts-page .contacts_modal{
+    /* Dialog sizing on very small screens (<=400px)
+       Height is proportional to the viewport and remains stable on mobile browsers
+       thanks to the JS-updated CSS var --vh (= 1% of innerHeight). */
+
+    width: min(92vw, 360px);
+    max-width: 92vw;
+    transform: translateY(-3vh);
+
+    /* === Tuneable values ===
+       Change --contacts-modal-vh (80..98) to make the dialog taller/shorter. */
+    --contacts-modal-vh: 3;
+
+    height: calc(var(--vh, 1vh) * var(--contacts-modal-vh));
+    max-height: calc(var(--vh, 1vh) * var(--contacts-modal-vh));
+    min-height: calc(var(--vh, 1vh) * 70);
+
+    border-radius: 18px;
+    overflow: hidden; /* avatar overlaps within */
   }
 
-  body.contacts-page.contacts-overlay-open .cdh_sub {
-    display: none;
+  /* Ensure the Add/Edit dialog is always above the mobile overlay FAB.
+     (The FAB should remain in the background while the dialog is open.) */
+  body.contacts-page .contacts_modal_backdrop{
+    z-index: 1200;
+        align-items: flex-start;          /* statt center */
+    padding-top: clamp(16px, 66vh, 90px);
+    padding-bottom: 16px;
+    box-sizing: border-box;
   }
+
+  body.contacts-page .contacts_modal_content{
+    /* === Tuneable values ===
+       --contacts-left-panel-h: percentage of the dialog height used by the top panel
+       (e.g. 30%..45%). The avatar is anchored to this seam. */
+    --contacts-left-panel-h: 38%;
+    --contacts-avatar-size: clamp(76px, 24vw, 96px);
+
+    flex-direction:column;
+    align-items:stretch;
+    justify-content:flex-start;
+    height:100%;
+    position:relative;
+    padding:0;
+    margin-top: 0;
+    transform: none;
+  }
+
+  /* top panel */
+  body.contacts-page .contacts_modal_left_panel{
+    width:100%;
+    flex: 0 0 var(--contacts-left-panel-h);
+    height: auto;
+    justify-content:flex-start;
+    align-items:flex-start !important;
+    /* More "organic" spacing: proportional to viewport height on very small screens */
+    padding:
+      clamp(0px, 4vh, 32px)
+      20px
+      clamp(36px, 7vh, 56px)
+      20px !important;
+    box-sizing:border-box;
+    position:relative;
+    overflow: visible; /* allow avatar to overlap into the white panel */
+  }
+
+  /* Hide logo at <= 400px */
+  body.contacts-page .contacts_modal_logo{
+    display:none !important;
+  }
+
+  /* bottom panel */
+  body.contacts-page .contacts_modal_right_panel{
+    width:100%;
+    flex:1;
+    justify-content:flex-start;
+    /* room for the overlapping avatar (half of avatar size + some spacing) */
+    padding:calc(var(--contacts-avatar-size) / 2 + 36px) 24px 24px 24px;
+    box-sizing:border-box;
+    overflow:auto;
+  }
+
+  /* avatar overlaps between panels
+     On mobile we anchor the avatar to the *bottom edge of the left (dark) panel*.
+     This guarantees: top half stays in the dark area, bottom half in the white area,
+     without relying on the dialog content's calculated seam.
+  */
+  body.contacts-page .contacts_modal_left_panel .contacts_modal_avatar_col{
+    position:absolute;
+    left:50%;
+    bottom:0;
+    transform:translate(-50%, 50%); /* center sits on the panel edge */
+    height:auto;
+    padding:0;
+    z-index:2;
+    pointer-events:none; /* purely decorative */
+  }
+
+  /* safety: if JS didn't move avatar into the left panel, keep old behavior */
+  body.contacts-page .contacts_modal_content > .contacts_modal_avatar_col{
+    position:absolute;
+    left:50%;
+    top: var(--contacts-left-panel-h);
+    transform:translate(-50%,-50%);
+    height:auto;
+    padding:0;
+    z-index:2;
+  }
+
+  body.contacts-page .contacts_modal_avatar_slot .detail_avatar,
+  body.contacts-page .contacts_modal_avatar_slot .contacts_modal_avatar_image{
+    width:var(--contacts-avatar-size);
+    height:var(--contacts-avatar-size);
+  }
+
+  /* Close button: top-right inside the left panel (moved by JS on mobile) */
+  body.contacts-page .contacts_modal_left_panel .contacts_modal_close{
+    position:absolute;
+    top:16px;
+    right:16px;
+    color:#ffffff;
+    font-size:28px;
+    z-index:3;
+  }
+
+  /* The original header inside the right panel is not needed visually on mobile */
+  body.contacts-page .contacts_modal_right_panel .contacts_modal_header{
+    display:none;
+  }
+
 }

@@ -60,3 +60,62 @@ color:#2A3647;
     align-items:center; 
     justify-content: center;
 }
+
+
+@media (max-width: 400px){
+h1{
+    font-family: "inter";
+    font-size:64px; 
+    font-weight: 700; 
+    line-height: 120%;
+    color:  #29ABE2;   
+} 
+
+/* Für Login/AddTask */
+h2 {
+    font-family: "inter";
+    font-size:61px; 
+    font-weight: 700; 
+    line-height: 120%;
+    margin-bottom:0px; 
+    margin-top: 0px;
+}
+
+/* für Board - Spaltenüberschrift */
+h3 { 
+    font-family: "inter";
+    font-size:20px; 
+    font-weight: bold; 
+    line-height: 120%;
+    margin:0px; 
+}
+
+
+/* aktuell für die login-page */
+h4 { 
+font-family: "Inter";
+font-weight: 400;
+font-style: normal;
+font-size: 20px;
+/* leading-trim: none; */
+line-height: 120%;
+letter-spacing: 0%;
+margin:0px; 
+color:#2A3647; 
+}
+
+.button_fonts {
+    font-family: "inter";
+    font-weight: 700; 
+    font-size:21px; 
+    line-height: 120%;
+    letter-spacing: 0%;
+    
+}
+
+.button_df {
+    display:flex; 
+    align-items:center; 
+    justify-content: center;
+}
+}
