@@ -22,7 +22,8 @@ body {
   grid-template-columns: 16.5% 1fr;
   height: 100vh;              
   overflow-y: hidden;         
-  scrollbar-gutter: stable;   
+  scrollbar-gutter: stable; 
+  /* max-width: 1440px;   */
 }
 
 .left {
@@ -148,8 +149,7 @@ body {
   background-color: #091931;
 }
 
-[data-link]:not([aria-current="page"]):hover {}
-
+/* [data-link]:not([aria-current="page"]):hover {} */
 
 /* for sub tasks */
 

@@ -65,7 +65,19 @@
 .task_description_overlay {
     width: 365px;
     color: black; 
+    min-width: 0;
+    width: 100%;
 }
+
+.scroll-area h2,
+.task_description_overlay h4 {
+    display: block;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    padding-right: 5px; 
+}
+
 
 .assigned_to {
     display:flex; 
@@ -134,23 +146,35 @@
     flex-direction: column; 
     gap: 5px;
     padding-top: 20px;
+    width: 100%;
 }
 
 .subtask_check {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   gap: 10px;
   position: relative;
-  padding: 4px 8px;               /* Abstand innen, damit Background nicht direkt an Text klebt */
+  padding: 4px 8px;              
   border-radius: 10px; 
-  height: 32px; 
-  width: 344px;           /* runde Ecken für Highlight */
-  transition: background-color 0.2s; /* sanfte Animation */
-  cursor: pointer;                /* optional, zeigt an dass es interaktiv ist */
+  min-height: 32px;
+  width: 344px;          
+  transition: background-color 0.2s; 
+  cursor: pointer; 
+  flex-wrap: nowrap;       
+  max-width: 90%; 
+
+}
+
+.subtask_check label {
+    white-space: normal;       /* erlaubt Umbruch */
+    overflow-wrap: break-word; /* bricht lange Wörter */
+    word-break: break-word;    /* zusätzliche Sicherheit */
+    flex: 1;           /* Label nimmt den verfügbaren Platz ein */
+    min-width: 0;
 }
 
 .subtask_check:hover {
-  background-color: rgba(200, 200, 200, 0.3); /* sanftes Grau für gesamte Zeile */
+  background-color: rgba(200, 200, 200, 0.3); 
 }
 
 .subtask_check .subtask_detail_font {
@@ -171,6 +195,8 @@
   outline: none;
   background-color: #fff;
   transition: all 0.2s;
+  flex-shrink: 0;
+  margin-top: 2px;
 }
 
 .subtask_check input[type="checkbox"]:checked {

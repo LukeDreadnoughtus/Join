@@ -63,8 +63,12 @@
 // }
 
 
-//Hier die Funktionen für den Header
-
+//Header
+/**
+ * Returns the initials of a given user name.
+ * @param {string} user - The full name of the user.
+ * @returns {string} The initials of the user in uppercase.
+ */
 function initials(user) {
     const parts = String(user || '').trim().split(/\s+/);
     const first = (parts[0] || '').charAt(0).toUpperCase();
@@ -72,6 +76,9 @@ function initials(user) {
     return first + (second || '');
 }
 
+/**
+ * Renders the user's initials inside the element with the class 'my_icon'.
+ */
 function renderUserIcon() {
     const user = localStorage.getItem("username") || "";
     const iconDiv = document.querySelector(".my_icon");
@@ -80,18 +87,35 @@ function renderUserIcon() {
     }
 }
 
+/**
+ * Redirects the user to the help page.
+ */
 function toHelpPage() {
 window.location.href = "help.html"
 }
 
+/**
+ * Toggles the visibility of the user menu.
+ */
 function openUserMenu() {
   document.getElementById("user_menu").classList.toggle("d_none")
 }
 
+/**
+ * Logs out the user by clearing stored user data and redirecting to the index page.
+ * @param {Event} event - The click event triggering the logout.
+ */
 function logoutUser(event) {
   event.preventDefault();
   localStorage.removeItem('username')
   localStorage.removeItem('userid')
   localStorage.removeItem('usercolor')
   window.location.href = 'index.html';
+}
+//Help_page
+/**
+ * Navigates back to the previous page in the browser history.
+ */
+function backToLastPage() {
+    window.history.back();
 }

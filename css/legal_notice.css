@@ -1,11 +1,74 @@
-.content{
- 
-    margin-left: 10%;
-    margin-right: 10%;
-}
-
 
 
 h3 {
   margin-bottom: 0;
 }
+
+.legal_notice_page {
+  margin-left: 90px;
+  margin-top: 90px;
+  width: 958px;
+}
+
+.pages_font_legal_notice {
+  font-family: Inter;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 27px;
+  line-height: 120%;
+  letter-spacing: 0%;
+  margin-top: 24px;
+}
+
+.join {
+  color: #29ABE2;
+}
+
+.strong_fonts {
+font-family: Inter;
+font-weight: 700;
+font-style: Bold;
+font-size: 20px; 
+line-height: 120%;
+letter-spacing: 0%;
+}
+
+.contact {
+    list-style-type: disc;  
+    margin-bottom: 20px;    
+    padding-left: 20px;     
+}
+
+a {
+    text-decoration: none;
+    color: #000;       
+}
+
+@media (max-width:1300px) { 
+.legal_notice_page {
+  margin-left: 90px;
+  margin-right: 40px;
+  width: auto;
+  white-space: normal; 
+  word-wrap: break-word; 
+  word-break: break-word;
+}
+}
+
+@media (max-width:1024px) { 
+.legal_notice_page {
+  margin-left: 60px;
+  margin-top: 60px;
+}
+}
+
+@media (max-width:540px) { 
+  h2 {
+    font-size: 47px;
+}
+.legal_notice_page {
+  margin-left: 40px;
+  margin-right: 20px;
+}
+}
+
