@@ -1,8 +1,17 @@
 .login_body {
     display:flex; 
-    align-items: center;
+    flex-direction: column; 
     font-family: "inter"; 
-    height: 100vh;
+    min-height: 100vh;
+}
+
+.login_wrapper {
+    flex: 1;
+    position: relative; 
+    width: 100%;
+    max-width: 1440px;
+    padding: 0 24px;
+    box-sizing: border-box;
 }
 
 .login_icon {
@@ -16,7 +25,7 @@
 .not_a_join_user {
     position:absolute; 
     top:67px; 
-    right: 100px; 
+    right: 24px; 
     height: 49px; 
     padding-right: 100px;
     gap: 35px; 
@@ -60,7 +69,10 @@
     height:449px; 
     width:652px;
     box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
-    margin: 230px auto;
+    margin-top: 230px;
+    margin-bottom: 165px;
+    margin-left: auto;
+    margin-right: auto;
     padding-top: 15px;
     display:flex; 
     align-items: center;
