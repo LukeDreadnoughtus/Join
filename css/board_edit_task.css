@@ -212,7 +212,7 @@ transition: background-color 120ms ease;
   cursor: pointer;
   outline: none;
   background-color: #fff;
-  transition: all 0.2s; 
+  transition: all 0.1s; 
   margin-right:20px; 
 }
 
@@ -258,7 +258,7 @@ transition: background-color 120ms ease;
     font-size: 20px;
     font-family: "Inter";
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: border-color 0.1s, box-shadow 0.1s;
     margin-top: 7px; 
     width: calc(100% - 40px);
 }
@@ -465,7 +465,7 @@ transition: background-color 120ms ease;
   border-radius: 10px;
   border: 0px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.1s ease;
   font-size: 1rem;
   width: 136px;
   height: 56px;
@@ -627,7 +627,7 @@ ul#subtask_list {
     align-items: center;
     padding: 4px;              
     border-radius: 50%;      
-    transition: background-color 0.15s ease;
+    transition: background-color 0.125s ease;
 }
 
 .icon_wrapper_edit:hover {

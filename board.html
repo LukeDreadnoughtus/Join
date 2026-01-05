@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="css/add_task_overlay.css"/>
 <link rel="stylesheet" href="css/add_task_assigned_dropdown.css"/>
 <link rel="stylesheet" href="css/board.css"/>
+<link rel="stylesheet" href="css/board_res.css"/>
 <link rel="stylesheet" href="css/colors.css"/>
 <link rel="stylesheet" href="css/styles.css" />
 <link rel="stylesheet" href="css/header.css"/>
@@ -281,6 +282,8 @@
         <p class="font_no_found_task">NO TASKS FOUND</p>
       </div>
       <div class="board_layout">
+      <div class="board_row">
+        <div class="column_content">
         <div id="todo" class="board_column" ondrop="moveTo('todo',event)" ondragover="onDragOverColumn(event,'todo')"
           ondragleave="onDragLeaveColumn(event,'todo')">
           <div class="column_head">
@@ -291,6 +294,8 @@
             <p class="font_no_task">No tasks To do</p>
           </div>
         </div>
+        </div>
+        <div class="column_content">
         <div id="progress" class="board_column" ondrop="moveTo('progress',event)"
           ondragover="onDragOverColumn(event, 'progress')" ondragleave="onDragLeaveColumn(event, 'progress')">
           <div class="column_head">
@@ -301,6 +306,10 @@
             <p class="font_no_task">No tasks To do</p>
           </div>
         </div>
+        </div>
+      </div>
+      <div class="board_row">
+        <div class="column_content">
         <div id="feedback" class="board_column" ondrop="moveTo('feedback',event)"
           ondragover="onDragOverColumn(event, 'feedback')" ondragleave="onDragLeaveColumn(event, 'feedback')">
           <div class="column_head">
@@ -311,6 +320,8 @@
             <p class="font_no_task">No tasks To do</p>
           </div>
         </div>
+        </div>
+        <div class="column_content">
         <div id="done" class="board_column" ondrop="moveTo('done',event)" ondragover="onDragOverColumn(event, 'done')"
           ondragleave="onDragLeaveColumn(event, 'done')">
           <div class="column_head">
@@ -319,6 +330,8 @@
           <div id="no_done_tasks" class="no_tasks d_none">
             <p class="font_no_task">No tasks To do</p>
           </div>
+        </div>
+        </div>
         </div>
       </div>
 

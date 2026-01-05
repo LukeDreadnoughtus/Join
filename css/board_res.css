@@ -1,0 +1,15 @@
+@media (max-width: 1440px) {
+    .board_row {
+       display:flex;
+       flex-direction: column;
+       margin-bottom: 100px;
+    }
+
+    .toolbar {
+        gap:50px; 
+    }
+
+    .header_board {
+    gap: 50px;
+}
+}

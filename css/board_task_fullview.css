@@ -151,14 +151,13 @@
 
 .subtask_check {
   display: flex;
-  /* align-items: center; */
   gap: 10px;
   position: relative;
   padding: 4px 8px;              
   border-radius: 10px; 
   min-height: 32px;
   width: 344px;          
-  transition: background-color 0.2s; 
+  transition: background-color 0.1s; 
   cursor: pointer; 
   flex-wrap: nowrap;       
   max-width: 90%; 
@@ -166,10 +165,10 @@
 }
 
 .subtask_check label {
-    white-space: normal;       /* erlaubt Umbruch */
-    overflow-wrap: break-word; /* bricht lange Wörter */
-    word-break: break-word;    /* zusätzliche Sicherheit */
-    flex: 1;           /* Label nimmt den verfügbaren Platz ein */
+    white-space: normal;     
+    overflow-wrap: break-word; 
+    word-break: break-word;   
+    flex: 1;           
     min-width: 0;
 }
 
@@ -194,7 +193,7 @@
   cursor: pointer;
   outline: none;
   background-color: #fff;
-  transition: all 0.2s;
+  transition: all 0.1s;
   flex-shrink: 0;
   margin-top: 2px;
 }
@@ -228,7 +227,7 @@
   transform: translate(-50%, -50%); 
   pointer-events: none;  
   z-index: 1;
-  transition: all 0.2s;
+  transition: all 0.1s;
 }
 
 .subtask_check input[type="checkbox"]:hover::before {
@@ -255,20 +254,20 @@
     vertical-align: middle;
     color: #2A3647;
     margin:0px; 
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .edit_task:hover .edit_task_font {
     font-weight: bold;
     color: #29ABE2;
     transform: scale(1.03);
-    transition: all 0.2s;
+    transition: all 0.1s;
 }
 
 .edit-icon {
   color: #2A3647;        
   cursor: pointer;
-  transition: color 0.2s;
+  transition: color 0.1s;
 }
 
 .edit_task:hover .edit-icon {
@@ -300,7 +299,7 @@
 .delete-icon {
   color: #2A3647;       
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.1s;
 }
 
 .delete_task:hover .delete-icon {
@@ -312,5 +311,5 @@
     font-weight: bold;
     color: #29ABE2;
     transform: scale(1.03);
-    transition: all 0.2s;
+    transition: all 0.1s;
 }

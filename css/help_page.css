@@ -48,7 +48,6 @@
 
 }
 
-
 .steps_list {
   counter-reset: step; 
   list-style: none;
@@ -91,7 +90,6 @@
 .header_wrapper {
   gap: 500px;           
 }
-
 }
 
 @media (max-width:1024px) { 
