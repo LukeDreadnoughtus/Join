@@ -8,13 +8,13 @@ function renderBoardBasics() {
       </div>` 
     document.getElementById(`progress`).innerHTML =`
       <div id="no_progress_tasks" class="no_tasks d_none"> 
-      <p class="font_no_task">No tasks To do</p></div>
+      <p class="font_no_task">No tasks in progress</p></div>
       </div>`
     document.getElementById(`feedback`).innerHTML =`
-      <div id="no_feedback_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks To do</p></div>
+      <div id="no_feedback_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks</p></div>
       </div>`
     document.getElementById(`done`).innerHTML =`
-      <div id="no_done_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks To do</p></div>
+      <div id="no_done_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks done</p></div>
       </div>`
 }
 

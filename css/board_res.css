@@ -34,12 +34,22 @@
     gap:50px; 
 }
 
+.task-create-button {
+  width: 40px;
+  height: 40px;
+}
+
+.plus_svg {
+    height: 20px;
+    width: 20px;
+}
+
 .header_board_row {
     display:flex; 
     align-items: center;
     justify-content:space-between; 
     margin-top: 50px;
-    gap: 50px;  
+    gap: 70px;  
 }
 
 .search_task {
@@ -49,5 +59,68 @@
 .board_layout {
        padding-left: clamp(16px, 6vw, 90px);
     }
+
+}
+
+@media (max-width: 680px) {
+
+.board_row {
+        flex-direction: column; 
+        gap:60px; 
+    }
+
+
+.board_layout {
+       padding-left: 0px; 
+       align-items: center;
+       gap:60px; 
+       padding-top: 40px; 
+    }
+
+.header_board_responisve {
+    gap:20px; 
+}
+
+.search_task {
+    width: 312px; 
+}
+}
+
+@media (max-width: 540px) { 
+.header_board_row h2 {
+    font-size: 47px;
+}
+
+.search_task {
+    width: 255px; 
+}
+
+.search {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    top: 10px;
+    left: 233px;
+}
+
+.column_head {
+    width: 270px;
+}
+
+.board_column {
+    width:260px; 
+}
+
+.task_card {
+    width: 200px; 
+}
+
+.task_titel_card {
+    width: 190px;
+}
+
+.task_description_card {
+    width: 190px;
+}
 
 }

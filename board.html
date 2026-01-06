@@ -99,13 +99,12 @@
       <div class="header_board_responisve">
       <div class="header_board_row">
         <h2>Board</h2>
-        <button id="taskCreateButton" class="task-create-button">
-          <span class="font-create">Add Task</span>
+        <button id="taskCreateButton_responsive" class="task-create-button">
             <img src="./assets/img/add.svg" class="plus_svg" alt="add task item">
         </button>
       </div>
       <div class="input-wrapper">
-            <input id="search" class="search_task" type="text" placeholder="Find Task                            |"
+            <input id="search_respnsive" class="search_task" type="text" placeholder="Find Task                      |"
               onkeyup="searchTask()">
             <img src="assets/img/search.svg" alt="" class="search" onclick="searchTask()">
       </div>
@@ -318,7 +317,7 @@
           </div>
           <div id="progress" class="column_content">
           <div id="no_progress_tasks" class="no_tasks d_none">
-            <p class="font_no_task">No tasks To do</p>
+            <p class="font_no_task">No tasks in progress</p>
           </div>
         </div>
         </div>
@@ -332,7 +331,7 @@
           </div>
           <div id="feedback" class="column_content">
           <div id="no_feedback_tasks" class="no_tasks d_none">
-            <p class="font_no_task">No tasks To do</p>
+            <p class="font_no_task">No tasks</p>
           </div>
         </div>
         </div>
@@ -344,7 +343,7 @@
           </div>
           <div id="done" class="column_content">
           <div id="no_done_tasks" class="no_tasks d_none">
-            <p class="font_no_task">No tasks To do</p>
+            <p class="font_no_task">No tasks done</p>
           </div>
         </div>
         </div>
