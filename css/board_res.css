@@ -1,8 +1,13 @@
 @media (max-width: 1440px) {
-    .board_row {
+    .board_layout {
        display:flex;
        flex-direction: column;
-       margin-bottom: 100px;
+       padding-left: 120px; 
+       gap:70px; 
+    }
+
+    .board_row {
+        gap:40px; 
     }
 
     .toolbar {
@@ -12,4 +17,37 @@
     .header_board {
     gap: 50px;
 }
+}
+
+@media (max-width: 860px) {
+   .header_board {
+    display: none; 
+}
+
+.header_board_responisve {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    margin-left: 30px; 
+    margin-right: 30px; 
+    gap:50px; 
+}
+
+.header_board_row {
+    display:flex; 
+    align-items: center;
+    justify-content:space-between; 
+    margin-top: 50px;
+    gap: 50px;  
+}
+
+.search_task {
+    width: 400px; 
+}
+
+.board_layout {
+       padding-left: clamp(16px, 6vw, 90px);
+    }
+
 }

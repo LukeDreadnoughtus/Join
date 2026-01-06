@@ -3,29 +3,17 @@
  * This function appends a "No tasks To do" message to the To Do, In Progress, Feedback, and Done columns.
  */
 function renderBoardBasics() {
-    document.getElementById(`todo`).innerHTML =`<div class="column_head">
-      <h3>To do</h3>
-      <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
-      </div>
+    document.getElementById(`todo`).innerHTML =`
       <div id="no_todo_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks To do</p></div>
       </div>` 
     document.getElementById(`progress`).innerHTML =`
-      <div class="column_head">
-      <h3>In progress</h3>
-      <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
-      </div>
       <div id="no_progress_tasks" class="no_tasks d_none"> 
       <p class="font_no_task">No tasks To do</p></div>
       </div>`
-    document.getElementById(`feedback`).innerHTML =`<div class="column_head">
-      <h3>Await feedback</h3>
-      <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
-      </div>
+    document.getElementById(`feedback`).innerHTML =`
       <div id="no_feedback_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks To do</p></div>
       </div>`
-    document.getElementById(`done`).innerHTML =`<div class="column_head">
-      <h3>Done</h3>
-      </div>
+    document.getElementById(`done`).innerHTML =`
       <div id="no_done_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks To do</p></div>
       </div>`
 }
