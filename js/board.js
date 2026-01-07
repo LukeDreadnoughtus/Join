@@ -1,14 +1,23 @@
-function openAddTaskOverlay() {
-    document.getElementById("taskCreateButton").addEventListener("click", () => {
-        const overlay = document.getElementById("overlay");
+function initAddTaskOverlay() {
+    const overlay = document.getElementById("overlay");
+    const boardSlotSelect = document.getElementById("board-slot");
+    if (!overlay) return;
+    document.addEventListener("click", (e) => {
+        const btn = e.target.closest(".add_task_overlay");
+        if (!btn) return;
+        const slot = btn.dataset.boardslot;
+        if (boardSlotSelect && slot) {
+            boardSlotSelect.value = slot;
+        }
         overlay.classList.remove("overlay_hidden");
     });
-    document.getElementById("overlay").addEventListener("click", (e) => {
-        if (e.target.id === "overlay") e.target.classList.add("overlay_hidden");
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) overlay.classList.add("overlay_hidden");
     });
 }
 
-openAddTaskOverlay();
+// Wichtig: nur einmal aufrufen
+document.addEventListener("DOMContentLoaded", initAddTaskOverlay);
 
 let path = "https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/"
 let pathUser = "https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/"
@@ -25,11 +34,11 @@ var allTasks = {}; // globales Objekt: key = Task-ID, value = Task-Daten
  * @returns {Promise<void>}
  */
 async function init(event) {
-event.preventDefault();
-removeUserfeedback()
-await showTasks()
-checkNoTasks();
-renderUserIcon();
+    event.preventDefault();
+    removeUserfeedback()
+    await showTasks()
+    checkNoTasks();
+    renderUserIcon();
 }
 
 /**
@@ -38,10 +47,10 @@ renderUserIcon();
  * @returns {void}
  */
 function removeUserfeedback() {
-const userFeedbackEl = document.getElementById("userfeedback");
-if (!userFeedbackEl.classList.contains("d_none")) {
-    userFeedbackEl.classList.add("d_none");
-}
+    const userFeedbackEl = document.getElementById("userfeedback");
+    if (!userFeedbackEl.classList.contains("d_none")) {
+        userFeedbackEl.classList.add("d_none");
+    }
 }
 
 /**
@@ -51,20 +60,21 @@ if (!userFeedbackEl.classList.contains("d_none")) {
  * @async
  * @returns {Promise<boolean|void>} Returns true on error, otherwise void
  */
-async function showTasks() { 
-try {
-    const getResponse = await fetch(path + ".json");
-    const tasks = await getResponse.json();
-     if (!tasks) {
-        noTasksTemplate()
-        return;
-     }
-      await renderAllTasks(tasks);
-      }
+async function showTasks() {
+    try {
+        const getResponse = await fetch(path + ".json");
+        const tasks = await getResponse.json();
+        if (!tasks) {
+            noTasksTemplate()
+            return;
+        }
+        await renderAllTasks(tasks);
+    }
     catch (error) {
-    console.error("Fehler beim Laden der Tasks:", error);
-    document.getElementById("userfeedback_no_tasks").classList.remove("d_none")
-    return true; }
+        console.error("Fehler beim Laden der Tasks:", error);
+        document.getElementById("userfeedback_no_tasks").classList.remove("d_none")
+        return true;
+    }
 }
 
 /**
@@ -75,12 +85,12 @@ try {
  * @returns {Promise<void>}
  */
 async function renderAllTasks(tasks) {
-  for (const key in tasks) {
-    const currentTask = tasks[key];
-    const taskData = await buildTaskData(currentTask, key);
-    allTasks[taskData.id] = taskData;
-    taskTemplate(taskData);
-  }
+    for (const key in tasks) {
+        const currentTask = tasks[key];
+        const taskData = await buildTaskData(currentTask, key);
+        allTasks[taskData.id] = taskData;
+        taskTemplate(taskData);
+    }
 }
 /**
  * Builds a complete task data object from raw task data.
@@ -152,7 +162,7 @@ function extractSubtaskData(task) {
  * @returns {Promise<Object>} Assigned user names and colors
  */
 async function extractAssignedUsers(task) {
-    const ids = Array.isArray(task.assigned) && task.assigned.length > 0? task.assigned: [];
+    const ids = Array.isArray(task.assigned) && task.assigned.length > 0 ? task.assigned : [];
     if (ids.length === 0) {
         return {
             assignedUsers: [],
@@ -186,16 +196,16 @@ function formatDateDDMMYYYY(dateInput) {
  * @param {string[]} currentAssignedUserids - Array of user IDs
  * @returns {Promise<string[]>} Array of user names
  */
-async function fetchUserNames (currentAssignedUserids) {
-    let assignedUsers =[]; 
+async function fetchUserNames(currentAssignedUserids) {
+    let assignedUsers = [];
     try {
         const response = await fetch(pathUser + ".json");
         const userData = await response.json();
-    for (const user of currentAssignedUserids) {
-        let userName = findUserName(user,userData)
-        assignedUsers.push(userName)
-    }
-    return assignedUsers
+        for (const user of currentAssignedUserids) {
+            let userName = findUserName(user, userData)
+            assignedUsers.push(userName)
+        }
+        return assignedUsers
     } catch (error) {
         console.error("Fehler beim Laden der Usernamen:", error);
         alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
@@ -224,7 +234,7 @@ function findUserName(user, userData) {
  */
 function currentSubtaskNumber(currentTask) {
     let currentSubtasks = currentTask.subtasks
-    let numberOfCurrentTasks = currentSubtasks.length 
+    let numberOfCurrentTasks = currentSubtasks.length
     return numberOfCurrentTasks
 }
 
@@ -237,9 +247,11 @@ function currentSubtaskNumber(currentTask) {
 function currentCategoryColor(currentCategory) {
     let categoryColor = "default"
     if (currentCategory === "Technical Task") {
-        categoryColor = "technical_task";}
+        categoryColor = "technical_task";
+    }
     if (currentCategory === "User Story") {
-        categoryColor = "user_story"; }
+        categoryColor = "user_story";
+    }
 
     return categoryColor
 }
@@ -252,15 +264,15 @@ function currentCategoryColor(currentCategory) {
  * @returns {Promise<string[]>} Array of user color values
  */
 async function fetchUsercolors(currentAssignedUserids) {
-    let assignedUsercolors =[]; 
+    let assignedUsercolors = [];
     try {
         const response = await fetch(pathUser + ".json");
         const userData = await response.json();
-    for (const user of currentAssignedUserids) {
-        let userColor = findUserColor(user,userData)
-        assignedUsercolors.push(userColor)
-    }
-    return assignedUsercolors
+        for (const user of currentAssignedUserids) {
+            let userColor = findUserColor(user, userData)
+            assignedUsercolors.push(userColor)
+        }
+        return assignedUsercolors
     } catch (error) {
         console.error("Fehler beim Laden der Farben:", error);
         alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
@@ -289,7 +301,7 @@ function findUserColor(user, userData) {
  * @returns {void}
  */
 function checkNoTasks() {
-   const columns = [
+    const columns = [
         { id: "todo", noTasksId: "no_todo_tasks" },
         { id: "progress", noTasksId: "no_progress_tasks" },
         { id: "feedback", noTasksId: "no_feedback_tasks" },
@@ -314,10 +326,10 @@ function checkNoTasks() {
  * @returns {string} Initials (first and last name)
  */
 function initials(user) {
- const parts=String(user||'').trim().split(/\s+/);
-  const first=(parts[0]||'').charAt(0).toUpperCase();
-  const second=(parts[1]||'').charAt(0).toUpperCase();
-  return first+(second||'');
+    const parts = String(user || '').trim().split(/\s+/);
+    const first = (parts[0] || '').charAt(0).toUpperCase();
+    const second = (parts[1] || '').charAt(0).toUpperCase();
+    return first + (second || '');
 };
 
 /**
@@ -327,13 +339,13 @@ function initials(user) {
  * @returns {number} Number of completed subtasks
  */
 function currentCompletedTasksNumber(currentTask) {
-    let allSubTasks= currentTask.subtasks
+    let allSubTasks = currentTask.subtasks
     let count = 0
-    for(let i=0; i < allSubTasks.length; i++) {
-        if(allSubTasks[i].done ===true) {count++}
+    for (let i = 0; i < allSubTasks.length; i++) {
+        if (allSubTasks[i].done === true) { count++ }
         else continue
     }
-    return count; 
+    return count;
 }
 
 /**
@@ -354,11 +366,13 @@ function searchTask() {
     if (!input) {
         tasksArray.forEach(task => taskTemplate(task));
         checkNoTasks();
-        return;}
+        return;
+    }
     const filteredTasks = filterTasks(tasksArray, input)
     if (filteredTasks.length === 0) {
         toggleNoTasksFound(true);
-        return;}
+        return;
+    }
     filteredTasks.forEach(task => taskTemplate(task));
     checkNoTasks();
 }
