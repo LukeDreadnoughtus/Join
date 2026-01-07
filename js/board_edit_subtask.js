@@ -272,6 +272,8 @@ async function saveSubtaskEdit(event,taskId, subtaskKey, liElement) {
     await updateSubtasksInFirebase(taskId, allTasks[taskId].subtasks);
     liElement.classList.remove("editing");
     renderEdit(taskId);
+    const newInput = document.getElementById("edit_subtask_input");
+    newInput.focus();
 }
 
 /**
@@ -324,4 +326,31 @@ function handleSubtaskEnter(event, id) {
         event.preventDefault(); // verhindert Formular-Submit
         addNewSubtask(id);
     }
+}
+
+/**
+ * Handles keyboard interaction while editing a subtask.
+ * 
+ * When the Enter key is pressed, the current subtask edit
+ * is saved by calling {@link saveSubtaskEdit}.
+ *
+ * @param {KeyboardEvent} event - The keyboard event triggered on the input field.
+ * @param {string} taskId - The unique identifier of the parent task.
+ * @param {string|number} subtaskKey - The key or index identifying the subtask.
+ * @param {HTMLLIElement} liElement - The <li> element representing the subtask.
+ */
+function handleSubtaskEnterEdit(event, taskId, subtaskKey, liElement) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        saveSubtaskEdit(event, taskId, subtaskKey, liElement);
+    }
+}
+
+/**
+ * Automatically adjusts the height of a textarea based on its content.
+ * @param {HTMLTextAreaElement} element - The textarea element to resize.
+ */
+function autoGrow(element) {
+    element.style.height = "auto";        // zurücksetzen, um Shrink zu ermöglichen
+    element.style.height = element.scrollHeight + "px"; // neue Höhe anhand Inhalt
 }

@@ -11,9 +11,11 @@
     <link rel="stylesheet" href="css/fonts.css" />
     <link rel="stylesheet" href="css/colors.css" />
     <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="css/registration_res.css" />
     <link rel="stylesheet" href="css/assets.css" />
 </head>
 <body class="login_body">
+<div class="registration_wrapper">
 <div class="overlay_userfeedback d_none" id="userfeedback_checkbox"><p>You have to accept the privacy policy to continue registration</p></div>
 <div class="overlay_userfeedback_sign_up d_none" id="userfeedback_sign_up"><p>You Signed up successfully</p></div>
 <div class="overlay_userfeedback_email d_none" id="userfeedback_email"><p>This email does already exist</p></div>
@@ -26,7 +28,7 @@
 <img class="blueline" src="assets/img/bluevektor.svg">
   <form class="div_sign_up_form">
     <div class="input-wrapper">
-      <input class="input_style input_registration" type="text" id="name_registration" onkeyup="checkNameField(event)" oninput="checkNameField(event)"  onchange="checkNameField(event)" placeholder="Name" required autocomplete="username"/>
+      <input class="input_style input_registration margin_input" type="text" id="name_registration" onkeyup="checkNameField(event)" oninput="checkNameField(event)"  onchange="checkNameField(event)" placeholder="Name" required autocomplete="username"/>
       <img src="assets/img/person.svg" alt="" class="icon">
     </div>
     <div class="input-wrapper">
@@ -56,11 +58,11 @@
   </form>
  </div>
 
- <footer class="footer_login">
+ <footer class="footer_registration">
   <a>Privacy Policy</a>
   <a>Legal notice</a>
  </footer>
-
+</div>
 <script src="js/login.js" defer></script>
 </body>
 </html>

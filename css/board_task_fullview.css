@@ -65,7 +65,19 @@
 .task_description_overlay {
     width: 365px;
     color: black; 
+    min-width: 0;
+    width: 100%;
 }
+
+.scroll-area h2,
+.task_description_overlay h4 {
+    display: block;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    padding-right: 5px; 
+}
+
 
 .assigned_to {
     display:flex; 
@@ -134,23 +146,34 @@
     flex-direction: column; 
     gap: 5px;
     padding-top: 20px;
+    width: 100%;
 }
 
 .subtask_check {
   display: flex;
-  align-items: center;
   gap: 10px;
   position: relative;
-  padding: 4px 8px;               /* Abstand innen, damit Background nicht direkt an Text klebt */
+  padding: 4px 8px;              
   border-radius: 10px; 
-  height: 32px; 
-  width: 344px;           /* runde Ecken für Highlight */
-  transition: background-color 0.2s; /* sanfte Animation */
-  cursor: pointer;                /* optional, zeigt an dass es interaktiv ist */
+  min-height: 32px;
+  width: 344px;          
+  transition: background-color 0.1s; 
+  cursor: pointer; 
+  flex-wrap: nowrap;       
+  max-width: 90%; 
+
+}
+
+.subtask_check label {
+    white-space: normal;     
+    overflow-wrap: break-word; 
+    word-break: break-word;   
+    flex: 1;           
+    min-width: 0;
 }
 
 .subtask_check:hover {
-  background-color: rgba(200, 200, 200, 0.3); /* sanftes Grau für gesamte Zeile */
+  background-color: rgba(200, 200, 200, 0.3); 
 }
 
 .subtask_check .subtask_detail_font {
@@ -170,7 +193,9 @@
   cursor: pointer;
   outline: none;
   background-color: #fff;
-  transition: all 0.2s;
+  transition: all 0.1s;
+  flex-shrink: 0;
+  margin-top: 2px;
 }
 
 .subtask_check input[type="checkbox"]:checked {
@@ -202,7 +227,7 @@
   transform: translate(-50%, -50%); 
   pointer-events: none;  
   z-index: 1;
-  transition: all 0.2s;
+  transition: all 0.1s;
 }
 
 .subtask_check input[type="checkbox"]:hover::before {
@@ -229,20 +254,20 @@
     vertical-align: middle;
     color: #2A3647;
     margin:0px; 
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .edit_task:hover .edit_task_font {
     font-weight: bold;
     color: #29ABE2;
     transform: scale(1.03);
-    transition: all 0.2s;
+    transition: all 0.1s;
 }
 
 .edit-icon {
   color: #2A3647;        
   cursor: pointer;
-  transition: color 0.2s;
+  transition: color 0.1s;
 }
 
 .edit_task:hover .edit-icon {
@@ -274,7 +299,7 @@
 .delete-icon {
   color: #2A3647;       
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.1s;
 }
 
 .delete_task:hover .delete-icon {
@@ -286,5 +311,5 @@
     font-weight: bold;
     color: #29ABE2;
     transform: scale(1.03);
-    transition: all 0.2s;
+    transition: all 0.1s;
 }

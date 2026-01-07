@@ -1,8 +1,26 @@
 .login_body {
     display:flex; 
-    align-items: center;
+    flex-direction: column; 
     font-family: "inter"; 
-    height: 100vh;
+    min-height: 100vh;
+}
+
+.login_wrapper {
+    flex: 1;
+    position: relative; 
+    width: 100%;
+    max-width: 1440px;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.registration_wrapper {
+    flex: 1;
+    position: relative; 
+    width: 100%;
+    max-width: 1440px;
+    padding: 0 24px;
+    box-sizing: border-box;
 }
 
 .login_icon {
@@ -16,7 +34,7 @@
 .not_a_join_user {
     position:absolute; 
     top:67px; 
-    left: 1039px; 
+    right: 24px; 
     height: 49px; 
     padding-right: 100px;
     gap: 35px; 
@@ -60,9 +78,10 @@
     height:449px; 
     width:652px;
     box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
-    /* margin-top: 287.5px;  */
-    /* margin-bottom: 287.5px; */
-    margin: 150px auto;
+    margin-top: 230px;
+    margin-bottom: 165px;
+    margin-left: auto;
+    margin-right: auto;
     padding-top: 15px;
     display:flex; 
     align-items: center;
@@ -76,16 +95,16 @@
     height: 630px; 
     width: 598px;
     box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
-    /* margin-top: 287.5px; 
-    margin-bottom: 287.5px; */
-    margin: 70px auto;
+    margin-top: 170px;
+    margin-bottom: 58px;
+    margin-left: auto;
+    margin-right: auto;
     display:flex; 
     padding-top: 0px; 
     align-items: center;
     flex-direction:column; 
     background-color: white;
     border-radius: 30px;
-    position: relative; 
 }
 
 .login_button {
@@ -96,7 +115,6 @@
     text-decoration: none; 
     border-radius: 8px;
     cursor:pointer; 
-    /* height: 48px;  */
     width: 111px; 
     text-align: center;
     white-space: nowrap;
@@ -117,7 +135,8 @@
     border-radius: 8px;
     border-color:#2A3647;  
     cursor:pointer; 
-    width: 177px; 
+    width: 180px; 
+    margin-left: 20px; 
 }
 
 .guest_login_button:hover {
@@ -141,9 +160,7 @@
     font-size: 16px;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
-   
 }
-
 
 .input_registration {
     height: 48px; 
@@ -181,18 +198,19 @@
 
 .div_login_form{
     width: 422px; 
-    height: 152px; 
+    /* height: 152px;  */
     margin-top: 20px;
     cursor: pointer;
+     padding-bottom: 40px; 
 }
 
 .div_sign_up_form {
     width: 422px; 
-    height: 286px; 
+    /* height: 286px;  */
     margin-top: 20px; 
     cursor: pointer;
+    padding-bottom: 20px; 
 }
-
 
 .margin_input {
     margin-top:24px; 
@@ -302,6 +320,25 @@ a {
     font-size: 16px;
 }
 
+.footer_registration {
+    height: 100px; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    gap: 20px; 
+    font-size: 16px;
+}
+
+.footer_registration a {
+    text-decoration: none;
+    color: #A8A8A8; 
+}
+
+.footer_registration a:hover {
+    color: #29ABE2;
+    font-weight: bold;
+}
+
 .footer_login a {
     text-decoration: none;
     color: #A8A8A8; 
@@ -317,7 +354,7 @@ a {
 }
 
 .margin_155 {
-    margin-left: 155px !important; 
+    margin-left: 165px !important; 
 }
 
 .overlay_userfeedback {

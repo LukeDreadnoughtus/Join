@@ -4,17 +4,27 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Join</title>
+<title>Legal Notice</title>
 <link href="css/styles.css" rel="stylesheet"/>
 <link href="css/header.css" rel="stylesheet"/>
 <link href="css/footer.css" rel="stylesheet"/>
 <link href="css/fonts.css" rel="stylesheet"/>
 <link href="css/legal_notice.css" rel="stylesheet"/>
+<link href="css/styles_mediaquery.css" rel="stylesheet"/>
 <link href="assets/img/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="assets/img/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
 <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"/>
+<style>
+  p {
+  font-size:16px; 
+  font-family: Inter;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: 0%;
+  }
+</style>
 </head>
-<body>
+<body onload="renderUserIcon()">
 <div class="page">
 <div aria-hidden="true" class="left">
 <div aria-hidden="true" class="logo-spacer"></div>
@@ -52,23 +62,105 @@
 </div>
 </div>
 <main class="content">
+<header>
+        <div class="header_div">
+          <h4>Kanban Project Management Tool</h4>
+        </div>
+        <div class="header_icons">
+          <div id="header_icon" class="my_icon" onclick="openUserMenu()"></div>
+          <nav class="user_menu d_none" id="user_menu">
+            <ul>
+              <li><a href="legal_notice.html"><span>Legal Notice</span></a></li>
+              <li><a href="privacy_policy.html"><span>Privacy Policy</span></a></li>
+              <li><a href="" onclick="logoutUser(event)"><span>Log out</span></a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
 
-<h2>Impressum</h2>
-  
-<div><span class="icon">• </span> Lukas Heller</div>
-<div><span class="icon">• </span> Flurzaun 17</div>
-<div><span class="icon">• </span> 99192 Neudietendorf</div>
+<div class="legal_notice_page">
+<h2>Legal Notice</h2>
 
+<h6 class="pages_font_legal_notice">Imprint</h6>
+        <ul class="contact">
+            <li>Lukas Heller</li>
+            <li>Flurzaun 17</li>
+            <li>99192 Neudietendorf</li>
+        </ul>
 
-<h3>Kontakt</h3>
-<div><span class="icon">• </span> Telefon: 017640417159</div>
-<div><span class="icon">• </span> E-Mail: emo19uchiha97lukas@gmail.com</div>
-<div>
-  <span class="icon">• </span>
-  Quelle:
-  <a href="https://www.e-recht24.de/impressum-generator.html" target="_blank" rel="noopener noreferrer">
-    https://www.e-recht24.de/impressum-generator.html
-  </a>
+        <strong class="strong_fonts">Exploring the Board</strong>
+        <p>Email: <a href="mailto:[Email]">emo19uchiha97lukas@gmail.com</a></p>
+
+        <strong class="strong_fonts">Acceptance of terms</strong>
+        <p>
+           By accessing and using <span class="join">Join</span> (Product), you acknowledge and agree to the
+           following terms and conditions and any policies, guidelines, or amendments
+           thereto that may be presented to you from time to time. We, the listed
+           students, may update or change the terms and conditions from time to time
+           without notice.
+        </p>
+
+        <strong class="strong_fonts">Scope and ownership of the product</strong>
+        <p>
+            <span class="join">Join</span> has been developed as part of a student group project in a web
+            development bootcamp at the <a class="join" href="#">Developer Akademie GmbH</a>. It has
+            an educational purpose and is not intended for extensive personal & business
+            usage. As such, we cannot guarantee consistent availability, reliability,
+            accuracy, or any other aspect of quality regarding this Product.
+        </p>
+        <p>
+            The design of <span class="join">Join</span> is owned by the <span class="join">Developer Akademie GmbH</span>. Unauthorized use,
+            reproduction, modification, distribution, or replication of the design is
+            strictly prohibited.
+        </p>
+
+        <strong class="strong_fonts">Proprietary rights</strong>
+        <p>
+            Aside from the design owned by <span class="join">Developer Akademie GmbH</span>, we, the listed
+            students, retain all proprietary rights in <span class="join">Join</span>, including any associated
+            copyrighted material, trademarks, and other proprietary information.
+        </p>
+
+        <strong class="strong_fonts">Use of the product</strong>
+        <p>
+            <span class="join">Join</span> is intended to be used for lawful purposes only, in accordance with all
+            applicable laws and regulations. Any use of <span class="join">Join</span> for illegal activities, or
+            to harass, harm, threaten, or intimidate another person, is strictly
+            prohibited. You are solely responsible for your interactions with other
+            users of <span class="join">Join</span>.
+        </p>
+
+        <strong class="strong_fonts">Disclaimer of warranties and limitation of liability</strong>
+        <p>
+            <span class="join">Join</span> is provided "as is" without warranty of any kind, whether express or
+            implied, including but not limited to the implied warranties of
+            merchantability, fitness for a particular purpose, and non-infringement. In
+            no event will we, the listed students, or the <span class="join">Developer Akademie</span>, be liable
+            for any direct, indirect, incidental, special, consequential or exemplary
+            damages, including but not limited to, damages for loss of profits,
+            goodwill, use, data, or other intangible losses, even if we have been advised
+            of the possibility of such damages, arising out of or in connection with the
+            use or performance of <span class="join">Join</span>.
+        </p>
+
+        <strong class="strong_fonts">Indemnity</strong>
+<p>
+    You agree to indemnify, defend and hold harmless us, the listed students,
+    the <span class="join">Developer Akademie</span>, and our affiliates, partners, officers, directors,
+    agents, and employees, from and against any claim, demand, loss, damage,
+    cost, or liability (including reasonable legal fees) arising out of or
+    relating to your use of <span class="join">Join</span> and/or your breach of this Legal Notice.
+</p>
+
+<p>
+    For any questions or notices, please contact us at
+    <a href="mailto:[Contact Email]">emo19uchiha97lukas@gmail.com</a>.
+</p>
+
+<p>
+    <strong>Date:</strong> January 02, 2026
+</p>
+
 </div>
 
 

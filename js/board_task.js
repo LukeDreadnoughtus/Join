@@ -41,14 +41,17 @@ function renderAssignedUsers(taskData) {
     if (!taskData.assignedUsers || taskData.assignedUsers.length === 0) {
         return '<p class="user_font">No users assigned</p>';
     }
-    return taskData.assignedUsers.map((user, i) => `
-        <div class="user_row_layout">
-            <div class="user_icon color${taskData.assignedUserColors[i].replace('#', '')}">
-                ${initials(user)}
+    return taskData.assignedUsers.map((user, i) => {
+        const color = taskData.assignedUserColors?.[i] || '#000000';
+        return `
+            <div class="user_row_layout">
+                <div class="user_icon" style="background-color: ${color};">
+                    ${initials(user)}
+                </div>
+                <p class="user_font">${user}</p>
             </div>
-            <p class="user_font">${user}</p>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 /**

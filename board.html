@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="css/add_task_overlay.css"/>
 <link rel="stylesheet" href="css/add_task_assigned_dropdown.css"/>
 <link rel="stylesheet" href="css/board.css"/>
+<link rel="stylesheet" href="css/board_res.css"/>
 <link rel="stylesheet" href="css/colors.css"/>
 <link rel="stylesheet" href="css/styles.css" />
 <link rel="stylesheet" href="css/header.css"/>
@@ -21,6 +22,7 @@
 <link rel="stylesheet" href="css/board_edit_task.css"/>
 <link rel="stylesheet" href="css/board_task_fullview.css"/>
 <link rel="stylesheet" href="css/add_task_overlay.css">
+<link rel="stylesheet" href="css/styles_mediaquery.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <link href="assets/img/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="assets/img/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
@@ -93,6 +95,19 @@
       <div id="task_edit_view" class="transparent_overlay d_none" onclick="closeTaskOverlayEdit(event)">
         <div id="edit_task_overlay" class="edit_task_overlay">
         </div>
+      </div>
+      <div class="header_board_responisve">
+      <div class="header_board_row">
+        <h2>Board</h2>
+        <button id="taskCreateButton_responsive" class="task-create-button">
+            <img src="./assets/img/add.svg" class="plus_svg" alt="add task item">
+        </button>
+      </div>
+      <div class="input-wrapper">
+            <input id="search_respnsive" class="search_task" type="text" placeholder="Find Task                      |"
+              onkeyup="searchTask()">
+            <img src="assets/img/search.svg" alt="" class="search" onclick="searchTask()">
+      </div>
       </div>
       <div class="header_board">
         <h2>Board</h2>
@@ -273,6 +288,7 @@
           </div>
         </div>
       </div>
+      
       <div class="userfeedback_no_tasks d_none" id="userfeedback">
         <p>No tasks are loaded - please reload the page</p>
       </div>
@@ -280,44 +296,57 @@
         <p class="font_no_found_task">NO TASKS FOUND</p>
       </div>
       <div class="board_layout">
-        <div id="todo" class="board_column" ondrop="moveTo('todo',event)" ondragover="onDragOverColumn(event,'todo')"
+      <div class="board_row">
+        <div class="board_column" ondrop="moveTo('todo',event)" ondragover="onDragOverColumn(event,'todo')"
           ondragleave="onDragLeaveColumn(event,'todo')">
           <div class="column_head">
             <h3>To do</h3>
             <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
           </div>
+          <div id="todo" class="column_content">
           <div id="no_todo_tasks" class="no_tasks d_none">
             <p class="font_no_task">No tasks To do</p>
           </div>
         </div>
-        <div id="progress" class="board_column" ondrop="moveTo('progress',event)"
+        </div>
+        <div  class="board_column" ondrop="moveTo('progress',event)"
           ondragover="onDragOverColumn(event, 'progress')" ondragleave="onDragLeaveColumn(event, 'progress')">
           <div class="column_head">
             <h3>In progress</h3>
             <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
           </div>
+          <div id="progress" class="column_content">
           <div id="no_progress_tasks" class="no_tasks d_none">
-            <p class="font_no_task">No tasks To do</p>
+            <p class="font_no_task">No tasks in progress</p>
           </div>
         </div>
-        <div id="feedback" class="board_column" ondrop="moveTo('feedback',event)"
+        </div>
+      </div>
+      <div class="board_row">
+        <div class="board_column" ondrop="moveTo('feedback',event)"
           ondragover="onDragOverColumn(event, 'feedback')" ondragleave="onDragLeaveColumn(event, 'feedback')">
           <div class="column_head">
             <h3>Await feedback</h3>
             <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
           </div>
+          <div id="feedback" class="column_content">
           <div id="no_feedback_tasks" class="no_tasks d_none">
-            <p class="font_no_task">No tasks To do</p>
+            <p class="font_no_task">No tasks</p>
           </div>
         </div>
-        <div id="done" class="board_column" ondrop="moveTo('done',event)" ondragover="onDragOverColumn(event, 'done')"
+        </div>
+        
+        <div  class="board_column" ondrop="moveTo('done',event)" ondragover="onDragOverColumn(event, 'done')"
           ondragleave="onDragLeaveColumn(event, 'done')">
           <div class="column_head">
             <h3>Done</h3>
           </div>
+          <div id="done" class="column_content">
           <div id="no_done_tasks" class="no_tasks d_none">
-            <p class="font_no_task">No tasks To do</p>
+            <p class="font_no_task">No tasks done</p>
           </div>
+        </div>
+        </div>
         </div>
       </div>
 

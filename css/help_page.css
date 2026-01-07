@@ -1,0 +1,128 @@
+.arrow_help {
+  width: 40px !important;
+  height: 40px !important;
+  vertical-align: middle;
+}
+
+.header_wrapper {
+  display: flex;
+  align-items: center; 
+  gap: 750px;           
+  position: relative; 
+  width: 100%;
+}
+
+.arrow_wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s;
+}
+
+.arrow_wrapper:hover {
+  background-color: #e4e4e4;
+  cursor: pointer;
+}
+
+.help_page {
+  margin-left: 90px;
+  margin-top: 90px;
+  width: 958px;
+}
+
+.join {
+  color: #29ABE2;
+}
+
+.pages_font {
+  font-family: Inter;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 27px;
+  line-height: 120%;
+  letter-spacing: 0%;
+  margin-bottom: 24px;
+
+}
+
+.steps_list {
+  counter-reset: step; 
+  list-style: none;
+  padding-left: 0;
+}
+
+.steps_list .step_item {
+  counter-increment: step;
+  margin-bottom: 16px; 
+  position: relative;
+  display: flex;
+  flex-direction: column; 
+  gap: 8px; 
+}
+
+.steps_list .step_item strong {
+  font-size: 20px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+}
+
+.steps_list .step_item strong::before {
+  content: counter(step) ".";
+  font-weight: bold;
+  font-size: 27px;
+}
+
+@media (max-width:1300px) { 
+.help_page {
+  margin-left: 90px;
+  margin-right: 40px;
+  width: auto;
+  white-space: normal; 
+  word-wrap: break-word; 
+  word-break: break-word;
+}
+
+.header_wrapper {
+  gap: 500px;           
+}
+}
+
+@media (max-width:1024px) { 
+.help_page {
+  margin-left: 60px;
+  margin-top: 60px;
+}
+}
+
+@media (max-width:850px) { 
+.header_wrapper {
+  gap: 300px;           
+}
+}
+
+@media (max-width:620px) { 
+.header_wrapper {
+  gap: 200px;           
+}
+}
+
+@media (max-width:540px) { 
+  h2 {
+    font-size: 47px;
+}
+.help_page {
+  margin-left: 40px;
+  margin-right: 20px;
+}
+}
+
+@media (max-width:440px) { 
+.header_wrapper {
+  gap: 80px;           
+}
+}

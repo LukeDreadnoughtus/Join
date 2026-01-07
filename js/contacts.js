@@ -111,7 +111,7 @@
   const createNameTexts=(user)=>{
     const texts=document.createElement('div');
     texts.className='contacts_texts';
-    const label=document.createElement('div');
+    const label=document.createElement('h4');
     label.className='contacts_name';
     label.textContent=titleCase(user.name);
     const email=document.createElement('div');
@@ -300,7 +300,7 @@
   const createDetailHeader=()=>{
     const h=document.createElement('div');
     h.className='contact_detail_header';
-    const t=document.createElement('div');
+    const t=document.createElement('h2');
     t.className='cdh_title';
     t.textContent='Contacts';
     const line=document.createElement('div');

@@ -14,18 +14,19 @@
   <link rel="stylesheet" href="css/fonts.css"/>
   <link rel="stylesheet" href="css/login.css" />
   <link rel="stylesheet" href="css/assets.css"/>
+  <link rel="stylesheet" href="css/login_res.css"/>
   <link href="assets/img/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
   <link href="assets/img/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"/>
 </head>
 <body class="login_body">
-<img class="login_icon" src="assets/img/login_join.svg">
+<div class="login_wrapper">
+  <img class="login_icon" src="assets/img/login_join.svg">
   <div class="not_a_join_user">
   <h4><a href="./registration.html" class="link_to_registration">Not a Join user?</a></h4>
   <button class="sign_up_button button_sizeone button_df" onclick="toRegistration()">Sign up</button>
   </div>
  
-
 <div class="div_login">
 <h2>Login</h2>
 <img class="blueline" src="assets/img/bluevektor.svg">
@@ -41,9 +42,10 @@
       <img id="visibilitynot3" src="assets/img/visibility_off.svg" alt="" class="icon d_none" onclick="showPassword3(event)">
       <p class="password_not_match d_none" id="userfeedback_failedlogin">Check your email and your password. Please try again.</p>
     </div>
+    <div class="buttons_login">
     <button class="login_button button_fonts button_df" type="submit" onclick="logIn(event)">Log In</button>
     <button class="guest_login_button button_fonts button_df" type="submit" onclick="logIn(event)">Guest Log In</button>
-  
+    </div>
   </form>
  </div>
 
@@ -51,7 +53,7 @@
   <a href="./privacy_policy.html">Privacy Policy</a>
   <a href="./legal_notice.html">Legal notice</a>
  </footer>
-
-  <script src="js/login.js"></script>
+</div>
+<script src="js/login.js"></script>
 </body>
 </html>

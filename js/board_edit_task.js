@@ -125,7 +125,7 @@ function createUserTemplate(user, id, isAssigned) {
 function getUserIconData(user) {
     const color = user.color || "#393737ff";
     return {
-        iconColor: color.replace("#", ""),
+        iconColor: color,
         initials: initials(user.name)
     };
 }

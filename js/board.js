@@ -299,7 +299,7 @@ function checkNoTasks() {
         const columnEl = document.getElementById(col.id);
         const noTasksEl = document.getElementById(col.noTasksId);
 
-        if (columnEl.children.length === 2) {
+        if (columnEl.children.length === 1) {
             noTasksEl.classList.remove("d_none");
         } else {
             noTasksEl.classList.add("d_none");
@@ -366,10 +366,17 @@ function searchTask() {
 /**
  * Clears the content of all board columns so that tasks can be re-rendered.
  */
+// function clearBoardSlots() {
+//     const boardSlots = document.querySelectorAll(".board_column");
+//     boardSlots.forEach(slot => slot.innerHTML = "");
+// }
+
 function clearBoardSlots() {
-    const boardSlots = document.querySelectorAll(".board_column");
+    const boardSlots = document.querySelectorAll(".column_content");
     boardSlots.forEach(slot => slot.innerHTML = "");
 }
+
+
 
 /**
  * Filters the array of tasks objects by a search term.
