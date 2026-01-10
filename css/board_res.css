@@ -19,6 +19,12 @@
 }
 }
 
+@media (max-width: 1024px) {
+.show_task_overlay {
+   left: 50%;
+}
+}
+
 @media (max-width: 860px) {
    .header_board {
     display: none; 
@@ -120,6 +126,22 @@
 }
 
 .task_description_card {
+    width: 190px;
+}
+
+.task_progress_subtasks_card {
+    width: 190px;
+}
+
+.progressbar_subtasks {
+    width: 90px;
+}
+
+.task_progress_subtasks_card p {
+    font-size: 14px;
+}
+
+.task_assigned_members_card {
     width: 190px;
 }
 

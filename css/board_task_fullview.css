@@ -5,7 +5,7 @@
 }
 
 .show_task_overlay {
-    position: absolute; 
+    position: relative; 
     display:flex; 
     flex-direction: column; 
     width: 396px; 
@@ -15,8 +15,11 @@
     box-shadow: 0px 0px 4px 0px #00000029;
     background-color: #FFFFFF;
     z-index: 1000;
-    top: 10%; 
-    left: 25%; 
+    /* top: 3%; 
+    left: 25%;  */
+    top: 16px;
+    left: 40%;
+    transform: translateX(-50%);
     box-sizing: border-box;
     overflow-x: hidden;
 }

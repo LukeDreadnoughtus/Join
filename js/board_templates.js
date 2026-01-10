@@ -43,7 +43,7 @@ if (taskData.assignedUsers.length === 0) {
  taskData.assignedUsers.forEach((user, index) => {
   const color = taskData.assignedUserColors[index] || "#000000"; 
   const usericon = initials(user)
- assignedUsersHtml += `<div class="user_icon" style="background-color: ${color}">${usericon}</div>`;
+ assignedUsersHtml += `<div class="user_icon_task_card" style="background-color: ${color}">${usericon}</div>`;
  });
  }
  const taskHtml = `
@@ -61,7 +61,9 @@ if (taskData.assignedUsers.length === 0) {
       </div>
       ` : ''}
       <div class="task_assigned_members_card">
+      <div class="icons">
         ${assignedUsersHtml}
+      </div>
         <img src="./assets/img/priority_${taskData.priority}.svg" alt="priority icon" class="priority_icon_board">
       </div>
     </div>

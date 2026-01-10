@@ -43,8 +43,8 @@
   gap: 300px;
 }
 
-.header_board_responisve {
-  display: none;
+.header_board_responsive {
+    display: none; 
 }
 
 .toolbar {
@@ -193,7 +193,7 @@
   cursor: pointer;
 }
 
-.user_icon {
+.user_icon_task_card {
   height: 32px;
   width: 32px;
   border-radius: 45%;
@@ -309,6 +309,15 @@
   width: 220px;
   display: flex;
   align-items: center;
+}
+
+.icons {
+display: flex;
+flex-wrap: wrap;
+width: 148px; 
+max-height: 40px;
+overflow-y: auto; 
+padding-left: 10px; 
 }
 
 .drag_area_hightlight {

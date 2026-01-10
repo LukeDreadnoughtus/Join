@@ -377,6 +377,27 @@ function searchTask() {
     checkNoTasks();
 }
 
+function searchTask_res() {
+    const input = document.getElementById("search_responsive").value.toLowerCase().trim();
+    clearBoardSlots();
+    renderBoardBasics()
+    toggleNoTasksFound(false);
+    const tasksArray = Object.values(allTasks);
+    if (!input) {
+        tasksArray.forEach(task => taskTemplate(task));
+        checkNoTasks();
+        return;
+    }
+    const filteredTasks = filterTasks(tasksArray, input)
+    if (filteredTasks.length === 0) {
+        toggleNoTasksFound(true);
+        return;
+    }
+    filteredTasks.forEach(task => taskTemplate(task));
+    checkNoTasks();
+}
+
+
 /**
  * Clears the content of all board columns so that tasks can be re-rendered.
  */
