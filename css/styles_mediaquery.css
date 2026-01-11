@@ -1,3 +1,21 @@
+/* ================================
+   FIXED SIDEBAR WIDTH (LEFT)
+   Only apply on desktop, so the mobile bottom-nav layout stays intact.
+   ================================ */
+
+@media (min-width: 1025px) {
+  .page {
+    grid-template-columns: 232px 1fr;
+  }
+
+  .left {
+    width: 232px;
+    min-width: 232px;
+    max-width: 232px;
+    flex: 0 0 232px;
+  }
+}
+
 /*
   Global responsive rules
   - Up to 600px: move the left navigation to the bottom.
@@ -42,9 +60,10 @@
     align-items: center;
     justify-content: space-evenly;
     gap: 0;
-    width: 100%;
+    /* Requested: main-links should only take 80% of the bar */
+    width: 80%;
     height: 100%;
-    margin: 0;
+    margin: 0 auto;
   }
 
   /* Put text blocks under the SVG icons */
@@ -63,29 +82,65 @@
     display: block;
   }
 
+  /*
+    Fix (<=1024px): "Board" uses a scaled text asset.
+    In the base styles it scales from the left edge, which shifts the text
+    off-center when icon + text are stacked vertically in the bottom nav.
+    Center the transform origin so the text stays visually centered
+    beneath the icon.
+  */
+  .left .main-links .link-row[data-link="board"] .link-text--board {
+    transform-origin: center;
+  }
 
+
+  /* Requested: elements in the sidebar should have a width of 50px */
   .left .link-row {
-    width: 25%;
+    width: 100px;
+    flex: 0 0 50px;
     justify-content: center;
   }
 
-  /* Legal links should stay visible (requested) */
+  /* Requested: hover effect should have a radius of 16px */
+  .left .main-links .link-row,
+  .left .main-links .link-row.is-active {
+    border-radius: 16px;
+  }
+
+  .left .main-links .link-row:not(.is-active):hover {
+    border-radius: 16px;
+  }
+
+  /* Requested: hide legal-area at <= 1024px */
   .left .legal-area {
-    margin: 0;
-    padding: 0 6px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
+    display: none !important;
   }
+}
 
-  .left .legal-area .legal-row {
-    padding: 6px 8px;
-    width: auto;
-  }
 
-  .left .legal-area svg {
-    width: 92px;
-    height: auto;
-  }
+@media (max-width: 1024px) {
+    .main-links {
+        width: 100%;
+        font-size: 0.85rem;
+    }
+
+    .main-links img,
+    .main-links svg {
+        transform: scale(0.85);
+    }
+
+    .main-links span,
+    .main-links p {
+        font-size: 0.85rem;
+    }
+
+  .left .link-text {
+  height: 18px;
+  width: 80px;
+  display: block;
+  object-fit: contain;
+  line-height: 0;
+}
+
+
 }

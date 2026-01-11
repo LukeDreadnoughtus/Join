@@ -4,7 +4,7 @@
   - Contact details open as full-screen overlay (white background) and hide sidebar.
 */
 
-@media (max-width: 450px) {
+@media (max-width: 700px) {
   /* Hide the full-width "Add new contact" button on very small screens.
      It is replaced by a floating action button (FAB) in the sidebar. */
   main.content .contacts_sidebar .contacts_sidebar_add {
@@ -97,7 +97,7 @@
     grid-row: 1;
     grid-column: 1;
     margin: 0;
-    font-size: 22px;
+    font-size: 47px;
     line-height: 1.1;
   }
 
@@ -326,8 +326,9 @@
     width:100%;
     flex: 0 0 var(--contacts-left-panel-h);
     height: auto;
-    justify-content:flex-start;
-    align-items:flex-start !important;
+    justify-content: center !important;
+    /* Center the headline/subtitle horizontally on very small screens */
+    align-items:center !important;
     /* More "organic" spacing: proportional to viewport height on very small screens */
     padding:
       clamp(0px, 4vh, 32px)
@@ -337,6 +338,22 @@
     box-sizing:border-box;
     position:relative;
     overflow: visible; /* allow avatar to overlap into the white panel */
+  }
+
+  /* Title + subtitle should be centered within the left (dark) panel */
+  body.contacts-page .contacts_modal_left_panel .contacts_modal_title,
+  body.contacts-page .contacts_modal_left_panel .contacts_modal_subtitle{
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Action buttons (Delete / Create) centered on very small screens.
+     Height stays unchanged; we only adjust alignment. */
+  body.contacts-page .contacts_modal_actions{
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
   }
 
   /* Hide logo at <= 400px */
@@ -403,4 +420,21 @@
     display:none;
   }
 
+}
+
+
+/* === Mobile 400px: vertical centering of left panel text === */
+@media (max-width: 450px) {
+  .contacts_modal_left_panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+  }
+
+  .contacts_modal_actions {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
 }

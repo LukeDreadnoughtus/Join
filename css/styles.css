@@ -299,3 +299,12 @@ body {
 body.contacts-page .page .content{
   overflow-y:hidden;
 }
+
+/* Fallback styling for the user initials icon (usually styled in header.css) */
+.my_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border-radius: 50%;
+}

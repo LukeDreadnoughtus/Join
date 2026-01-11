@@ -65,3 +65,13 @@
   }
 })();
 
+// Ensure the user icon initials are rendered on every page that includes navigate.js
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    if (typeof renderUserIcon === 'function') {
+      renderUserIcon();
+    }
+  } catch (e) {
+    console.warn('renderUserIcon error:', e);
+  }
+});
