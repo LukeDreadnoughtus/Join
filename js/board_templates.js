@@ -3,30 +3,18 @@
  * This function appends a "No tasks To do" message to the To Do, In Progress, Feedback, and Done columns.
  */
 function renderBoardBasics() {
-    document.getElementById(`todo`).innerHTML =`<div class="column_head">
-      <h3>To do</h3>
-      <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
-      </div>
+    document.getElementById(`todo`).innerHTML =`
       <div id="no_todo_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks To do</p></div>
       </div>` 
     document.getElementById(`progress`).innerHTML =`
-      <div class="column_head">
-      <h3>In progress</h3>
-      <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
-      </div>
       <div id="no_progress_tasks" class="no_tasks d_none"> 
-      <p class="font_no_task">No tasks To do</p></div>
+      <p class="font_no_task">No tasks in progress</p></div>
       </div>`
-    document.getElementById(`feedback`).innerHTML =`<div class="column_head">
-      <h3>Await feedback</h3>
-      <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
-      </div>
-      <div id="no_feedback_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks To do</p></div>
+    document.getElementById(`feedback`).innerHTML =`
+      <div id="no_feedback_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks</p></div>
       </div>`
-    document.getElementById(`done`).innerHTML =`<div class="column_head">
-      <h3>Done</h3>
-      </div>
-      <div id="no_done_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks To do</p></div>
+    document.getElementById(`done`).innerHTML =`
+      <div id="no_done_tasks" class="no_tasks d_none"> <p class="font_no_task">No tasks done</p></div>
       </div>`
 }
 
@@ -55,7 +43,7 @@ if (taskData.assignedUsers.length === 0) {
  taskData.assignedUsers.forEach((user, index) => {
   const color = taskData.assignedUserColors[index] || "#000000"; 
   const usericon = initials(user)
- assignedUsersHtml += `<div class="user_icon" style="background-color: ${color}">${usericon}</div>`;
+ assignedUsersHtml += `<div class="user_icon_task_card" style="background-color: ${color}">${usericon}</div>`;
  });
  }
  const taskHtml = `
@@ -73,7 +61,9 @@ if (taskData.assignedUsers.length === 0) {
       </div>
       ` : ''}
       <div class="task_assigned_members_card">
+      <div class="icons">
         ${assignedUsersHtml}
+      </div>
         <img src="./assets/img/priority_${taskData.priority}.svg" alt="priority icon" class="priority_icon_board">
       </div>
     </div>

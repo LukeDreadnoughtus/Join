@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="css/add_task_overlay.css"/>
 <link rel="stylesheet" href="css/add_task_assigned_dropdown.css"/>
 <link rel="stylesheet" href="css/board.css"/>
-<link rel="stylesheet" href="css/board_res.css"/>
 <link rel="stylesheet" href="css/colors.css"/>
 <link rel="stylesheet" href="css/styles.css" />
 <link rel="stylesheet" href="css/header.css"/>
@@ -21,6 +20,7 @@
 <link rel="stylesheet" href="css/fonts.css"/>
 <link rel="stylesheet" href="css/board_edit_task.css"/>
 <link rel="stylesheet" href="css/board_task_fullview.css"/>
+<link rel="stylesheet" href="css/board_res.css"/>
 <link rel="stylesheet" href="css/add_task_overlay.css">
 <link rel="stylesheet" href="css/styles_mediaquery.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -96,6 +96,19 @@
         <div id="edit_task_overlay" class="edit_task_overlay">
         </div>
       </div>
+      <div class="header_board_responsive">
+      <div class="header_board_row">
+        <h2>Board</h2>
+        <button id="taskCreateButton_responsive" class="task-create-button">
+            <img src="./assets/img/add.svg" class="plus_svg" alt="add task item">
+        </button>
+      </div>
+      <div class="input-wrapper">
+            <input id="search_responsive" class="search_task" type="text" placeholder="Find Task                      |"
+              onkeyup="searchTask_res()">
+            <img src="assets/img/search.svg" alt="" class="search" onclick="searchTask()">
+      </div>
+      </div>
       <div class="header_board">
         <h2>Board</h2>
         <div class="toolbar">
@@ -104,10 +117,14 @@
               onkeyup="searchTask()">
             <img src="assets/img/search.svg" alt="" class="search" onclick="searchTask()">
           </div>
-          <button id="taskCreateButton" class="task-create-button">
+
+
+          <button type="button" id="taskCreateButton" class="add_task_overlay task-create-button" data-boardslot="todo">
             <span class="font-create">Add Task</span>
             <img src="./assets/img/add.svg" class="plus_svg" alt="add task item">
           </button>
+
+          
           <div id="overlay" class="overlay overlay_hidden">
             <div class="overlay-content">
               <div class="overlay-wrapper">
@@ -204,11 +221,12 @@
                           <label id="label-board-slot" for="board-slot">Board Slot</label>
                           <select class="overlay_board_slot" id="board-slot" required>
                             <option value="todo" selected hidden></option>
+                            <option value="progress" hidden></option>
+                            <option value="feedback" hidden></option>
                           </select>
                         </div>
-
                         <div class="overlay_form_group overlay_assigned_to">
-                          <label for="task-assigned-to">Assigned to</label>
+                          <span>Assigned to</span>
                           <div class="overlay_custom_select" id="task-assigned-to"></div>
                           <div class="overlay_assigned_users_icons" id="assigned-users-icons"></div>
                         </div>
@@ -223,7 +241,7 @@
                         </div>
 
                         <div class="overlay_subtask-input-wrapper">
-                          <label for="subtask-input">Subtasks</label>
+                          <span>Subtasks</span>
                           <input placeholder="Add new subtask" type="text" id="subtask-input" />
 
                           <svg id="subtask-add" class="overlay_icon hidden" viewBox="0 0 24 24">
@@ -275,6 +293,7 @@
           </div>
         </div>
       </div>
+      
       <div class="userfeedback_no_tasks d_none" id="userfeedback">
         <p>No tasks are loaded - please reload the page</p>
       </div>
@@ -283,52 +302,57 @@
       </div>
       <div class="board_layout">
       <div class="board_row">
-        <div class="column_content">
-        <div id="todo" class="board_column" ondrop="moveTo('todo',event)" ondragover="onDragOverColumn(event,'todo')"
+        <div class="board_column" ondrop="moveTo('todo',event)" ondragover="onDragOverColumn(event,'todo')"
           ondragleave="onDragLeaveColumn(event,'todo')">
           <div class="column_head">
             <h3>To do</h3>
             <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
           </div>
+          <div id="todo" class="column_content">
           <div id="no_todo_tasks" class="no_tasks d_none">
             <p class="font_no_task">No tasks To do</p>
           </div>
         </div>
         </div>
-        <div class="column_content">
-        <div id="progress" class="board_column" ondrop="moveTo('progress',event)"
+        <div  class="board_column" ondrop="moveTo('progress',event)"
           ondragover="onDragOverColumn(event, 'progress')" ondragleave="onDragLeaveColumn(event, 'progress')">
           <div class="column_head">
             <h3>In progress</h3>
+            <button type="button" class="add_task_in_progress add_task_overlay" data-boardslot="progress">
             <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
+            </button>
           </div>
+          <div id="progress" class="column_content">
           <div id="no_progress_tasks" class="no_tasks d_none">
-            <p class="font_no_task">No tasks To do</p>
+            <p class="font_no_task">No tasks in progress</p>
           </div>
         </div>
         </div>
       </div>
       <div class="board_row">
-        <div class="column_content">
-        <div id="feedback" class="board_column" ondrop="moveTo('feedback',event)"
+        <div class="board_column" ondrop="moveTo('feedback',event)"
           ondragover="onDragOverColumn(event, 'feedback')" ondragleave="onDragLeaveColumn(event, 'feedback')">
           <div class="column_head">
             <h3>Await feedback</h3>
+            <button type="button" class="add_task_await_feedback add_task_overlay" data-boardslot="feedback">
             <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
+            </button>
           </div>
+          <div id="feedback" class="column_content">
           <div id="no_feedback_tasks" class="no_tasks d_none">
-            <p class="font_no_task">No tasks To do</p>
+            <p class="font_no_task">No tasks</p>
           </div>
         </div>
         </div>
-        <div class="column_content">
-        <div id="done" class="board_column" ondrop="moveTo('done',event)" ondragover="onDragOverColumn(event, 'done')"
+        
+        <div  class="board_column" ondrop="moveTo('done',event)" ondragover="onDragOverColumn(event, 'done')"
           ondragleave="onDragLeaveColumn(event, 'done')">
           <div class="column_head">
             <h3>Done</h3>
           </div>
+          <div id="done" class="column_content">
           <div id="no_done_tasks" class="no_tasks d_none">
-            <p class="font_no_task">No tasks To do</p>
+            <p class="font_no_task">No tasks done</p>
           </div>
         </div>
         </div>

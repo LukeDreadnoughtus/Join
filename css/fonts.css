@@ -123,3 +123,9 @@ color:#2A3647;
     justify-content: center;
 }
 }
+
+@media (max-width:540px) {
+h2 {
+   font-size: 47px; 
+}
+}

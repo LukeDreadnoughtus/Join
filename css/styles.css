@@ -23,7 +23,7 @@ body {
   height: 100vh;              
   overflow-y: hidden;         
   scrollbar-gutter: stable; 
-  /* max-width: 1440px;   */
+  /* max-width: 1440px; minus menü  232px und dann header position absolute +  page 96 margin top*/
 }
 
 .left {

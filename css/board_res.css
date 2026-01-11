@@ -1,8 +1,13 @@
 @media (max-width: 1440px) {
-    .board_row {
+    .board_layout {
        display:flex;
        flex-direction: column;
-       margin-bottom: 100px;
+       padding-left: 120px; 
+       gap:70px; 
+    }
+
+    .board_row {
+        gap:40px; 
     }
 
     .toolbar {
@@ -12,4 +17,132 @@
     .header_board {
     gap: 50px;
 }
+}
+
+@media (max-width: 1024px) {
+.show_task_overlay {
+   left: 50%;
+}
+}
+
+@media (max-width: 860px) {
+   .header_board {
+    display: none; 
+}
+
+.header_board_responsive {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    margin-left: 30px; 
+    margin-right: 30px; 
+    gap:50px; 
+}
+
+.task-create-button {
+  width: 40px;
+  height: 40px;
+}
+
+.plus_svg {
+    height: 20px;
+    width: 20px;
+}
+
+.header_board_row {
+    display:flex; 
+    align-items: center;
+    justify-content:space-between; 
+    margin-top: 50px;
+    gap: 70px;  
+}
+
+.search_task {
+    width: 400px; 
+}
+
+.board_layout {
+       padding-left: clamp(16px, 6vw, 90px);
+    }
+
+}
+
+@media (max-width: 680px) {
+
+.board_row {
+        flex-direction: column; 
+        gap:60px; 
+    }
+
+
+.board_layout {
+       padding-left: 0px; 
+       align-items: center;
+       gap:60px; 
+       padding-top: 40px; 
+    }
+
+.header_board_responisve {
+    gap:20px; 
+}
+
+.search_task {
+    width: 312px; 
+}
+}
+
+@media (max-width: 540px) { 
+.header_board_row h2 {
+    font-size: 47px;
+}
+
+.search_task {
+    width: 255px; 
+}
+
+.search {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    top: 10px;
+    left: 233px;
+}
+
+.column_head {
+    width: 270px;
+}
+
+.board_column {
+    width:260px; 
+}
+
+.task_card {
+    width: 200px; 
+}
+
+.task_titel_card {
+    width: 190px;
+}
+
+.task_description_card {
+    width: 190px;
+}
+
+.task_progress_subtasks_card {
+    width: 190px;
+}
+
+.progressbar_subtasks {
+    width: 90px;
+}
+
+.task_progress_subtasks_card p {
+    font-size: 14px;
+}
+
+.task_assigned_members_card {
+    width: 190px;
+}
+
 }
