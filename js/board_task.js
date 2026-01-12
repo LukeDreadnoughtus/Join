@@ -267,3 +267,79 @@ function setPriority(prio, id) {
     allTasks[id].priority = prio; 
 }
 
+//For the TaskCardMove-Function
+
+const moveOptions = {
+  todo: [
+    { label: "In Progress", target: "progress", direction: "down"}
+  ],
+  progress: [
+    { label: "To do", target: "todo", direction: "up" },
+    { label: "Await Feedback", target: "feedback" , direction: "down" }
+  ],
+  feedback: [
+    { label: "In Progress", target: "progress" , direction: "up" },
+    { label: "Done", target: "done" , direction: "down"}
+  ],
+  done: [
+    { label: "Await Feedback", target: "feedback", direction: "up" }
+  ]
+};
+
+function openResMenu(slot, id, event) {
+  event.stopPropagation();
+  const menu = document.getElementById(`menu_task_card_res_${id}`);
+  menu.classList.remove("d_none");
+  constructMenu(slot, id, menu);
+    const closeMenu = (e) => {
+    if (!menu.contains(e.target)) {
+      menu.classList.add("d_none");
+      document.removeEventListener("click", closeMenu);
+    }};
+  document.addEventListener("click", closeMenu);
+}
+
+function constructMenu(slot, id, menu) {
+  menu.innerHTML = "";
+  const header = document.createElement("div");
+  header.classList.add("menu_header");
+  header.textContent = "Move to";
+  menu.appendChild(header);
+  const options = moveOptions[slot];
+  if (!options) return;
+  options.forEach(option => {
+    menu.appendChild(createMenuItem(option, id));
+  });
+}
+
+function createMenuItem(option, id) {
+  const item = document.createElement("div");
+  item.classList.add("menu_item");
+  const text = document.createElement("span");
+  text.textContent = option.label;
+  const arrow = document.createElement("img");
+  arrow.src = "./assets/img/arrow_menu_res.svg";
+  arrow.classList.add("menu_arrow", option.direction);
+  item.append(arrow,text);
+    item.onclick = (event) => {
+    event.stopPropagation();
+    moveTask(id, option.target, event);
+  };
+  return item;
+}
+
+async function moveTask (taskId, slot, event) {
+allTasks[taskId].boardSlot = slot
+await updateBoardSlotInFirebase(taskId, slot) 
+renderBoardBasics()
+await init(event)
+closeResMenu() 
+}
+
+
+function closeResMenu() {
+  document
+    .getElementById("menu_task_card_res")
+    .classList.add("d_none");
+}
+

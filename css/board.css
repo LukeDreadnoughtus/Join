@@ -193,6 +193,61 @@
   cursor: pointer;
 }
 
+.responsive_task_card_menu {
+  width:20px; 
+  height: 20px; 
+}
+
+.card_header {
+  display:flex; 
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.menu_task_card_res {
+  position: absolute;
+  top: 0%;     
+  left: -61px;
+  width: 106px;
+  height: 113px;
+  background: #2A3647;
+  border-radius: 0 12px 12px 12px;
+  z-index: 1000;  
+  color:white; 
+  font-size: 16px; 
+  font-weight: bold;
+}
+
+.menu_header {
+  padding-top: 5px; 
+  padding-left: 5px; 
+}
+
+.menu_wrapper {
+  position: relative; 
+}
+
+.menu_item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 12px; 
+  padding-left: 6px; 
+  font-weight: 500;
+  font-size: 14px; 
+  gap:9px; 
+}
+
+.menu_arrow {
+  width: 13px;
+  height: 13px;
+}
+
+.menu_arrow.down {
+  transform: rotate(180deg);
+}
+
+
 .user_icon_task_card {
   height: 32px;
   width: 32px;
