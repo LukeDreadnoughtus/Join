@@ -130,7 +130,8 @@ function toggleUserById(id) {
 
 function toggleDropdown() {
   const options = document.getElementById("assignedOptions");
-  if (options) options.classList.toggle("show");
+  if (!options) return;
+  options.classList.toggle("show");
 }
 
 function closeAssignedDropdown() {

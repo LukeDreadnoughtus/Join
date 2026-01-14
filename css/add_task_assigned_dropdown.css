@@ -10,6 +10,7 @@
 }
 
 .select-display {
+  position: static;
   padding: 10px 12px;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -122,3 +123,16 @@
 }
 .user_icon:first-child { margin-left: 0; }
 .user_icon:hover { z-index: 10; }
+
+#assignedOptions {
+  position: static;
+  display: none;          /* zu */
+  margin-top: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #fff;
+}
+
+#assignedOptions.show {
+  display: block;         /* offen => schiebt Content nach unten */
+}
