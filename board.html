@@ -3,30 +3,30 @@
 <html lang="de">
 
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Join</title>
-<link rel="stylesheet" href="css/overlay.css"/>
-<link rel="stylesheet" href="css/add_task.css"/>
-<link rel="stylesheet" href="css/add_task_subtasks.css"/>
-<link rel="stylesheet" href="css/add_task_layout.css"/>
-<link rel="stylesheet" href="css/add_task_overlay.css"/>
-<link rel="stylesheet" href="css/add_task_assigned_dropdown.css"/>
-<link rel="stylesheet" href="css/board.css"/>
-<link rel="stylesheet" href="css/colors.css"/>
-<link rel="stylesheet" href="css/styles.css" />
-<link rel="stylesheet" href="css/header.css"/>
-<link rel="stylesheet" href="css/footer.css"/>
-<link rel="stylesheet" href="css/fonts.css"/>
-<link rel="stylesheet" href="css/board_edit_task.css"/>
-<link rel="stylesheet" href="css/board_task_fullview.css"/>
-<link rel="stylesheet" href="css/board_res.css"/>
-<link rel="stylesheet" href="css/add_task_overlay.css">
-<link rel="stylesheet" href="css/styles_mediaquery.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<link href="assets/img/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
-<link href="assets/img/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
-<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"/>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Join</title>
+  <link rel="stylesheet" href="css/overlay.css" />
+  <link rel="stylesheet" href="css/add_task.css" />
+  <link rel="stylesheet" href="css/add_task_subtasks.css" />
+  <link rel="stylesheet" href="css/add_task_layout.css" />
+  <link rel="stylesheet" href="css/add_task_overlay.css" />
+  <link rel="stylesheet" href="css/add_task_assigned_dropdown.css" />
+  <link rel="stylesheet" href="css/board.css" />
+  <link rel="stylesheet" href="css/colors.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="css/board_edit_task.css" />
+  <link rel="stylesheet" href="css/board_task_fullview.css" />
+  <link rel="stylesheet" href="css/board_res.css" />
+  <link rel="stylesheet" href="css/add_task_overlay.css">
+  <link rel="stylesheet" href="css/styles_mediaquery.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link href="assets/img/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
+  <link href="assets/img/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
 </head>
 
 <body onload="init(event)">
@@ -97,17 +97,17 @@
         </div>
       </div>
       <div class="header_board_responsive">
-      <div class="header_board_row">
-        <h2>Board</h2>
-        <button id="taskCreateButton_responsive" class="task-create-button">
+        <div class="header_board_row">
+          <h2>Board</h2>
+          <button type="button" id="taskCreateButton_responsive" class="task-create-button" data-boardslot="todo">
             <img src="./assets/img/add.svg" class="plus_svg" alt="add task item">
-        </button>
-      </div>
-      <div class="input-wrapper">
-            <input id="search_responsive" class="search_task" type="text" placeholder="Find Task                      |"
-              onkeyup="searchTask_res()">
-            <img src="assets/img/search.svg" alt="" class="search" onclick="searchTask()">
-      </div>
+          </button>
+        </div>
+        <div class="input-wrapper">
+          <input id="search_responsive" class="search_task" type="text" placeholder="Find Task                      |"
+            onkeyup="searchTask_res()">
+          <img src="assets/img/search.svg" alt="" class="search" onclick="searchTask()">
+        </div>
       </div>
       <div class="header_board">
         <h2>Board</h2>
@@ -119,7 +119,7 @@
           </div>
 
 
-          <button type="button" id="taskCreateButton" class="add_task_overlay task-create-button" data-boardslot="todo">
+          <button type="button" id="taskCreateButton" class="add_task_overlay task_create_button" data-boardslot="todo">
             <span class="font-create">Add Task</span>
             <img src="./assets/img/add.svg" class="plus_svg" alt="add task item">
           </button>
@@ -299,61 +299,78 @@
         <p class="font_no_found_task">NO TASKS FOUND</p>
       </div>
       <div class="board_layout">
-      <div class="board_row">
-        <div class="board_column" ondrop="moveTo('todo',event)" ondragover="onDragOverColumn(event,'todo')"
-          ondragleave="onDragLeaveColumn(event,'todo')">
-          <div class="column_head">
-            <h3>To do</h3>
-            <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
+        <div class="board_row">
+          <div class="board_column" ondrop="moveTo('todo',event)" ondragover="onDragOverColumn(event,'todo')"
+            ondragleave="onDragLeaveColumn(event,'todo')">
+            <div class="column_head">
+              <h3>To do</h3>
+              <button type="button" class="add_task_to_do add_task_overlay add_task_btn"  data-boardslot="todo">
+                <svg class="plus_icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect x="1" y="1" width="22" height="22" rx="7" stroke="currentColor" stroke-width="2" />
+                  <path d="M12 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                  <path d="M16 12.0754L8 12.0754" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+              </button>
+            </div>
+            <div id="todo" class="column_content">
+              <div id="no_todo_tasks" class="no_tasks d_none">
+                <p class="font_no_task">No tasks To do</p>
+              </div>
+            </div>
           </div>
-          <div id="todo" class="column_content">
-          <div id="no_todo_tasks" class="no_tasks d_none">
-            <p class="font_no_task">No tasks To do</p>
-          </div>
-        </div>
-        </div>
-        <div  class="board_column" ondrop="moveTo('progress',event)"
-          ondragover="onDragOverColumn(event, 'progress')" ondragleave="onDragLeaveColumn(event, 'progress')">
-          <div class="column_head">
-            <h3>In progress</h3>
-            <button type="button" class="add_task_in_progress add_task_overlay" data-boardslot="progress">
-            <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
-            </button>
-          </div>
-          <div id="progress" class="column_content">
-          <div id="no_progress_tasks" class="no_tasks d_none">
-            <p class="font_no_task">No tasks in progress</p>
-          </div>
-        </div>
-        </div>
-      </div>
-      <div class="board_row">
-        <div class="board_column" ondrop="moveTo('feedback',event)"
-          ondragover="onDragOverColumn(event, 'feedback')" ondragleave="onDragLeaveColumn(event, 'feedback')">
-          <div class="column_head">
-            <h3>Await feedback</h3>
-            <button type="button" class="add_task_await_feedback add_task_overlay" data-boardslot="feedback">
-            <img src="./assets/img/plus button.svg" alt="plus icon" width="24px" height="24px">
-            </button>
-          </div>
-          <div id="feedback" class="column_content">
-          <div id="no_feedback_tasks" class="no_tasks d_none">
-            <p class="font_no_task">No tasks</p>
+          <div class="board_column" ondrop="moveTo('progress',event)" ondragover="onDragOverColumn(event, 'progress')"
+            ondragleave="onDragLeaveColumn(event, 'progress')">
+            <div class="column_head">
+              <h3>In progress</h3>
+              <button type="button" class="add_task_in_progress add_task_overlay add_task_btn" data-boardslot="progress">
+                <svg class="plus_icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect x="1" y="1" width="22" height="22" rx="7" stroke="currentColor" stroke-width="2" />
+                  <path d="M12 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                  <path d="M16 12.0754L8 12.0754" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+              </button>
+            </div>
+            <div id="progress" class="column_content">
+              <div id="no_progress_tasks" class="no_tasks d_none">
+                <p class="font_no_task">No tasks in progress</p>
+              </div>
+            </div>
           </div>
         </div>
-        </div>
-        
-        <div  class="board_column" ondrop="moveTo('done',event)" ondragover="onDragOverColumn(event, 'done')"
-          ondragleave="onDragLeaveColumn(event, 'done')">
-          <div class="column_head">
-            <h3>Done</h3>
+        <div class="board_row">
+          <div class="board_column" ondrop="moveTo('feedback',event)" ondragover="onDragOverColumn(event, 'feedback')"
+            ondragleave="onDragLeaveColumn(event, 'feedback')">
+            <div class="column_head">
+              <h3>Await feedback</h3>
+              <button type="button" class="add_task_await_feedback add_task_overlay add_task_btn" data-boardslot="feedback">
+                <svg class="plus_icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect x="1" y="1" width="22" height="22" rx="7" stroke="currentColor" stroke-width="2" />
+                  <path d="M12 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                  <path d="M16 12.0754L8 12.0754" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+              </button>
+            </div>
+            <div id="feedback" class="column_content">
+              <div id="no_feedback_tasks" class="no_tasks d_none">
+                <p class="font_no_task">No tasks</p>
+              </div>
+            </div>
           </div>
-          <div id="done" class="column_content">
-          <div id="no_done_tasks" class="no_tasks d_none">
-            <p class="font_no_task">No tasks done</p>
+
+          <div class="board_column" ondrop="moveTo('done',event)" ondragover="onDragOverColumn(event, 'done')"
+            ondragleave="onDragLeaveColumn(event, 'done')">
+            <div class="column_head">
+              <h3>Done</h3>
+            </div>
+            <div id="done" class="column_content">
+              <div id="no_done_tasks" class="no_tasks d_none">
+                <p class="font_no_task">No tasks done</p>
+              </div>
+            </div>
           </div>
-        </div>
-        </div>
         </div>
       </div>
 

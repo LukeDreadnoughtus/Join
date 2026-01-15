@@ -8,7 +8,9 @@ header {
   width: 100%;
 }
 
-.hidden { display: none; }
+.hidden {
+  display: none;
+}
 
 label {
   font-family: "inter";
@@ -62,14 +64,39 @@ label {
   animation: fadeIn 0.3s forwards;
 }
 
-.notification.success { background: #2ecc71; }
-.notification.error { background: #e74c3c; }
-.notification.info { background: #3498db; }
+.span_form {
+  font-family: "inter";
+  font-style: "regular";
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 120%;
+  padding-bottom: 8px;
+}
+
+footer {
+  margin-top: 80px;
+}
+
+.notification.success {
+  background: #2ecc71;
+}
+.notification.error {
+  background: #e74c3c;
+}
+.notification.info {
+  background: #3498db;
+}
 
 @keyframes fadeIn {
-  to { opacity: 1; transform: translateY(0); }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeOut {
-  to { opacity: 0; transform: translateY(-10px); }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 }

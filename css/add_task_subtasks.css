@@ -1,6 +1,7 @@
 .subtask-input-wrapper {
   position: relative;
   width: 100%;
+  padding-top: 15px;
 }
 
 .subtask-input-wrapper > input#subtask-input {

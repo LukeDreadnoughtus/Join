@@ -171,7 +171,7 @@
               </div>
 
               <div class="form_group assigned_to">
-                <label>Assigned to</label>
+                <span class="span_form">Assigned to</span>
                 <div class="custom_select" id="task-assigned-to">
                 </div>
                 <div class="assigned_users_icons" id="assigned-users-icons"></div>
@@ -188,7 +188,7 @@
 
 
               <div class="subtask-input-wrapper">
-                <label for="task-subtask">Subtasks</label>
+                <span class="span_form">Subtask</span>
                 <input placeholder="Add new subtask" type="text" id="subtask-input" />
 
                 <svg id="subtask-add" class="icon hidden" viewBox="0 0 24 24">
@@ -209,7 +209,13 @@
           </div>
         </div>
       </div>
-      <div class="task_controls_buttons" id="taskControlsButtons">
+    
+      </form>
+      <footer>
+        <div class="footer_content">
+          <p class="footer_text">This field is required<span style="color:red">*</span></p>
+        </div>
+          <div class="task_controls_buttons" id="taskControlsButtons">
         <button type="submit" class="add_task_create_button" id="create-button">
           <span class="font_create">Create Task</span>
           <span class="check_svg"><img src="./assets/img/check.svg" alt="check icon" width="24px" height="24px"></span>
@@ -219,11 +225,6 @@
           <span class="clear_svg"><img src="./assets/img/clear.svg" alt="clear icon" width="24px" height="24px"></span>
         </button>
       </div>
-      </form>
-      <footer>
-        <div class="footer_content">
-          <p class="footer_text">This field is required<span style="color:red">*</span></p>
-        </div>
       </footer>
     </main>
   </div>
