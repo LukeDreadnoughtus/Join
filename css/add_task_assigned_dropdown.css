@@ -1,6 +1,7 @@
 #task-assigned-to {
   position: relative;
   width: 100%;
+  padding-top: 10px;
 }
 
 .custom-select {
