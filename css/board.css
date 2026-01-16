@@ -226,6 +226,7 @@
 
 .menu_wrapper {
   position: relative;
+  display: none;
 }
 
 .menu_item {
