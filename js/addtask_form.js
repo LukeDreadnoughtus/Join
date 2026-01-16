@@ -6,7 +6,7 @@ function getTaskDataFromForm() {
         title: document.getElementById("task-title")?.value || "",
         boardslot: document.getElementById("board-slot")?.value || "todo",
         description: document.getElementById("task-description")?.value || "",
-        category: document.getElementById("task-category")?.value || "",
+        category: document.getElementById("task-category")?.getAttribute("data-selected") || "",
         assigned: Array.from(window.selectedUsers?.keys?.() || []),
         priority: document.getElementById("task-priority")?.value || "",
         subtasks: getSubtasksForDB(),
@@ -179,6 +179,90 @@ function renderUserIcon() {
     if (iconDiv) iconDiv.textContent = initials(user);
 }
 
+function toggleCategoryDropdown() {
+    const options = document.getElementById("categoryOptions");
+    if (!options) return;
+    options.classList.toggle("show");
+}
+
+function closeCategoryDropdown() {
+    const options = document.getElementById("categoryOptions");
+    if (options) options.classList.remove("show");
+}
+
+function createCategoryOptionsContainer() {
+    const options = document.createElement("div");
+    options.className = "select-options";
+    options.id = "categoryOptions";
+    const items = [
+        { value: "Technical Task", text: "Technical Task" },
+        { value: "User Story", text: "User Story" },
+    ];
+
+    items.forEach((it) => {
+        const item = document.createElement("div");
+        item.className = "option-item";
+        item.setAttribute("data-value", it.value);
+        item.textContent = it.text;
+        item.onclick = () => setCategory(it.value, it.text);
+        options.appendChild(item);
+    });
+
+    return options;
+}
+
+function createCategoryDisplayElement() {
+    const el = document.createElement("div");
+    el.className = "select-display";
+    el.id = "categoryDisplay";
+    el.onclick = toggleCategoryDropdown;
+    const text = document.createElement("span");
+    text.className = "select-display-text";
+    text.id = "categoryDisplayText";
+    text.textContent = "Select task category";
+    const arrow = document.createElement("span");
+    arrow.className = "icon-assign";
+    arrow.id = "categoryArrow";
+    arrow.textContent = "▼";
+    el.append(text, arrow);
+    return el;
+}
+
+function buildCategoryDropdown() {
+    const container = document.getElementById("task-category");
+    if (!container) return;
+    container.innerHTML = "";
+    const display = createCategoryDisplayElement();
+    const options = createCategoryOptionsContainer();
+    container.append(display, options);
+    attachOutsideClickHandlerForCategoryDropdown();
+}
+
+function setCategory(value, text) {
+    const container = document.getElementById("task-category");
+    const displayText = document.getElementById("categoryDisplayText");
+    if (!container || !displayText) return;
+    container.setAttribute("data-selected", value); // hier wird der Wert gespeichert
+    displayText.textContent = text;
+    closeCategoryDropdown();
+}
+
+function isClickInsideCategoryDropdown(target) {
+    const display = document.getElementById("categoryDisplay");
+    const options = document.getElementById("categoryOptions");
+    return (display && display.contains(target)) || (options && options.contains(target));
+}
+
+function attachOutsideClickHandlerForCategoryDropdown() {
+    if (window.__categoryOutsideClickBound) return;
+    window.__categoryOutsideClickBound = true;
+
+    document.addEventListener("click", (e) => {
+        if (!isClickInsideCategoryDropdown(e.target)) closeCategoryDropdown();
+    });
+}
+
+
 function initAddTask() {
     const createBtn = document.getElementById("create-button");
     const clearBtn = document.getElementById("clear-button");
@@ -191,10 +275,13 @@ function initAddTask() {
     if (mediumBtn) mediumBtn.addEventListener("click", () => setActivePriority(mediumBtn));
     if (urgentBtn) urgentBtn.addEventListener("click", () => setActivePriority(urgentBtn));
     if (document.getElementById("task-assigned-to")) loadUserAssignments();
+    buildCategoryDropdown();
     requiredFieldMarker();
     renderUserIcon();
     wireSubtaskInputRow();
     updateAddUIState();
 }
+
+
 
 document.addEventListener("DOMContentLoaded", initAddTask);

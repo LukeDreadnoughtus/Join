@@ -29,7 +29,7 @@
 
 .select-options {
   display: none;
-  position: absolute;
+  position: static;
   width: 100%;
   background: #fff;
   border: 1px solid #ccc;

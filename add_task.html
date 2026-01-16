@@ -21,7 +21,7 @@
   <link href="assets/img/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
   <link href="assets/img/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
-  <link href="css/styles_mediaquery.css" rel="stylesheet"/>
+  <link href="css/styles_mediaquery.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -178,12 +178,8 @@
               </div>
 
               <div class="form_group category">
-                <label id="label-task-category" for="task-category">Category</label>
-                <select class="task_category" id="task-category" required>
-                  <option value="" disabled selected hidden>Select task category</option>
-                  <option value="Technical Task">Technical Task</option>
-                  <option value="User Story">User Story</option>
-                </select>
+                <span class="span_form">Category</span>
+                <div class="custom_select" id="task-category"></div>
               </div>
 
 
@@ -209,22 +205,24 @@
           </div>
         </div>
       </div>
-    
+
       </form>
       <footer>
         <div class="footer_content">
           <p class="footer_text">This field is required<span style="color:red">*</span></p>
         </div>
-          <div class="task_controls_buttons" id="taskControlsButtons">
-        <button type="submit" class="add_task_create_button" id="create-button">
-          <span class="font_create">Create Task</span>
-          <span class="check_svg"><img src="./assets/img/check.svg" alt="check icon" width="24px" height="24px"></span>
-        </button>
-        <button type="reset" id="clear-button" class="add_task_clear_button">
-          <span class="font_clear">Clear</span>
-          <span class="clear_svg"><img src="./assets/img/clear.svg" alt="clear icon" width="24px" height="24px"></span>
-        </button>
-      </div>
+        <div class="task_controls_buttons" id="taskControlsButtons">
+          <button type="submit" class="add_task_create_button" id="create-button">
+            <span class="font_create">Create Task</span>
+            <span class="check_svg"><img src="./assets/img/check.svg" alt="check icon" width="24px"
+                height="24px"></span>
+          </button>
+          <button type="reset" id="clear-button" class="add_task_clear_button">
+            <span class="font_clear">Clear</span>
+            <span class="clear_svg"><img src="./assets/img/clear.svg" alt="clear icon" width="24px"
+                height="24px"></span>
+          </button>
+        </div>
       </footer>
     </main>
   </div>

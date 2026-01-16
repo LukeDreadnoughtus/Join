@@ -9,7 +9,7 @@ const REQUIRED_FIELD_IDS = [
   "task-due-date",
   "task-priority",
   "board-slot",
-  "task-category",
+  "task-category-native",
 ];
 
 const MAX_SUBTASKS = 3;
