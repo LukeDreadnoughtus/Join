@@ -24,6 +24,10 @@
   scrollbar-color: #c0c0c0 #f5f5f5;
 }
 
+.landscape_blocker {
+    display:none; 
+}
+
 .d_none {
   display: none !important;
 }
@@ -531,3 +535,5 @@
 .add_task_btn .plus_icon {
   display: block;
 }
+
+
