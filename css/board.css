@@ -417,7 +417,7 @@
   background-color: #2a3647;
   color: white;
   border-radius: 10px;
-  top: 312px;
+  top: 222px;
   width: 250px;
   height: 230px;
   font-size: 24px;
@@ -427,7 +427,7 @@
   padding-left: 10px;
   padding-right: 10px;
   font-weight: 200;
-  left: 18%;
+  left: 14%;
   z-index: 1200;
 }
 
@@ -480,7 +480,8 @@
 .no_tasks_found {
   position: absolute;
   left: 50%;
-  top: 400px;
+  transform: translateX(-50%);
+  top: 275px;
   background-color: #e7e7e7;
   height: 48px;
   width: 252px;
