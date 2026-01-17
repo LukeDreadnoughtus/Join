@@ -44,7 +44,7 @@
     gap:50px; 
 }
 
-.task-create-button {
+.task_create_button {
   width: 40px;
   height: 40px;
 }
@@ -183,6 +183,7 @@
 
 .priority {
     padding-bottom: 10px;
+    width: 200px;
 }
 
 .due_date h4 {
@@ -192,10 +193,21 @@
 
 .due_date {
     padding-bottom: 10px;
+    width: 200px;
 }
 .assigned_to h4 {
     font-weight: bold;
     color: #42526E;
+}
+
+.assigned_to {
+    width: 200px;
+   
+}
+
+.user_row_layout {
+ width: 200px;
+ padding: 7px 10px;
 }
 
 .user_font {
@@ -207,10 +219,19 @@
     color: #42526E;
 }
 
+.subtasks_list {
+    width:97%; 
+}
+
+.subtask_check {
+    width:210px; 
+}
+
 .show_task_overlay {
     height: 640px;
     width: 270px; 
     top:15px; 
+    padding: 32px 15px;
 }
 
 .edit_delete_task {
@@ -219,16 +240,24 @@
 
 .input_edit_title {
    font-size:16px; 
-   width: 250px; 
+   width: 222px;
+   padding-left: 0px;  
+   padding-top: 0px;  
 }
 
 .input_edit_description {
     font-size:16px; 
-    width: 250px; 
+    width: 222px; 
+    padding-left: 0px;  
+    padding-top: 0px;  
+}
+
+.input_edit_date {
+    font-size:16px;
 }
 
 .input_event input {
-        width: 250px; 
+        width: 222px; 
 }
 
 .bold_font {
@@ -244,23 +273,98 @@
     font-size:16px; 
 }
 
-.priority_button { 
-    gap:12px; 
-    height: 49px; 
+.priority_name.medium {
+    font-size: 16px; 
 }
+
+.priority_button { 
+    height: 49px; 
+    margin-right: 0px;
+    padding: 5px 3px;
+    flex-direction: column;
+}
+
+.priority_btn_group {
+    gap:5px; 
+ }
 
 .user_dropdown_selected { 
     font-size:16px;
-    width: 250px; 
+    padding: 12px 4px;
+    width: 212px; 
+}
+
+.user_dropdown { 
+    width: 197px; 
 }
 
 .user_option { 
-    width: 250px; 
+    width: 212px; 
 }
 
-/* .input_edit_subtask {
-    width: 80%; 
+.edit_task_button {
+    margin-left: 145px;
+}
 
-} */
+#edit_subtask_input::placeholder {
+    font-size:16px; 
+}
+
+#edit_description::placeholder {
+    font-size:16px; 
+}
+
+#edit_title::placeholder {
+    font-size:16px; 
+}
+
+.input_edit_subtask {
+padding: 10px 60px 10px 0px;
+font-size:16px;
+}
+
+.event_icon{ 
+ right: 70px;
+ 
+}
+
+.edit_task_overlay{
+    height: 640px;
+    width: 270px; 
+    top:15px; 
+    padding: 32px 15px;
+}
+
+.edit_title h4 {
+    font-weight: bold;
+}
+
+.edit_description h4 {
+    font-weight: bold;
+}
+
+.edit_duedate h4 {
+    font-weight: bold;
+}
+
+.edit_assigned_to h4 {
+    font-weight: bold;
+}
+
+.edit_subtasks h4 {
+    font-weight: bold;
+}
+
+.left_icon {
+    right:33px; 
+}
+
+.right_icon {
+    right:6px; 
+}
+
+.subtask_separator_input { 
+    right:31px; 
+}
 
 }

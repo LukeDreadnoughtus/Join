@@ -201,7 +201,7 @@ function renderTaskEditCard(taskData) {
             <h4>Due Date</h4>
             <div class="input_event">
                 <img src="./assets/img/event.svg" class="event_icon" id="date_icon">
-                <input class="input_edit_title input_style" 
+                <input class="input_edit_date input_style" 
                        type="text" 
                        id="edit_due_date" 
                        placeholder="dd/mm/yyyy" 
