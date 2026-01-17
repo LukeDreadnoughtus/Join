@@ -1,3 +1,59 @@
+#overlay .subtask-edit-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+#overlay .subtask-edit-wrapper .edit-input {
+  width: 100%;
+  height: 28px;
+  padding: 4px 72px 4px 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d1d1;
+  font-size: 14px;
+  line-height: 1.2;
+  box-sizing: border-box;
+}
+
+#overlay .subtask-edit-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  padding: 3px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#overlay .subtask-edit-icon:hover {
+  background-color: #e0e0e0;
+}
+
+#overlay .subtask-edit-icon svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+#overlay .subtask-edit-check {
+  right: 36px;
+}
+
+#overlay .subtask-edit-cancel {
+  right: 10px;
+}
+
+#overlay .subtask-edit-divider {
+  position: absolute;
+  right: 34px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 16px;
+  background-color: #0c01018a;
+}
 #overlay {
   position: fixed;
   inset: 0;
@@ -37,8 +93,10 @@
 
 #overlay .overlay_add_task_heading {
   margin: 0;
-  font-size: clamp(22px, 2.2vw, 36px);
-  line-height: 1.15;
+  font-size: 61px;
+  line-height: 120%;
+  font-weight: 700;
+  font-family: "inter";
 }
 
 #overlay .overlay_split_container {
@@ -342,19 +400,21 @@
   height: 48px;
 }
 
-#overlay .overlay_icon {
+#overlay #subtask-add,
+#overlay #subtask-clear {
   width: 24px;
   height: 24px;
   position: absolute;
-  top: 50%;
+  top: 70%;
   transform: translateY(-50%);
   cursor: pointer;
-  padding: 4px;
+  padding: 0;
   border-radius: 50%;
   transition: background-color 0.2s ease;
 }
 
-#overlay .overlay_icon:hover {
+#overlay #subtask-add:hover,
+#overlay #subtask-clear:hover {
   background: #e0e0e0;
 }
 
@@ -365,10 +425,14 @@
   right: 10px;
 }
 
+#overlay .overlay_subtask-input-wrapper input {
+  line-height: 48px;
+}
+
 #overlay .overlay_divider_subtasks {
   position: absolute;
   right: 34px;
-  top: 50%;
+  top: 70%;
   transform: translateY(-50%);
   width: 2px;
   height: 20px;
@@ -458,6 +522,7 @@
 #overlay .subtask-item {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   min-height: 32px;
   padding: 4px 8px;
@@ -522,6 +587,8 @@
 
 #overlay .subtask-action-btn svg {
   display: block;
+  width: 16px !important;
+  height: 16px !important;
 }
 
 #overlay .subtask-separator {

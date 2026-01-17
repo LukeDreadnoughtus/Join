@@ -223,6 +223,8 @@
 
 .subtask-action-btn svg {
   display: block;
+  width: 16px !important;
+  height: 16px !important;
 }
 
 .subtask-separator {
