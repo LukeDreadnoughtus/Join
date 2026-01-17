@@ -1,11 +1,11 @@
 @media (max-width: 1200px) {
 .div_sign_up {
-   margin-top: 229px;
+   margin-top: 215px;
    margin-bottom: 0px;
 }
 
 .login_icon {
-    top: 60px;
+    top: 40px;
 }
 
 }
@@ -14,8 +14,8 @@
 .div_sign_up {
     width: 450px;
     height: 595px;
-    margin-top: 190px;
-    margin-bottom: 74px;
+    margin-top: 175px;
+    margin-bottom: 40px;
 }
 
 .arrow_blue {
@@ -23,7 +23,7 @@
 }
 
 .login_icon {
-    top: 40px;
+    top: 30px;
     height: 100px;
     width: 80px;
 }
@@ -37,6 +37,8 @@ h2 {
 
 .div_sign_up {
     width: 396px; 
+    margin-top: 140px;
+    margin-bottom: 30px;
 }
 
 .arrow_blue {
@@ -44,7 +46,6 @@ h2 {
 }
 
 .login_icon {
-    top: 60px;
     height: 78px;
     width: 64px;
 }
@@ -72,7 +73,7 @@ h2 {
 .div_sign_up {
     width: 300px;
     height: 550px; 
-    margin-bottom: 119px;
+    margin-bottom: 20px;
 }
 
 .arrow_blue {
@@ -84,7 +85,6 @@ h2 {
 }
 
 .login_icon {
-    top: 60px;
     height: 78px;
     width: 64px;
 }
