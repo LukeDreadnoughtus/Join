@@ -362,7 +362,9 @@ a {
     background-color: #2A3647;
     color: white; 
     border-radius: 10px; 
-    top:850px; 
+    top:790px; 
+    left:50%; 
+    transform: translateX(-50%);
     width: 350px; 
     height: 70px; 
     font-size: 20px; 
@@ -378,7 +380,7 @@ a {
     background-color: #2A3647;
     color: white; 
     border-radius: 10px; 
-    top:180px; 
+    top:80px; 
     width: 300px; 
     height: 50px; 
     font-size: 20px; 
@@ -386,6 +388,8 @@ a {
     align-items: center; 
     justify-content: center;
     font-weight: 200;
+    left:50%; 
+    transform: translateX(-50%);
 }
 
 .overlay_userfeedback_email {
@@ -393,7 +397,7 @@ a {
     background-color: #2A3647;
     color: white; 
     border-radius: 10px; 
-    top:180px; 
+    top:80px; 
     width: 300px; 
     height: 50px; 
     font-size: 20px; 
@@ -403,6 +407,8 @@ a {
     font-weight: 200;
     text-align: center;    
     white-space: normal;
+    left:50%; 
+    transform: translateX(-50%);
 }
 
 .d_none {
