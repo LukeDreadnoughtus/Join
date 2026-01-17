@@ -201,6 +201,7 @@
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.15s ease;
+  margin-left: auto;
 }
 
 .subtask-item:hover .subtask-actions,
@@ -222,6 +223,8 @@
 
 .subtask-action-btn svg {
   display: block;
+  width: 16px !important;
+  height: 16px !important;
 }
 
 .subtask-separator {

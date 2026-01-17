@@ -126,13 +126,9 @@ function clearAssignedDropdown() {
 
 function showSuccessMessage() {
     const msg = document.createElement("div");
-    msg.textContent = "Task created successfully ✅";
-    msg.style.color = "green";
-    msg.style.marginTop = "10px";
-    msg.style.fontWeight = "bold";
-    msg.style.textAlign = "center";
-    const host = document.getElementById("taskControlsButtons") || document.body;
-    host.appendChild(msg);
+    msg.textContent = "Task added to Board";
+    msg.className = "success-notification";
+    document.body.appendChild(msg);
     setTimeout(() => msg.remove(), 3000);
 }
 
