@@ -1,9 +1,50 @@
 let path = "https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/"
 
-//Noch zu bedenken - wir brauchen noch einen Logout, welcher die Daten aus dem Local storage wieder rausnimmt. 
+/**
+ * Animates the splash logo on the login page.
+ * 
+ * The splash logo starts centered in the viewport with a larger scale,
+ * then smoothly flies to the login logo's position while scaling down to match its size.
+ * After the animation completes, the splash overlay is hidden.
+ *
+ * This function is responsive: it reads the login logo's current size and position
+ * using getBoundingClientRect(), so the animation works correctly on all screen sizes
+ * including responsive breakpoints (e.g., below 540px).
+ *
+ * @listens DOMContentLoaded
+ * @returns {void}
+ */
 
+window.addEventListener('DOMContentLoaded', () => {
+    const splash = document.getElementById('splash_screen');
+    const logo = document.getElementById('splash_logo');
+    const loginLogo = document.querySelector('.login_icon');
+    const rect = loginLogo.getBoundingClientRect();
+    const loginWidth = rect.width;
+    const loginHeight = rect.height;
+    const startX = window.innerWidth / 2 - loginWidth / 2;
+    const startY = window.innerHeight / 2 - loginHeight / 2;
+    const startScale = 1.5;
+    logo.style.transform = `translate(${startX}px, ${startY}px) scale(${startScale})`;
+    logo.style.width = `${loginWidth}px`;
+    logo.style.height = `${loginHeight}px`;
+    logo.style.transition = 'transform 1s ease-in-out';
+    setTimeout(() => {
+        logo.style.transform = `translate(${rect.left}px, ${rect.top}px) scale(1)`;
+    }, 200);
+    setTimeout(() => {
+        splash.classList.add('hidden');
+    }, 1200);
+});
 
-/** login-function proofs usermail and password */
+/**
+ * Handles the login process by verifying user email and password.
+ * Prevents the default form submission and fetches user data from the database.
+ *
+ * @async
+ * @param {Event} event - The form submission event
+ * @returns {Promise<void>}
+ */
 
 async function logIn(event) {
     event.preventDefault();
@@ -17,8 +58,14 @@ async function logIn(event) {
     }
 }
 
-/** proofUserData and save username and userid to local storage to show information in the application */
-
+/**
+ * Verifies the entered user credentials against the fetched user data.
+ * If successful, stores the username, user ID, and color in localStorage
+ * and redirects to the summary page. Otherwise, shows a failed login feedback.
+ *
+ * @param {Object} userData - The fetched user data from the database
+ * @returns {void}
+ */
 function proofUserData(userData) {
     const useremail = document.getElementById("useremail").value.trim();
     const password = document.getElementById("password").value
@@ -37,8 +84,11 @@ function proofUserData(userData) {
    setUserFeedbackFailedLogIn() 
 }
 
-/** show userfeedback "password/username is false" and highlights input borders red */
-
+/**
+ * Displays the "failed login" feedback and highlights email/password inputs in red.
+ *
+ * @returns {void}
+ */
 function setUserFeedbackFailedLogIn() {
     document.getElementById("userfeedback_failedlogin").classList.remove("d_none");
     document.getElementById("useremail").classList.add("input_style_red")
@@ -47,8 +97,12 @@ function setUserFeedbackFailedLogIn() {
     document.getElementById("password").classList.remove("input_style")
 }
 
-/** removes shown userfeedback */
 
+/**
+ * Removes the "failed login" feedback and restores the input styles to normal.
+ *
+ * @returns {void}
+ */
 function removeUserFeedbackFailedLogIn () {
     if (!document.getElementById("userfeedback_failedlogin").classList.contains("d_none")) {
         document.getElementById("userfeedback_failedlogin").classList.add("d_none");
@@ -58,15 +112,24 @@ function removeUserFeedbackFailedLogIn () {
         document.getElementById("password").classList.add("input_style") }
     }
 
-/** handles the input of password and useremail */
-
+/**
+ * Handles input events for the login form.
+ * Shows visibility icon and removes any failed login feedback.
+ *
+ * @param {Event} event - The input or keyup event
+ * @returns {void}
+ */
 function handleLogin(event) {
     showVisibilityIcon3(event)
     removeUserFeedbackFailedLogIn ()
 }
 
-/** show the visibilitynot icon on a keyup-event at the passwordinput, the lockicon is hidden */
-
+/**
+ * Shows the visibility icon on the password input after typing.
+ *
+ * @param {Event} event - The keyup event on the password input
+ * @returns {void}
+ */
 function showVisibilityIcon3(event) {
     event.stopPropagation();
    const input = event.target
@@ -77,8 +140,12 @@ function showVisibilityIcon3(event) {
   }
 }
 
-/** this function shows and hides the password per clickevent on the icon visibilitynot/visibility */
-
+/**
+ * Toggles password visibility when clicking the visibility icon.
+ *
+ * @param {Event} event - The click event on the visibility icon
+ * @returns {void}
+ */
 function showPassword3(event) {
     event.stopPropagation();
     document.getElementById("visibilitynot3").classList.toggle("d_none")
@@ -87,17 +154,31 @@ function showPassword3(event) {
     input.type = input.type === "password" ? "text" : "password";
 }
 
-/** these functions lead to registration and also back to login */
 
+/**
+ * Redirects to the registration page.
+ *
+ * @returns {void}
+ */
 function toRegistration() {
     window.location.href = "registration.html";
 }
 
+/**
+ * Redirects back to the login page.
+ *
+ * @returns {void}
+ */
 function backToLogIn() {
     window.location.href = "index.html";
 }
 
-/** these next functions check if the inputs are filled when die checkbox for privacy policy is checked */
+/**
+ * Checks if the privacy policy checkbox is checked.
+ * If so, hides related feedback and triggers field validation.
+ *
+ * @returns {void}
+ */
 function checkAllInputs() {
     const checkBox= document.getElementById("termsCheckbox")
     if (checkBox.checked) {
@@ -107,40 +188,35 @@ function checkAllInputs() {
     } 
 }
 
-// function checkAllFieldsFilled() {
-//     const name = document.getElementById("name_registration").value.trim();
-//     const email = document.getElementById("email_registration").value.trim();
-//     const password = document.getElementById("password_registration").value.trim();
-//     const passwordConfirm = document.getElementById("password_confirm").value.trim();
-//     let allFilled = true;
-//     allFilled = checkName(name) && allFilled;
-//     allFilled = checkEmail(email) && allFilled;
-//     allFilled = checkPassword(password) && allFilled;
-//     allFilled = checkPasswordConfirm(passwordConfirm) && allFilled;
-//     return allFilled;
-// }
-
+/**
+ * Validates that all registration fields are filled and correctly formatted.
+ *
+ * @returns {boolean} True if all fields are valid, otherwise false
+ */
 function checkAllFieldsFilled() {
     const name = document.getElementById("name_registration").value.trim();
     const email = document.getElementById("email_registration").value.trim();
     const password = document.getElementById("password_registration").value.trim();
     const passwordConfirm = document.getElementById("password_confirm").value.trim();
-
     console.log("Name:", checkName(name));
     console.log("Email:", checkEmail(email));
     console.log("Password:", checkPassword(password));
     console.log("Password Confirm:", checkPasswordConfirm(passwordConfirm));
-
     let allFilled = true;
     allFilled = checkName(name) && allFilled;
     allFilled = checkEmail(email) && allFilled;
     allFilled = checkPasswordregistration(password) && allFilled;
     allFilled = checkPasswordConfirm(passwordConfirm) && allFilled;
-
     console.log("Ergebnis ALL:", allFilled);
     return allFilled;
 }
 
+/**
+ * Validates the name field; highlights in red if empty.
+ *
+ * @param {string} name - The entered name
+ * @returns {boolean} True if valid, false otherwise
+ */
 function checkName (name) {
      if(!name) {
     document.getElementById("name_registration").classList.add("input_style_red")
@@ -150,6 +226,12 @@ function checkName (name) {
     else return true;
 }
 
+/**
+ * Validates the email field; highlights in red if empty.
+ *
+ * @param {string} email - The entered email
+ * @returns {boolean} True if valid, false otherwise
+ */
 function checkEmail (email) {
     if(!email) {
     document.getElementById("email_registration").classList.add("input_style_red")
@@ -159,6 +241,12 @@ function checkEmail (email) {
     else return true;
 }
 
+/**
+ * Validates the password field; highlights in red if empty.
+ *
+ * @param {string} password - The entered password
+ * @returns {boolean} True if valid, false otherwise
+ */
 function checkPasswordregistration(password) {
     if(!password) {
     document.getElementById("password_registration").classList.add("input_style_red")
@@ -168,6 +256,12 @@ function checkPasswordregistration(password) {
     else return true;
 }
 
+/**
+ * Validates the password confirmation field; highlights in red if empty.
+ *
+ * @param {string} passwordConfirm - The entered confirmation password
+ * @returns {boolean} True if valid, false otherwise
+ */
 function checkPasswordConfirm(passwordConfirm) {
     if(!passwordConfirm) {
     document.getElementById("password_confirm").classList.add("input_style_red")
@@ -177,10 +271,13 @@ function checkPasswordConfirm(passwordConfirm) {
     else return true;
 }
 
-/** these functions remove (after the checkAllFieldsFilled()-function) the red-highlighted input border in case when the user starts to type in the email field and the name field
- * also the user feedback "email already exists" is removed.
-*/
-
+/**
+ * Removes the red highlight from the email input when the user starts typing,
+ * and hides the "email already exists" feedback if it is shown.
+ *
+ * @param {Event} event - The input or keyup event
+ * @returns {void}
+ */
 function checkEmailField (event) {
     event.stopPropagation();
     let emailInput = document.getElementById("email_registration")
@@ -192,6 +289,12 @@ function checkEmailField (event) {
     removeUserFeedbackCheckAllFields()
 } 
 
+/**
+ * Removes the red highlight from the name input when the user starts typing.
+ *
+ * @param {Event} event - The input or keyup event
+ * @returns {void}
+ */
 function checkNameField(event) {
     event.stopPropagation();
     let emailInput = document.getElementById("name_registration")
@@ -201,12 +304,15 @@ function checkNameField(event) {
     removeUserFeedbackCheckAllFields()
 }
 
-/** These following functions in handlePasswordInput (event) handle the password input - while tiping into the password field - 1) it changes the icons
- *  with showVisibilityIcon(event) and showVisibilityIcon2(event), 2) also it removes userfeedback "Check all fields", if it is shown; 
- *  3)function checkInputUserfeedback() checks if there is userfeedback "passwords dont match" and red inputstyles and removes it
- *  4)checkPassword - checks if the passwords match and are the same; if not it shows userfeedback
+/**
+ * Handles input events for password fields in the registration form.
+ * 1) Updates visibility icons based on which field is typed in
+ * 2) Removes any general user feedback
+ * 3) Checks for password match and displays feedback if needed
+ *
+ * @param {Event} event - The input or keyup event
+ * @returns {void}
  */
-
 function handlePasswordInput (event) {
     event.stopPropagation();
     const input = event.target;
@@ -220,6 +326,12 @@ function handlePasswordInput (event) {
     checkPassword ();
 }
 
+/**
+ * Shows the visibility icon for the first password field when typing.
+ *
+ * @param {Event} event - The input or keyup event
+ * @returns {void}
+ */
 function showVisibilityIcon(event) {
     event.stopPropagation();
     const input = event.target
@@ -230,6 +342,12 @@ function showVisibilityIcon(event) {
   }
 }
 
+/**
+ * Shows the visibility icon for the password confirmation field when typing.
+ *
+ * @param {Event} event - The input or keyup event
+ * @returns {void}
+ */
 function showVisibilityIcon2(event) {
     event.stopPropagation();
    const input = event.target
@@ -240,11 +358,21 @@ function showVisibilityIcon2(event) {
   }
 }
 
+/**
+ * Removes any user feedback related to password mismatch or red borders.
+ *
+ * @returns {void}
+ */
 function checkInputUserfeedback () {
     removesAlert ()
     removesRedBorderInput()
 }
 
+/**
+ * Hides the "passwords do not match" alert and restores input borders.
+ *
+ * @returns {void}
+ */
 function removesAlert () {
     let alert = document.getElementById("passwordmatch");
     if (!alert.classList.contains("d_none")) {
@@ -254,6 +382,11 @@ function removesAlert () {
     }
 }
 
+/**
+ * Removes red borders from password and confirmation inputs.
+ *
+ * @returns {void}
+ */
 function removesRedBorderInput() {
     let redinput = document.getElementById("password_confirm")
     let userAlert = document.getElementById("password_registration")
@@ -267,6 +400,12 @@ function removesRedBorderInput() {
     }
 }
 
+/**
+ * Checks if the password and confirmation match.
+ * Shows feedback if they do not.
+ *
+ * @returns {void}
+ */
 function checkPassword () {
      const passwordInput = document.getElementById("password_registration");
     const passwordLength = passwordInput.value.length;
@@ -280,14 +419,23 @@ function checkPassword () {
     }
 }
 
+/**
+ * Displays user feedback for mismatched passwords.
+ *
+ * @returns {void}
+ */
 function showUserfeedback() {
     document.getElementById("password_confirm").classList.add("input_style_red")
     document.getElementById("password_confirm").classList.remove("input_style")
     document.getElementById("passwordmatch").classList.remove("d_none")
 }
 
-/** These two functions toggle an icon on each click to show or hide the entered password in plain text. */
-
+/**
+ * Toggles the visibility of the first password field on icon click.
+ *
+ * @param {Event} event - The click event
+ * @returns {void}
+ */
 function showPassword(event) {
     event.stopPropagation();
     document.getElementById("visibilitynot").classList.toggle("d_none")
@@ -296,6 +444,12 @@ function showPassword(event) {
     input.type = input.type === "password" ? "text" : "password";
 }
 
+/**
+ * Toggles the visibility of the confirmation password field on icon click.
+ *
+ * @param {Event} event - The click event
+ * @returns {void}
+ */
 function showPassword2(event) {
     event.stopPropagation();
     document.getElementById("visibilitynot2").classList.toggle("d_none")
@@ -304,18 +458,22 @@ function showPassword2(event) {
     input.type = input.type === "password" ? "text" : "password";
 }
 
-/** This function leads the registration process and is conducted when the sign up button is pressed
- * 1) removeUserFeedbackCheckAllFields() removes all userfeedback if it is shown
- * 2) checkBoxProof() checks if private policy is checked; if not there is userfeedback and the highlighted checkbox
- * 3) checkAllFieldsFilled() all fields are checked, if they are filled
- * 4) createUserDataObject() creates an object with all necessary userdata and chooses also a random color for the user
- * 5) proofEmail (userData) proofs, if this email already exists; every email can be used only once, if there exists the same email already
- * registration wont be continued and there is shown a userfeedback "Mail already exists"
- * 6) postUserData posts the userData into the database 
- * 7) prepareUserData saves the id and username to Local Storage
- * 8) toLogIn() leads the new user to Login
- */
 
+/**
+ * Handles user registration.
+ * Steps:
+ * 1) Remove previous user feedback
+ * 2) Check privacy policy checkbox
+ * 3) Check that all registration fields are filled
+ * 4) Create user data object
+ * 5) Verify email uniqueness
+ * 6) Post user data to the database
+ * 7) Redirect to login page
+ *
+ * @async
+ * @param {Event} event - The form submission event
+ * @returns {Promise<void>}
+ */
 async function registration (event) {
     event.preventDefault();
     if(checkBoxProof() === false) 
@@ -330,11 +488,22 @@ async function registration (event) {
     toLogIn()
 }
 
+/**
+ * Removes the "all fields required" user feedback if shown.
+ *
+ * @returns {void}
+ */
 function removeUserFeedbackCheckAllFields() {
  if(!document.getElementById("userfeedback_allFields").classList.contains("d_none")) {
     document.getElementById("userfeedback_allFields").classList.add("d_none")}
 }
 
+/**
+ * Checks if the privacy policy checkbox is checked.
+ * Shows feedback if not.
+ *
+ * @returns {boolean} True if checked, false otherwise
+ */
 function checkBoxProof() {
     const checkBox= document.getElementById("termsCheckbox")
     if(!checkBox.checked) {
@@ -344,6 +513,11 @@ function checkBoxProof() {
     return true
 }
 
+/**
+ * Creates a user data object for registration.
+ *
+ * @returns {{name: string, email: string, password: string, color: string}}
+ */
 function createUserDataObject() {
     const name = document.getElementById("name_registration").value.trim();
     const email = document.getElementById("email_registration").value.trim()
@@ -357,6 +531,14 @@ function createUserDataObject() {
    return userData 
 }
 
+/**
+ * Verifies if the entered email already exists in the database.
+ * Shows feedback if it exists.
+ *
+ * @async
+ * @param {Object} userData - The registration user data
+ * @returns {Promise<boolean>} True if email exists, false otherwise
+ */
 async function proofEmail (userData) {
     try {
     const getResponse = await fetch(path + ".json");
@@ -376,6 +558,14 @@ async function proofEmail (userData) {
     return true; }
     }
 
+    /**
+ * Posts the user data to the database.
+ *
+ * @async
+ * @param {Event} event - The form submission event
+ * @param {Object} userData - The registration user data
+ * @returns {Promise<void>}
+ */
 async function postUserData (event, userData) {
      event.preventDefault();
      try {
@@ -394,6 +584,11 @@ async function postUserData (event, userData) {
     }
 }
 
+/**
+ * Returns a random color from a predefined set of colors.
+ *
+ * @returns {string} A hex color string
+ */
 function getUserColor() {
     const basicColors = [
     '#FF0000', // red
@@ -413,6 +608,11 @@ function getUserColor() {
   return basicColors[randomIndex];
 }
 
+/**
+ * Redirects the new user to the login page after successful registration.
+ *
+ * @returns {void}
+ */
 function toLogIn() {
     document.getElementById("userfeedback_sign_up").classList.remove("d_none")
     setTimeout(() => {

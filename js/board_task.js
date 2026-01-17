@@ -267,7 +267,13 @@ function setPriority(prio, id) {
     allTasks[id].priority = prio; 
 }
 
-//For the TaskCardMove-Function
+/**
+ * Defines the possible move options for tasks on the board.
+ * Each board slot (todo, progress, feedback, done) has a set of
+ * options with a label, target slot, and arrow direction.
+ * 
+ * @type {Object<string, Array<{label: string, target: string, direction: string}>>}
+ */
 
 const moveOptions = {
   todo: [
@@ -286,6 +292,18 @@ const moveOptions = {
   ]
 };
 
+/**
+ * Opens the task "move to" menu for a specific task card.
+ * Stops event propagation to prevent closing immediately,
+ * constructs the menu items, and sets up a click listener
+ * to close the menu when clicking outside of it.
+ *
+ * @param {string} slot - Current board slot of the task (e.g., "todo", "progress")
+ * @param {string} id - Unique ID of the task
+ * @param {Event} event - The click event that triggered the menu
+ * @returns {void}
+ */
+
 function openResMenu(slot, id, event) {
   event.stopPropagation();
   const menu = document.getElementById(`menu_task_card_res_${id}`);
@@ -299,6 +317,16 @@ function openResMenu(slot, id, event) {
   document.addEventListener("click", closeMenu);
 }
 
+/**
+ * Constructs the menu items inside the "move to" menu for a task.
+ * Adds a header and all options based on the current slot.
+ *
+ * @param {string} slot - Current board slot of the task
+ * @param {string} id - Unique ID of the task
+ * @param {HTMLElement} menu - The menu container element
+ * @returns {void}
+ */
+
 function constructMenu(slot, id, menu) {
   menu.innerHTML = "";
   const header = document.createElement("div");
@@ -311,6 +339,16 @@ function constructMenu(slot, id, menu) {
     menu.appendChild(createMenuItem(option, id));
   });
 }
+
+/**
+ * Creates a single menu item element for the "move to" menu.
+ * Adds an arrow image indicating direction and sets the click handler
+ * to move the task to the selected board slot.
+ *
+ * @param {{label: string, target: string, direction: string}} option - The menu option data
+ * @param {string} id - Unique ID of the task
+ * @returns {HTMLElement} The constructed menu item element
+ */
 
 function createMenuItem(option, id) {
   const item = document.createElement("div");
@@ -328,6 +366,16 @@ function createMenuItem(option, id) {
   return item;
 }
 
+/**
+ * Moves a task to a new board slot.
+ * Updates the local allTasks object, writes the change to Firebase,
+ * re-renders the board, re-initializes page state, and closes the menu.
+ *
+ * @async
+ * @param {string} taskId - Unique ID of the task
+ * @param {string} slot - Target board slot to move the task to
+ * @returns {Promise<void>}
+ */
 async function moveTask (taskId, slot) {
 allTasks[taskId].boardSlot = slot
 await updateBoardSlotInFirebase(taskId, slot) 
@@ -336,7 +384,11 @@ await init()
 closeResMenu() 
 }
 
-
+/**
+ * Closes the "move to" menu by adding the 'd_none' class.
+ *
+ * @returns {void}
+ */
 function closeResMenu() {
   document
     .getElementById("menu_task_card_res").classList.add("d_none");
