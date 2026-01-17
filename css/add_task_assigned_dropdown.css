@@ -72,7 +72,7 @@
 .checkbox-square {
   width: 18px;
   height: 18px;
-  border: 2px solid #888;
+  border: 2px solid #ccc;
   border-radius: 4px;
   display: inline-flex;
   align-items: center;
@@ -80,12 +80,24 @@
   transition: all 0.2s ease;
   margin-left: auto;
   flex: 0 0 auto;
+  background: #fff;
+}
+
+.checkbox-square:hover {
+  border-color: #888;
+}
+
+.option-item.checked .checkbox-square {
+  border-color: #2a3647;
+  background-color: #2a3647;
 }
 
 .option-item.checked .checkbox-square::after {
-  content: "✔";
-  color: #000;
-  font-size: 18px;
+  content: "✓";
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1;
 }
 
 .assigned_users_icons {
@@ -136,4 +148,8 @@
 
 #assignedOptions.show {
   display: block;         /* offen => schiebt Content nach unten */
+}
+
+#task-assigned-to:has(#assignedOptions.show) ~ #assigned-users-icons {
+  display: none;
 }

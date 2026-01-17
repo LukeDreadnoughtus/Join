@@ -201,6 +201,7 @@
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.15s ease;
+  margin-left: auto;
 }
 
 .subtask-item:hover .subtask-actions,
