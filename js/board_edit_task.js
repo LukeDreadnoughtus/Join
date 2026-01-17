@@ -35,7 +35,7 @@ async function closeTaskOverlayEdit(event) {
     document.getElementById("task_full_view").classList.add("d_none")
     document.body.classList.remove("no-scroll");
     renderBoardBasics()
-    await init(event)
+    await init()
 }
 
 /**

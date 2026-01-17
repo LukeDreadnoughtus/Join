@@ -118,7 +118,7 @@ allTasks[taskId].boardSlot = slot
 removeHighlight(slot);
 await updateBoardSlotInFirebase(taskId, slot) 
 renderBoardBasics()
-await init(event)
+await init()
 }
 
 /**

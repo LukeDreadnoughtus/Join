@@ -12,7 +12,7 @@ async function closeTaskOverlay(event) {
     document.getElementById("task_full_view").classList.add("d_none")
     document.body.classList.remove("no-scroll");
     renderBoardBasics()
-    await init(event)
+    await init()
 }
 
 /**
@@ -323,23 +323,22 @@ function createMenuItem(option, id) {
   item.append(arrow,text);
     item.onclick = (event) => {
     event.stopPropagation();
-    moveTask(id, option.target, event);
+    moveTask(id, option.target);
   };
   return item;
 }
 
-async function moveTask (taskId, slot, event) {
+async function moveTask (taskId, slot) {
 allTasks[taskId].boardSlot = slot
 await updateBoardSlotInFirebase(taskId, slot) 
 renderBoardBasics()
-await init(event)
+await init()
 closeResMenu() 
 }
 
 
 function closeResMenu() {
   document
-    .getElementById("menu_task_card_res")
-    .classList.add("d_none");
+    .getElementById("menu_task_card_res").classList.add("d_none");
 }
 

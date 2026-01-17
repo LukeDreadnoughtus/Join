@@ -160,8 +160,10 @@ transition: background-color 120ms ease;
     margin-bottom: 10px; 
 }
 /* assigned user selection */
+
 .user_dropdown {
-    position: relative;
+    display: flex;
+    flex-direction: column;
     width: 250px;
 }
 
@@ -178,12 +180,11 @@ transition: background-color 120ms ease;
 }
 
 .user_dropdown_list {
-    position: absolute;
+    position: static;
     top: 50px;
     left: 0;
     width: fit-content; 
     background: white;
-    /* border: 1px solid #ccc; */
     border-radius: 8px;
     max-height: 347px;
     overflow-y: auto;
@@ -425,7 +426,7 @@ transition: background-color 120ms ease;
 }
 
 .already_assigned {
-    padding-top: 10px;
+    padding-top: 20px;
     display:flex; 
     justify-content: flex-start;
     gap:7px; 
