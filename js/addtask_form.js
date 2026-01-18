@@ -57,10 +57,14 @@ async function saveTaskToFirebase(newTask) {
 function validateForm() {
     clearPreviousErrors();
     let isValid = true;
-    for (const id of REQUIRED_FIELD_IDS) {
+    const fieldsToValidate = [...REQUIRED_FIELD_IDS, "task-category"];
+    for (const id of fieldsToValidate) {
         const field = document.getElementById(id);
         if (!field) continue;
-        const value = String(field.value ?? "").trim();
+        // Check .value for regular inputs or data-selected for custom dropdowns
+        const value = field.value !== undefined 
+            ? String(field.value ?? "").trim() 
+            : String(field.getAttribute("data-selected") ?? "").trim();
         if (!value) {
             markFieldAsInvalid(field);
             isValid = false;
@@ -70,7 +74,8 @@ function validateForm() {
 }
 
 function clearPreviousErrors() {
-    for (const id of REQUIRED_FIELD_IDS) {
+    const fieldsToValidate = [...REQUIRED_FIELD_IDS, "task-category"];
+    for (const id of fieldsToValidate) {
         const field = document.getElementById(id);
         if (field) field.classList.remove("input-error");
         const errorEl = document.getElementById(`error-${id}`);
@@ -100,10 +105,16 @@ function clearFormInputs() {
     const title = document.getElementById("task-title");
     const desc = document.getElementById("task-description");
     const cat = document.getElementById("task-category");
+    const dueDate = document.getElementById("task-due-date");
     const subInput = document.getElementById("subtask-input");
     if (title) title.value = "";
     if (desc) desc.value = "";
-    if (cat) cat.selectedIndex = 0;
+    if (cat) {
+        cat.removeAttribute("data-selected");
+        const displayText = document.getElementById("categoryDisplayText");
+        if (displayText) displayText.textContent = "Select task category";
+    }
+    if (dueDate) dueDate.value = "";
     if (subInput) subInput.value = "";
 }
 
@@ -155,10 +166,12 @@ function resetPriority() {
 }
 
 function requiredFieldMarker() {
-    for (const id of REQUIRED_FIELD_IDS) {
+    const fieldsToMark = [...REQUIRED_FIELD_IDS, "task-category"];
+    for (const id of fieldsToMark) {
         const field = document.getElementById(id);
         if (!field) continue;
-        const label = document.querySelector(`label[for="${id}"]`);
+        // Check for label or span with data-for attribute
+        const label = document.querySelector(`label[for="${id}"]`) || document.querySelector(`span[data-for="${id}"]`);
         if (!label) continue;
         if (label.dataset.requiredMarked === "1") continue;
         const star = document.createElement("span");

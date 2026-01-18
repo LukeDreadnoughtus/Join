@@ -130,6 +130,8 @@ function enterEditMode(item, span, buttons) {
   editInput.type = "text";
   editInput.value = textSpan.textContent.trim();
   editInput.className = "edit-input";
+  editInput.name = "subtask-edit";
+  editInput.id = "subtask-edit-input";
   const editWrap = document.createElement("div");
   editWrap.className = "subtask-edit-wrapper";
   editWrap.appendChild(editInput);

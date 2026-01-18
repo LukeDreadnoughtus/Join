@@ -26,14 +26,15 @@
   width: 278px;
   height: 73px;
   padding-left: 100px;
-  padding-top: 100px;
-  padding-bottom: 50px;
+  padding-top: 60px;
+  padding-bottom: 30px;
 }
 
 .split_container {
   display: flex;
   align-items: stretch;
   width: 100%;
+  min-height: 450px;
   box-sizing: border-box;
   gap: 50px;
   justify-content: center;
@@ -77,7 +78,7 @@
   font-weight: 400;
   line-height: 120%;
   color: #000;
-  padding-left: 3px;
+  padding-left: 16px;
   border: 1px solid #d1d1d1;
   border-radius: 10px;
   font-size: 1rem;
@@ -130,19 +131,23 @@
 }
 
 .due_date_input {
-  padding-left: 5px;
+  padding-left: 16px;
   font-family: "Inter", sans-serif;
   font-size: 20px;
   font-weight: 400;
   line-height: 120%;
-  color: rgba(0, 0, 0, 0);
-  transition: color 0.2s ease;
+  color: #000;
 }
 
-.due_date_input::before {
-  color: #c4c4c4;
+.due_date_input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
 }
-.due_date_input.has-value {
+
+.due_date_input:invalid::-webkit-datetime-edit {
+  color: #d1d1d1;
+}
+
+.due_date_input:valid::-webkit-datetime-edit {
   color: #000;
 }
 
@@ -212,6 +217,7 @@
 }
 .medium_icon {
   color: orange;
+  transform: translateY(4px);
 }
 .low_icon {
   color: green;
@@ -222,11 +228,13 @@
 
 .task_controls_buttons {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
+  gap: 16px;
+  justify-content: flex-end;
 }
 
 .task_controls_buttons .add_task_create_button {
-  margin-left: 16px;
+  margin-left: 0;
 }
 
 .add_task_create_button {

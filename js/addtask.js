@@ -7,7 +7,6 @@ let subtaskUid = 0;
 const REQUIRED_FIELD_IDS = [
   "task-title",
   "task-due-date",
-  "task-priority",
   "board-slot",
   "task-category-native",
 ];

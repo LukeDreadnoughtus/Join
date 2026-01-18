@@ -153,7 +153,7 @@
                         <div class="overlay_form_group overlay_due_date">
                           <label id="label-task-due-date" for="task-due-date">Due Date</label>
                           <input class="overlay_due_date_input" type="date" id="task-due-date" name="task-due-date"
-                            required />
+                            placeholder="dd/mm/yyyy" required />
                         </div>
                       </form>
                     </div>
@@ -166,7 +166,7 @@
                       <div class="overlay_add_controll_form">
 
                         <div class="overlay_form_group overlay_priority">
-                          <label id="label-task-priority" for="task-priority">Priority</label>
+                          <span id="label-task-priority">Priority</span>
 
                           <div class="overlay_priority_container">
                             <button id="urgent" type="button" class="overlay_priority_btn overlay_urgent"
@@ -236,7 +236,7 @@
                         </div>
 
                         <div class="overlay_form_group overlay_category">
-                          <span class="overlay_span_form">Category</span>
+                          <span class="overlay_span_form" data-for="task-category">Category</span>
                           <div class="overlay_custom_select" id="task-category"></div>
                         </div>
 

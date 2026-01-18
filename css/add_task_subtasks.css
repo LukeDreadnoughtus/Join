@@ -4,6 +4,11 @@
   padding-top: 15px;
 }
 
+.subtask-input-wrapper .span_form {
+  display: block;
+  padding-bottom: 8px;
+}
+
 .subtask-input-wrapper > input#subtask-input {
   width: 100%;
   height: 48px;
@@ -14,7 +19,7 @@
   width: 24px;
   height: 24px;
   position: absolute;
-  top: 70%;
+  top: 75%;
   transform: translateY(-50%);
   cursor: pointer;
   padding: 4px;
@@ -37,7 +42,7 @@
 .divider_subtasks {
   position: absolute;
   right: 37px;
-  top: 70%;
+  top: 75%;
   transform: translateY(-50%);
   width: 2px;
   height: 20px;
@@ -52,9 +57,8 @@
 .subtask-item {
   display: flex;
   align-items: center;
-  gap: 10px;
   min-height: 32px;
-  padding: 4px 8px;
+  padding: 2px 2px 2px 8px;
   border-radius: 8px;
 }
 
@@ -68,18 +72,21 @@
   gap: 8px;
   flex: 1;
   min-width: 0;
+  padding-left: 10px;
 }
 
 .subtask-dot {
-  width: 8px;
-  height: 8px;
+  width: 4px;
+  height: 4px;
   background-color: #000;
   border-radius: 50%;
   flex: 0 0 auto;
 }
 
 .subtask-text {
-  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
   line-height: 1.2;
   white-space: nowrap;
   overflow: hidden;
@@ -152,45 +159,6 @@
   width: 2px;
   height: 16px;
   background-color: #0c01018a;
-}
-
-
-.subtask-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 32px;
-  padding: 4px 8px;
-  border-radius: 8px;
-}
-
-.subtask-item:hover {
-  background: #f3f3f3;
-}
-
-
-.subtask-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-  min-width: 0;
-}
-
-.subtask-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #000;
-  flex: 0 0 auto;
-}
-
-.subtask-text {
-  font-size: 14px;
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .subtask-actions {

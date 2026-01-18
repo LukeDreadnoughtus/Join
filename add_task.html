@@ -104,7 +104,7 @@
 
               <div class="form_group due_date">
                 <label id="label-task-due-date" for="task-due-date">Due Date</label>
-                <input class="due_date_input" type="date" id="task-due-date" name="task-due-date" required />
+                <input class="due_date_input" type="date" id="task-due-date" name="task-due-date" placeholder="dd/mm/yyyy" required />
               </div>
             </form>
           </div>
@@ -181,7 +181,7 @@
               </div>
 
               <div class="form_group category">
-                <span class="span_form">Category</span>
+                <span class="span_form" data-for="task-category">Category</span>
                 <div class="custom_select" id="task-category"></div>
               </div>
 
@@ -213,18 +213,18 @@
       <footer>
         <div class="footer_content">
           <p class="footer_text">This field is required<span style="color:red">*</span></p>
-        </div>
-        <div class="task_controls_buttons" id="taskControlsButtons">
-          <button type="submit" class="add_task_create_button" id="create-button">
-            <span class="font_create">Create Task</span>
-            <span class="check_svg"><img src="./assets/img/check.svg" alt="check icon" width="24px"
-                height="24px"></span>
-          </button>
-          <button type="reset" id="clear-button" class="add_task_clear_button">
-            <span class="font_clear">Clear</span>
-            <span class="clear_svg"><img src="./assets/img/clear.svg" alt="clear icon" width="24px"
-                height="24px"></span>
-          </button>
+          <div class="task_controls_buttons" id="taskControlsButtons">
+            <button type="reset" id="clear-button" class="add_task_clear_button">
+              <span class="font_clear">Clear</span>
+              <span class="clear_svg"><img src="./assets/img/clear.svg" alt="clear icon" width="24px"
+                  height="24px"></span>
+            </button>
+            <button type="submit" class="add_task_create_button" id="create-button">
+              <span class="font_create">Create Task</span>
+              <span class="check_svg"><img src="./assets/img/check.svg" alt="check icon" width="24px"
+                  height="24px"></span>
+            </button>
+          </div>
         </div>
       </footer>
     </main>
