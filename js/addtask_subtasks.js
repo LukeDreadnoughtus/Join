@@ -46,6 +46,19 @@ function wireSubtaskInputRow() {
     addIcon.classList.add("hidden", "overlay_hidden");
     clearIcon.classList.add("hidden", "overlay_hidden");
   });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      addSubtask(text);
+      input.value = "";
+      addIcon.classList.add("hidden", "overlay_hidden");
+      clearIcon.classList.add("hidden", "overlay_hidden");
+      divider.classList.add("hidden", "overlay_hidden");
+    }
+  });
 }
 
 function addSubtask(text) {
@@ -102,6 +115,12 @@ function createSubtaskElement(text) {
   item.dataset.leftId = left.id;
   item.dataset.textId = span.id;
   item.dataset.buttonsId = actions.id;
+  item.dataset.dotId = dot.id;
+  item.addEventListener("click", (e) => {
+    if (e.target.closest(".subtask-actions")) return;
+    if (e.target.closest(".subtask-edit-wrapper")) return;
+    enterEditMode(item, span, actions);
+  });
   item.append(left, actions);
   return item;
 }
@@ -124,31 +143,39 @@ function enterEditMode(item, span, buttons) {
   const left = document.getElementById(item.dataset.leftId) || item.querySelector(".subtask-left");
   const btns = document.getElementById(item.dataset.buttonsId) || buttons;
   const textSpan = document.getElementById(item.dataset.textId) || span;
+  const dot = document.getElementById(item.dataset.dotId) || item.querySelector(".subtask-dot");
   if (!left || !btns || !textSpan) return;
   btns.style.display = "none";
+  if (dot) dot.style.display = "none";
   const editInput = document.createElement("input");
   editInput.type = "text";
   editInput.value = textSpan.textContent.trim();
   editInput.className = "edit-input";
   editInput.name = "subtask-edit";
-  editInput.id = "subtask-edit-input";
   const editWrap = document.createElement("div");
   editWrap.className = "subtask-edit-wrapper";
   editWrap.appendChild(editInput);
+  editWrap.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
   const divider = document.createElement("div");
   divider.className = "subtask-edit-divider";
   const check = cloneSvgIcon("subtask-add", "subtask-edit-icon subtask-edit-check");
   const cancel = cloneSvgIcon("subtask-clear", "subtask-edit-icon subtask-edit-cancel");
-  check.addEventListener("click", () => {
+  check.addEventListener("click", (e) => {
+    e.stopPropagation();
     const newValue = editInput.value.trim();
     if (newValue) textSpan.textContent = newValue;
     rebuildLeft(left, createDot(), textSpan);
     btns.style.display = "flex";
+    if (dot) dot.style.display = "block";
     updateAddUIState();
   });
-  cancel.addEventListener("click", () => {
+  cancel.addEventListener("click", (e) => {
+    e.stopPropagation();
     rebuildLeft(left, createDot(), textSpan);
     btns.style.display = "flex";
+    if (dot) dot.style.display = "block";
     updateAddUIState();
   });
   editWrap.append(divider, check, cancel);

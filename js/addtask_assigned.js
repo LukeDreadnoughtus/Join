@@ -131,13 +131,17 @@ function toggleUserById(id) {
 
 function toggleDropdown() {
   const options = document.getElementById("assignedOptions");
+  const arrow = document.getElementById("assignedArrow");
   if (!options) return;
   options.classList.toggle("show");
+  if (arrow) arrow.classList.toggle("rotate");
 }
 
 function closeAssignedDropdown() {
   const options = document.getElementById("assignedOptions");
+  const arrow = document.getElementById("assignedArrow");
   if (options) options.classList.remove("show");
+  if (arrow) arrow.classList.remove("rotate");
 }
 
 function isClickInsideAssignedDropdown(target) {
