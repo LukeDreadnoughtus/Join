@@ -4,6 +4,8 @@
        flex-direction: column;
        padding-left: 120px; 
        gap:70px; 
+       margin-bottom: 50px;
+       gap:45px; 
     }
 
     .board_row {
@@ -20,6 +22,13 @@
 }
 
 @media (max-width: 1024px) {
+
+ .board_layout {
+       margin-bottom: 160px;
+       
+    }
+
+
 .show_task_overlay {
    left: 50%;
 }

@@ -60,8 +60,8 @@ async function toggleUserDropdown(id, event) {
 //prevents event bubbling while closing the userDropdownList
 document.addEventListener("DOMContentLoaded", () => {
     const overlay = document.getElementById("edit_task_overlay");
-    overlay.addEventListener("click", () => {
-        closeUserDropdown();
+    overlay.addEventListener("click", (event) => {
+        closeUserDropdown(event);
     });
 });
 
@@ -74,12 +74,14 @@ document.addEventListener("DOMContentLoaded", () => {
  * @param {string|number} id - Task ID
  */
 function closeUserDropdown(event, id) {
-    event.stopPropagation(); // verhindert Overlay-Close
+    event.stopPropagation();
     const dropdown = document.getElementById("userDropdownList");
     if (dropdown) {
         dropdown.classList.add("d_none");
     }
+    if (id !== undefined) {
     renderEdit(id)
+    }
 }
 
 /**

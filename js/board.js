@@ -12,7 +12,11 @@ function initAddTaskOverlay() {
         overlay.classList.remove("overlay_hidden");
     });
     overlay.addEventListener("click", (e) => {
-        if (e.target === overlay) overlay.classList.add("overlay_hidden");
+        console.log("Overlay clicked, width:", window.innerWidth, "target:", e.target.id);
+        if (window.innerWidth > 1024 && e.target.id === "overlay") {
+            console.log("Closing overlay");
+            overlay.classList.add("overlay_hidden");
+        }
     });
 }
 

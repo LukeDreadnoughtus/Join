@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="css/board_res.css" />
   <link rel="stylesheet" href="css/styles_mediaquery.css">
   <link rel="stylesheet" href="css/add_task_overlay.css" />
+  <link rel="stylesheet" href="css/add_task_overlay_responsive.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link href="assets/img/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
   <link href="assets/img/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
@@ -103,7 +104,7 @@
       <div class="header_board_responsive">
         <div class="header_board_row">
           <h2>Board</h2>
-          <button type="button" id="taskCreateButton_responsive" class="task_create_button" data-boardslot="todo">
+          <button type="button" id="taskCreateButton_responsive" class="task_create_button add_task_overlay" data-boardslot="todo">
             <img src="./assets/img/add.svg" class="plus_svg" alt="add task item">
           </button>
         </div>
@@ -266,7 +267,7 @@
                   </div>
                 </div>
 
-                <footer>
+                <div class="overlay_footer">
                   <div class="overlay_footer_content">
                     <p class="overlay_footer_text">This field is required<span style="color:red">*</span></p>
                     <div class="overlay_task_controls_buttons" id="overlayTaskControlsButtons">
@@ -285,7 +286,7 @@
                       </button>
                     </div>
                   </div>
-                </footer>
+                </div>
 
               </div>
             </div>

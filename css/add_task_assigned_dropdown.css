@@ -24,7 +24,13 @@
 
 .icon-assign {
   margin-left: 10px;
-  font-size: 12px;
+  font-size: 10px;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.icon-assign.rotate {
+  transform: rotate(180deg);
 }
 
 .select-options {

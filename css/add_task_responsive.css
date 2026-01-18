@@ -1,0 +1,124 @@
+/* Responsive styles for add_task.html - Breakpoints: 1250px, 1024px, 600px, 500px, 400px, 350px */
+
+/* 1250px breakpoint - Reduce overall size */
+@media (max-width: 1250px) {
+  .split_container {
+    flex-direction: column;
+  }
+
+  .left_split,
+  .right_split {
+    width: 100%;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  input,
+  select {
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .footer {
+    padding: 0 60px;
+  }
+}
+
+/* 1024px breakpoint - Stack layout with reduced font sizes */
+@media (max-width: 1024px) {
+  input,
+  select {
+    max-width: 550px;
+    font-size: 18px;
+  }
+
+  label {
+    font-size: 18px;
+  }
+
+  .footer {
+    padding: 0 50px;
+  }
+}
+
+/* 600px breakpoint - Mobile-friendly stacking */
+@media (max-width: 600px) {
+  input,
+  select {
+    max-width: 100%;
+    font-size: 16px;
+    width: 90%;
+  }
+
+  label {
+    font-size: 16px;
+  }
+
+  .footer_content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .task_controls_buttons {
+    width: 100%;
+  }
+
+  .footer {
+    padding: 0 30px;
+  }
+}
+
+/* 500px breakpoint - Small screens */
+@media (max-width: 500px) {
+  input,
+  select {
+    max-width: 90%;
+    font-size: 14px;
+  }
+
+  ::placeholder {
+    font-size: 14px;
+  }
+
+  label {
+    font-size: 14px;
+  }
+
+  .priority_button {
+    width: 90px;
+    height: 45px;
+    font-size: 12px;
+  }
+
+  .footer {
+    padding: 0 20px;
+  }
+}
+
+/* 400px breakpoint - Extra small screens */
+@media (max-width: 400px) {
+  .priority_button {
+    width: 80px;
+    height: 40px;
+    font-size: 11px;
+  }
+
+  .footer {
+    padding: 0 15px;
+  }
+}
+
+/* 350px breakpoint - Minimal screens */
+@media (max-width: 350px) {
+  .priority_button {
+    width: 75px;
+    height: 35px;
+    font-size: 10px;
+  }
+
+  .footer {
+    padding: 0 10px;
+  }
+}

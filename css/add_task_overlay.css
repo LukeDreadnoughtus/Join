@@ -6,11 +6,11 @@
 
 #overlay .subtask-edit-wrapper .edit-input {
   width: 100%;
-  height: 28px;
-  padding: 4px 72px 4px 10px;
+  max-height: 25px;
+  padding: 4px 72px 4px 16px;
   border-radius: 8px;
   border: 1px solid #d1d1d1;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.2;
   box-sizing: border-box;
 }
@@ -62,9 +62,7 @@
   align-items: center;
   justify-content: center;
   padding: clamp(12px, 2.5vw, 32px);
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.5);
 }
 
 #overlay.overlay_hidden {
@@ -82,13 +80,17 @@
   overflow: auto;
   display: flex;
   flex-direction: column;
+  pointer-events: auto;
 }
+
+
 
 #overlay .overlay-wrapper {
   display: grid;
-  grid-template-rows: auto 1fr auto auto;
+  grid-template-rows: auto 1fr auto;
   gap: clamp(10px, 1.6vw, 18px);
   padding: clamp(16px, 2vw, 28px);
+  height: 100%;
 }
 
 #overlay .overlay_add_task_heading {
@@ -101,6 +103,7 @@
 
 #overlay .overlay_split_container {
   min-height: 0;
+  max-height: 530px;
   overflow: hidden;
   display: flex;
   gap: clamp(12px, 2vw, 28px);
@@ -112,17 +115,18 @@
   flex: 1;
   min-width: 0;
   min-height: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 #overlay .overlay_divider {
   width: 1px;
+  max-height: 450px;
   background: #ccc;
 }
 
 #overlay .overlay_form_group {
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 #overlay .overlay_form_group.overlay_title,
@@ -153,6 +157,15 @@
   line-height: 120%;
 }
 
+#overlay #label-task-priority {
+  display: block;
+  padding-bottom: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 120%;
+}
+
 #overlay .overlay_assigned_to .overlay_span_form {
   padding-bottom: 4px;
 }
@@ -161,6 +174,7 @@
 #overlay select,
 #overlay textarea {
   width: 100%;
+  max-width: 600px;
   box-sizing: border-box;
   border: 1px solid #d1d1d1;
   border-radius: 10px;
@@ -210,26 +224,24 @@
 
 #overlay .overlay_priority_container {
   display: flex;
-  gap: 12px;
+  gap: 15px;
+  max-width: 600px;
 }
 
 #overlay .overlay_priority_btn {
-  flex: 1;
+  padding: 5px 5px;
+  width: 136px;
   height: 56px;
   border: 0;
   border-radius: 10px;
   background: #fff;
   cursor: pointer;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  box-shadow: 0 0 0 1px #d1d1d1 inset;
-  transition: all 0.2s ease;
-}
-
-#overlay .overlay_priority_btn:hover {
-  box-shadow: 0 0 0 1px #999 inset;
+  gap: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.1s ease;
 }
 
 #overlay .overlay_priority_name {
@@ -237,6 +249,10 @@
   font-size: 20px;
   font-weight: 400;
   line-height: 120%;
+}
+
+#overlay .overlay_priority_name.overlay_medium {
+  font-size: 18px;
 }
 
 #overlay .overlay_priority_btn.overlay_active.overlay_low {
@@ -261,6 +277,7 @@
 
 #overlay .overlay_custom_select {
   width: 100%;
+  max-width: 600px;
 }
 
 #overlay #categoryOptions {
@@ -303,6 +320,7 @@
 #overlay #task-assigned-to {
   position: relative;
   width: 100%;
+  max-width: 600px;
 }
 
 #overlay .select-display {
@@ -318,7 +336,13 @@
 
 #overlay .icon-assign {
   margin-left: 10px;
-  font-size: 12px;
+  font-size: 10px;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+#overlay .icon-assign.rotate {
+  transform: rotate(180deg);
 }
 
 #overlay .select-options {
@@ -570,8 +594,15 @@
   color: #fff;
 }
 
+#overlay .overlay_footer {
+  padding: 0;
+  margin: 0;
+  background: white;
+}
+
 #overlay .overlay_footer_content {
-  padding-top: 12px;
+  padding: 0;
+  margin: 0;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -605,10 +636,12 @@
   min-height: 32px;
   padding: 2px 2px 2px 8px;
   border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 #overlay .subtask-item:hover {
-  background: #f3f3f3;
+  background: #e8e8e8;
 }
 
 #overlay .subtask-left {
@@ -630,7 +663,7 @@
 
 #overlay .subtask-text {
   font-family: "Inter", sans-serif;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 1.2;
   white-space: nowrap;
@@ -664,6 +697,22 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  border-radius: 4px;
+}
+
+#overlay .subtask-action-btn:hover {
+  animation: pulsar 1.5s ease-in-out infinite;
+}
+
+@keyframes pulsar {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
 }
 
 #overlay .subtask-action-btn svg {

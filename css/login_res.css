@@ -81,6 +81,11 @@ h2 {
     width: 180px;
 }
 
+.footer_login {
+    padding:0px; 
+    gap:45px; 
+}
+
 }
 
 @media (max-width:430px) {

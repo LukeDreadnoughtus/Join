@@ -60,10 +60,12 @@
   min-height: 32px;
   padding: 2px 2px 2px 8px;
   border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 .subtask-item:hover {
-  background: #f3f3f3;
+  background: #e8e8e8;
 }
 
 .subtask-left {
@@ -85,7 +87,7 @@
 
 .subtask-text {
   font-family: "Inter", sans-serif;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 1.2;
   white-space: nowrap;
@@ -119,11 +121,10 @@
 
 .subtask-edit-wrapper .edit-input {
   width: 100%;
-  height: 28px;
-  padding: 4px 72px 4px 10px;
+  padding: 4px 72px 4px 16px;
   border-radius: 8px;
   border: 1px solid #d1d1d1;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.2;
   box-sizing: border-box;
 }
@@ -187,6 +188,22 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  border-radius: 4px;
+}
+
+.subtask-action-btn:hover {
+  animation: pulsar 1.5s ease-in-out infinite;
+}
+
+@keyframes pulsar {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
 }
 
 .subtask-action-btn svg {
