@@ -1,0 +1,176 @@
+/*
+  Summary – responsive tweaks
+  --------------------------
+  This file is loaded only on summary.html.
+  Keep all breakpoint overrides here (base layout remains in summary.css).
+*/
+
+/*
+  ------------------------------------------------------------
+  FIX: Stable left start + no "drifting" buttons
+
+  In summary.css the layout used percentage margins and a fixed width
+  calculation. That makes the whole KPI block move left/right when the
+  viewport changes.
+
+  Requirement:
+  - Below 1024px: .summary-headline must keep the SAME left start as
+    .summary-btn--todo (same inset from the outer edge).
+  - Buttons must NEVER shift when the page becomes wider – they may only
+    become smaller when the viewport gets narrower.
+
+  Solution:
+  - Drive the left inset via a CSS variable (--summary-inline) that is
+    set in summary_mediaquery.js.
+  - Keep the KPI block left-aligned with a fixed max width.
+*/
+
+/* Defaults (desktop). JS will keep these in sync on resize. */
+:root{
+  --summary-inline: 64px;        /* stable left start */
+  --summary-max-width: 620px;    /* buttons may shrink, but never drift */
+}
+
+/* Override the percentage-based layout from summary.css */
+.summary-headline,
+.summary-grid{
+  margin-left: var(--summary-inline) !important;
+  margin-right: auto !important;
+  width: min(var(--summary-max-width), calc(100% - var(--summary-inline) - var(--summary-inline))) !important;
+  max-width: var(--summary-max-width) !important;
+  box-sizing: border-box;
+}
+
+/* <= 1024px: hide greeting ("Guten Morgen" + username) */
+@media (max-width: 1024px) {
+  .summary-greeting {
+    display: none !important;
+  }
+}
+
+/*
+  <= 1000px:
+  Force a controlled line break in the text labels of the small KPI buttons
+  (Board / Progress) so the buttons can remain in one row at ~900px widths.
+  The actual <br> insertion is handled in js/summary_mediaquery.js.
+*/
+@media (max-width: 1000px) {
+  .summary-btn--board .summary-btn__content,
+  .summary-btn--progress .summary-btn__content,
+  .summary-btn--feedback .summary-btn__content {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .summary-btn--board h4,
+  .summary-btn--progress h4,
+  .summary-btn--feedback h4 {
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  /* If it still gets tight around ~900px, slightly reduce horizontal padding
+     on the three small KPI buttons so they can stay in one row longer. */
+  .summary-btn--board,
+  .summary-btn--progress,
+  .summary-btn--feedback {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+/*
+  <= 900px:
+  summary.css switches the KPI grid to 2 columns, which forces the bottom
+  row (Board/Progress/Feedback) to wrap.
+
+  Goal:
+  - Keep the 3 small KPI buttons in ONE row as long as possible.
+  - Reduce the inner padding (text-to-border distance) and spacing so the
+    row fits without breaking the layout.
+*/
+@media (max-width: 900px) {
+  /* override summary.css breakpoint layout */
+  .summary-grid{
+    grid-template-columns: repeat(6, 1fr) !important;
+    grid-template-areas:
+      "todo todo todo done done done"
+      "urgent urgent urgent urgent urgent urgent"
+      "board board progress progress feedback feedback" !important;
+    gap: 12px !important;
+  }
+
+  /* make the bottom KPI buttons slightly more compact */
+  .summary-btn--board,
+  .summary-btn--progress,
+  .summary-btn--feedback{
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .summary-btn--board .summary-btn__content,
+  .summary-btn--progress .summary-btn__content,
+  .summary-btn--feedback .summary-btn__content{
+    gap: 4px;
+  }
+
+  .summary-btn--board h4,
+  .summary-btn--progress h4,
+  .summary-btn--feedback h4{
+    font-size: 13px;
+  }
+}
+
+/* <= 600px: headline becomes 2 lines, divider becomes an underline */
+@media (max-width: 600px) {
+  .summary-headline {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  /* Make sure the text sits UNDER "Join 360" */
+  .summary-headline__brand {
+    order: 1;
+  }
+
+  .summary-headline__text {
+    order: 2;
+  }
+
+  /* Move the blue line below the text and turn it into an underline.
+     Keep the original size: 28px x 3px (just rotated) */
+  .summary-headline__divider {
+    order: 3;
+    width: 28px;
+    height: 3px;
+    border-radius: 2px;
+    margin-top: -2px;
+  }
+}
+
+/* <= 500px: scale KPI button height proportionally with viewport width.
+   summary.css defines a fixed height (128px). We override it here using a CSS
+   variable that is set via js/summary_mediaquery.js. */
+@media (max-width: 500px) {
+  .summary-btn {
+    height: var(--summary-btn-height, 128px) !important;
+  }
+}
+
+
+/* >= 500px: center summary button content with equal side padding */
+@media (min-width: 500px) {
+  .summary-btn__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding-left: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+}

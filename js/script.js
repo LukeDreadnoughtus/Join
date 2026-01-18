@@ -119,6 +119,17 @@ function logoutUser(event) {
   localStorage.removeItem('username')
   localStorage.removeItem('userid')
   localStorage.removeItem('usercolor')
+  // After a logout, make sure we land on the correct (logged-out) view.
+  // This prevents scenarios where the user is logged out but still stays on a "logged-in" page layout.
+  const currentFile = (window.location.pathname.split('/').pop() || '').toLowerCase();
+  if (currentFile === 'privacy_policy.html') {
+    window.location.href = 'privacy_policy_logout.html';
+    return;
+  }
+  if (currentFile === 'legal_notice.html') {
+    window.location.href = 'legal_notice_logout.html';
+    return;
+  }
   window.location.href = 'index.html';
 }
 //Help_page

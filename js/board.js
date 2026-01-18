@@ -400,7 +400,6 @@ function searchTask_res() {
     checkNoTasks();
 }
 
-
 /**
  * Clears the content of all board columns so that tasks can be re-rendered.
  */
