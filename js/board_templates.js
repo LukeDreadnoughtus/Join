@@ -48,7 +48,14 @@ if (taskData.assignedUsers.length === 0) {
  }
  const taskHtml = `
     <div class="task_card" onclick="openTaskOverlay('${taskData.id}')" draggable ="true" ondragstart="startDragging(event,'${taskData.id}')" ondragend="stopDragging(event)">
+      <div class="card_header">
       <div class="task_category_card task_category_color_${taskData.categoryColor}">${taskData.category}</div>
+      <div class="menu_wrapper">
+      <img src="./assets/img/swap_horiz.svg" alt="menü icon" class="responsive_task_card_menu" onclick="openResMenu('${taskData.boardSlot}', '${taskData.id}', event)">
+      <div class="menu_task_card_res d_none" id="menu_task_card_res_${taskData.id}">
+      </div>
+      </div>
+      </div>
       <div class="task_titel_card">${taskData.title}</div>
       <div class="task_description_card">${taskData.description}</div>
       ${taskData.subtasksTotal > 0 ? `
@@ -194,7 +201,7 @@ function renderTaskEditCard(taskData) {
             <h4>Due Date</h4>
             <div class="input_event">
                 <img src="./assets/img/event.svg" class="event_icon" id="date_icon">
-                <input class="input_edit_title input_style" 
+                <input class="input_edit_date input_style" 
                        type="text" 
                        id="edit_due_date" 
                        placeholder="dd/mm/yyyy" 

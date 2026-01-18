@@ -41,8 +41,8 @@ h2 {
 
 .div_login {
     width: 396px; 
-    margin-top: 220px;
-    margin-bottom: 175px;
+    margin-top: 180px;
+    margin-bottom: 140px;
 }
 .login_icon {
     top: 60px;
@@ -61,7 +61,7 @@ h2 {
 }
 
 .not_a_join_user {
-    top: 720px;
+    top: 680px;
     right: 0px; 
     padding-right: 80px; 
 }
@@ -92,7 +92,6 @@ h2 {
 .div_login {
     width: 300px;
     height: 400px; 
-    margin-bottom: 224px;
 }
 
 .div_login input::placeholder {
@@ -113,10 +112,10 @@ h2 {
 }
 
 .not_a_join_user {
-    top: 740px;
+    top: 625px;
     right: 0px; 
-    padding-right: 25px;
-    gap:30px; 
+    padding-right: 45px;
+    gap:15px; 
 }
 
 .sign_up_button {

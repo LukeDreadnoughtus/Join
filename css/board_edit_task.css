@@ -1,5 +1,5 @@
 .edit_task_overlay {
-    position: absolute; 
+    position: relative; 
     display:flex; 
     flex-direction: column; 
     width: 396px; 
@@ -9,8 +9,10 @@
     box-shadow: 0px 0px 4px 0px #00000029;
     background-color: #FFFFFF;
     z-index: 1000;
-    top: 10%; 
-    left: 25%; 
+    top: 16px;
+    left: 40%;
+    transform: translateX(-50%);
+    box-sizing: border-box; 
 }
 
 .no_assignies { 
@@ -47,11 +49,17 @@ transition: background-color 120ms ease;
 .task_view_head {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
     padding-right: 20px; 
 }
 
 .input_edit_title {
+    width: 365px;
+    height:auto; 
+    margin-top: 7px; 
+}
+
+.input_edit_date {
     width: 365px;
     height:auto; 
     margin-top: 7px; 
@@ -93,15 +101,15 @@ transition: background-color 120ms ease;
     padding-left: 5px;  
     padding-right: 10px; 
     box-sizing: border-box;
-    width: 100%;
-    resize: none;             /* verhindert manuelles Resize */
-    overflow: hidden;         /* keine Scrollbar */
-    min-height: 32px;         /* Start-Höhe */
+    width: 97%;
+    resize: none;            
+    overflow: hidden;         
+    min-height: 32px;         
     max-height: 400px; 
 }
 
 .close_icon_margin {
-    margin-left: 350px; 
+    margin-left: 310px; 
     margin-bottom: 20px; 
 }
 
@@ -152,8 +160,10 @@ transition: background-color 120ms ease;
     margin-bottom: 10px; 
 }
 /* assigned user selection */
+
 .user_dropdown {
-    position: relative;
+    display: flex;
+    flex-direction: column;
     width: 250px;
 }
 
@@ -163,19 +173,18 @@ transition: background-color 120ms ease;
     border-radius: 8px;
     background: white;
     cursor: pointer;
-    width: 350px; 
+    width: 302px; 
     margin-top:20px; 
     font-size: 20px;
     font-family: "inter";
 }
 
 .user_dropdown_list {
-    position: absolute;
+    position: static;
     top: 50px;
     left: 0;
     width: fit-content; 
     background: white;
-    /* border: 1px solid #ccc; */
     border-radius: 8px;
     max-height: 347px;
     overflow-y: auto;
@@ -188,7 +197,7 @@ transition: background-color 120ms ease;
     align-items: center;
     justify-content: space-between;
     padding: 10px 12px;
-    width: 350px;
+    width: 302px;
     cursor: pointer;
 }
 
@@ -199,6 +208,7 @@ transition: background-color 120ms ease;
 .selectable_user {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .user_checkbox {
@@ -275,7 +285,7 @@ transition: background-color 120ms ease;
 
 .input_edit_subtask_wrapper {
     position: relative;
-    width: 100%;
+    width: 97%;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -397,7 +407,7 @@ transition: background-color 120ms ease;
 
 .input_event {
     position: relative;
-    width: 325px;
+    width:275px; 
 }
 
 .event_icon {
@@ -411,12 +421,12 @@ transition: background-color 120ms ease;
 }
 
 .input_event input {
-    width: 365px;
+    width: 328px;
     padding-right: 40px; /* Platz für das SVG */
 }
 
 .already_assigned {
-    padding-top: 10px;
+    padding-top: 20px;
     display:flex; 
     justify-content: flex-start;
     gap:7px; 
@@ -444,7 +454,7 @@ transition: background-color 120ms ease;
   background-color: #2a3647;
   border-radius: 10px;
   border: 0px;
-  margin-left: 290px; 
+  margin-left: 260px; 
   margin-top: 20px; 
   gap:5px; 
 }

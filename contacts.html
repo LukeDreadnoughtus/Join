@@ -56,12 +56,14 @@
 <header>
         <div class="header_div">
         <h4>Kanban Project Management Tool</h4>
+        <img class="join_icon" src="./assets/img/login_join.svg"></img>
         </div>
         <div class="header_icons">
             <img class="help_icon" src="./assets/img/help.svg" onclick="toHelpPage()"></img>
             <div class="my_icon" onclick="openUserMenu()"></div>
-            <nav class="user_menu d_none" id="user_menu">
+            <nav class="user_menu d_none" id="user_menu" onclick="event.stopPropagation()">
             <ul>
+            <li class="help_res"><a href="help.html"><span>Help</span></a></li>
             <li><a href="legal_notice.html"><span>Legal Notice</span></a></li>
             <li><a href="privacy_policy.html"><span>Privacy Policy</span></a></li>
             <li><a href="" onclick="logoutUser(event)"><span>Log out</span></a></li>
@@ -69,6 +71,7 @@
             </nav>
         </div>
 </header>
+<div class="header_overlay d_none" id="header_overlay" onclick="closeUserMenu()"></div>
 <div class="contacts_sidebar"><button class="contacts_sidebar_add">Add new contact</button><div class="contacts_sidebar_list"></div></div>
 </main>
 </div>

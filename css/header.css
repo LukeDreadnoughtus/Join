@@ -2,10 +2,24 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #f5f5f5;
+  background-color: white;
   border-bottom: 1px solid #eee;
   height: 96px;
   width: 100%;
+}
+
+.header_overlay {
+  position: fixed;
+  inset: 0;                
+  background: rgba(0, 0, 0, 0); 
+  z-index: 900;            
+}
+
+
+.join_icon {
+  width: 32px; 
+  height:39px; 
+  display:none; 
 }
 
 .header_icons {
@@ -30,6 +44,11 @@ header {
   margin-left: 50px; 
 }
 
+.help_res {
+  display:none; 
+
+}
+
 .my_icon {
     width: 56px;
     height: 56px;
@@ -48,11 +67,12 @@ header {
 .user_menu {
   position:absolute; 
   top:96px; 
-  margin-right: 150px;
+  right: 70px; 
   background-color:#2A3647 ;
   width: 150px; 
   height: 158px; 
   border-radius: 20px 0 20px 20px;
+  z-index:1000; 
 }
 
 ul {
@@ -88,4 +108,42 @@ ul {
 
 .d_none {
   display: none;
+}
+
+@media (max-width: 680px) { 
+
+  .join_icon {
+  width: 32px; 
+  height:39px; 
+  display:block; 
+}
+
+.header_div h4 {
+  display:none; 
+}
+
+.my_icon { 
+  width: 40px; 
+  height:40px; 
+  border: 2px solid #2A3647;
+  font-size: 18px;
+}
+
+.help_icon {
+ display:none; 
+}
+
+.header_icons {
+margin-right:30px; 
+}
+
+.help_res {
+  display:block; 
+}
+
+.user_menu { 
+  right: 50px;
+  height: 200px;
+}
+
 }

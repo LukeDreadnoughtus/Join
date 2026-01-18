@@ -8,7 +8,9 @@ header {
   width: 100%;
 }
 
-.hidden { display: none; }
+.hidden {
+  display: none;
+}
 
 label {
   font-family: "inter";
@@ -26,10 +28,21 @@ label {
   font-weight: 400;
   font-family: "inter";
   line-height: 120%;
-  padding: 10px;
+  padding-left: 0;
 }
 
 .input-error {
+  border: 2px solid #e53935 !important;
+  background-color: #ffecec;
+}
+
+.input-error.custom_select {
+  border: none !important;
+  background-color: transparent !important;
+}
+
+.input-error.custom_select .select-display,
+.input-error.custom_select #categoryDisplay {
   border: 2px solid #e53935 !important;
   background-color: #ffecec;
 }
@@ -62,14 +75,114 @@ label {
   animation: fadeIn 0.3s forwards;
 }
 
-.notification.success { background: #2ecc71; }
-.notification.error { background: #e74c3c; }
-.notification.info { background: #3498db; }
+.span_form {
+  font-family: "inter";
+  font-style: "regular";
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 120%;
+  padding-bottom: 8px;
+}
+
+.custom_select {
+  padding-top: 10px;
+}
+
+#categoryOptions {
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  padding-right: 0 !important;
+}
+
+#categoryOptions::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 100px));
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 100px));
+  }
+}
+
+.success-notification {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background-color: #2a3647;
+  color: #fff;
+  padding: 16px 32px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+  z-index: 10000;
+  animation: slideUp 0.5s ease-out forwards;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.success-notification.removing {
+  animation: slideDown 0.5s ease-out forwards;
+}
+
+footer {
+  margin-top: 80px;
+  padding: 0 100px;
+}
+
+.footer_content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.notification.success {
+  background: #2ecc71;
+}
+.notification.error {
+  background: #e74c3c;
+}
+.notification.info {
+  background: #3498db;
+}
 
 @keyframes fadeIn {
-  to { opacity: 1; transform: translateY(0); }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeOut {
-  to { opacity: 0; transform: translateY(-10px); }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.footer_text {
+  margin: 0;
+  font-size: 14px;
+  color: #2a3647;
+  font-weight: 500;
 }

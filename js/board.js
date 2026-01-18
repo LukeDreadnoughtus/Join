@@ -33,8 +33,7 @@ var allTasks = {}; // globales Objekt: key = Task-ID, value = Task-Daten
  * @param {Event} event - The triggered event (e.g. submit or load)
  * @returns {Promise<void>}
  */
-async function init(event) {
-    event.preventDefault();
+async function init() {
     removeUserfeedback()
     await showTasks()
     checkNoTasks();

@@ -4,7 +4,8 @@ function updateDisplayText() {
   const display = document.getElementById("assignedDisplay");
   const assignedUsersContainer = document.getElementById("assigned-users-icons");
   if (!display || !assignedUsersContainer) return;
-  rebuildDisplayElement(display);
+  const displayText = window.selectedUsers && window.selectedUsers.size > 0 ? "To:" : "Select contacts to assign";
+  rebuildDisplayElement(display, displayText);
   assignedUsersContainer.innerHTML = "";
   if (window.selectedUsers && window.selectedUsers.size > 0) {
     window.selectedUsers.forEach((id) => {
@@ -14,12 +15,12 @@ function updateDisplayText() {
   }
 }
 
-function rebuildDisplayElement(display) {
+function rebuildDisplayElement(display, textContent = "Select contacts to assign") {
   display.innerHTML = "";
   const text = document.createElement("span");
   text.className = "select-display-text";
   text.id = "assignedDisplayText";
-  text.textContent = "Select contacts to assign";
+  text.textContent = textContent;
   const arrow = document.createElement("span");
   arrow.className = "icon-assign";
   arrow.id = "assignedArrow";
@@ -130,7 +131,8 @@ function toggleUserById(id) {
 
 function toggleDropdown() {
   const options = document.getElementById("assignedOptions");
-  if (options) options.classList.toggle("show");
+  if (!options) return;
+  options.classList.toggle("show");
 }
 
 function closeAssignedDropdown() {

@@ -98,7 +98,16 @@ window.location.href = "help.html"
  * Toggles the visibility of the user menu.
  */
 function openUserMenu() {
-  document.getElementById("user_menu").classList.toggle("d_none")
+  const menu = document.getElementById("user_menu");
+  const overlay = document.getElementById("header_overlay");
+
+  menu.classList.toggle("d_none");
+  overlay.classList.toggle("d_none");
+}
+
+function closeUserMenu() {
+  document.getElementById("user_menu").classList.add("d_none");
+  document.getElementById("header_overlay").classList.add("d_none");
 }
 
 /**

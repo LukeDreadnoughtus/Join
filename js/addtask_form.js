@@ -6,7 +6,7 @@ function getTaskDataFromForm() {
         title: document.getElementById("task-title")?.value || "",
         boardslot: document.getElementById("board-slot")?.value || "todo",
         description: document.getElementById("task-description")?.value || "",
-        category: document.getElementById("task-category")?.value || "",
+        category: document.getElementById("task-category")?.getAttribute("data-selected") || "",
         assigned: Array.from(window.selectedUsers?.keys?.() || []),
         priority: document.getElementById("task-priority")?.value || "",
         subtasks: getSubtasksForDB(),
@@ -57,10 +57,14 @@ async function saveTaskToFirebase(newTask) {
 function validateForm() {
     clearPreviousErrors();
     let isValid = true;
-    for (const id of REQUIRED_FIELD_IDS) {
+    const fieldsToValidate = [...REQUIRED_FIELD_IDS, "task-category"];
+    for (const id of fieldsToValidate) {
         const field = document.getElementById(id);
         if (!field) continue;
-        const value = String(field.value ?? "").trim();
+        // Check .value for regular inputs or data-selected for custom dropdowns
+        const value = field.value !== undefined 
+            ? String(field.value ?? "").trim() 
+            : String(field.getAttribute("data-selected") ?? "").trim();
         if (!value) {
             markFieldAsInvalid(field);
             isValid = false;
@@ -70,7 +74,8 @@ function validateForm() {
 }
 
 function clearPreviousErrors() {
-    for (const id of REQUIRED_FIELD_IDS) {
+    const fieldsToValidate = [...REQUIRED_FIELD_IDS, "task-category"];
+    for (const id of fieldsToValidate) {
         const field = document.getElementById(id);
         if (field) field.classList.remove("input-error");
         const errorEl = document.getElementById(`error-${id}`);
@@ -100,10 +105,16 @@ function clearFormInputs() {
     const title = document.getElementById("task-title");
     const desc = document.getElementById("task-description");
     const cat = document.getElementById("task-category");
+    const dueDate = document.getElementById("task-due-date");
     const subInput = document.getElementById("subtask-input");
     if (title) title.value = "";
     if (desc) desc.value = "";
-    if (cat) cat.selectedIndex = 0;
+    if (cat) {
+        cat.removeAttribute("data-selected");
+        const displayText = document.getElementById("categoryDisplayText");
+        if (displayText) displayText.textContent = "Select task category";
+    }
+    if (dueDate) dueDate.value = "";
     if (subInput) subInput.value = "";
 }
 
@@ -126,13 +137,9 @@ function clearAssignedDropdown() {
 
 function showSuccessMessage() {
     const msg = document.createElement("div");
-    msg.textContent = "Task created successfully ✅";
-    msg.style.color = "green";
-    msg.style.marginTop = "10px";
-    msg.style.fontWeight = "bold";
-    msg.style.textAlign = "center";
-    const host = document.getElementById("taskControlsButtons") || document.body;
-    host.appendChild(msg);
+    msg.textContent = "Task added to Board";
+    msg.className = "success-notification";
+    document.body.appendChild(msg);
     setTimeout(() => msg.remove(), 3000);
 }
 
@@ -159,10 +166,12 @@ function resetPriority() {
 }
 
 function requiredFieldMarker() {
-    for (const id of REQUIRED_FIELD_IDS) {
+    const fieldsToMark = [...REQUIRED_FIELD_IDS, "task-category"];
+    for (const id of fieldsToMark) {
         const field = document.getElementById(id);
         if (!field) continue;
-        const label = document.querySelector(`label[for="${id}"]`);
+        // Check for label or span with data-for attribute
+        const label = document.querySelector(`label[for="${id}"]`) || document.querySelector(`span[data-for="${id}"]`);
         if (!label) continue;
         if (label.dataset.requiredMarked === "1") continue;
         const star = document.createElement("span");
@@ -179,6 +188,90 @@ function renderUserIcon() {
     if (iconDiv) iconDiv.textContent = initials(user);
 }
 
+function toggleCategoryDropdown() {
+    const options = document.getElementById("categoryOptions");
+    if (!options) return;
+    options.classList.toggle("show");
+}
+
+function closeCategoryDropdown() {
+    const options = document.getElementById("categoryOptions");
+    if (options) options.classList.remove("show");
+}
+
+function createCategoryOptionsContainer() {
+    const options = document.createElement("div");
+    options.className = "select-options";
+    options.id = "categoryOptions";
+    const items = [
+        { value: "Technical Task", text: "Technical Task" },
+        { value: "User Story", text: "User Story" },
+    ];
+
+    items.forEach((it) => {
+        const item = document.createElement("div");
+        item.className = "option-item";
+        item.setAttribute("data-value", it.value);
+        item.textContent = it.text;
+        item.onclick = () => setCategory(it.value, it.text);
+        options.appendChild(item);
+    });
+
+    return options;
+}
+
+function createCategoryDisplayElement() {
+    const el = document.createElement("div");
+    el.className = "select-display";
+    el.id = "categoryDisplay";
+    el.onclick = toggleCategoryDropdown;
+    const text = document.createElement("span");
+    text.className = "select-display-text";
+    text.id = "categoryDisplayText";
+    text.textContent = "Select task category";
+    const arrow = document.createElement("span");
+    arrow.className = "icon-assign";
+    arrow.id = "categoryArrow";
+    arrow.textContent = "▼";
+    el.append(text, arrow);
+    return el;
+}
+
+function buildCategoryDropdown() {
+    const container = document.getElementById("task-category");
+    if (!container) return;
+    container.innerHTML = "";
+    const display = createCategoryDisplayElement();
+    const options = createCategoryOptionsContainer();
+    container.append(display, options);
+    attachOutsideClickHandlerForCategoryDropdown();
+}
+
+function setCategory(value, text) {
+    const container = document.getElementById("task-category");
+    const displayText = document.getElementById("categoryDisplayText");
+    if (!container || !displayText) return;
+    container.setAttribute("data-selected", value); // hier wird der Wert gespeichert
+    displayText.textContent = text;
+    closeCategoryDropdown();
+}
+
+function isClickInsideCategoryDropdown(target) {
+    const display = document.getElementById("categoryDisplay");
+    const options = document.getElementById("categoryOptions");
+    return (display && display.contains(target)) || (options && options.contains(target));
+}
+
+function attachOutsideClickHandlerForCategoryDropdown() {
+    if (window.__categoryOutsideClickBound) return;
+    window.__categoryOutsideClickBound = true;
+
+    document.addEventListener("click", (e) => {
+        if (!isClickInsideCategoryDropdown(e.target)) closeCategoryDropdown();
+    });
+}
+
+
 function initAddTask() {
     const createBtn = document.getElementById("create-button");
     const clearBtn = document.getElementById("clear-button");
@@ -191,10 +284,13 @@ function initAddTask() {
     if (mediumBtn) mediumBtn.addEventListener("click", () => setActivePriority(mediumBtn));
     if (urgentBtn) urgentBtn.addEventListener("click", () => setActivePriority(urgentBtn));
     if (document.getElementById("task-assigned-to")) loadUserAssignments();
+    buildCategoryDropdown();
     requiredFieldMarker();
     renderUserIcon();
     wireSubtaskInputRow();
     updateAddUIState();
 }
+
+
 
 document.addEventListener("DOMContentLoaded", initAddTask);

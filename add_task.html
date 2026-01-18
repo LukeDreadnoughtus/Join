@@ -21,7 +21,7 @@
   <link href="assets/img/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
   <link href="assets/img/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
-  <link href="css/styles_mediaquery.css" rel="stylesheet"/>
+  <link href="css/styles_mediaquery.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -70,12 +70,14 @@
       <header>
         <div class="header_div">
           <h4>Kanban Project Management Tool</h4>
+          <img class="join_icon" src="./assets/img/login_join.svg"></img>
         </div>
         <div class="header_icons">
           <img class="help_icon" src="./assets/img/help.svg" onclick="toHelpPage()"></img>
           <div class="my_icon" id="myIcon" onclick="openUserMenu()"></div>
-          <nav class="user_menu d_none" id="user_menu">
+          <nav class="user_menu d_none" id="user_menu" onclick="event.stopPropagation()">
             <ul>
+              <li class="help_res"><a href="help.html"><span>Help</span></a></li>
               <li><a href="legal_notice.html"><span>Legal Notice</span></a></li>
               <li><a href="privacy_policy.html"><span>Privacy Policy</span></a></li>
               <li><a href="" onclick="logoutUser(event)"><span>Log out</span></a></li>
@@ -83,6 +85,7 @@
           </nav>
         </div>
       </header>
+      <div class="header_overlay d_none" id="header_overlay" onclick="closeUserMenu()"></div>
       <h2 class="add_task_heading">Add Task</h2>
       <div class="split_container">
 
@@ -101,7 +104,7 @@
 
               <div class="form_group due_date">
                 <label id="label-task-due-date" for="task-due-date">Due Date</label>
-                <input class="due_date_input" type="date" id="task-due-date" name="task-due-date" required />
+                <input class="due_date_input" type="date" id="task-due-date" name="task-due-date" placeholder="dd/mm/yyyy" required />
               </div>
             </form>
           </div>
@@ -171,24 +174,20 @@
               </div>
 
               <div class="form_group assigned_to">
-                <label>Assigned to</label>
+                <span class="span_form">Assigned to</span>
                 <div class="custom_select" id="task-assigned-to">
                 </div>
                 <div class="assigned_users_icons" id="assigned-users-icons"></div>
               </div>
 
               <div class="form_group category">
-                <label id="label-task-category" for="task-category">Category</label>
-                <select class="task_category" id="task-category" required>
-                  <option value="" disabled selected hidden>Select task category</option>
-                  <option value="Technical Task">Technical Task</option>
-                  <option value="User Story">User Story</option>
-                </select>
+                <span class="span_form" data-for="task-category">Category</span>
+                <div class="custom_select" id="task-category"></div>
               </div>
 
 
               <div class="subtask-input-wrapper">
-                <label for="task-subtask">Subtasks</label>
+                <span class="span_form">Subtask</span>
                 <input placeholder="Add new subtask" type="text" id="subtask-input" />
 
                 <svg id="subtask-add" class="icon hidden" viewBox="0 0 24 24">
@@ -209,20 +208,23 @@
           </div>
         </div>
       </div>
-      <div class="task_controls_buttons" id="taskControlsButtons">
-        <button type="submit" class="add_task_create_button" id="create-button">
-          <span class="font_create">Create Task</span>
-          <span class="check_svg"><img src="./assets/img/check.svg" alt="check icon" width="24px" height="24px"></span>
-        </button>
-        <button type="reset" id="clear-button" class="add_task_clear_button">
-          <span class="font_clear">Clear</span>
-          <span class="clear_svg"><img src="./assets/img/clear.svg" alt="clear icon" width="24px" height="24px"></span>
-        </button>
-      </div>
+
       </form>
       <footer>
         <div class="footer_content">
           <p class="footer_text">This field is required<span style="color:red">*</span></p>
+          <div class="task_controls_buttons" id="taskControlsButtons">
+            <button type="reset" id="clear-button" class="add_task_clear_button">
+              <span class="font_clear">Clear</span>
+              <span class="clear_svg"><img src="./assets/img/clear.svg" alt="clear icon" width="24px"
+                  height="24px"></span>
+            </button>
+            <button type="submit" class="add_task_create_button" id="create-button">
+              <span class="font_create">Create Task</span>
+              <span class="check_svg"><img src="./assets/img/check.svg" alt="check icon" width="24px"
+                  height="24px"></span>
+            </button>
+          </div>
         </div>
       </footer>
     </main>

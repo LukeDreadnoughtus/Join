@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -12,29 +13,29 @@ html, body {
 } */
 
 body {
-  font-family: "inter"; 
-  font-size:16px; 
+  font-family: "inter";
+  font-size: 16px;
 }
 
 /* for main tasks */
 .page {
   display: grid;
   grid-template-columns: 16.5% 1fr;
-  height: 100vh;              
-  overflow-y: hidden;         
-  scrollbar-gutter: stable; 
+  height: 100vh;
+  overflow-y: hidden;
+  scrollbar-gutter: stable;
   /* max-width: 1440px; minus menü  232px und dann header position absolute +  page 96 margin top*/
+  background-color: #f5f5f5;
 }
 
 .left {
   position: relative;
-  background: #2A3647;
+  background: #2a3647;
   padding-top: 250px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
-
 
 .left::before {
   content: "";
@@ -44,7 +45,7 @@ body {
   transform: translateX(-50%);
   width: 120px;
   height: 120px;
-  background-image: url('../assets/img/join-logo-vector.svg');
+  background-image: url("../assets/img/join-logo-vector.svg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -60,7 +61,6 @@ body {
   margin: 12px 0 16px;
   /* text-align:  */
 }
-
 
 .left .link-row {
   display: flex;
@@ -86,36 +86,33 @@ body {
   line-height: 0;
 }
 
-
 .left .link-text--board {
-  transform: scale(0.7);          
-  transform-origin: left center;   
+  transform: scale(0.7);
+  transform-origin: left center;
 }
-
 
 .main-links {
   display: grid;
-  grid-auto-flow: column;   
-  grid-auto-columns: 1fr;   
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
   width: 100%;
   height: 5%;
-  column-gap: 0;           
+  column-gap: 0;
   padding: 0;
-  margin: 0;                
+  margin: 0;
   box-sizing: border-box;
 }
 
 .main-links .link-row {
   width: 100%;
   height: 100%;
-  display: flex;            
+  display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 !important;     
+  margin: 0 !important;
   box-sizing: border-box;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
-
 
 .main-links .link-row > a {
   display: flex;
@@ -126,13 +123,10 @@ body {
   text-decoration: none;
 }
 
-
-
 .main-links .link-row:not(.is-active):hover {
   background-color: rgba(255, 255, 255, 0.08);
   transform: scale(1.03);
 }
-
 
 .main-links .link-row:not(.is-active):focus-visible {
   outline: 2px solid rgba(255, 255, 255, 0.35);
@@ -140,11 +134,9 @@ body {
   transform: scale(1.02);
 }
 
-
 .main-links .link-row.is-active {
-  
   transform: none !important;
-  pointer-events: none; 
+  pointer-events: none;
 
   background-color: #091931;
 }
@@ -164,7 +156,7 @@ body {
 }
 
 .left .legal-area .legal-link:hover {
-  color: #29ABE2;
+  color: #29abe2;
 }
 
 .legal-area {
@@ -172,7 +164,6 @@ body {
   flex-direction: column;
   gap: 0;
   padding: 0;
-  
 }
 
 .legal-row {
@@ -204,17 +195,16 @@ body {
 }
 
 .legal-area {
-  color: #ffffff; 
+  color: #ffffff;
 }
 .legal-area .legal-row,
 .legal-area .legal-row:link,
 .legal-area .legal-row:visited,
 .legal-area .legal-row:hover,
 .legal-area .legal-row:active {
-  color: inherit;          
+  color: inherit;
   text-decoration: none;
 }
-
 
 .legal-area .legal-row {
   display: flex;
@@ -237,19 +227,18 @@ body {
 .legal-area {
   display: flex;
   flex-direction: column;
-  align-items: center;       
+  align-items: center;
   justify-content: center;
   gap: 0;
   padding: 0;
-  
-  color: #ffffff;            
-}
 
+  color: #ffffff;
+}
 
 .legal-area .legal-row {
   display: flex;
-  align-items: center;      
-  justify-content: center;   
+  align-items: center;
+  justify-content: center;
   width: 100%;
   text-decoration: none;
   background: transparent;
@@ -257,22 +246,18 @@ body {
   transition: background-color 0.2s ease;
 }
 
-
 .legal-area .legal-row svg,
 .legal-area .legal-row img {
   display: block;
-  height: 48px;              
+  height: 48px;
   width: 200px;
   background: transparent;
 }
 
-
 .legal-area .legal-row:hover svg *,
 .legal-area .legal-row:hover svg path {
-  fill: #29ABE2 !important;
+  fill: #29abe2 !important;
 }
-
-
 
 .legal-area .legal-row:link,
 .legal-area .legal-row:visited,
@@ -282,22 +267,19 @@ body {
   text-decoration: none;
 }
 
-
-
 .legal-area svg {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-
-.page .content{
-  height:100vh;
-  overflow-y:auto;
+.page .content {
+  height: 100vh;
+  overflow-y: auto;
 }
 
-body.contacts-page .page .content{
-  overflow-y:hidden;
+body.contacts-page .page .content {
+  overflow-y: hidden;
 }
 
 /* Fallback styling for the user initials icon (usually styled in header.css) */
@@ -308,3 +290,4 @@ body.contacts-page .page .content{
   font-weight: 600;
   border-radius: 50%;
 }
+
