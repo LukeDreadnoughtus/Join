@@ -134,7 +134,7 @@ main.content .contacts_name_row.is-selected .contacts_name{
 /* Detail elements container (positioned via JS) */
 .contact_detail_root{
   position:fixed;
-  top:300px;
+  top:280px;
   max-width:320px;
   display:flex;
   flex-direction:column;
@@ -170,12 +170,13 @@ main.content .contacts_name_row.is-selected .contacts_name{
   align-items:center;
   justify-content:center;
   color:#fff;
-  font-weight:700;
+  font-weight:500;
+  font-size: 47px;
   /* - Big avatar circle in detail view. - Centers initials perfectly. - Bold + white for contrast. */
 }
 .detail_name{
   font-size:16px;
-  font-weight:700;
+  font-weight:500;
   /* - Contact name in detail header. - Slightly larger + bold. - Keeps hierarchy clear. */
 }
 .detail_edit{
@@ -200,7 +201,7 @@ main.content .contacts_name_row.is-selected .contacts_name{
 
 .contact_detail_header{
   position:fixed;
-  top:180px;
+  top:160px;
   display:flex;
   align-items:center;
   gap:12px;

@@ -262,7 +262,7 @@
      - Larger font size + strong weight for quick scanning.
      - Tight line-height so it stays visually compact. */
   margin: 0;
-  font-size: 32px;
+  
   font-weight: 700;
   line-height: 1;
 }
