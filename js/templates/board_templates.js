@@ -288,7 +288,7 @@ function renderTaskEditCard(taskData) {
 
     <button type="submit" class="edit_task_button" onclick="saveEdits('${taskData.id}')">
         <span class="font_create">Ok</span>
-        <span class="check_svg"><img src="./assets/img/check.svg" alt="check icon" width="24px" height="24px"></span>
+        <span class="check_svg"><img src="./assets/img/check.svg" alt="check icon" width="28px" height="28px"></span>
     </button>
     `;
     const dropdown = document.getElementById("userDropdownList");
