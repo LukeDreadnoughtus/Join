@@ -6,6 +6,10 @@ function initAddTaskOverlay() {
         const btn = e.target.closest(".add_task_overlay");
         if (!btn) return;
         const slot = btn.dataset.boardslot;
+        if (window.innerWidth <= 1024) {
+            window.location.href = `add_task.html?slot=${slot || 'todo'}`;
+            return;
+        }
         if (boardSlotSelect && slot) {
             boardSlotSelect.value = slot;
         }

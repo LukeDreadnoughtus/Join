@@ -111,8 +111,8 @@ html.add-task-page {
   font-size: 1rem;
   outline: none;
   transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
+    border-color 0.1s,
+    box-shadow 0.1s;
   box-sizing: border-box;
   width: 100%;
 }
@@ -275,7 +275,7 @@ html.add-task-page {
   background-color: #2a3647;
   border-radius: 10px;
   border: 0;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.1s ease;
 }
 
 .add_task_create_button:hover {
@@ -293,7 +293,7 @@ html.add-task-page {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.1s ease;
 }
 
 .add_task_clear_button:hover {

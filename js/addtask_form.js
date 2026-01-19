@@ -263,6 +263,12 @@ function reloadBoardIfOnBoardPage() {
     if (currentPage.toLowerCase() === 'add_task.html') {
         window.location.href = 'board.html';
     } else if (currentPage.toLowerCase() === 'board.html' && typeof init === 'function') {
+        // Close the overlay
+        const overlay = document.getElementById('overlay');
+        if (overlay) {
+            overlay.classList.add('overlay_hidden');
+        }
+        // Clear and reload the board
         if (typeof allTasks !== 'undefined') {
             allTasks = {};
         }

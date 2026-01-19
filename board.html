@@ -245,19 +245,21 @@
                           <span class="overlay_span_form">Subtasks</span>
                           <input placeholder="Add new subtask" type="text" id="overlay-subtask-input" />
 
-                          <svg id="overlay-subtask-add" class="overlay_icon hidden" viewBox="0 0 24 24">
-                            <path d="M20 6L9 17l-5-5" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"
-                              stroke-linejoin="round" />
-                          </svg>
+                          <div class="overlay_subtask-icons-wrapper hidden">
+                            <svg id="overlay-subtask-add" class="overlay_icon" viewBox="0 0 24 24">
+                              <path d="M20 6L9 17l-5-5" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            </svg>
 
-                          <div id="overlay-dividerSubtasks" class="overlay_divider_subtasks hidden"></div>
+                            <div id="overlay-dividerSubtasks" class="overlay_divider_subtasks"></div>
 
-                          <svg id="overlay-subtask-clear" class="overlay_icon hidden" viewBox="0 0 24 24">
-                            <line x1="18" y1="6" x2="6" y2="18" stroke="black" stroke-width="2"
-                              stroke-linecap="round" />
-                            <line x1="6" y1="6" x2="18" y2="18" stroke="black" stroke-width="2"
-                              stroke-linecap="round" />
-                          </svg>
+                            <svg id="overlay-subtask-clear" class="overlay_icon" viewBox="0 0 24 24">
+                              <line x1="18" y1="6" x2="6" y2="18" stroke="black" stroke-width="2"
+                                stroke-linecap="round" />
+                              <line x1="6" y1="6" x2="18" y2="18" stroke="black" stroke-width="2"
+                                stroke-linecap="round" />
+                            </svg>
+                          </div>
                         </div>
 
                         <ul id="overlay-subtask-list"></ul>

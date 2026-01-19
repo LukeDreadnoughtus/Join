@@ -24,7 +24,7 @@
   cursor: pointer;
   padding: 4px;
   border-radius: 50%;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.1s ease;
 }
 
 #subtask-add:hover,
@@ -61,7 +61,7 @@
   padding: 2px 2px 2px 8px;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.1s ease;
 }
 
 .subtask-item:hover {
@@ -103,7 +103,7 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.15s ease;
+  transition: opacity 0.125s ease;
 }
 
 .subtask-item:hover .subtask-buttons,
@@ -138,7 +138,7 @@
   padding: 3px;
   border-radius: 50%;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.1s ease;
 }
 
 .subtask-edit-icon:hover {
@@ -169,7 +169,7 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.15s ease;
+  transition: opacity 0.125s ease;
   margin-left: auto;
 }
 

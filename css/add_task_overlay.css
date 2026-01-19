@@ -24,7 +24,7 @@
   padding: 3px;
   border-radius: 50%;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.1s ease;
 }
 
 #overlay .subtask-edit-icon:hover {
@@ -62,20 +62,22 @@
   align-items: center;
   justify-content: center;
   padding: clamp(12px, 2.5vw, 32px);
-  background: rgba(0, 0, 0, 0.5);
+  background: transparent;
+  min-height: 100vh;
+  height: 100dvh;
 }
 
 #overlay.overlay_hidden {
   display: none;
 }
 
-
 #overlay .overlay-content {
   width: 100%;
-  max-width: min(1100px, calc(100vw - 2 * clamp(12px, 2.5vw, 32px)));
-  max-height: 95vh;
+  max-width: 1440px;
+  max-height: 750px;
   background: #fff;
-  border-radius: 16px;
+  padding: 40px;
+  border-radius: 30px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
   overflow: auto;
   display: flex;
@@ -83,13 +85,9 @@
   pointer-events: auto;
 }
 
-
-
 #overlay .overlay-wrapper {
   display: grid;
   grid-template-rows: auto 1fr auto;
-  gap: clamp(10px, 1.6vw, 18px);
-  padding: clamp(16px, 2vw, 28px);
   height: 100%;
 }
 
@@ -184,7 +182,9 @@
   font-size: 1rem;
   line-height: 120%;
   padding: 10px 16px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.1s,
+    box-shadow 0.1s;
 }
 
 #overlay input {
@@ -337,7 +337,7 @@
 #overlay .icon-assign {
   margin-left: 10px;
   font-size: 10px;
-  transition: transform 0.3s ease;
+  transition: transform 0.1s ease;
   display: inline-block;
 }
 
@@ -384,14 +384,20 @@
   background-color: #ccc;
 }
 
-#overlay .select-options::-webkit-scrollbar-button:single-button:vertical:decrement {
-  background: #ccc url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M7 14l5-5 5 5z"/></svg>') center no-repeat;
+#overlay
+  .select-options::-webkit-scrollbar-button:single-button:vertical:decrement {
+  background: #ccc
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M7 14l5-5 5 5z"/></svg>')
+    center no-repeat;
   background-size: 8px;
   border-radius: 10px 10px 0 0;
 }
 
-#overlay .select-options::-webkit-scrollbar-button:single-button:vertical:increment {
-  background: #ccc url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M7 10l5 5 5-5z"/></svg>') center no-repeat;
+#overlay
+  .select-options::-webkit-scrollbar-button:single-button:vertical:increment {
+  background: #ccc
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M7 10l5 5 5-5z"/></svg>')
+    center no-repeat;
   background-size: 8px;
   border-radius: 0 0 10px 10px;
 }
@@ -443,7 +449,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.1s ease;
   margin-left: auto;
   flex: 0 0 auto;
   background: #fff;
@@ -502,45 +508,50 @@
 
 #overlay .overlay_subtask-input-wrapper input {
   height: 48px;
+  line-height: 48px;
 }
 
-#overlay #subtask-add,
-#overlay #subtask-clear {
+#overlay #overlay-subtask-add,
+#overlay #overlay-subtask-clear {
   width: 24px;
   height: 24px;
   position: absolute;
-  top: 70%;
+  top: 75%;
   transform: translateY(-50%);
   cursor: pointer;
-  padding: 0;
+  padding: 4px;
   border-radius: 50%;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.1s ease;
 }
 
-#overlay #subtask-add:hover,
-#overlay #subtask-clear:hover {
-  background: #e0e0e0;
+#overlay #overlay-subtask-add:hover,
+#overlay #overlay-subtask-clear:hover {
+  background-color: #e0e0e0;
 }
 
-#overlay #subtask-add {
-  right: 36px;
+#overlay #overlay-subtask-add {
+  right: 50px;
 }
-#overlay #subtask-clear {
-  right: 10px;
-}
-
-#overlay .overlay_subtask-input-wrapper input {
-  line-height: 48px;
+#overlay #overlay-subtask-clear {
+  right: 25px;
 }
 
 #overlay .overlay_divider_subtasks {
   position: absolute;
-  right: 34px;
-  top: 70%;
+  right: 52px;
+  top: 75%;
   transform: translateY(-50%);
   width: 2px;
   height: 20px;
-  background: #0c01018a;
+  background-color: #0c01018a;
+}
+
+#overlay .overlay_subtask-icons-wrapper {
+  display: block;
+}
+
+#overlay .overlay_subtask-icons-wrapper.hidden {
+  display: none;
 }
 
 #overlay .overlay_hidden {
@@ -566,14 +577,14 @@
   gap: 8px;
   cursor: pointer;
   border: 0;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.1s ease;
 }
 
 #overlay .overlay_add_task_create_button {
   width: 183px;
   background-color: #2a3647;
   color: #fff;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.1s ease;
 }
 
 #overlay .overlay_add_task_create_button:hover {
@@ -586,7 +597,9 @@
   background-color: #f6f7f8;
   border: 1px solid #ccc;
   color: #2a3647;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.1s ease,
+    color 0.1s ease;
 }
 
 #overlay .overlay_add_task_clear_button:hover {
@@ -638,7 +651,7 @@
   padding: 2px 2px 2px 8px;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.1s ease;
 }
 
 #overlay .subtask-item:hover {
@@ -679,7 +692,7 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.15s ease;
+  transition: opacity 0.125s ease;
   margin-left: auto;
 }
 
@@ -706,7 +719,8 @@
 }
 
 @keyframes pulsar {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }
