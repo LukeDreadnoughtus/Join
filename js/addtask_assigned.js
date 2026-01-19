@@ -4,12 +4,12 @@
  * Updates the assigned users display text and renders user icons
  */
 function updateDisplayText() {
-  const display = document.getElementById("assignedDisplay");
-  const assignedUsersContainer = document.getElementById("assigned-users-icons");
+  const display = getContextElement("assignedDisplay");
+  const assignedUsersContainer = getContextElement("assigned-users-icons");
   if (!display || !assignedUsersContainer) return;
   const displayText = window.selectedUsers && window.selectedUsers.size > 0 ? "To:" : "Select contacts to assign";
   rebuildDisplayElement(display, displayText);
-  renderAssignedUserIcons(assignedUsersContainer);
+  renderSelectedUserIcons(assignedUsersContainer);
 }
 
 
@@ -17,7 +17,7 @@ function updateDisplayText() {
  * Renders icon elements for all selected users
  * @param {HTMLElement} container - The container element for user icons
  */
-function renderAssignedUserIcons(container) {
+function renderSelectedUserIcons(container) {
   container.innerHTML = "";
   if (window.selectedUsers && window.selectedUsers.size > 0) {
     window.selectedUsers.forEach((id) => {
@@ -49,7 +49,7 @@ function rebuildDisplayElement(display, textContent = "Select contacts to assign
 function createDisplayTextSpan(textContent) {
   const text = document.createElement("span");
   text.className = "select-display-text";
-  text.id = "assignedDisplayText";
+  text.id = getContextId("assignedDisplayText");
   text.textContent = textContent;
   return text;
 }
@@ -62,7 +62,7 @@ function createDisplayTextSpan(textContent) {
 function createDisplayArrow() {
   const arrow = document.createElement("span");
   arrow.className = "icon-assign";
-  arrow.id = "assignedArrow";
+  arrow.id = getContextId("assignedArrow");
   arrow.textContent = "▼";
   return arrow;
 }
@@ -74,8 +74,8 @@ function createDisplayArrow() {
  * @returns {HTMLDivElement|null} The user icon element or null if elements not found
  */
 function createSelectedUserIcon(id) {
-  const nameEl = document.getElementById(`option-name-${id}`);
-  const iconEl = document.getElementById(`option-icon-${id}`);
+  const nameEl = getContextElement(`option-name-${id}`);
+  const iconEl = getContextElement(`option-icon-${id}`);
   if (!nameEl || !iconEl) return null;
   const userName = nameEl.textContent.trim();
   const bgColor = window.getComputedStyle(iconEl).backgroundColor;
@@ -104,7 +104,7 @@ async function fetchUserData() {
  * @async
  */
 async function loadUserAssignments() {
-  const container = document.getElementById("task-assigned-to");
+  const container = getContextElement("task-assigned-to");
   if (!container) return;
   try {
     const data = await fetchUserData();
@@ -137,7 +137,7 @@ function buildDropdown(container, data) {
 function createDisplayElement() {
   const el = document.createElement("div");
   el.className = "select-display";
-  el.id = "assignedDisplay";
+  el.id = getContextId("assignedDisplay");
   el.onclick = toggleDropdown;
   const text = createDisplayTextSpan("Select contacts to assign");
   const arrow = createDisplayArrow();
@@ -154,7 +154,7 @@ function createDisplayElement() {
 function createOptionsContainer(data) {
   const options = document.createElement("div");
   options.className = "select-options";
-  options.id = "assignedOptions";
+  options.id = getContextId("assignedOptions");
   for (const key of Object.keys(data || {})) {
     addOptionItem(options, key, data[key]);
   }
@@ -184,15 +184,15 @@ function addOptionItem(container, id, user) {
 function createOptionItemElement(id, user) {
   const item = document.createElement("div");
   item.className = "option-item";
-  item.id = `option-${id}`;
+  item.id = getContextId(`option-${id}`);
   item.dataset.id = id;
   const userName = (user?.name || "").trim();
   const userIconText = initials(userName);
   const color = user?.color || "#393737";
   item.innerHTML = `
     <div class="option-left">
-      <div class="user_icon" id="option-icon-${id}" style="background-color:${color}">${userIconText}</div>
-      <span class="option-user-name" id="option-name-${id}">${userName}</span>
+      <div class="user_icon" id="${getContextId(`option-icon-${id}`)}" style="background-color:${color}">${userIconText}</div>
+      <span class="option-user-name" id="${getContextId(`option-name-${id}`)}">${userName}</span>
     </div>
     <span class="checkbox-square"></span>
   `;
@@ -205,7 +205,7 @@ function createOptionItemElement(id, user) {
  * @param {string} id - The user ID to toggle
  */
 function toggleUserById(id) {
-  const item = document.getElementById(`option-${id}`);
+  const item = getContextElement(`option-${id}`);
   if (!item) return;
   if (!window.selectedUsers) window.selectedUsers = new Set();
   if (window.selectedUsers.has(id)) {
@@ -223,8 +223,8 @@ function toggleUserById(id) {
  * Toggles the visibility of the assigned dropdown
  */
 function toggleDropdown() {
-  const options = document.getElementById("assignedOptions");
-  const arrow = document.getElementById("assignedArrow");
+  const options = getContextElement("assignedOptions");
+  const arrow = getContextElement("assignedArrow");
   if (!options) return;
   options.classList.toggle("show");
   if (arrow) arrow.classList.toggle("rotate");
@@ -235,8 +235,8 @@ function toggleDropdown() {
  * Closes the assigned users dropdown
  */
 function closeAssignedDropdown() {
-  const options = document.getElementById("assignedOptions");
-  const arrow = document.getElementById("assignedArrow");
+  const options = getContextElement("assignedOptions");
+  const arrow = getContextElement("assignedArrow");
   if (options) options.classList.remove("show");
   if (arrow) arrow.classList.remove("rotate");
 }
@@ -248,8 +248,8 @@ function closeAssignedDropdown() {
  * @returns {boolean} True if click was inside dropdown
  */
 function isClickInsideAssignedDropdown(target) {
-  const display = document.getElementById("assignedDisplay");
-  const options = document.getElementById("assignedOptions");
+  const display = getContextElement("assignedDisplay");
+  const options = getContextElement("assignedOptions");
   return (display && display.contains(target)) || (options && options.contains(target));
 }
 

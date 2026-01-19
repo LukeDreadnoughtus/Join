@@ -10,11 +10,14 @@ function initAddTaskOverlay() {
             boardSlotSelect.value = slot;
         }
         overlay.classList.remove("overlay_hidden");
+        setTimeout(() => {
+            if (typeof loadUserAssignments === 'function') loadUserAssignments();
+            if (typeof buildCategoryDropdown === 'function') buildCategoryDropdown();
+            if (typeof wireSubtaskInputRow === 'function') wireSubtaskInputRow();
+        }, 50);
     });
     overlay.addEventListener("click", (e) => {
-        console.log("Overlay clicked, width:", window.innerWidth, "target:", e.target.id);
         if (window.innerWidth > 1024 && e.target.id === "overlay") {
-            console.log("Closing overlay");
             overlay.classList.add("overlay_hidden");
         }
     });

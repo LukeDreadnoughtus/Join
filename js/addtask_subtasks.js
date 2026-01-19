@@ -4,9 +4,9 @@
  * Updates the UI state based on subtask count (enables/disables add button)
  */
 function updateAddUIState() {
-  const ul = document.getElementById("subtask-list");
-  const input = document.getElementById("subtask-input");
-  const add = document.getElementById("subtask-add");
+  const ul = getContextElement("subtask-list");
+  const input = getContextElement("subtask-input");
+  const add = getContextElement("subtask-add");
   if (!ul || !input || !add) return;
   if (getSubtaskCount() >= MAX_SUBTASKS) {
     input.disabled = true;
@@ -36,10 +36,10 @@ function wireSubtaskInputRow() {
  * @returns {Object|null} Object with input elements or null if any missing
  */
 function getSubtaskInputElements() {
-  const input = document.getElementById("subtask-input");
-  const addIcon = document.getElementById("subtask-add");
-  const clearIcon = document.getElementById("subtask-clear");
-  const divider = document.getElementById("dividerSubtasks");
+  const input = getContextElement("subtask-input");
+  const addIcon = getContextElement("subtask-add");
+  const clearIcon = getContextElement("subtask-clear");
+  const divider = getContextElement("dividerSubtasks");
   const wrapper = document.querySelector(".subtask-icons-wrapper");
   if (!input || !addIcon || !clearIcon || !divider || !wrapper) return null;
   return { input, addIcon, clearIcon, divider, wrapper };
@@ -116,7 +116,7 @@ function addSubtask(text) {
     updateAddUIState();
     return;
   }
-  const ul = document.getElementById("subtask-list");
+  const ul = getContextElement("subtask-list");
   if (!ul) return;
   const item = createSubtaskElement(text);
   ul.appendChild(item);

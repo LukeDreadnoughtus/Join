@@ -1,10 +1,7 @@
-/* Responsive styles for add_task.html - Breakpoints: 1250px, 1024px, 600px, 500px, 400px, 350px */
-
 .task_controls_buttons {
   padding: 30px;
 }
 
-/* 1250px breakpoint - Adjust split container */
 @media (max-width: 1250px) {
   .split_container {
     gap: 10px !important;
@@ -46,11 +43,11 @@
   }
 }
 
-/* 1024px breakpoint - Stack layout with reduced font sizes */
 @media (max-width: 1024px) {
   .split_container {
     gap: 0px !important;
-    max-height: 250px;
+    max-height: none !important;
+    overflow: visible !important;
   }
 
   .add_task_container {
@@ -66,8 +63,6 @@
   }
 
   .add_task_form #task-description {
-    width: 90% !important;
-    max-width: 400px !important;
     height: auto !important;
   }
 
@@ -79,17 +74,21 @@
     max-width: 400px !important;
   }
 
-  .left {
-    max-height: 40px !important;
-  }
-
   .footer_content {
     gap: 0px !important;
     display: block;
   }
 
   .footer {
-    padding: 0;
+    margin-top: 40px;
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .footer_content {
+    display: flex !important;
+    flex-direction: row !important;
+    padding-bottom: 70px !important;
   }
 
   .task_controls_buttons {
@@ -104,10 +103,6 @@
   label {
     font-size: 18px;
   }
-
-  .footer {
-    padding: 0 50px;
-  }
 }
 
 @media (max-width: 830px) {
@@ -115,19 +110,135 @@
     flex-direction: column !important;
     max-height: none !important;
     overflow: visible !important;
+    width: 85% !important;
+    margin: 0 auto !important;
+  }
+
+  .form_group {
+    width: 100% !important;
+    padding-top: 0;
+  }
+
+  .left_split,
+  .right_split {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .add_task_container {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  .add_task_form {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .form_group {
+    width: 100% !important;
   }
 
   .form_group.description {
     height: auto !important;
   }
+
+  /* Increase all font sizes */
+  label,
+  .span_form,
+  .priority_name {
+    font-size: 24px !important;
+  }
+
+  input,
+  select,
+  textarea,
+  .custom_select {
+    font-size: 20px !important;
+    height: 56px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  textarea {
+    height: 180px !important;
+  }
+
+  .add_task_form textarea {
+    width: 100% !important;
+    height: 180px !important;
+  }
+
+  .priority_container {
+    display: flex !important;
+    flex-direction: row !important;
+    width: 100% !important;
+    gap: 12px !important;
+  }
+
+  .priority_btn {
+    flex: 1 !important;
+    width: auto !important;
+    height: 60px !important;
+    font-size: 16px !important;
+    min-width: 0 !important;
+  }
+
+  .custom_select {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .add_task_create_button,
+  .add_task_clear_button {
+    width: 150px !important;
+  }
+
+  .task_controls_buttons {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 12px !important;
+    width: auto !important;
+    justify-content: flex-end !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    padding-bottom: 20px !important;
+  }
+
+  .font-clear,
+  .font-create {
+    font-size: 18px !important;
+  }
+
+  .add_task_heading {
+    font-size: 32px !important;
+    padding-left: 20px !important;
+  }
+
+  .divider {
+    display: none !important;
+  }
 }
 
-/* 600px breakpoint - Mobile-friendly stacking */
 @media (max-width: 600px) {
+  label,
+  .span_form,
+  .priority_name,
+  .footer_text,
+  .font-clear,
+  .font-create,
+  ::placeholder {
+    font-size: 16px !important;
+  }
+
   input,
-  select {
+  select,
+  textarea,
+  .custom_select {
     max-width: 100%;
-    font-size: 16px;
+    font-size: 16px !important;
     width: 90%;
   }
 
@@ -137,18 +248,14 @@
     transform: translateY(2px);
   }
 
-  .priority_name {
-    font-size: 14px !important;
-  }
-
   .priority_btn {
     width: 100px !important;
     height: 40px !important;
-    font-size: 14px !important;
+    font-size: 16px !important;
   }
 
-  label {
-    font-size: 16px;
+  .add_task_heading {
+    font-size: 16px !important;
   }
 
   .footer_content {
@@ -172,9 +279,11 @@
     right: 10%;
     bottom: 50%;
   }
+  .priority_container {
+    gap: 8px !important;
+  }
 }
 
-/* 500px breakpoint - Small screens */
 @media (max-width: 500px) {
   input,
   select {
@@ -213,27 +322,52 @@
   }
 }
 
-/* 400px breakpoint - Extra small screens */
 @media (max-width: 400px) {
-  .priority_button {
-    width: 80px;
-    height: 40px;
-    font-size: 11px;
+  label,
+  .span_form,
+  .priority_name,
+  .footer_text {
+    font-size: 12px !important;
   }
 
   input,
   select,
   textarea,
   .custom_select {
+    font-size: 12px !important;
     max-width: 90% !important;
   }
+
+  .add_task_heading {
+    font-size: 22px !important;
+  }
+
+  .priority_btn {
+    width: 90px !important;
+    height: 36px !important;
+    font-size: 11px !important;
+  }
+
+  .priority_button {
+    width: 90px;
+    height: 36px;
+    font-size: 11px;
+  }
+
+  .font-clear,
+  .font-create {
+    font-size: 12px !important;
+  }
+
+  .task_controls_buttons {
+    width: 100% !important;
+  }
+
   .form_group.description {
-    height: 100px !important;
     width: 95%;
   }
 }
 
-/* 350px breakpoint - Minimal screens */
 @media (max-width: 350px) {
   .priority_button {
     width: 75px;

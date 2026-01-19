@@ -1,6 +1,33 @@
 "use strict";
 
 /**
+ * Checks if we're currently in the overlay context
+ * @returns {boolean} True if in overlay, false otherwise
+ */
+function isOverlayContext() {
+  const overlay = document.getElementById('overlay');
+  return overlay && !overlay.classList.contains('overlay_hidden');
+}
+
+/**
+ * Gets the correct element ID based on context
+ * @param {string} id - The base element ID
+ * @returns {string} The context-aware ID
+ */
+function getContextId(id) {
+  return isOverlayContext() ? 'overlay-' + id : id;
+}
+
+/**
+ * Gets element by ID, checking overlay context
+ * @param {string} id - The base element ID
+ * @returns {HTMLElement|null} The element or null
+ */
+function getContextElement(id) {
+  return document.getElementById(getContextId(id));
+}
+
+/**
  * Generates initials from a user's name
  * @param {string} user - The full name of the user
  * @returns {string} The initials (first letter of first and last name)
