@@ -1,45 +1,124 @@
 /* Responsive styles for add_task.html - Breakpoints: 1250px, 1024px, 600px, 500px, 400px, 350px */
 
-/* 1250px breakpoint - Reduce overall size */
+.task_controls_buttons {
+  padding: 30px;
+}
+
+/* 1250px breakpoint - Adjust split container */
 @media (max-width: 1250px) {
   .split_container {
-    flex-direction: column;
+    gap: 10px !important;
+    margin: 0 auto !important;
+  }
+
+  #subtask-clear {
+    right: 35px !important;
+  }
+
+  #subtask-add {
+    right: 60px !important;
+  }
+
+  .divider_subtasks {
+    right: 60px !important;
+  }
+  label,
+  .span_form {
+    font-size: 17px !important;
   }
 
   .left_split,
-  .right_split {
-    width: 100%;
-  }
-
-  .divider {
-    display: none;
+  .right_split .add_task_form .form_group #subtask-input {
+    max-width: 400px;
   }
 
   input,
-  select {
-    max-width: 600px;
-    width: 100%;
+  select,
+  textarea,
+  .custom_select {
+    font-size: 17px !important;
+    max-width: 400px !important;
   }
 
-  .footer {
-    padding: 0 60px;
+  .priority_btn {
+    font-size: 17px !important;
+    width: 110px !important;
   }
 }
 
 /* 1024px breakpoint - Stack layout with reduced font sizes */
 @media (max-width: 1024px) {
-  input,
-  select {
-    max-width: 550px;
-    font-size: 18px;
+  .split_container {
+    gap: 0px !important;
+    max-height: 250px;
   }
 
+  .add_task_container {
+    width: 90% !important;
+    max-width: 440px !important;
+  }
+
+  .add_task_heading {
+    padding-left: 70px !important;
+    padding-top: 30px !important;
+    padding-bottom: 5px !important;
+    font-size: 40px !important;
+  }
+
+  .add_task_form #task-description {
+    width: 90% !important;
+    max-width: 400px !important;
+    height: auto !important;
+  }
+
+  input,
+  select,
+  textarea,
+  .custom_select {
+    font-size: 17px !important;
+    max-width: 400px !important;
+  }
+
+  .left {
+    max-height: 40px !important;
+  }
+
+  .footer_content {
+    gap: 0px !important;
+    display: block;
+  }
+
+  .footer {
+    padding: 0;
+  }
+
+  .task_controls_buttons {
+    padding-top: 0 !important;
+  }
+
+  #subtask-list {
+    max-width: 400px !important;
+    max-height: 200px;
+    overflow-y: auto;
+  }
   label {
     font-size: 18px;
   }
 
   .footer {
     padding: 0 50px;
+  }
+}
+
+@media (max-width: 830px) {
+  .split_container {
+    flex-direction: column !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .form_group.description {
+    height: auto !important;
   }
 }
 
@@ -50,6 +129,22 @@
     max-width: 100%;
     font-size: 16px;
     width: 90%;
+  }
+
+  .urgent_icon,
+  .medium_icon,
+  .low_icon {
+    transform: translateY(2px);
+  }
+
+  .priority_name {
+    font-size: 14px !important;
+  }
+
+  .priority_btn {
+    width: 100px !important;
+    height: 40px !important;
+    font-size: 14px !important;
   }
 
   label {
@@ -70,12 +165,33 @@
   }
 }
 
+@media (max-width: 600px) {
+  .task_controls_buttons {
+    position: fixed;
+    top: 87%;
+    right: 10%;
+    bottom: 50%;
+  }
+}
+
 /* 500px breakpoint - Small screens */
 @media (max-width: 500px) {
   input,
   select {
     max-width: 90%;
     font-size: 14px;
+  }
+
+  .add_task_form label,
+  .add_task_form input,
+  .add_task_form textarea,
+  .add_task_form select,
+  .add_task_form button,
+  .add_controll_form label,
+  .add_controll_form input,
+  .add_controll_form select,
+  .add_controll_form button {
+    width: 90%;
   }
 
   ::placeholder {
@@ -105,8 +221,15 @@
     font-size: 11px;
   }
 
-  .footer {
-    padding: 0 15px;
+  input,
+  select,
+  textarea,
+  .custom_select {
+    max-width: 90% !important;
+  }
+  .form_group.description {
+    height: 100px !important;
+    width: 95%;
   }
 }
 
@@ -116,9 +239,5 @@
     width: 75px;
     height: 35px;
     font-size: 10px;
-  }
-
-  .footer {
-    padding: 0 10px;
   }
 }

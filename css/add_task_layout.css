@@ -22,6 +22,34 @@
   height: 376px;
   width: 440px;
 }
+
+.add-task-page,
+html.add-task-page {
+  height: 100%;
+  overflow: hidden;
+}
+
+.task_main_wrapper {
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  padding-bottom: 32px;
+}
+
+.add-task-page .page {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.add-task-page .page .content {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* keep page itself from scrolling on add task; only the wrapper scrolls */
+.page .content {
+  overflow-y: hidden;
+  height: 100vh;
+}
 .add_task_heading {
   width: 278px;
   height: 73px;
@@ -49,7 +77,6 @@
   max-width: 440px;
 }
 .right_split {
-  max-height: 400px;
   max-width: 440px;
 }
 
@@ -83,7 +110,9 @@
   border-radius: 10px;
   font-size: 1rem;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   box-sizing: border-box;
   width: 100%;
 }

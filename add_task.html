@@ -25,7 +25,7 @@
   <link href="css/styles_mediaquery.css" rel="stylesheet" />
 </head>
 
-<body>
+<body class="add-task-page">
   <div class="page">
     <div aria-hidden="true" class="left">
       <div aria-hidden="true" class="logo-spacer"></div>
@@ -87,6 +87,9 @@
         </div>
       </header>
       <div class="header_overlay d_none" id="header_overlay" onclick="closeUserMenu()"></div>
+
+
+      <div class="task_main_wrapper">
       <h2 class="add_task_heading">Add Task</h2>
       <div class="split_container">
 
@@ -191,15 +194,17 @@
                 <span class="span_form">Subtask</span>
                 <input placeholder="Add new subtask" type="text" id="subtask-input" />
 
-                <svg id="subtask-add" class="icon hidden" viewBox="0 0 24 24">
-                  <path d="M20 6L9 17l-5-5" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                </svg>
-                <div id="dividerSubtasks" class="divider_subtasks hidden"></div>
-                <svg id="subtask-clear" class="icon hidden" viewBox="0 0 24 24">
-                  <line x1="18" y1="6" x2="6" y2="18" stroke="black" stroke-width="2" stroke-linecap="round" />
-                  <line x1="6" y1="6" x2="18" y2="18" stroke="black" stroke-width="2" stroke-linecap="round" />
-                </svg>
+                <div class="subtask-icons-wrapper hidden">
+                  <svg id="subtask-add" class="icon" viewBox="0 0 24 24">
+                    <path d="M20 6L9 17l-5-5" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                  <div id="dividerSubtasks" class="divider_subtasks"></div>
+                  <svg id="subtask-clear" class="icon" viewBox="0 0 24 24">
+                    <line x1="18" y1="6" x2="6" y2="18" stroke="black" stroke-width="2" stroke-linecap="round" />
+                    <line x1="6" y1="6" x2="18" y2="18" stroke="black" stroke-width="2" stroke-linecap="round" />
+                  </svg>
+                </div>
               </div>
 
               <ul id="subtask-list">
@@ -213,7 +218,9 @@
       </form>
       <div class="footer">
         <div class="footer_content">
+          <div>
           <p class="footer_text">This field is required<span style="color:red">*</span></p>
+          </div>
           <div class="task_controls_buttons" id="taskControlsButtons">
             <button type="reset" id="clear-button" class="add_task_clear_button">
               <span class="font_clear">Clear</span>
@@ -229,6 +236,7 @@
         </div>
       </div>
     </main>
+  </div>
   </div>
   <div id="notification-container"></div>
   <script src="js/addtask.js"></script>
