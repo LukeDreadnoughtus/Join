@@ -213,6 +213,7 @@ function initEditDatepicker() {
     const input = document.getElementById("edit_due_date");
     const icon = document.getElementById("date_icon");
     if (!input || !icon) return;
+
     const picker = flatpickr(input, {
         dateFormat: "d/m/Y",
         allowInput: true

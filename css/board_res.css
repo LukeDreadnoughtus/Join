@@ -117,6 +117,8 @@
 }
 
 @media (max-width: 540px) { 
+
+
 .header_board_row h2 {
     font-size: 47px;
 }
@@ -284,6 +286,11 @@
 
 }
 
+.close_icon_margin {
+    margin-left: 204px;
+
+}
+
 .edit_priority{
  margin-top: 20px;
 }
@@ -338,7 +345,7 @@
 }
 
 .input_edit_subtask {
-padding: 10px 60px 10px 0px;
+padding: 10px 55px 10px 7px;
 font-size:16px;
 }
 

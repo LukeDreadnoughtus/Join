@@ -286,9 +286,6 @@ transition: background-color 120ms ease;
 .input_edit_subtask_wrapper {
     position: relative;
     width: 97%;
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 
 .input_edit_subtask_wrapper input {
@@ -303,14 +300,13 @@ transition: background-color 120ms ease;
 }
 
 .input_edit_subtask {
-    width: 97%;
-    padding: 10px 60px 10px 20px; /* mehr Platz rechts */
+    width:100%; 
+    padding: 10px 85px 10px 8px; 
     box-sizing: border-box;
     position: relative;
     z-index: 1;
 }
 
-/* Icons */
 .subtask_icon {
     position: absolute;
     top: 58%;
@@ -457,6 +453,11 @@ transition: background-color 120ms ease;
   margin-left: 260px; 
   margin-top: 20px; 
   gap:5px; 
+  font-size:18px; 
+  color:white; 
+  font-family: "inter";
+  font-weight: bold;
+
 }
 
 .edit_task_button:hover {
