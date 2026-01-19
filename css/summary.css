@@ -8,6 +8,9 @@
     - Urgent takes all 6 columns
     - Board / Progress / Feedback each take 2 columns
   */
+  /* - Main KPI grid container for the summary page layout.
+     - Uses CSS Grid with named areas to keep the KPI tiles aligned.
+     - Handles spacing + horizontal offset so the block sits nicely in the page. */
   grid-template-columns: repeat(6, 1fr);
   grid-template-areas:
     "todo todo todo done done done"
@@ -24,6 +27,9 @@
 
 /* Headline above KPI grid */
 .summary-headline{
+  /* - Wrapper for the headline area above the KPI grid.
+     - Aligns headline text + divider horizontally with flex.
+     - Allows wrapping so it stays readable on smaller widths. */
   margin-left: 5%;
   margin-right: 5%;
   margin-top: 24px;
@@ -32,27 +38,33 @@
   gap: 16px;
   flex-wrap: wrap;
 }
-.summary-headline__brand{
-  font-size: 40px;
-  font-weight: 700;
-  line-height: 1.1;
-}
+
 .summary-headline__text{
-  font-size: 20px;
-  font-weight: 500;
+  /* - Styles the actual headline text (size, weight, readable contrast).
+     - Kept lightweight so it feels like a page title, not a button label.
+     - Line-height tuned so multi-line headlines don’t look cramped. */
+  font-size: 27px;
+  font-weight: 400px;
   line-height: 1.2;
   color: rgba(0,0,0,0.6);
 }
 .summary-headline__divider{
+  /* - Visual divider bar next to the headline (accent color element).
+     - Fixed height so it lines up nicely with the text block.
+     - Rounded edges to match the UI’s soft look. */
   display: inline-block;
-  width: 3px;
-  height: 28px;
-  background-color: rgb(41, 171, 226);
   border-radius: 2px;
+  height:59px;
+  background:#29ABE2;
+  min-width:1px;
+  border: 3px;
 }
 
 /* Greeting next to the urgent button (does not affect button width) */
 .summary-greeting{
+  /* - Positions the greeting next to the urgent tile without changing its width.
+     - Uses absolute positioning relative to the urgent wrapper.
+     - Keeps the greeting on one line unless responsive rules kick in. */
   position: absolute;
   left: calc(100% + 32px);
   top: 50%;
@@ -63,12 +75,18 @@
   gap: 4px;
 }
 .summary-greeting__title{
+  /* - Small greeting title text (like “Good morning”).
+     - Removes default margins so spacing is controlled by flex gap.
+     - Slightly muted color so the name stands out more. */
   margin: 0;
   font-size: 20px;
   font-weight: 500;
   color: rgba(0,0,0,0.6);
 }
 .summary-greeting__name{
+  /* - Big highlighted name next to the greeting.
+     - Strong weight + large size for emphasis.
+     - Tight line-height so it feels like a single bold block. */
   margin: 0;
   font-size: 48px;
   font-weight: 700;
@@ -77,12 +95,18 @@
 
 @media (max-width: 1100px){
   .summary-greeting{
+    /* - On smaller screens, drop the absolute positioning.
+       - Lets the greeting flow naturally under the urgent area.
+       - Prevents awkward overflow when there isn’t enough horizontal space. */
     position: static;
     transform: none;
     margin-top: 12px;
     white-space: normal;
   }
   .summary-urgent-wrap{
+    /* - Makes the urgent section stack vertically with the greeting.
+       - Keeps the urgent tile and greeting grouped visually.
+       - Avoids side-by-side squeeze at mid breakpoints. */
     display: flex;
     flex-direction: column;
   }
@@ -90,6 +114,9 @@
 
 @media (max-width: 950px){
   .summary-headline{
+    /* - Removes the side margins so the headline can use the full width.
+       - Helps the layout feel less cramped on tablets/smaller laptops.
+       - Keeps alignment consistent with other responsive sections. */
     margin-left: 0;
     margin-right: 0;
   }
@@ -100,6 +127,9 @@
 .summary-btn--empty{ grid-area: empty; }
 
 .summary-btn{
+  /* - Base style for all KPI buttons (cards).
+     - Fixed height so buttons line up cleanly in each row.
+     - Hover/active states give it a clickable, “dashboard tile” feel. */
   width: 100%;
   border: 1px solid rgba(0,0,0,0.08);
   border-radius: 12px;
@@ -120,30 +150,48 @@
 }
 
 .summary-btn:active{
+  /* - Small press-down effect for a more “button-like” click feedback.
+     - Keeps it subtle so it doesn’t feel jumpy.
+     - Works together with hover scale for a nice interaction. */
   transform: translateY(1px);
 }
 
 .summary-btn:hover{
+  /* - Dark hover background to highlight the tile.
+     - Slight scale-up to show it’s interactive.
+     - Transition speed is short so it feels snappy. */
   background-color: #2A3647;
   transform: scale(1.03);
 }
 
 .summary-btn:hover h2,
 .summary-btn:hover h4{
+  /* - On hover, switch the KPI number + label to white.
+     - Keeps contrast strong against the dark hover background.
+     - Only targets headings so other text stays unaffected. */
   color: #fff;
 }
 
 /* icon background behavior */
 .summary-btn:hover .summary-btn__icon{
+  /* - Inverts the icon “badge” background on hover.
+     - White badge on dark tile reads clean and consistent.
+     - Only changes the circle, not the whole icon image. */
   background-color: #fff;
 }
 
 .summary-btn:hover .summary-btn__icon-img{
+  /* - Removes the invert filter so the icon looks correct on hover.
+     - Works together with the white icon badge background.
+     - Prevents icons from looking washed out. */
   filter: none;
 }
 
 /* New inner layout: icon left, number+text right */
 .summary-btn__content{
+  /* - Inner flex layout for each KPI tile.
+     - Places icon and text side-by-side with consistent spacing.
+     - Centers everything so all tiles feel balanced. */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -152,6 +200,9 @@
 }
 
 .summary-btn__text{
+  /* - Text stack for number + label inside each KPI tile.
+     - Centers content so it looks consistent across tiles.
+     - Small gap keeps the number and label visually grouped. */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -161,6 +212,9 @@
 }
 
 .summary-btn__icon{
+  /* - Circular badge behind the icon.
+     - Fixed sizing so all tiles have consistent icon proportions.
+     - Smooth background transition for hover effects. */
   width: 40px;
   height: 40px;
   flex: 0 0 40px;
@@ -173,6 +227,9 @@
 }
 
 .summary-btn__icon-img{
+  /* - Default icon sizing + invert to show white icon on dark badge.
+     - Kept small so it doesn’t overpower the KPI number.
+     - Uses block display to avoid inline spacing quirks. */
   width: 18px;
   height: 18px;
   display: block;
@@ -181,6 +238,9 @@
 
 /* URGENT icon image: separate class so To-do/Done stay 18px */
 .summary-btn__icon-img--urgent{
+  /* - Bigger urgent icon size without affecting the other KPI icons.
+     - No invert filter because the urgent SVG should keep its own colors.
+     - Helps the urgent tile feel more “important” visually. */
   width: 48px;
   height: 48px;
   display: block;
@@ -189,12 +249,18 @@
 
 
 .summary-btn h4{
+  /* - KPI label styling (small text under/near the number).
+     - Zero margin so spacing is controlled by flex gaps.
+     - Slightly heavier weight so it stays readable. */
   margin: 0;
   font-size: 14px;
   font-weight: 600;
 }
 
 .summary-btn h2{
+  /* - KPI main number styling.
+     - Larger font size + strong weight for quick scanning.
+     - Tight line-height so it stays visually compact. */
   margin: 0;
   font-size: 32px;
   font-weight: 700;
@@ -213,6 +279,9 @@
 /* Responsive: stack nicely on smaller screens */
 @media (max-width: 900px){
   .summary-grid{
+    /* - Switches the dashboard to a 2-column layout on smaller screens.
+       - Keeps urgent full width for emphasis.
+       - Prevents tiles from getting too narrow. */
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
       "todo done"
@@ -224,6 +293,9 @@
 
 @media (max-width: 520px){
   .summary-grid{
+    /* - Single-column stacking for mobile.
+       - Removes side margins so it uses the full viewport width.
+       - Ensures tiles stay readable and easy to tap. */
     grid-template-columns: 1fr;
     grid-template-areas:
       "todo"
@@ -238,6 +310,9 @@
   }
 
   .summary-btn h2{
+    /* - Slightly bigger KPI number on small screens for readability.
+       - Helps compensate for mobile viewing distance.
+       - Keeps hierarchy clear even when stacked. */
     font-size: 34px;
   }
 }
@@ -252,14 +327,19 @@
 
 /* URGENT: icon background is white by default; on hover use rgb(42, 54, 71) */
 .summary-btn--urgent .summary-btn__icon--urgent{
+  /* - Urgent-specific icon badge style.
+     - Starts with a white background so the urgent icon pops.
+     - Slightly larger width to fit the bigger urgent SVG. */
   background-color: #fff;
   width: 64px;
-  height: 64px;
-  flex: 0 0 64px;
+
 }
 
 
 .summary-btn--urgent:hover .summary-btn__icon--urgent{
+  /* - On hover, urgent icon badge matches the dark hover tile.
+     - Keeps the urgent styling consistent with other tiles.
+     - Makes the icon feel “locked in” to the hover state. */
   background-color: rgb(42, 54, 71);
 }
 
@@ -270,10 +350,16 @@
 
 /* --- URGENT: divider + upcoming deadline inside the button --- */
 .summary-btn--urgent .summary-btn__content{
+  /* - Urgent tile content is centered because it has more elements.
+     - Keeps divider + deadline aligned cleanly.
+     - Prevents the urgent tile from looking left-heavy. */
   justify-content: center;
 }
 
 .summary-btn__divider{
+  /* - Vertical divider inside the urgent tile between KPI and deadline.
+     - Light default color so it doesn’t shout.
+     - Fixed height so it aligns with the content block. */
   display: inline-block;
   width: 2px;
   height: 72px;
@@ -284,6 +370,9 @@
 }
 
 .summary-btn__deadline{
+  /* - Container for the upcoming deadline text in the urgent tile.
+     - Left-aligned so date + label read naturally.
+     - Min width prevents it from squishing too hard. */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -293,12 +382,18 @@
 }
 
 .summary-btn__duedate{
+  /* - Styling for the due date text (the important part).
+     - Bold and bigger so it stands out.
+     - Tight line-height to keep it compact. */
   font-size: 20px;
   font-weight: 700;
   line-height: 1.1;
 }
 
 .summary-btn__deadline-label{
+  /* - Small helper label under the due date (“Upcoming deadline”, etc.).
+     - Slightly muted so the date stays the focus.
+     - Medium weight so it doesn’t look too thin. */
   font-size: 14px;
   font-weight: 500;
   color: rgba(0,0,0,0.6);
@@ -306,10 +401,16 @@
 
 /* keep urgent hover colors consistent */
 .summary-btn--urgent:hover .summary-btn__divider{
+  /* - Divider becomes brighter on hover to stay visible on dark background.
+     - Still semi-transparent so it doesn’t dominate.
+     - Matches the overall hover styling of the tile. */
   background-color: rgba(255, 255, 255, 0.4);
 }
 
 .summary-btn--urgent:hover .summary-btn__deadline-label,
 .summary-btn--urgent:hover .summary-btn__duedate{
+  /* - Switch deadline text to white on hover for contrast.
+     - Keeps the urgent tile readable in the dark hover state.
+     - Applies to both the date and its label. */
   color: #fff;
 }

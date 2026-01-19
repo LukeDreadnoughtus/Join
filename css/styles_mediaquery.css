@@ -1,14 +1,15 @@
-/* ================================
-   FIXED SIDEBAR WIDTH (LEFT)
-   Only apply on desktop, so the mobile bottom-nav layout stays intact.
-   ================================ */
-
 @media (min-width: 1025px) {
   .page {
+    /* two-column layout: fixed sidebar + flexible content */
+    /* sidebar stays 232px, content takes the remaining space */
+    /* keeps the desktop layout stable and predictable */
     grid-template-columns: 232px 1fr;
   }
 
   .left {
+    /* hard-lock the sidebar width to 232px */
+    /* prevents the sidebar from shrinking/growing with content */
+    /* also works nicely with the grid column definition above */
     width: 232px;
     min-width: 232px;
     max-width: 232px;
@@ -16,25 +17,31 @@
   }
 }
 
-/*
-  Global responsive rules
-  - Up to 600px: move the left navigation to the bottom.
-*/
+
 
 @media (max-width: 1024px) {
   /* Layout: single column + bottom navigation */
   .page {
+    /* switch to one column for mobile/tablet */
+    /* add a second row for the bottom nav */
+    /* makes the nav stick to the bottom without overlaying the grid */
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto;
   }
 
-  /* Keep main content visible above the bottom bar */
+ 
   main.content {
+    /* extra space so content doesn't get hidden behind bottom nav */
+    /* matches the nav height + some breathing room */
+    /* avoids awkward "last item covered" scrolling issues */
     padding-bottom: 110px;
   }
 
-  /* Bottom nav */
+ 
   .left {
+    /* turn sidebar into a fixed bottom navigation bar */
+    /* spans full width and stays visible while scrolling */
+    /* high z-index so it sits above page content */
     position: fixed;
     left: 0;
     right: 0;
@@ -47,27 +54,36 @@
     z-index: 2000;
   }
 
-  /* Hide the big logo on mobile bottom bar */
+
   .left::before,
   .left .logo-spacer {
+    /* hide decorative / spacing elements on mobile */
+    /* keeps the bottom nav clean and compact */
+    /* !important to override desktop/sidebar rules */
     display: none !important;
   }
 
-  /* Make the navigation rows sit in one line */
+  
   .left .main-links {
+    /* lay out nav links horizontally */
+    /* evenly distribute items across the available width */
+    /* keep it centered and consistent */
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
     gap: 0;
-    /* Requested: main-links should only take 80% of the bar */
+   
     width: 80%;
     height: 100%;
     margin: 0 auto;
   }
 
-  /* Put text blocks under the SVG icons */
+
   .left .main-links .link-row{
+    /* stack icon above text per nav item */
+    /* center everything for a neat mobile nav look */
+    /* small gap so icon + label don’t touch */
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -75,27 +91,33 @@
   }
 
   .left .main-links .link-row .link-icon{
+    /* make sure icons are visible in mobile nav */
+    /* avoids rules that might hide icons on desktop */
+    /* keeps a consistent tap target look */
     display: block;
   }
 
   .left .main-links .link-row .link-text{
+    /* show link labels under the icons */
+    /* helps readability on mobile */
+    /* keeps spacing consistent across items */
     display: block;
   }
 
-  /*
-    Fix (<=1024px): "Board" uses a scaled text asset.
-    In the base styles it scales from the left edge, which shifts the text
-    off-center when icon + text are stacked vertically in the bottom nav.
-    Center the transform origin so the text stays visually centered
-    beneath the icon.
-  */
+
   .left .main-links .link-row[data-link="board"] .link-text--board {
+    /* set the anchor point for transforms/animations */
+    /* keeps scaling/rotation centered */
+    /* only applied to the board label */
     transform-origin: center;
   }
 
 
   /* Requested: elements in the sidebar should have a width of 50px */
   .left .link-row {
+    /* give each nav item a fixed-ish footprint */
+    /* width controls the visual spacing in the bottom bar */
+    /* flex-basis keeps the item from stretching weirdly */
     width: 100px;
     flex: 0 0 50px;
     justify-content: center;
@@ -104,15 +126,24 @@
   /* Requested: hover effect should have a radius of 16px */
   .left .main-links .link-row,
   .left .main-links .link-row.is-active {
+    /* rounded background for default + active state */
+    /* makes the active item feel like a pill button */
+    /* matches the requested 16px radius */
     border-radius: 16px;
   }
 
   .left .main-links .link-row:not(.is-active):hover {
+    /* same rounding on hover for non-active items */
+    /* avoids shape-jumps between states */
+    /* keeps hover styling consistent */
     border-radius: 16px;
   }
 
   /* Requested: hide legal-area at <= 1024px */
   .left .legal-area {
+    /* remove legal links from the mobile nav */
+    /* saves vertical space and avoids clutter */
+    /* force-hide in case other rules try to show it */
     display: none !important;
   }
 }
@@ -120,21 +151,33 @@
 
 @media (max-width: 1024px) {
     .main-links {
+        /* let the link container use full width on smaller screens */
+        /* slightly smaller type so labels fit better */
+        /* keeps the nav from feeling cramped */
         width: 100%;
         font-size: 0.85rem;
     }
 
     .main-links img,
     .main-links svg {
+        /* shrink icons a bit for small screens */
+        /* makes icon + label fit inside the bottom bar */
+        /* keeps proportions consistent */
         transform: scale(0.85);
     }
 
     .main-links span,
     .main-links p {
+        /* reduce label font size to match the nav scale */
+        /* prevents line breaks in short labels */
+        /* keeps the nav visually balanced */
         font-size: 0.85rem;
     }
 
   .left .link-text {
+  /* reserve a fixed label area so layout doesn't jump */
+  /* width helps keep labels aligned under icons */
+  /* line-height 0 removes extra vertical whitespace */
   height: 18px;
   width: 80px;
   display: block;
@@ -148,6 +191,9 @@
 
 @media (max-width: 355px) {
 .left .main-links{
+  /* on super small screens, remove extra margins */
+  /* maximizes usable width for the nav items */
+  /* helps prevent squishing/wrapping */
   margin: 0 0;
 }
 }

@@ -1,4 +1,3 @@
-
 /* for main Tasks */
 
 (() => {
@@ -10,6 +9,9 @@
   };
 
   const currentFile = (location.pathname.split('/').pop() || '').toLowerCase();
+
+  // - Checks whether the destination file is the same page you're already on (so we don't reload it).
+  // - Helps avoid pointless navigation and keeps the UI from “flashing” when you click the current page.
   const isSame = (dest) => dest && dest.toLowerCase() === currentFile;
 
   document.addEventListener('click', (e) => {
@@ -46,8 +48,6 @@
 
 /* for sub Tasks */
 
-
-
 (() => {
   try {
     const file = (location.pathname.split('/').pop() || '').toLowerCase();
@@ -68,6 +68,8 @@
 // Ensure the user icon initials are rendered on every page that includes navigate.js
 document.addEventListener('DOMContentLoaded', () => {
   try {
+    // - Calls renderUserIcon() only if it actually exists, so the script doesn't crash on pages without it.
+    // - Keeps the user badge/initials consistent across pages (one place to trigger it, everywhere).
     if (typeof renderUserIcon === 'function') {
       renderUserIcon();
     }

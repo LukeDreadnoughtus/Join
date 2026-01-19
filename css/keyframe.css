@@ -32,3 +32,76 @@
     pointer-events: none;
     transition: opacity 0.5s ease;
 }
+
+/*
+  Mobile greeting overlay for Summary
+  - Only visible under 900px
+  - Shows "Guten Morgen" + username centered
+  - Fades out after ~2 seconds (triggered in Keyframe_summary.js)
+*/
+
+.keyframe-summary-overlay {
+  display: none; /* enabled only via media query */
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #ffffff;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 350ms ease;
+}
+
+.keyframe-summary-overlay__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+}
+
+.keyframe-summary-overlay__title {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.keyframe-summary-overlay__name {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #29ABE2;
+}
+
+.keyframe-summary-overlay--hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 899px) {
+  .keyframe-summary-overlay {
+    display: flex;
+  }
+
+  .keyframe-summary-overlay__title {
+    font-size: 36px;
+  }
+
+  .keyframe-summary-overlay__name {
+    font-size: 44px;
+  }
+}
+
+@media (max-width: 420px) {
+  .keyframe-summary-overlay__title {
+    font-size: 32px;
+  }
+
+  .keyframe-summary-overlay__name {
+    font-size: 40px;
+  }
+}

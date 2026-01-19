@@ -1,10 +1,14 @@
 (function(){
   const sidebarAddButton = () => (
+    // Creates the "Add new contact" label + icon markup for the sidebar button.
+    // Returns a small HTML snippet that can be injected directly into the sidebar UI.
     '<span class="contacts_add_label">Add new contact</span>' +
     '<img src="assets/img/person_add.svg" class="contacts_add_icon">'
   );
 
   const dialog = () => (
+    // Builds the full HTML structure for the contact modal (left panel, avatar slot, form inputs, action buttons).
+    // Used as the base template for opening the "Edit contact" dialog and wiring up the close/delete/save actions.
     '<div class="contacts_modal_content">' +
       '<div class="contacts_modal_left_panel">' +
         '<img src="../assets/img/join-logo-vector.svg" class="contacts_modal_logo">' +
@@ -32,10 +36,14 @@
   );
 
   const createDialogAvatar = () => (
+    // Provides the default avatar image markup shown in the dialog when creating a new contact.
+    // Keeps the dialog consistent by returning a ready-to-use <img> element with the correct class.
     '<img src="assets/img/Group 13.svg" alt="" class="contacts_modal_avatar_image">'
   );
 
   const detailHead = (initials, name, color, idx) => (
+    // Renders the header section for the contact detail view (avatar, name, and action buttons).
+    // Uses initials + background color for the avatar and binds the edit action to the correct contact index.
     '<div class="detail_row">' +
       '<div class="detail_avatar" style="background:' + color + '">' +
         initials +
@@ -55,6 +63,8 @@
   );
 
   const editDialogAvatar = (bg, initials) => (
+    // Creates the avatar block for the edit dialog using the contact's initials and saved background color.
+    // Handy for reusing the same avatar style in different places without duplicating the HTML.
     '<div class="detail_avatar" style="background:' + bg + '">' +
       initials +
     '</div>'

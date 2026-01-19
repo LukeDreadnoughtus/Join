@@ -81,6 +81,8 @@ function proofUserData(userData) {
             localStorage.setItem("username", `${username}`)
             localStorage.setItem("userid", `${userKey}`)
             localStorage.setItem("usercolor", `${user.color}`)
+            // Flag for summary greeting overlay: show it only once, right after login.
+            sessionStorage.setItem("summary_greeting_overlay", "1");
             window.location.href = "summary.html";
             return
         }

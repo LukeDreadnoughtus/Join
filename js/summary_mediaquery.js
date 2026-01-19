@@ -3,23 +3,15 @@
  *
  * The visual changes are primarily done in css/summary_mediaquery.css via
  * media queries.
- *
+ 
  * This script additionally adds state classes to <html> so you can target
  * breakpoints in CSS without relying exclusively on media queries:
- *   - is-below-1024
- *   - is-below-600
  */
 
 (function () {
   const root = document.documentElement;
 
-  /**
-   * Forces shorter labels for narrow widths so the 3 small KPI buttons
-   * (Board / Progress / Feedback) can stay in one row longer.
-   *
-   * We do this by inserting a <br> into specific h4 labels below 1000px.
-   * The original text is kept in a data attribute and restored above 1000px.
-   */
+  
   function applyKpiLabelLineBreaks(w) {
     const shouldBreak = w < 1000;
 
@@ -54,11 +46,7 @@
     });
   }
 
-  /**
-   * Applies CSS variables used by css/summary_mediaquery.css.
-   * This keeps the KPI grid + headline anchored to a stable left start
-   * and prevents "drifting" when the viewport grows.
-   */
+  
   function applySummaryLayoutVars(w) {
     // Below the desktop breakpoint the sidebar becomes a bottom bar.
     // Use a smaller, but still constant, outer inset.
@@ -72,11 +60,7 @@
     root.style.setProperty('--summary-max-width', `${maxWidth}px`);
   }
 
-  /**
-   * Scales the KPI button height for very small viewports.
-   * summary.css defines a fixed height (128px). Below 500px we scale that
-   * value proportionally to the viewport width, clamped to a sensible minimum.
-   */
+  
   function applySummaryButtonScaling(w) {
     const baseHeight = 128; // px at 500px viewport width
     const minWidth = 320;   // clamp so it doesn't get comically small

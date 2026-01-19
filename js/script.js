@@ -58,12 +58,6 @@
 })();
 
 
-// if (isSame(routes[el.getAttribute('data-link')])) {
-//   el.setAttribute('aria-current', 'page'); 
-// }
-
-
-//Header
 /**
  * Returns the initials of a given user name.
  * @param {string} user - The full name of the user.

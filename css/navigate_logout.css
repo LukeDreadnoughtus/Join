@@ -1,18 +1,17 @@
-/*
-  Logout-only navigation adjustments
-  IMPORTANT: This file is ONLY included on *_logout.html pages.
-
-  - Normal app navigation rows (Summary/Add task/Board/Contacts) are removed by JS
-  - A single "Log in" row is injected into the same .main-links container
+/* 
+  - Wrapper for the main navigation links on the left side
+  - Uses flexbox to stack links vertically
 */
-
-/* Keep the main-links container visible (we replace its content) */
 .left .main-links {
   display: flex;
   flex-direction: column;
 }
 
-/* Style the injected "Log in" row to match the look/feel of other .link-row entries */
+/* 
+  - Row that contains login/logout link content
+  - Aligns icon and text horizontally with spacing
+  - Clickable and non-selectable for better UX
+*/
 .left .main-links .logout-login-row {
   display: flex;
   align-items: center;
@@ -23,11 +22,20 @@
   user-select: none;
 }
 
+/* 
+  - Icon inside the login/logout row
+  - Fixed size to keep layout consistent
+*/
 .left .main-links .logout-login-row .link-icon {
   width: 30px;
   height: 30px;
 }
 
+/* 
+  - Text label for login/logout
+  - Uses system-friendly font stack
+  - Light gray color by default
+*/
 .left .main-links .logout-login-row .logout-login-label {
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-size: 16px;
@@ -36,12 +44,166 @@
   color: #CDCDCD;
 }
 
+/* 
+  - Changes text color on hover and keyboard focus
+  - Improves visual feedback and accessibility
+*/
 .left .main-links .logout-login-row:hover .logout-login-label,
 .left .main-links .logout-login-row:focus-visible .logout-login-label {
   color: #29ABE2;
 }
 
+/* 
+  - Visible outline for keyboard navigation
+  - Makes focus state clearly recognizable
+*/
 .left .main-links .logout-login-row:focus-visible {
   outline: 2px solid rgba(41, 171, 226, 0.6);
   outline-offset: 2px;
+}
+
+/* 
+  - Legal links container hidden on desktop
+  - Only shown on smaller screens
+*/
+.left .logout-legal-area {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+
+  /* 
+    - Layout adjustment for logout navigation on smaller screens
+    - Pushes content apart vertically
+  */
+  .left.logout-nav {
+    justify-content: space-between;
+  }
+
+  /* 
+    - Adjusts main links layout for mobile/tablet
+    - Prevents stretching and keeps natural height
+  */
+  .left.logout-nav .main-links {
+    width: auto;
+    margin: 0;
+    height: 100%;
+    justify-content: flex-start;
+    flex: 0 0 auto;
+  }
+
+  /* 
+    - Keeps label font readable on smaller screens
+    - Explicit font-size for consistency
+  */
+  .left.logout-nav .logout-login-row .logout-login-label {
+    font-size: 16px;
+  }
+
+  /* 
+    - Shows legal links area on smaller screens
+    - Aligns links in a horizontal row
+  */
+  .left.logout-nav .logout-legal-area {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 16px 0 0;
+    white-space: nowrap;
+  }
+
+  /* 
+    - Styling for legal navigation links
+    - Clean text appearance without underline
+  */
+  .left.logout-nav .logout-legal-area .logout-legal-link {
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 120%;
+    color: #CDCDCD;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* 
+    - Highlight legal links on hover and focus
+    - Removes default outline for custom focus handling
+  */
+  .left.logout-nav .logout-legal-area .logout-legal-link:hover,
+  .left.logout-nav .logout-legal-area .logout-legal-link:focus-visible {
+    color: #29ABE2;
+    outline: none;
+  }
+}
+
+@media (max-width: 1024px) {
+
+  /* 
+    - Adds padding and rounded corners for touch interaction
+    - Smooth hover and focus animations
+  */
+  .left.logout-nav .logout-legal-area .logout-legal-link {
+    padding: 48px 18px;
+    border-radius: 16px;
+    transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+  }
+
+  /* 
+    - Visual feedback on hover and focus
+    - Slight scale-up effect for interaction
+  */
+  .left.logout-nav .logout-legal-area .logout-legal-link:hover,
+  .left.logout-nav .logout-legal-area .logout-legal-link:focus-visible {
+    background-color: rgba(255, 255, 255, 0.08);
+    transform: scale(1.03);
+  }
+
+  /* 
+    - Active state for current legal page
+    - Removes transform to keep it stable
+  */
+  .left.logout-nav .logout-legal-area .logout-legal-link.is-active {
+    background-color: #091931;
+    transform: none;
+  }
+}
+
+@media (max-width: 370px) {
+
+  /* 
+    - Reduced padding for very small screens
+    - Keeps links usable without overcrowding
+  */
+  .left.logout-nav .logout-legal-area .logout-legal-link {
+    padding: 36px 0px;
+    border-radius: 16px;
+    transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+  }
+}
+
+/* 
+  - Back arrow hidden by default
+  - Only relevant on smaller layouts
+*/
+.logout-back-arrow {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+
+  /* 
+    - Shows back arrow on mobile/tablet
+    - Fixed position for easy access
+  */
+  .logout-back-arrow {
+    display: block;
+    position: fixed;   
+    top: 100px;
+    right: 24px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    z-index: 10;
+  }
 }

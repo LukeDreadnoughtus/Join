@@ -1,20 +1,27 @@
-/* Custom overrides for contacts dialog */
-
-/* Dialoghöhe: etwas höher als original, aber flexibel – min 30dvh */
+/* 
+- Limits the modal height so it fits nicely on most screens
+- Prevents the modal from getting too small or too tall
+*/
 body.contacts-page .contacts_modal{
   max-height:85dvh;
   min-height:30dvh;
 }
 
-/* Modal-Inhalt soll die volle Höhe des Dialogs nutzen und alles vertikal mittig ausrichten */
+/* 
+- Makes the modal content stretch to full height
+- Uses flexbox to center content vertically
+*/
 body.contacts-page .contacts_modal_content{
   height:100%;
   min-height:100%;
   display:flex;
-  align-items:center;   /* Kinder (links, Avatar, rechts) in der Mitte des Dialogs */
+  align-items:center;  
 }
 
-/* Linkes schwarzes Panel: von oben bis unten durchgängig + Inhalt mittig */
+/* 
+- Left section of the modal layout
+- Centers content vertically and horizontally
+*/
 .contacts_modal_left_panel{
   height:100%;
   display:flex;
@@ -23,7 +30,10 @@ body.contacts-page .contacts_modal_content{
   justify-content:center;
 }
 
-/* Avatar-Spalte zwischen links und rechts, ebenfalls vertikal mittig */
+/* 
+- Column that holds the avatar
+- Keeps spacing consistent with padding
+*/
 .contacts_modal_avatar_col{
   flex:0 0 auto;
   display:flex;
@@ -34,7 +44,10 @@ body.contacts-page .contacts_modal_content{
   height:100%;
 }
 
-/* Rechte Panel-Seite: Inhalte vertikal zentrieren */
+/* 
+- Right section of the modal layout
+- Stacks elements vertically and centers them
+*/
 .contacts_modal_right_panel{
   display:flex;
   flex-direction:column;
@@ -42,14 +55,20 @@ body.contacts-page .contacts_modal_content{
   height:100%;
 }
 
-/* Slot und Avatar-Elemente */
+/* 
+- Wrapper for avatar content
+- Ensures avatar stays centered
+*/
 .contacts_modal_avatar_slot{
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
-/* detail_avatar und SVG gleich groß */
+/* 
+- Styles for avatar image and fallback avatar
+- Makes the avatar round and centered
+*/
 .contacts_modal_avatar_slot .detail_avatar,
 .contacts_modal_avatar_slot .contacts_modal_avatar_image{
   width:120px;
@@ -60,71 +79,87 @@ body.contacts-page .contacts_modal_content{
   justify-content:center;
 }
 
-/* SVG sauber in den Kreis einpassen */
+/* 
+- Ensures avatar image fills the circle properly
+- Prevents image distortion
+*/
 .contacts_modal_avatar_image{
   object-fit:cover;
 }
 
-
-
+/* 
+- Adds space for icons inside input fields
+- Positions background icons to the right
+*/
 body.contacts-page #c_name,
 body.contacts-page #c_email,
 body.contacts-page #c_phone {
-  padding-right: 40px;             /* Platz für das Icon am rechten Rand */
+  padding-right: 40px;            
   background-repeat: no-repeat;
   background-position: right 12px center;
-  background-size: 16px 16px;      /* Icon-Größe */
+  background-size: 16px 16px;      
 }
 
-/* Person-Icon im Namensfeld */
 body.contacts-page #c_name {
 }
 
-/* Mail-Icon im E-Mail-Feld */
 body.contacts-page #c_email {
 }
 
-/* Call-Icon im Telefonfeld */
 body.contacts-page #c_phone {
 }
 
-
-
-/* Icons in den Kontakt-Inputfeldern (rechts im Feld, nur Design) */
+/* 
+- Ensures consistent right padding on all contact inputs
+- Prevents text from overlapping icons
+*/
 body.contacts-page #c_name,
 body.contacts-page #c_email,
 body.contacts-page #c_phone {
-  padding-right: 40px; /* Platz für das Icon am rechten Rand */
+  padding-right: 40px; 
 }
 
+/* 
+- Adds person icon to name input
+- Helps users quickly identify the field
+*/
 body.contacts-page #c_name {
   background: url("../assets/img/person.svg") no-repeat right 12px center;
   background-size: 16px 16px;
 }
 
+/* 
+- Adds mail icon to email input
+- Improves visual clarity for email field
+*/
 body.contacts-page #c_email {
   background: url("../assets/img/mail.svg") no-repeat right 12px center;
   background-size: 16px 16px;
 }
 
+/* 
+- Adds phone icon to phone input
+- Makes the input purpose obvious
+*/
 body.contacts-page #c_phone {
   background: url("../assets/img/call.svg") no-repeat right 12px center;
   background-size: 16px 16px;
 }
 
-
-/* ===== Hover fixes ===== */
-
-/* ===== Modal: Logo smaller + blue separator line (Edit/Add) ===== */
-
-/* Logo in left panel */
+/* 
+- Controls logo size inside the modal
+- Keeps logo responsive
+*/
 .contacts_modal_logo{
   width:56px;
   max-width:56px;
   height:auto;
 }
 
-/* Blue line under title when opened via Edit */
+/* 
+- Decorative line under title in edit mode
+- Visually separates title from content
+*/
 body.contacts-page .contacts_modal_backdrop.mode-edit .contacts_modal_title::after{
   content:"";
   display:block;
@@ -135,7 +170,10 @@ body.contacts-page .contacts_modal_backdrop.mode-edit .contacts_modal_title::aft
   border-radius:2px;
 }
 
-/* Blue line under subtitle when opened via Add new contact */
+/* 
+- Decorative line under subtitle in create mode
+- Matches edit mode styling
+*/
 body.contacts-page .contacts_modal_backdrop.mode-create .contacts_modal_subtitle::after{
   content:"";
   display:block;
@@ -146,12 +184,19 @@ body.contacts-page .contacts_modal_backdrop.mode-create .contacts_modal_subtitle
   border-radius:2px;
 }
 
-/* Detail edit & delete text + icons */
+/* 
+- Changes text color on hover for edit/delete actions
+- Gives visual feedback to the user
+*/
 .detail_edit:hover,
 .detail_delete:hover {
     color: #1976d2;
 }
 
+/* 
+- Recolors icons on hover
+- Keeps icon color consistent with theme
+*/
 .detail_edit:hover img,
 .detail_delete:hover img {
     filter: brightness(0) saturate(100%)
@@ -159,27 +204,39 @@ body.contacts-page .contacts_modal_backdrop.mode-create .contacts_modal_subtitle
             hue-rotate(199deg) brightness(91%) contrast(94%);
 }
 
-/* Create & Save buttons */
+/* 
+- Primary button hover state
+- Makes action more noticeable
+*/
 .contacts_create_btn:hover {
     background-color: #1976d2 !important;
     border-color: #1976d2 !important;
     color: #ffffff !important;
 }
 
-/* Delete & Cancel buttons */
+/* 
+- Delete button hover state
+- Emphasizes action without filling background
+*/
 .contacts_delete_btn:hover {
     border-color: #1976d2 !important;
     color: #1976d2 !important;
     background-color: transparent !important;
 }
 
-
-/* === Alignment fixes: logo, title/subtitle, divider left-aligned === */
+/* 
+- Adjusts left panel layout for contacts page
+- Aligns content to the left
+*/
 body.contacts-page .contacts_modal_left_panel{
   align-items:flex-start !important;
   padding-left:48px !important;
 }
 
+/* 
+- Smaller logo version for contacts page
+- Aligns logo with left layout
+*/
 body.contacts-page .contacts_modal_logo{
   width:48px !important;
   max-width:48px !important;
@@ -187,18 +244,28 @@ body.contacts-page .contacts_modal_logo{
   margin-left:0 !important;
 }
 
-/* Ensure title & subtitle start exactly where the logo starts */
+/* 
+- Left-aligns modal title and subtitle
+- Matches overall layout style
+*/
 body.contacts-page .contacts_modal_title,
 body.contacts-page .contacts_modal_subtitle{
   text-align:left !important;
   margin-left:0 !important;
 }
 
-/* Divider should start at the very beginning of the dialog content (same x as logo) */
+/* 
+- Aligns edit mode underline to the left
+- Keeps spacing consistent
+*/
 body.contacts-page .contacts_modal_backdrop.mode-edit .contacts_modal_title::after{
   margin:12px 0 0 0 !important;
 }
 
+/* 
+- Aligns create mode underline to the left
+- Matches edit mode behavior
+*/
 body.contacts-page .contacts_modal_backdrop.mode-create .contacts_modal_subtitle::after{
   margin:12px 0 0 0 !important;
 }

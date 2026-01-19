@@ -1,39 +1,14 @@
-/*
-  Summary – responsive tweaks
-  --------------------------
-  This file is loaded only on summary.html.
-  Keep all breakpoint overrides here (base layout remains in summary.css).
-*/
-
-/*
-  ------------------------------------------------------------
-  FIX: Stable left start + no "drifting" buttons
-
-  In summary.css the layout used percentage margins and a fixed width
-  calculation. That makes the whole KPI block move left/right when the
-  viewport changes.
-
-  Requirement:
-  - Below 1024px: .summary-headline must keep the SAME left start as
-    .summary-btn--todo (same inset from the outer edge).
-  - Buttons must NEVER shift when the page becomes wider – they may only
-    become smaller when the viewport gets narrower.
-
-  Solution:
-  - Drive the left inset via a CSS variable (--summary-inline) that is
-    set in summary_mediaquery.js.
-  - Keep the KPI block left-aligned with a fixed max width.
-*/
-
-/* Defaults (desktop). JS will keep these in sync on resize. */
 :root{
-  --summary-inline: 64px;        /* stable left start */
-  --summary-max-width: 620px;    /* buttons may shrink, but never drift */
+  --summary-inline: 64px;        
+  --summary-max-width: 620px;    
 }
 
-/* Override the percentage-based layout from summary.css */
+
 .summary-headline,
 .summary-grid{
+  /* Keeps the headline + grid aligned with the same left offset */
+  /* Limits the layout width so it doesn’t stretch too wide on large screens */
+  /* Uses border-box so padding doesn’t mess with the final width */
   margin-left: var(--summary-inline) !important;
   margin-right: auto !important;
   width: min(var(--summary-max-width), calc(100% - var(--summary-inline) - var(--summary-inline))) !important;
@@ -41,23 +16,24 @@
   box-sizing: border-box;
 }
 
-/* <= 1024px: hide greeting ("Guten Morgen" + username) */
-@media (max-width: 1024px) {
+
+@media (max-width: 1100px) {
   .summary-greeting {
+    /* Hides the greeting on smaller screens to reduce clutter */
+    /* Frees up horizontal space for the actual summary content */
+    /* Avoids awkward wrapping when the layout starts tightening */
     display: none !important;
   }
 }
 
-/*
-  <= 1000px:
-  Force a controlled line break in the text labels of the small KPI buttons
-  (Board / Progress) so the buttons can remain in one row at ~900px widths.
-  The actual <br> insertion is handled in js/summary_mediaquery.js.
-*/
+
 @media (max-width: 1000px) {
   .summary-btn--board .summary-btn__content,
   .summary-btn--progress .summary-btn__content,
   .summary-btn--feedback .summary-btn__content {
+    /* Stacks icon + text vertically so the buttons stay readable */
+    /* Adds a small gap so it doesn’t feel cramped */
+    /* Works better when the cards get narrower */
     flex-direction: column;
     gap: 6px;
   }
@@ -65,33 +41,32 @@
   .summary-btn--board h4,
   .summary-btn--progress h4,
   .summary-btn--feedback h4 {
+    /* Tightens line height to fit multi-line titles */
+    /* Balances wrapping so headings don’t look messy */
+    /* Keeps the text compact without looking squished */
     line-height: 1.1;
     text-wrap: balance;
   }
 
-  /* If it still gets tight around ~900px, slightly reduce horizontal padding
-     on the three small KPI buttons so they can stay in one row longer. */
+
   .summary-btn--board,
   .summary-btn--progress,
   .summary-btn--feedback {
+    /* Reduces side padding to save space on medium screens */
+    /* Keeps the cards feeling consistent across the row */
+    /* Prevents content from overflowing when text wraps */
     padding-left: 10px;
     padding-right: 10px;
   }
 }
 
-/*
-  <= 900px:
-  summary.css switches the KPI grid to 2 columns, which forces the bottom
-  row (Board/Progress/Feedback) to wrap.
 
-  Goal:
-  - Keep the 3 small KPI buttons in ONE row as long as possible.
-  - Reduce the inner padding (text-to-border distance) and spacing so the
-    row fits without breaking the layout.
-*/
 @media (max-width: 900px) {
-  /* override summary.css breakpoint layout */
+  
   .summary-grid{
+    /* Switches the grid to 6 columns for a more mobile-friendly layout */
+    /* Reorders areas so the most important stuff stays on top */
+    /* Shrinks spacing a bit so everything fits comfortably */
     grid-template-columns: repeat(6, 1fr) !important;
     grid-template-areas:
       "todo todo todo done done done"
@@ -100,10 +75,13 @@
     gap: 12px !important;
   }
 
-  /* make the bottom KPI buttons slightly more compact */
+ 
   .summary-btn--board,
   .summary-btn--progress,
   .summary-btn--feedback{
+    /* Makes the buttons more compact for smaller screens */
+    /* Keeps tap targets comfy while cutting extra padding */
+    /* Helps the three buttons fit nicely in the last grid row */
     padding-left: 8px !important;
     padding-right: 8px !important;
     padding-top: 10px !important;
@@ -113,57 +91,78 @@
   .summary-btn--board .summary-btn__content,
   .summary-btn--progress .summary-btn__content,
   .summary-btn--feedback .summary-btn__content{
+    /* Slightly tighter spacing between icon + text */
+    /* Helps when button widths shrink further */
+    /* Keeps the content visually grouped */
     gap: 4px;
   }
 
   .summary-btn--board h4,
   .summary-btn--progress h4,
   .summary-btn--feedback h4{
+    /* Drops font size so titles don’t wrap too aggressively */
+    /* Keeps all three buttons visually consistent */
+    /* Prevents headings from pushing the layout taller than needed */
     font-size: 13px;
   }
 }
 
-/* <= 600px: headline becomes 2 lines, divider becomes an underline */
+
 @media (max-width: 600px) {
   .summary-headline {
+    /* Stacks the headline elements so they don’t squeeze horizontally */
+    /* Aligns everything left for a cleaner mobile look */
+    /* Adds a bit of breathing room between items */
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
 
-  /* Make sure the text sits UNDER "Join 360" */
+ 
   .summary-headline__brand {
+    /* Puts the brand first in the mobile stack */
+    /* Keeps the “who/what” visible before the text */
     order: 1;
   }
 
   .summary-headline__text {
+    /* Places the headline text under the brand */
+    /* Makes the reading flow feel more natural on mobile */
     order: 2;
   }
 
-  /* Move the blue line below the text and turn it into an underline.
-     Keep the original size: 28px x 3px (just rotated) */
+ 
   .summary-headline__divider {
+    /* Moves the divider under everything as a visual separator */
+    /* Uses a short thicker line so it looks intentional on mobile */
+    /* Stretches across the grid row when needed */
     order: 3;
-    width: 28px;
-    height: 3px;
+        width: 92px;
+        height: 3px;
     border-radius: 2px;
     margin-top: -2px;
+
+            grid-row: 3;
+        grid-column: 1 / -1;       
   }
 }
 
-/* <= 500px: scale KPI button height proportionally with viewport width.
-   summary.css defines a fixed height (128px). We override it here using a CSS
-   variable that is set via js/summary_mediaquery.js. */
 @media (max-width: 500px) {
   .summary-btn {
+    /* Adjusts button height for smaller phones */
+    /* Uses a CSS var so it’s easy to tweak globally */
+    /* Ensures buttons don’t become too tall/huge */
     height: var(--summary-btn-height, 128px) !important;
   }
 }
 
 
-/* >= 500px: center summary button content with equal side padding */
+
 @media (min-width: 500px) {
   .summary-btn__content {
+    /* Centers the content nicely on wider layouts */
+    /* Keeps icon + text aligned and evenly spaced */
+    /* Adds horizontal padding so it doesn’t hug the edges */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -172,5 +171,23 @@
     padding-right: 16px;
     box-sizing: border-box;
     width: 100%;
+  }
+}
+
+
+
+@media (max-width: 360px) {
+  .summary-btn__content {
+
+    /* Removes extra spacing for super small screens */
+    /* Helps prevent accidental wrapping/overflow */
+    gap: 0px;
+
+  }
+
+  .summary-btn--urgent{
+    /* Adds more left padding so the urgent button layout stays readable */
+    /* Basically a tiny “manual nudge” for very narrow devices */
+    padding-left: 40px;
   }
 }

@@ -26,6 +26,9 @@ body {
   scrollbar-gutter: stable;
   /* max-width: 1440px; minus menü  232px und dann header position absolute +  page 96 margin top*/
   background-color: #f5f5f5;
+  /* Layout wrapper: sidebar + main content split */
+  /* Full viewport height so the grid doesn't jump on scroll */
+  /* Keeps the general app background consistent */
 }
 
 .left {
@@ -35,6 +38,9 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  /* Sidebar container with a dark base */
+  /* Padding makes room for the logo area up top */
+  /* Flex column so links stack cleanly */
 }
 
 .left::before {
@@ -59,6 +65,9 @@ body {
   gap: 16px;
   width: 100%;
   margin: 12px 0 16px;
+  /* Main nav inside the sidebar */
+  /* Centered column with a bit of breathing room */
+  /* Gap controls spacing between the rows */
   /* text-align:  */
 }
 
@@ -69,6 +78,9 @@ body {
   gap: 12px;
   width: max-content;
   line-height: 0;
+  /* One nav item row: icon + label */
+  /* Tight line-height to avoid random vertical spacing */
+  /* width fits content so it doesn't stretch weirdly */
 }
 
 .left .link-icon {
@@ -76,6 +88,9 @@ body {
   width: auto;
   display: block;
   object-fit: contain;
+  /* Standard icon sizing so everything aligns */
+  /* block avoids inline-image baseline gaps */
+  /* contain keeps the icon from getting squished */
 }
 
 .left .link-text {
@@ -84,11 +99,17 @@ body {
   display: block;
   object-fit: contain;
   line-height: 0;
+  /* Label image sizing to match the icon height */
+  /* Fixed width keeps all items visually aligned */
+  /* line-height 0 prevents extra whitespace around the image */
 }
 
 .left .link-text--board {
   transform: scale(0.7);
   transform-origin: left center;
+  /* Board label is visually larger, so we shrink it */
+  /* Anchor scaling to the left so it stays aligned */
+  /* Quick tweak without touching the asset itself */
 }
 
 .main-links {
@@ -101,6 +122,9 @@ body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  /* Grid version of the main nav (equal columns) */
+  /* Makes each link area the same clickable size */
+  /* border-box so padding doesn't break the sizing */
 }
 
 .main-links .link-row {
@@ -112,6 +136,9 @@ body {
   margin: 0 !important;
   box-sizing: border-box;
   transition: background-color 0.2s ease, transform 0.2s ease;
+  /* Full-size clickable tile per nav item */
+  /* Smooth hover feel with subtle scale + bg */
+  /* Forcing margin reset so layout stays clean */
 }
 
 .main-links .link-row > a {
@@ -121,17 +148,26 @@ body {
   width: 100%;
   height: 100%;
   text-decoration: none;
+  /* Make the anchor fill the entire tile */
+  /* Center icon/text nicely within the link */
+  /* No underline for a clean app-nav look */
 }
 
 .main-links .link-row:not(.is-active):hover {
   background-color: rgba(255, 255, 255, 0.08);
   transform: scale(1.03);
+  /* Hover highlight only if it's not the active page */
+  /* Slight scale makes it feel interactive */
+  /* Low opacity so it stays subtle on dark bg */
 }
 
 .main-links .link-row:not(.is-active):focus-visible {
   outline: 2px solid rgba(255, 255, 255, 0.35);
   outline-offset: 2px;
   transform: scale(1.02);
+  /* Keyboard focus state that is actually visible */
+  /* Offset so outline doesn't clip into the tile */
+  /* Slight scale but less aggressive than hover */
 }
 
 .main-links .link-row.is-active {
@@ -139,11 +175,10 @@ body {
   pointer-events: none;
 
   background-color: #091931;
+  /* Active page: no hover/scale, just a solid highlight */
+  /* pointer-events off so you can't re-click the current page */
+  /* Darker shade to clearly show "selected" */
 }
-
-/* [data-link]:not([aria-current="page"]):hover {} */
-
-/* for sub tasks */
 
 .left .legal-area {
   display: flex;
@@ -153,10 +188,16 @@ body {
   margin-top: auto;
   margin-bottom: 24px;
   gap: 8px;
+  /* Push legal links to the bottom of the sidebar */
+  /* Keeps them separate from main navigation */
+  /* margin-top auto does the "sticky bottom" trick */
 }
 
 .left .legal-area .legal-link:hover {
   color: #29abe2;
+  /* Simple hover color for legal links */
+  /* Matches the app accent color */
+  /* Keeps the interaction obvious */
 }
 
 .legal-area {
@@ -164,6 +205,9 @@ body {
   flex-direction: column;
   gap: 0;
   padding: 0;
+  /* Base wrapper for legal section */
+  /* No extra spacing so rows can control their own padding */
+  /* Column layout so items stack */
 }
 
 .legal-row {
@@ -175,16 +219,25 @@ body {
   padding: 10px 16px;
   box-sizing: border-box;
   background: transparent;
+  /* One legal row: icon + label */
+  /* Full width so it aligns with the sidebar */
+  /* Padding gives it a proper hit area */
 }
 
 .legal-row svg,
 .legal-row img {
   display: block;
+  /* Avoid inline SVG/img spacing issues */
+  /* Keeps alignment consistent */
+  /* Prevents tiny baseline gaps */
 }
 
 .legal-label {
   font: inherit;
   line-height: 1.2;
+  /* Text inherits the app font settings */
+  /* Slightly tighter line-height for nav labels */
+  /* Keeps it readable without taking too much space */
 }
 
 .legal-row.is-active svg path,
@@ -192,10 +245,16 @@ body {
 .legal-row.is-active .legal-label {
   fill: #ffffff !important;
   color: #ffffff;
+  /* Active legal link: force everything to white */
+  /* Covers both svg paths and text label */
+  /* !important to override inline svg styles */
 }
 
 .legal-area {
   color: #ffffff;
+  /* Default text/icon color in the legal section */
+  /* White works best on the dark sidebar */
+  /* Helps svg "currentColor" setups */
 }
 .legal-area .legal-row,
 .legal-area .legal-row:link,
@@ -204,6 +263,9 @@ body {
 .legal-area .legal-row:active {
   color: inherit;
   text-decoration: none;
+  /* Make all anchor states consistent */
+  /* No underlines in any state */
+  /* Color stays controlled by the parent */
 }
 
 .legal-area .legal-row {
@@ -214,6 +276,9 @@ body {
   gap: 12px;
   width: 100%;
   box-sizing: border-box;
+  /* Alternative legal-row layout (left aligned) */
+  /* Same padding as sidebar rhythm */
+  /* Keeps icon + label spacing consistent */
 }
 
 .legal-area .legal-row.is-active {
@@ -233,6 +298,9 @@ body {
   padding: 0;
 
   color: #ffffff;
+  /* Final layout for legal-area (centered variant) */
+  /* Centers the block visually in its container */
+  /* Keeps the same white-on-dark styling */
 }
 
 .legal-area .legal-row {
@@ -244,6 +312,9 @@ body {
   background: transparent;
   box-sizing: border-box;
   transition: background-color 0.2s ease;
+  /* Centered clickable rows */
+  /* Smooth background transitions on interaction */
+  /* Full width so hover feels consistent */
 }
 
 .legal-area .legal-row svg,
@@ -252,11 +323,17 @@ body {
   height: 48px;
   width: 200px;
   background: transparent;
+  /* Forces consistent icon/image size in legal links */
+  /* Bigger touch area for bottom links */
+  /* Transparent background so only hover styles show */
 }
 
 .legal-area .legal-row:hover svg *,
 .legal-area .legal-row:hover svg path {
   fill: #29abe2 !important;
+  /* Hover accent for svg icons */
+  /* Makes the legal section feel interactive */
+  /* !important to beat svg inline fills */
 }
 
 .legal-area .legal-row:link,
@@ -265,21 +342,33 @@ body {
 .legal-area .legal-row:active {
   color: inherit;
   text-decoration: none;
+  /* Normalize link styles across states */
+  /* Prevents browser default colors */
+  /* Keeps it consistent with the sidebar theme */
 }
 
 .legal-area svg {
   max-width: 100%;
   height: auto;
   display: block;
+  /* Prevent svg overflow on smaller screens */
+  /* Maintain aspect ratio automatically */
+  /* block keeps spacing predictable */
 }
 
 .page .content {
   height: 100vh;
   overflow-y: auto;
+  /* Main content column scrolls independently */
+  /* Keeps the sidebar fixed visually */
+  /* Full height so scrolling is stable */
 }
 
 body.contacts-page .page .content {
   overflow-y: hidden;
+  /* Contacts page handles its own scrolling */
+  /* Prevents double-scroll issues */
+  /* Keeps layout consistent for that view */
 }
 
 /* Fallback styling for the user initials icon (usually styled in header.css) */
@@ -289,5 +378,7 @@ body.contacts-page .page .content {
   justify-content: center;
   font-weight: 600;
   border-radius: 50%;
+  /* Circular badge for user initials */
+  /* Center text perfectly with flex */
+  /* Slightly bold so initials read well */
 }
-

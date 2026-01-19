@@ -15,12 +15,21 @@
 <link rel="stylesheet" href="css/fonts.css"/>
 <link rel="stylesheet" href="css/summary.css"/>
 <link rel="stylesheet" href="css/summary_mediaquery.css"/>
+<link rel="stylesheet" href="css/Keyframe.css"/>
 <link href="assets/img/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="assets/img/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
 <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"/>
 <link href="css/styles_mediaquery.css" rel="stylesheet"/>
 </head>
-<body>
+<body onload="init(event)">
+
+  <!-- Small-screen greeting overlay (shown only under 900px via Keyframe_summary.css) -->
+  <div id="keyframeSummaryOverlay" class="keyframe-summary-overlay" aria-hidden="true">
+    <div class="keyframe-summary-overlay__inner">
+      <h2 class="keyframe-summary-overlay__title">Guten Morgen</h2>
+      <h1 class="keyframe-summary-overlay__name" id="username_keyframe">Username</h1>
+    </div>
+  </div>
 <div class="page">
 <div aria-hidden="true" class="left">
 <div aria-hidden="true" class="logo-spacer"></div>
@@ -66,9 +75,8 @@
         <div class="header_icons">
             <img class="help_icon" src="./assets/img/help.svg" onclick="toHelpPage()"></img>
             <div class="my_icon" onclick="openUserMenu()"></div>
-            <nav class="user_menu d_none" id="user_menu" onclick="event.stopPropagation()">
+            <nav class="user_menu d_none" id="user_menu">
             <ul>
-            <li class="help_res"><a href="help.html"><span>Help</span></a></li>
             <li><a href="legal_notice.html"><span>Legal Notice</span></a></li>
             <li><a href="privacy_policy.html"><span>Privacy Policy</span></a></li>
             <li><a href="" onclick="logoutUser(event)"><span>Log out</span></a></li>
@@ -76,9 +84,8 @@
             </nav>
         </div>
 </header>
-<div class="header_overlay d_none" id="header_overlay" onclick="closeUserMenu()"></div>
 <div class="summary-headline">
-  <span class="summary-headline__brand">Join 360</span>
+  <h2>Join 360</h2>
   <span class="summary-headline__divider" aria-hidden="true"></span>
   <span class="summary-headline__text">Key Matrics at a Glance</span>
 </div>
@@ -118,7 +125,7 @@
         <h4>Urgent</h4>
       </div>
 
-      <!-- UI divider + upcoming deadline inside the urgent button -->
+    
       <span class="summary-btn__divider" aria-hidden="true"></span>
       <div class="summary-btn__deadline" aria-label="Nächste Deadline">
         <div class="summary-btn__duedate" id="upcoming_duedate">—</div>
@@ -168,6 +175,8 @@
 
   <script src="js/script.js"></script>
   <script src="js/navigate.js"></script>
+  <script src="js/summary.js"></script>
+  <script src="js/Keyframe.js"></script>
   <script src="js/summary_mediaquery.js"></script>
 </body>
 </html>

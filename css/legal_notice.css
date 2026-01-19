@@ -1,15 +1,27 @@
-
-
+/* 
+- Removes default bottom spacing under h3 headings
+- Helps keep headings tight to the following content
+*/
 h3 {
   margin-bottom: 0;
 }
 
+/* 
+- Main wrapper for the legal notice content
+- Creates distance from top and left navigation
+- Fixed width for large screens
+*/
 .legal_notice_page {
   margin-left: 90px;
   margin-top: 90px;
   width: 958px;
 }
 
+/* 
+- Font styling for legal notice page headlines
+- Uses bold weight for emphasis
+- Adds spacing above each headline
+*/
 .pages_font_legal_notice {
   font-family: Inter;
   font-weight: 700;
@@ -20,31 +32,53 @@ h3 {
   margin-top: 24px;
 }
 
+/* 
+- Highlights text with the brand color
+- Used for special words or names
+*/
 .join {
   color: #29ABE2;
 }
 
+/* 
+- Strong text styling for important paragraphs
+- Slightly smaller than main headlines
+- Keeps typography consistent
+*/
 .strong_fonts {
-font-family: Inter;
-font-weight: 700;
-font-style: Bold;
-font-size: 20px; 
-line-height: 120%;
-letter-spacing: 0%;
+  font-family: Inter;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 20px; 
+  line-height: 120%;
+  letter-spacing: 0%;
 }
 
+/* 
+- Styles list items for contact information
+- Adds spacing below the list
+- Indents bullets for better readability
+*/
 .contact {
     list-style-type: disc;  
     margin-bottom: 20px;    
     padding-left: 20px;     
 }
 
+/* 
+- Removes underline from links
+- Keeps link color neutral and clean
+*/
 a {
     text-decoration: none;
     color: #000;       
 }
 
 @media (max-width:1300px) { 
+/* 
+- Makes the legal notice responsive on smaller screens
+- Removes fixed width and allows text wrapping
+*/
 .legal_notice_page {
   margin-left: 90px;
   margin-right: 40px;
@@ -56,6 +90,10 @@ a {
 }
 
 @media (max-width:1024px) { 
+/* 
+- Reduces spacing on tablets and smaller laptops
+- Keeps layout balanced on medium screens
+*/
 .legal_notice_page {
   margin-left: 60px;
   margin-top: 60px;
@@ -63,12 +101,20 @@ a {
 }
 
 @media (max-width:540px) { 
-  h2 {
+/* 
+- Adjusts headline size for mobile devices
+- Prevents oversized text on small screens
+*/
+h2 {
     font-size: 47px;
 }
+
+/* 
+- Further reduces margins for small mobile screens
+- Maximizes available content space
+*/
 .legal_notice_page {
   margin-left: 40px;
   margin-right: 20px;
 }
 }
-
