@@ -6,15 +6,22 @@ function initAddTaskOverlay() {
         const btn = e.target.closest(".add_task_overlay");
         if (!btn) return;
         const slot = btn.dataset.boardslot;
+        if (window.innerWidth <= 1024) {
+            window.location.href = `add_task.html?slot=${slot || 'todo'}`;
+            return;
+        }
         if (boardSlotSelect && slot) {
             boardSlotSelect.value = slot;
         }
         overlay.classList.remove("overlay_hidden");
+        setTimeout(() => {
+            if (typeof loadUserAssignments === 'function') loadUserAssignments();
+            if (typeof buildCategoryDropdown === 'function') buildCategoryDropdown();
+            if (typeof wireSubtaskInputRow === 'function') wireSubtaskInputRow();
+        }, 50);
     });
     overlay.addEventListener("click", (e) => {
-        console.log("Overlay clicked, width:", window.innerWidth, "target:", e.target.id);
         if (window.innerWidth > 1024 && e.target.id === "overlay") {
-            console.log("Closing overlay");
             overlay.classList.add("overlay_hidden");
         }
     });

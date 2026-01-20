@@ -232,35 +232,37 @@
                         </div>
                         <div class="overlay_form_group overlay_assigned_to">
                           <span class="overlay_span_form">Assigned to</span>
-                          <div class="overlay_custom_select" id="task-assigned-to"></div>
-                          <div class="overlay_assigned_users_icons" id="assigned-users-icons"></div>
+                          <div class="overlay_custom_select" id="overlay-task-assigned-to"></div>
+                          <div class="overlay_assigned_users_icons" id="overlay-assigned-users-icons"></div>
                         </div>
 
                         <div class="overlay_form_group overlay_category">
                           <span class="overlay_span_form" data-for="task-category">Category</span>
-                          <div class="overlay_custom_select" id="task-category"></div>
+                          <div class="overlay_custom_select" id="overlay-task-category"></div>
                         </div>
 
                         <div class="overlay_subtask-input-wrapper">
                           <span class="overlay_span_form">Subtasks</span>
-                          <input placeholder="Add new subtask" type="text" id="subtask-input" />
+                          <input placeholder="Add new subtask" type="text" id="overlay-subtask-input" />
 
-                          <svg id="subtask-add" class="overlay_icon hidden" viewBox="0 0 24 24">
-                            <path d="M20 6L9 17l-5-5" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"
-                              stroke-linejoin="round" />
-                          </svg>
+                          <div class="overlay_subtask-icons-wrapper hidden">
+                            <svg id="overlay-subtask-add" class="overlay_icon" viewBox="0 0 24 24">
+                              <path d="M20 6L9 17l-5-5" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            </svg>
 
-                          <div id="dividerSubtasks" class="overlay_divider_subtasks hidden"></div>
+                            <div id="overlay-dividerSubtasks" class="overlay_divider_subtasks"></div>
 
-                          <svg id="subtask-clear" class="overlay_icon hidden" viewBox="0 0 24 24">
-                            <line x1="18" y1="6" x2="6" y2="18" stroke="black" stroke-width="2"
-                              stroke-linecap="round" />
-                            <line x1="6" y1="6" x2="18" y2="18" stroke="black" stroke-width="2"
-                              stroke-linecap="round" />
-                          </svg>
+                            <svg id="overlay-subtask-clear" class="overlay_icon" viewBox="0 0 24 24">
+                              <line x1="18" y1="6" x2="6" y2="18" stroke="black" stroke-width="2"
+                                stroke-linecap="round" />
+                              <line x1="6" y1="6" x2="18" y2="18" stroke="black" stroke-width="2"
+                                stroke-linecap="round" />
+                            </svg>
+                          </div>
                         </div>
 
-                        <ul id="subtask-list"></ul>
+                        <ul id="overlay-subtask-list"></ul>
 
                       </div>
                     </div>

@@ -9,7 +9,7 @@ function getTaskDataFromForm() {
         title: document.getElementById("task-title")?.value || "",
         boardslot: document.getElementById("board-slot")?.value || "todo",
         description: document.getElementById("task-description")?.value || "",
-        category: document.getElementById("task-category")?.getAttribute("data-selected") || "",
+        category: getContextElement("task-category")?.getAttribute("data-selected") || "",
         assigned: Array.from(window.selectedUsers?.keys?.() || []),
         priority: document.getElementById("task-priority")?.value || "",
         subtasks: getSubtasksForDB(),
@@ -199,14 +199,14 @@ function clearForm() {
 function clearFormInputs() {
     const title = document.getElementById("task-title");
     const desc = document.getElementById("task-description");
-    const cat = document.getElementById("task-category");
+    const cat = getContextElement("task-category");
     const dueDate = document.getElementById("task-due-date");
-    const subInput = document.getElementById("subtask-input");
+    const subInput = getContextElement("subtask-input");
     if (title) title.value = "";
     if (desc) desc.value = "";
     if (cat) {
         cat.removeAttribute("data-selected");
-        const displayText = document.getElementById("categoryDisplayText");
+        const displayText = getContextElement("categoryDisplayText");
         if (displayText) displayText.textContent = "Select task category";
     }
     if (dueDate) dueDate.value = "";
@@ -263,6 +263,12 @@ function reloadBoardIfOnBoardPage() {
     if (currentPage.toLowerCase() === 'add_task.html') {
         window.location.href = 'board.html';
     } else if (currentPage.toLowerCase() === 'board.html' && typeof init === 'function') {
+        // Close the overlay
+        const overlay = document.getElementById('overlay');
+        if (overlay) {
+            overlay.classList.add('overlay_hidden');
+        }
+        // Clear and reload the board
         if (typeof allTasks !== 'undefined') {
             allTasks = {};
         }
@@ -373,8 +379,8 @@ function renderUserIcon() {
  * Toggles the visibility of the category dropdown
  */
 function toggleCategoryDropdown() {
-    const options = document.getElementById("categoryOptions");
-    const arrow = document.getElementById("categoryArrow");
+    const options = getContextElement("categoryOptions");
+    const arrow = getContextElement("categoryArrow");
     if (!options) return;
     options.classList.toggle("show");
     if (arrow) arrow.classList.toggle("rotate");
@@ -385,8 +391,8 @@ function toggleCategoryDropdown() {
  * Closes the category dropdown
  */
 function closeCategoryDropdown() {
-    const options = document.getElementById("categoryOptions");
-    const arrow = document.getElementById("categoryArrow");
+    const options = getContextElement("categoryOptions");
+    const arrow = getContextElement("categoryArrow");
     if (options) options.classList.remove("show");
     if (arrow) arrow.classList.remove("rotate");
 }
@@ -399,7 +405,7 @@ function closeCategoryDropdown() {
 function createCategoryOptionsContainer() {
     const options = document.createElement("div");
     options.className = "select-options";
-    options.id = "categoryOptions";
+    options.id = getContextId("categoryOptions");
     addCategoryItems(options);
     return options;
 }
@@ -443,15 +449,15 @@ function createCategoryItem(it) {
 function createCategoryDisplayElement() {
     const el = document.createElement("div");
     el.className = "select-display";
-    el.id = "categoryDisplay";
+    el.id = getContextId("categoryDisplay");
     el.onclick = toggleCategoryDropdown;
     const text = document.createElement("span");
     text.className = "select-display-text";
-    text.id = "categoryDisplayText";
+    text.id = getContextId("categoryDisplayText");
     text.textContent = "Select task category";
     const arrow = document.createElement("span");
     arrow.className = "icon-assign";
-    arrow.id = "categoryArrow";
+    arrow.id = getContextId("categoryArrow");
     arrow.textContent = "▼";
     el.append(text, arrow);
     return el;
@@ -462,7 +468,7 @@ function createCategoryDisplayElement() {
  * Builds the complete category dropdown with display and options
  */
 function buildCategoryDropdown() {
-    const container = document.getElementById("task-category");
+    const container = getContextElement("task-category");
     if (!container) return;
     container.innerHTML = "";
     const display = createCategoryDisplayElement();
@@ -478,8 +484,8 @@ function buildCategoryDropdown() {
  * @param {string} text - The category display text
  */
 function setCategory(value, text) {
-    const container = document.getElementById("task-category");
-    const displayText = document.getElementById("categoryDisplayText");
+    const container = getContextElement("task-category");
+    const displayText = getContextElement("categoryDisplayText");
     if (!container || !displayText) return;
     container.setAttribute("data-selected", value); // hier wird der Wert gespeichert
     displayText.textContent = text;
@@ -493,8 +499,8 @@ function setCategory(value, text) {
  * @returns {boolean} True if click was inside the dropdown
  */
 function isClickInsideCategoryDropdown(target) {
-    const display = document.getElementById("categoryDisplay");
-    const options = document.getElementById("categoryOptions");
+    const display = getContextElement("categoryDisplay");
+    const options = getContextElement("categoryOptions");
     return (display && display.contains(target)) || (options && options.contains(target));
 }
 

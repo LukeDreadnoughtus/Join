@@ -4,9 +4,9 @@
  * Updates the UI state based on subtask count (enables/disables add button)
  */
 function updateAddUIState() {
-  const ul = document.getElementById("subtask-list");
-  const input = document.getElementById("subtask-input");
-  const add = document.getElementById("subtask-add");
+  const ul = getContextElement("subtask-list");
+  const input = getContextElement("subtask-input");
+  const add = getContextElement("subtask-add");
   if (!ul || !input || !add) return;
   if (getSubtaskCount() >= MAX_SUBTASKS) {
     input.disabled = true;
@@ -36,11 +36,19 @@ function wireSubtaskInputRow() {
  * @returns {Object|null} Object with input elements or null if any missing
  */
 function getSubtaskInputElements() {
-  const input = document.getElementById("subtask-input");
-  const addIcon = document.getElementById("subtask-add");
-  const clearIcon = document.getElementById("subtask-clear");
-  const divider = document.getElementById("dividerSubtasks");
-  const wrapper = document.querySelector(".subtask-icons-wrapper");
+  const input = getContextElement("subtask-input");
+  const addIcon = getContextElement("subtask-add");
+  const clearIcon = getContextElement("subtask-clear");
+  const divider = getContextElement("dividerSubtasks");
+  
+  // Try to find wrapper - either regular or overlay version
+  let wrapper = null;
+  if (isOverlayContext()) {
+    wrapper = document.querySelector(".overlay_subtask-icons-wrapper");
+  } else {
+    wrapper = document.querySelector(".subtask-icons-wrapper");
+  }
+  
   if (!input || !addIcon || !clearIcon || !divider || !wrapper) return null;
   return { input, addIcon, clearIcon, divider, wrapper };
 }
@@ -116,7 +124,7 @@ function addSubtask(text) {
     updateAddUIState();
     return;
   }
-  const ul = document.getElementById("subtask-list");
+  const ul = getContextElement("subtask-list");
   if (!ul) return;
   const item = createSubtaskElement(text);
   ul.appendChild(item);
@@ -394,8 +402,10 @@ function createEditDivider() {
  * @returns {Object} Object with check and cancel icon elements
  */
 function createEditIcons(elements, editInput) {
-  const check = cloneSvgIcon("subtask-add", "subtask-edit-icon subtask-edit-check");
-  const cancel = cloneSvgIcon("subtask-clear", "subtask-edit-icon subtask-edit-cancel");
+  const checkId = getContextId("subtask-add");
+  const cancelId = getContextId("subtask-clear");
+  const check = cloneSvgIcon(checkId, "subtask-edit-icon subtask-edit-check");
+  const cancel = cloneSvgIcon(cancelId, "subtask-edit-icon subtask-edit-cancel");
   attachCheckListener(check, elements, editInput);
   attachCancelListener(cancel, elements);
   return { check, cancel };
