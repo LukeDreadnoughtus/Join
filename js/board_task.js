@@ -211,16 +211,120 @@ function renderEdit (id) {
  */
 function initEditDatepicker() {
     const input = document.getElementById("edit_due_date");
+    const nativeInput = document.getElementById("edit_due_date_native");
     const icon = document.getElementById("date_icon");
     if (!input || !icon) return;
 
-    const picker = flatpickr(input, {
-        dateFormat: "d/m/Y",
-        allowInput: true
-    });
-    icon.addEventListener("click", () => {
-        picker.open();
-    });
+    const isMobile = window.matchMedia("(max-width: 449px)");
+
+    const toDDMMYYYY = (iso) => {
+        if (!iso || typeof iso !== "string" || !iso.includes("-")) return "";
+        const [y, m, d] = iso.split("-");
+        if (!y || !m || !d) return "";
+        return `${d.padStart(2, "0")}/${m.padStart(2, "0")}/${y}`;
+    };
+
+    const ddmmyyyyToISO = (val) => {
+        if (!val || typeof val !== "string" || !val.includes("/")) return "";
+        const [d, m, y] = val.split("/");
+        if (!y || !m || !d) return "";
+        return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
+    };
+
+    const syncNativeFromText = () => {
+        if (!nativeInput) return;
+        const iso = ddmmyyyyToISO(input.value.trim());
+        nativeInput.value = iso || "";
+    };
+
+    const syncTextFromNative = () => {
+        if (!nativeInput) return;
+        const formatted = toDDMMYYYY(nativeInput.value);
+        if (formatted) input.value = formatted;
+    };
+
+    // Avoid stacking event listeners when the edit view is re-rendered
+    if (!icon.dataset.datepickerBound) {
+        icon.dataset.datepickerBound = "true";
+        icon.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (isMobile.matches) {
+                if (!nativeInput) return;
+                // Some browsers support showPicker(); fallback to click/focus.
+                if (typeof nativeInput.showPicker === "function") nativeInput.showPicker();
+                else {
+                    nativeInput.focus();
+                    nativeInput.click();
+                }
+            } else {
+                if (input._flatpickr) input._flatpickr.open();
+            }
+        });
+    }
+
+    // Keep native input in sync when user types manually into the text input
+    if (!input.dataset.nativeSyncBound) {
+        input.dataset.nativeSyncBound = "true";
+        input.addEventListener("change", () => {
+            syncNativeFromText();
+            if (input._flatpickr) {
+                // Let flatpickr parse manual input and normalize it
+                input._flatpickr.setDate(input.value, true, "d/m/Y");
+            }
+        });
+    }
+
+    if (nativeInput && !nativeInput.dataset.textSyncBound) {
+        nativeInput.dataset.textSyncBound = "true";
+        nativeInput.addEventListener("change", () => {
+            syncTextFromNative();
+        });
+    }
+
+    const enableMobile = () => {
+        // Destroy flatpickr to prevent the large popup on very small screens
+        if (input._flatpickr) input._flatpickr.destroy();
+        syncNativeFromText();
+    };
+
+    const enableDesktop = () => {
+        // Create flatpickr only once per render cycle
+        if (!window.flatpickr || input._flatpickr) {
+            syncNativeFromText();
+            return;
+        }
+
+        const picker = flatpickr(input, {
+            dateFormat: "d/m/Y",
+            allowInput: true,
+            clickOpens: false,
+            onChange: (_selectedDates, dateStr) => {
+                // Hard-sync to the visible input to avoid "selection not applied" issues
+                input.value = dateStr;
+                syncNativeFromText();
+            },
+            onClose: (_selectedDates, dateStr) => {
+                input.value = dateStr;
+                syncNativeFromText();
+            },
+        });
+
+        // If there is already a date in the input, make sure flatpickr picks it up.
+        if (input.value) picker.setDate(input.value, false, "d/m/Y");
+        syncNativeFromText();
+    };
+
+    // Initial mode selection
+    if (isMobile.matches) enableMobile();
+    else enableDesktop();
+
+    // React to viewport changes
+    if (!input.dataset.responsiveDpBound) {
+        input.dataset.responsiveDpBound = "true";
+        const handler = (e) => (e.matches ? enableMobile() : enableDesktop());
+        if (typeof isMobile.addEventListener === "function") isMobile.addEventListener("change", handler);
+        else isMobile.addListener(handler); // Safari fallback
+    }
 }
 
 /**

@@ -665,3 +665,54 @@ ul#subtask_list {
     align-items: center;   
     gap: 8px;              
 }
+
+/* ------------------------------------------------------------
+   Mobile date picker fallback (< 450px)
+   - Uses the native <input type="date"> injected in the edit template
+   - JS syncs native value <-> dd/mm/yyyy string in #edit_due_date
+------------------------------------------------------------ */
+
+@media (max-width: 449px) {
+    /* Hide the flatpickr text input to avoid the big popup and centerMost layout */
+    #edit_due_date {
+        display: none;
+    }
+
+    /* Show the native date input in the exact same slot */
+    #edit_due_date_native {
+        display: block;
+        width: 100%;
+        background-color: transparent;
+    }
+
+    /* Prevent stray flatpickr popups from being visible on very small screens */
+    .flatpickr-calendar {
+        display: none !important;
+    }
+}
+
+@media (min-width: 450px) {
+    #edit_due_date_native {
+        display: none;
+    }
+}
+
+
+/* Hide native date input calendar icon (prevents duplicate icon next to our custom icon) */
+#edit_due_date_native::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  display: none;
+  -webkit-appearance: none;
+}
+#edit_due_date_native::-webkit-inner-spin-button,
+#edit_due_date_native::-webkit-clear-button {
+  display: none;
+  -webkit-appearance: none;
+}
+#edit_due_date_native {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: none;
+  background-image: none;
+}
+

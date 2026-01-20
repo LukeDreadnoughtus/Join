@@ -207,6 +207,12 @@ function renderTaskEditCard(taskData) {
                        placeholder="dd/mm/yyyy" 
                        required 
                        value="${taskData.duedate || ''}"/>
+                <!-- Native date input (mobile fallback < 450px). The displayed value is synced back to #edit_due_date in JS -->
+                <input class="input_edit_date_native input_style" 
+                       type="date" 
+                       id="edit_due_date_native" 
+                       aria-hidden="true" 
+                       tabindex="-1" />
             </div>
         </div>
         <div class="edit_priority">
