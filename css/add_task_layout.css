@@ -33,6 +33,7 @@ html.add-task-page {
   max-height: calc(100vh - 96px);
   overflow-y: auto;
   padding-bottom: 150px;
+  max-width: 1440px;
 }
 
 .add-task-page .page {
@@ -51,11 +52,14 @@ html.add-task-page {
   height: 100vh;
 }
 .add_task_heading {
-  width: 278px;
-  height: 73px;
-  padding-left: 100px;
-  padding-top: 60px;
-  padding-bottom: 30px;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 24px;
+  margin-bottom: 50px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .split_container {

@@ -461,7 +461,7 @@ function createMenuItem(option, id) {
   const text = document.createElement("span");
   text.textContent = option.label;
   const arrow = document.createElement("img");
-  arrow.src = "./assets/img/arrow_menu_res.svg";
+  arrow.src = "assets/img/arrow_menu_res.svg";
   arrow.classList.add("menu_arrow", option.direction);
   item.append(arrow,text);
     item.onclick = (event) => {
