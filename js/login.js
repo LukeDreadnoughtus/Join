@@ -65,6 +65,7 @@ async function logIn(event) {
 function logInGuest(event) {
     event.preventDefault();
     localStorage.setItem("username", `Guest`)
+    localStorage.setItem("userid", `Guest`)
     sessionStorage.setItem("summary_greeting_overlay", "1");
     window.location.href = "summary.html";
 }
