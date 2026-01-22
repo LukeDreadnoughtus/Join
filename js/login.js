@@ -62,6 +62,13 @@ async function logIn(event) {
     }
 }
 
+function logInGuest(event) {
+    event.preventDefault();
+    localStorage.setItem("username", `Guest`)
+    sessionStorage.setItem("summary_greeting_overlay", "1");
+    window.location.href = "summary.html";
+}
+
 /**
  * Verifies the entered user credentials against the fetched user data.
  * If successful, stores the username, user ID, and color in localStorage
