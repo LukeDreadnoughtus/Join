@@ -10,6 +10,7 @@
 @media (max-width:750px) {
 .div_login {
     width: 500px; 
+    height:411px; 
 }
 
 }
@@ -83,15 +84,17 @@ h2 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap:20px; 
+    gap:0px; 
 }
 
 .guest_login_button {
     margin-left: 0px;
+    margin-top:20px; 
 }
 
 .login_button {
     width: 180px;
+    margin-top:20px; 
 }
 
 .footer_login {
@@ -103,6 +106,9 @@ h2 {
 
 @media (max-width:430px) {
 
+.login_button {
+    margin-top:30px; 
+}
 
 
 .login_wrapper {
@@ -133,7 +139,7 @@ h2 {
 }
 
 .not_a_join_user {
-    top: 645px;
+    top: 630px;
 }
 
 .sign_up_button {

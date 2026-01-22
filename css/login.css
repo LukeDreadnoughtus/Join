@@ -38,6 +38,13 @@
     align-items: center;
 }
 
+.buttons_login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:20px; 
+}
+
 .link_to_registration {
     text-decoration:none; 
     font-size: 20px; 
@@ -115,7 +122,7 @@
     width: 111px; 
     text-align: center;
     white-space: nowrap;
-    margin-top:30px; 
+    margin-top:40px; 
 }
 
 .login_button:hover {
@@ -134,6 +141,7 @@
     cursor:pointer; 
     width: 180px; 
     margin-left: 20px; 
+    margin-top: 40px; 
 }
 
 .guest_login_button:hover {
