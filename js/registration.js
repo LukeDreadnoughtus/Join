@@ -41,17 +41,22 @@ function checkAllFieldsFilled() {
     const email = document.getElementById("email_registration").value.trim();
     const password = document.getElementById("password_registration").value.trim();
     const passwordConfirm = document.getElementById("password_confirm").value.trim();
-    console.log("Name:", checkName(name));
-    console.log("Email:", checkEmail(email));
-    console.log("Password:", checkPassword(password));
-    console.log("Password Confirm:", checkPasswordConfirm(passwordConfirm));
     let allFilled = true;
     allFilled = checkName(name) && allFilled;
     allFilled = checkEmail(email) && allFilled;
     allFilled = checkPasswordregistration(password) && allFilled;
     allFilled = checkPasswordConfirm(passwordConfirm) && allFilled;
+    allFilled = checkTwoPasswords(passwordConfirm, password) && allFilled;
     console.log("Ergebnis ALL:", allFilled);
     return allFilled;
+}
+
+function checkTwoPasswords (passwordConfirm, password) {
+    if ( passwordConfirm !== password ) {
+    showUserfeedback()
+    return false;
+    }
+    return true
 }
 
 /**
