@@ -20,7 +20,6 @@ function isPublicPage(file) {
 function ensureLoggedIn() {
   const file = (location.pathname.split('/').pop() || '').toLowerCase();
   if (localStorage.getItem('userid') || isPublicPage(file)) return;
-
   if (file === 'privacy_policy.html') window.location.href = 'privacy_policy_logout.html';
   else if (file === 'legal_notice.html') window.location.href = 'legal_notice_logout.html';
   else window.location.href = 'index.html';
