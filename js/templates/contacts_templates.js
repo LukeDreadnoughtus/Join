@@ -11,7 +11,7 @@
     // Used as the base template for opening the "Edit contact" dialog and wiring up the close/delete/save actions.
     '<div class="contacts_modal_content">' +
       '<div class="contacts_modal_left_panel">' +
-        '<img src="../assets/img/join-logo-vector.svg" class="contacts_modal_logo">' +
+        '<img src="assets/img/join-logo-vector.svg" class="contacts_modal_logo">' +
         '<div id="contacts_modal_title" class="contacts_modal_title">Edit contact</div>' +
         '<div id="contacts_modal_subtitle" class="contacts_modal_subtitle"></div>' +
       '</div>' +

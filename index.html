@@ -25,9 +25,10 @@
     <img src="assets/img/login_join.png" alt="Logo" id="splash_logo">
   </div>
 <div class="login_wrapper">
+  <div class="login_content">
   <img class="login_icon" src="assets/img/login_join.svg">
   <div class="not_a_join_user">
-  <h4><a href="./registration.html" class="link_to_registration">Not a Join user?</a></h4>
+  <h4><a href="registration.html" class="link_to_registration">Not a Join user?</a></h4>
   <button class="sign_up_button button_sizeone button_df" onclick="toRegistration()">Sign up</button>
   </div>
  
@@ -48,15 +49,16 @@
     </div>
     <div class="buttons_login">
     <button class="login_button button_fonts button_df" type="submit" onclick="logIn(event)">Log In</button>
-    <button class="guest_login_button button_fonts button_df" type="submit" onclick="logIn(event)">Guest Log In</button>
+    <button class="guest_login_button button_fonts button_df" type="submit" onclick="logInGuest(event)">Guest Log In</button>
     </div>
   </form>
  </div>
 
  <footer class="footer_login">
-  <a href="./privacy_policy_logout.html">Privacy Policy</a>
-  <a href="./legal_notice_logout.html">Legal notice</a>
+  <a href="privacy_policy_logout.html">Privacy Policy</a>
+  <a href="legal_notice_logout.html">Legal notice</a>
  </footer>
+</div>
 </div>
 <script src="js/login.js"></script>
 <script src="js/registration.js"></script>

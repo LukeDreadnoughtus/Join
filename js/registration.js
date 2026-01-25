@@ -16,6 +16,7 @@ function backToLogIn() {
     window.location.href = "index.html";
 }
 
+
 /**
  * Checks if the privacy policy checkbox is checked.
  * If so, hides related feedback and triggers field validation.
@@ -23,12 +24,12 @@ function backToLogIn() {
  * @returns {void}
  */
 function checkAllInputs() {
-    const checkBox= document.getElementById("termsCheckbox")
+    const checkBox = document.getElementById("termsCheckbox")
     if (checkBox.checked) {
         document.getElementById("userfeedback_checkbox").classList.add("d_none")
         document.getElementById("checkboxhightlight").classList.remove("custom_check_highlight")
         checkAllFieldsFilled()
-    } 
+    }
 }
 
 /**
@@ -41,17 +42,22 @@ function checkAllFieldsFilled() {
     const email = document.getElementById("email_registration").value.trim();
     const password = document.getElementById("password_registration").value.trim();
     const passwordConfirm = document.getElementById("password_confirm").value.trim();
-    console.log("Name:", checkName(name));
-    console.log("Email:", checkEmail(email));
-    console.log("Password:", checkPassword(password));
-    console.log("Password Confirm:", checkPasswordConfirm(passwordConfirm));
     let allFilled = true;
     allFilled = checkName(name) && allFilled;
     allFilled = checkEmail(email) && allFilled;
     allFilled = checkPasswordregistration(password) && allFilled;
     allFilled = checkPasswordConfirm(passwordConfirm) && allFilled;
+    allFilled = checkTwoPasswords(passwordConfirm, password) && allFilled;
     console.log("Ergebnis ALL:", allFilled);
     return allFilled;
+}
+
+function checkTwoPasswords(passwordConfirm, password) {
+    if (passwordConfirm !== password) {
+        showUserfeedback()
+        return false;
+    }
+    return true
 }
 
 /**
@@ -60,11 +66,15 @@ function checkAllFieldsFilled() {
  * @param {string} name - The entered name
  * @returns {boolean} True if valid, false otherwise
  */
-function checkName (name) {
-     if(!name) {
-    document.getElementById("name_registration").classList.add("input_style_red")
-    document.getElementById("name_registration").classList.remove("input_style")
-    return false;
+function checkName(name) {
+    const trimmedName = name.trim();
+    if (!trimmedName) {
+        document.getElementById("name_registration").classList.add("input_style_red")
+        document.getElementById("name_registration").classList.remove("input_style")
+        return false;
+    }
+    if (!isValidName(trimmedName)) {
+        return false
     }
     else return true;
 }
@@ -75,13 +85,17 @@ function checkName (name) {
  * @param {string} email - The entered email
  * @returns {boolean} True if valid, false otherwise
  */
-function checkEmail (email) {
-    if(!email) {
-    document.getElementById("email_registration").classList.add("input_style_red")
-    document.getElementById("email_registration").classList.remove("input_style")
-    return false;
+function checkEmail(email) {
+    const emailInput = document.getElementById("email_registration");
+    if (!email) {
+        emailInput.classList.add("input_style_red");
+        emailInput.classList.remove("input_style");
+        return false;
     }
-    else return true;
+    if (!isValidEmail(email)) {
+        return false;
+    }
+    return true;
 }
 
 /**
@@ -91,10 +105,10 @@ function checkEmail (email) {
  * @returns {boolean} True if valid, false otherwise
  */
 function checkPasswordregistration(password) {
-    if(!password) {
-    document.getElementById("password_registration").classList.add("input_style_red")
-    document.getElementById("password_registration").classList.remove("input_style")
-    return false;
+    if (!password) {
+        document.getElementById("password_registration").classList.add("input_style_red")
+        document.getElementById("password_registration").classList.remove("input_style")
+        return false;
     }
     else return true;
 }
@@ -106,45 +120,137 @@ function checkPasswordregistration(password) {
  * @returns {boolean} True if valid, false otherwise
  */
 function checkPasswordConfirm(passwordConfirm) {
-    if(!passwordConfirm) {
-    document.getElementById("password_confirm").classList.add("input_style_red")
-    document.getElementById("password_confirm").classList.remove("input_style")
-    return false;
+    if (!passwordConfirm) {
+        document.getElementById("password_confirm").classList.add("input_style_red")
+        document.getElementById("password_confirm").classList.remove("input_style")
+        return false;
     }
     else return true;
 }
 
 /**
- * Removes the red highlight from the email input when the user starts typing,
- * and hides the "email already exists" feedback if it is shown.
+ * Handles live validation for the email input field.
  *
- * @param {Event} event - The input or keyup event
+ * - Resets error styles and related feedback while the user is typing
+ * - Hides generic "required field" feedback
+ * - Validates the email format once a minimum length is reached
+ * - Applies error styling and format-specific feedback if the email is invalid
+ *
+ * This function is intended for UX/live feedback only.
+ * Final submit validation is handled separately.
+ *
+ * @param {Event} event - The input, keyup or change event triggered by the email field
  * @returns {void}
  */
-function checkEmailField (event) {
+
+function checkEmailField(event) {
     event.stopPropagation();
-    let emailInput = document.getElementById("email_registration")
+    const emailInput = document.getElementById("email_registration")
+    const emailValue = emailInput.value.trim();
     if (emailInput.classList.contains("input_style_red")) {
-    document.getElementById("email_registration").classList.add("input_style")
-    document.getElementById("email_registration").classList.remove("input_style_red") }
-    if(!document.getElementById("userfeedback_email").classList.contains("d_none")) {
-    document.getElementById("userfeedback_email").classList.add("d_none") }
+        resetInputState(emailInput, "emailfeedback");
+    }
+    if (!document.getElementById("userfeedback_email").classList.contains("d_none")) {
+        document.getElementById("userfeedback_email").classList.add("d_none")
+    }
     removeUserFeedbackCheckAllFields()
-} 
+    if (emailValue.length > 5 && !isValidEmail(emailValue)) {
+        setInputError(emailInput, "emailfeedback");
+    }
+}
 
 /**
- * Removes the red highlight from the name input when the user starts typing.
+ * Checks whether a given string is a valid email address.
  *
- * @param {Event} event - The input or keyup event
+ * Uses a pragmatic regular expression suitable for frontend validation.
+ *
+ * @param {string} email - The email address to validate
+ * @returns {boolean} True if the email format is valid, otherwise false
+ */
+
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+/**
+ * Resets the visual state of an input field.
+ *
+ * - Removes error styling
+ * - Restores default input styling
+ * - Optionally hides an associated feedback element
+ *
+ * @param {HTMLElement} inputElement - The input element to reset
+ * @param {string} [feedbackId] - Optional ID of a feedback element to hide
+ * @returns {void}
+ */
+function resetInputState(inputElement, feedbackId) {
+    inputElement.classList.add("input_style");
+    inputElement.classList.remove("input_style_red");
+    if (feedbackId) {
+        document.getElementById(feedbackId).classList.add("d_none");
+    }
+}
+
+/**
+ * Applies an error state to an input field.
+ *
+ * - Adds error styling
+ * - Removes default styling
+ * - Optionally displays an associated feedback element
+ *
+ * @param {HTMLElement} inputElement - The input element to mark as invalid
+ * @param {string} [feedbackId] - Optional ID of a feedback element to show
+ * @returns {void}
+ */
+function setInputError(inputElement, feedbackId) {
+    inputElement.classList.remove("input_style");
+    inputElement.classList.add("input_style_red");
+    if (feedbackId) {
+        document.getElementById(feedbackId).classList.remove("d_none");
+    }
+}
+
+/**
+ * Handles live validation for the name input field.
+ *
+ * - Resets error styling and related feedback while the user is typing
+ * - Hides generic "required field" feedback
+ * - Validates the name format once input is present
+ * - Applies error styling and name-specific feedback if the input is invalid
+ *
+ * This function is intended for live UX feedback only.
+ * Final submit validation is handled separately.
+ *
+ * @param {Event} event - The input, keyup or change event triggered by the name field
  * @returns {void}
  */
 function checkNameField(event) {
     event.stopPropagation();
-    let emailInput = document.getElementById("name_registration")
-    if (emailInput.classList.contains("input_style_red")) {
-    document.getElementById("name_registration").classList.add("input_style")
-    document.getElementById("name_registration").classList.remove("input_style_red") }
+    const nameInput = document.getElementById("name_registration");
+    const nameValue = nameInput.value.trim();
+    if (nameInput.classList.contains("input_style_red")) {
+        resetInputState(nameInput, "namefeedback");
+    }
     removeUserFeedbackCheckAllFields()
+    if (nameValue.length > 0 && !isValidName(nameValue)) {
+         setInputError(nameInput, "namefeedback");
+    }
+}
+
+/**
+ * Checks whether a given string is a valid personal name.
+ *
+ * A valid name:
+ * - contains only letters (including umlauts), spaces and hyphens
+ * - has a minimum length of two characters
+ *
+ * @param {string} name - The name to validate
+ * @returns {boolean} True if the name format is valid, otherwise false
+ */
+function isValidName(name) {
+    const nameRegex = /^[A-Za-zÄÖÜäöüß\- ]{2,}$/;
+    return nameRegex.test(name);
 }
 
 /**
@@ -156,17 +262,17 @@ function checkNameField(event) {
  * @param {Event} event - The input or keyup event
  * @returns {void}
  */
-function handlePasswordInput (event) {
+function handlePasswordInput(event) {
     event.stopPropagation();
     const input = event.target;
     if (input.id === "password_registration") {
-    showVisibilityIcon(event); 
+        showVisibilityIcon(event);
     } else if (input.id === "password_confirm") {
-    showVisibilityIcon2(event); 
+        showVisibilityIcon2(event);
     }
-    removeUserFeedbackCheckAllFields() 
+    removeUserFeedbackCheckAllFields()
     checkInputUserfeedback();
-    checkPassword ();
+    checkPassword();
 }
 
 /**
@@ -179,10 +285,10 @@ function showVisibilityIcon(event) {
     event.stopPropagation();
     const input = event.target
     if (!input.dataset.iconShown && input.value.length > 0) {
-    document.getElementById("lock").classList.add("d_none")
-    document.getElementById("visibilitynot").classList.remove("d_none")
-    input.dataset.iconShown = "true";
-  }
+        document.getElementById("lock").classList.add("d_none")
+        document.getElementById("visibilitynot").classList.remove("d_none")
+        input.dataset.iconShown = "true";
+    }
 }
 
 /**
@@ -193,12 +299,12 @@ function showVisibilityIcon(event) {
  */
 function showVisibilityIcon2(event) {
     event.stopPropagation();
-   const input = event.target
+    const input = event.target
     if (!input.dataset.iconShown && input.value.length > 0) {
-    document.getElementById("lock2").classList.add("d_none")
-    document.getElementById("visibilitynot2").classList.remove("d_none")
-    input.dataset.iconShown = "true";
-  }
+        document.getElementById("lock2").classList.add("d_none")
+        document.getElementById("visibilitynot2").classList.remove("d_none")
+        input.dataset.iconShown = "true";
+    }
 }
 
 /**
@@ -206,8 +312,8 @@ function showVisibilityIcon2(event) {
  *
  * @returns {void}
  */
-function checkInputUserfeedback () {
-    removesAlert ()
+function checkInputUserfeedback() {
+    removesAlert()
     removesRedBorderInput()
 }
 
@@ -216,12 +322,12 @@ function checkInputUserfeedback () {
  *
  * @returns {void}
  */
-function removesAlert () {
+function removesAlert() {
     let alert = document.getElementById("passwordmatch");
     if (!alert.classList.contains("d_none")) {
-    document.getElementById("password_confirm").classList.add("input_style")
-    document.getElementById("password_confirm").classList.remove("input_style_red")
-    document.getElementById("passwordmatch").classList.add("d_none")
+        document.getElementById("password_confirm").classList.add("input_style")
+        document.getElementById("password_confirm").classList.remove("input_style_red")
+        document.getElementById("passwordmatch").classList.add("d_none")
     }
 }
 
@@ -234,12 +340,12 @@ function removesRedBorderInput() {
     let redinput = document.getElementById("password_confirm")
     let userAlert = document.getElementById("password_registration")
     if (redinput.classList.contains("input_style_red")) {
-    document.getElementById("password_confirm").classList.add("input_style")
-    document.getElementById("password_confirm").classList.remove("input_style_red")
+        document.getElementById("password_confirm").classList.add("input_style")
+        document.getElementById("password_confirm").classList.remove("input_style_red")
     }
     if (userAlert.classList.contains("input_style_red")) {
-    document.getElementById("password_registration").classList.add("input_style")
-    document.getElementById("password_registration").classList.remove("input_style_red")
+        document.getElementById("password_registration").classList.add("input_style")
+        document.getElementById("password_registration").classList.remove("input_style_red")
     }
 }
 
@@ -249,16 +355,16 @@ function removesRedBorderInput() {
  *
  * @returns {void}
  */
-function checkPassword () {
-     const passwordInput = document.getElementById("password_registration");
+function checkPassword() {
+    const passwordInput = document.getElementById("password_registration");
     const passwordLength = passwordInput.value.length;
     const passwordInputConfirm = document.getElementById("password_confirm");
     const passwordConfirmLength = passwordInputConfirm.value.length;
 
     if (passwordLength <= passwordConfirmLength) {
-         if (passwordInput.value === passwordInputConfirm.value) {
+        if (passwordInput.value === passwordInputConfirm.value) {
             console.log("Passwörter stimmen überein");
-            } else {showUserfeedback();}
+        } else { showUserfeedback(); }
     }
 }
 
@@ -316,17 +422,17 @@ function showPassword2(event) {
  * @param {Event} event - The form submission event
  * @returns {Promise<void>}
  */
-async function registration (event) {
+async function registration(event) {
     event.preventDefault();
-    if(checkBoxProof() === false) 
-        {return}
+    if (checkBoxProof() === false) { return }
     if (!checkAllFieldsFilled()) {
         document.getElementById("userfeedback_allFields").classList.remove("d_none")
-        return}
-    removeUserFeedbackCheckAllFields() 
-    let userData = createUserDataObject() 
-    if(await proofEmail (userData) === true) return
-    await postUserData (event, userData)
+        return
+    }
+    removeUserFeedbackCheckAllFields()
+    let userData = createUserDataObject()
+    if (await proofEmail(userData) === true) return
+    await postUserData(event, userData)
     toLogIn()
 }
 
@@ -336,8 +442,9 @@ async function registration (event) {
  * @returns {void}
  */
 function removeUserFeedbackCheckAllFields() {
- if(!document.getElementById("userfeedback_allFields").classList.contains("d_none")) {
-    document.getElementById("userfeedback_allFields").classList.add("d_none")}
+    if (!document.getElementById("userfeedback_allFields").classList.contains("d_none")) {
+        document.getElementById("userfeedback_allFields").classList.add("d_none")
+    }
 }
 
 /**
@@ -347,11 +454,12 @@ function removeUserFeedbackCheckAllFields() {
  * @returns {boolean} True if checked, false otherwise
  */
 function checkBoxProof() {
-    const checkBox= document.getElementById("termsCheckbox")
-    if(!checkBox.checked) {
+    const checkBox = document.getElementById("termsCheckbox")
+    if (!checkBox.checked) {
         document.getElementById("userfeedback_checkbox").classList.remove("d_none")
         document.getElementById("checkboxhightlight").classList.add("custom_check_highlight")
-        return false}
+        return false
+    }
     return true
 }
 
@@ -365,12 +473,12 @@ function createUserDataObject() {
     const email = document.getElementById("email_registration").value.trim()
     const password = document.getElementById("password_registration").value.trim()
     const userData = {
-    name: name,
-    email: email,
-    password: password,
-    color: getUserColor()
+        name: name,
+        email: email,
+        password: password,
+        color: getUserColor()
     };
-   return userData 
+    return userData
 }
 
 /**
@@ -381,36 +489,37 @@ function createUserDataObject() {
  * @param {Object} userData - The registration user data
  * @returns {Promise<boolean>} True if email exists, false otherwise
  */
-async function proofEmail (userData) {
+async function proofEmail(userData) {
     try {
-    const getResponse = await fetch(path + ".json");
-    const users = await getResponse.json();
-     if (!users) return false;
-     for (const key in users) {
-      const user = users[key];
-      if (user.email === userData.email) {
-        document.getElementById("userfeedback_email").classList.remove("d_none");
-        return true;
-      }
-    } 
-    return false;
+        const getResponse = await fetch(path + ".json");
+        const users = await getResponse.json();
+        if (!users) return false;
+        for (const key in users) {
+            const user = users[key];
+            if (user.email === userData.email) {
+                document.getElementById("userfeedback_email").classList.remove("d_none");
+                return true;
+            }
+        }
+        return false;
     } catch (error) {
-    console.error("Fehler beim Prüfen der E-Mail:", error);
-    document.getElementById("userfeedback_email_prooffail").classList.remove("d_none")
-    return true; }
+        console.error("Fehler beim Prüfen der E-Mail:", error);
+        document.getElementById("userfeedback_email_prooffail").classList.remove("d_none")
+        return true;
     }
+}
 
-    /**
- * Posts the user data to the database.
- *
- * @async
- * @param {Event} event - The form submission event
- * @param {Object} userData - The registration user data
- * @returns {Promise<void>}
- */
-async function postUserData (event, userData) {
-     event.preventDefault();
-     try {
+/**
+* Posts the user data to the database.
+*
+* @async
+* @param {Event} event - The form submission event
+* @param {Object} userData - The registration user data
+* @returns {Promise<void>}
+*/
+async function postUserData(event, userData) {
+    event.preventDefault();
+    try {
         const response = await fetch(path + ".json", {
             method: "POST",
             headers: {
@@ -433,21 +542,21 @@ async function postUserData (event, userData) {
  */
 function getUserColor() {
     const basicColors = [
-    '#FF0000', // red
-    '#00FF00', // light-green
-    '#0000FF', // blue
-    '#FFFF00', // yellow
-    '#00FFFF', // cyan
-    '#FF00FF',  // magenta
-    '#8A2BE2',  // blue-violet
-    '#ff8800',  // orange
-    '#0f8558',  // green
-    '#00afff',  // skyblue
-    '#cd6839',  // sienna
-    '#f9c20cff',  //darkyellow
-  ];
-  const randomIndex = Math.floor(Math.random() * basicColors.length);
-  return basicColors[randomIndex];
+        '#FF0000', // red
+        '#00FF00', // light-green
+        '#0000FF', // blue
+        '#FFFF00', // yellow
+        '#00FFFF', // cyan
+        '#FF00FF',  // magenta
+        '#8A2BE2',  // blue-violet
+        '#ff8800',  // orange
+        '#0f8558',  // green
+        '#00afff',  // skyblue
+        '#cd6839',  // sienna
+        '#f9c20cff',  //darkyellow
+    ];
+    const randomIndex = Math.floor(Math.random() * basicColors.length);
+    return basicColors[randomIndex];
 }
 
 /**
@@ -458,6 +567,6 @@ function getUserColor() {
 function toLogIn() {
     document.getElementById("userfeedback_sign_up").classList.remove("d_none")
     setTimeout(() => {
-    window.location.href = "index.html";
-},  1000);
+        window.location.href = "index.html";
+    }, 1000);
 }

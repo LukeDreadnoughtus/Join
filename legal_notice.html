@@ -29,20 +29,20 @@
 <div aria-hidden="true" class="logo-spacer"></div>
 <div aria-hidden="false" class="main-links">
 <div class="link-row" data-link="summary">
-<img alt="Summary icon" class="link-icon" src="./assets/img/main_links_left/summary_icon.svg"/>
-<img alt="Summary text" class="link-text" src="./assets/img/main_links_left/summary_text.svg"/>
+<img alt="Summary icon" class="link-icon" src="assets/img/main_links_left/summary_icon.svg"/>
+<img alt="Summary text" class="link-text" src="assets/img/main_links_left/summary_text.svg"/>
 </div>
 <div class="link-row" data-link="add_task">
-<img alt="addTask icon" class="link-icon" src="./assets/img/main_links_left/add_task_icon.svg"/>
-<img alt="addTask text" class="link-text" src="./assets/img/main_links_left/add_task_text.svg"/>
+<img alt="addTask icon" class="link-icon" src="assets/img/main_links_left/add_task_icon.svg"/>
+<img alt="addTask text" class="link-text" src="assets/img/main_links_left/add_task_text.svg"/>
 </div>
 <div class="link-row" data-link="board">
-<img alt="Board icon" class="link-icon" src="./assets/img/main_links_left/board_icon.svg"/>
-<img alt="Board text" class="link-text link-text--board" src="./assets/img/main_links_left/board_text.svg"/>
+<img alt="Board icon" class="link-icon" src="assets/img/main_links_left/board_icon.svg"/>
+<img alt="Board text" class="link-text link-text--board" src="assets/img/main_links_left/board_text.svg"/>
 </div>
 <div class="link-row" data-link="contacts">
-<img alt="contacts icon" class="link-icon" src="./assets/img/main_links_left/contacts_icon.svg">
-<img alt="contacts text" class="link-text" src="./assets/img/main_links_left/contacts_text.svg">
+<img alt="contacts icon" class="link-icon" src="assets/img/main_links_left/contacts_icon.svg">
+<img alt="contacts text" class="link-text" src="assets/img/main_links_left/contacts_text.svg">
 </img></img></div>
 </div>
 <div class="legal-area">
@@ -62,9 +62,10 @@
 </div>
 <main class="content">
 <header>
+  <div class="header_max">
         <div class="header_div">
           <h4>Kanban Project Management Tool</h4>
-          <img class="join_icon" src="./assets/img/login_join.svg"></img>
+          <img class="join_icon" src="assets/img/login_join.svg"></img>
         </div>
         <div class="header_icons">
           <div id="header_icon" class="my_icon" onclick="openUserMenu()"></div>
@@ -76,7 +77,9 @@
             </ul>
           </nav>
         </div>
+        </div>
       </header>
+      <div class="header_overlay d_none" id="header_overlay" onclick="closeUserMenu()"></div>
 
 <div class="legal_notice_page">
 <h2>Legal Notice</h2>

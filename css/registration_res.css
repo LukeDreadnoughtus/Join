@@ -17,6 +17,14 @@ top:120px;
  top:120px; 
 }
 
+.overlay_userfeedback { 
+ top:810px; 
+}
+
+.footer_registration {
+    margin-top: 55px;
+}
+
 }
 
 @media (max-width:650px) {
@@ -46,7 +54,11 @@ top:120px;
 }
 
 .overlay_userfeedback { 
- top: 754px;
+ top: 762px;
+}
+
+.footer_registration {
+    margin-top: 30px;
 }
 }
 
@@ -59,6 +71,10 @@ top:120px;
 
 .overlay_userfeedback_email { 
     top:134px;  
+}
+
+.overlay_userfeedback { 
+ top: 750px;
 }
 
 h2 {
@@ -97,10 +113,6 @@ h2 {
     margin-left: 135px !important;
 }
 
-.overlay_userfeedback { 
- top: 705px;
-
-}
 
 }
 
@@ -151,6 +163,7 @@ h2 {
      font-size: 16px; 
      width:220px; 
      text-align:center; 
+     margin-top: -50px;
 }
 
 

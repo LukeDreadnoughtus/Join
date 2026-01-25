@@ -51,7 +51,7 @@ if (taskData.assignedUsers.length === 0) {
       <div class="card_header">
       <div class="task_category_card task_category_color_${taskData.categoryColor}">${taskData.category}</div>
       <div class="menu_wrapper">
-      <img src="./assets/img/swap_horiz.svg" alt="menü icon" class="responsive_task_card_menu" onclick="openResMenu('${taskData.boardSlot}', '${taskData.id}', event)">
+      <img src="assets/img/swap_horiz.svg" alt="menü icon" class="responsive_task_card_menu" onclick="openResMenu('${taskData.boardSlot}', '${taskData.id}', event)">
       <div class="menu_task_card_res d_none" id="menu_task_card_res_${taskData.id}">
       </div>
       </div>
@@ -71,7 +71,7 @@ if (taskData.assignedUsers.length === 0) {
       <div class="icons">
         ${assignedUsersHtml}
       </div>
-        <img src="./assets/img/priority_${taskData.priority}.svg" alt="priority icon" class="priority_icon_board">
+        <img src="assets/img/priority_${taskData.priority}.svg" alt="priority icon" class="priority_icon_board">
       </div>
     </div>
     `;
@@ -110,7 +110,7 @@ function renderTaskCardFullView(taskData) {
                 ${taskData.category}
             </div>
             <div class="close_icon_wrapper">
-                <img src="./assets/img/close.svg" alt="close icon" class="close_icon" onclick="closeTaskOverlay(event,'${taskData.id}')">
+                <img src="assets/img/close.svg" alt="close icon" class="close_icon" onclick="closeTaskOverlay(event,'${taskData.id}')">
             </div>
         </div>
         <div class="scroll-area">
@@ -128,7 +128,7 @@ function renderTaskCardFullView(taskData) {
         <div class="priority">
             <h4>Priority:</h4>
             <p class="task_detail_font">${taskData.priority}</p>
-            <img src="./assets/img/priority_${taskData.priority}.svg" alt="priority icon" class="priority_fullview">
+            <img src="assets/img/priority_${taskData.priority}.svg" alt="priority icon" class="priority_fullview">
         </div>
 
         <div class="assigned_to">
@@ -178,7 +178,7 @@ function renderTaskEditCard(taskData) {
         </div>
     </div>
     <div class="close_icon_wrapper close_icon_margin">
-        <img src="./assets/img/close.svg" alt="close icon" class="close_icon" onclick="closeTaskOverlayEdit(event)">
+        <img src="assets/img/close.svg" alt="close icon" class="close_icon" onclick="closeTaskOverlayEdit(event)">
     </div>
     <div class="scroll-area" onclick="closeUserDropdown(event,'${taskData.id}')">
         <div class="edit_title" onclick="event.stopPropagation()">
@@ -200,7 +200,7 @@ function renderTaskEditCard(taskData) {
         <div class="edit_duedate">
             <h4>Due Date</h4>
             <div class="input_event">
-                <img src="./assets/img/event.svg" class="event_icon" id="date_icon">
+                <img src="assets/img/event.svg" class="event_icon" id="date_icon">
                 <input class="input_edit_date input_style" 
                        type="text" 
                        id="edit_due_date" 
@@ -281,11 +281,11 @@ function renderTaskEditCard(taskData) {
                        required
                        onkeydown="handleSubtaskEnter(event,'${taskData.id}')"/>
                 <div class="icon_wrapper subtask_icon left_icon" onclick="clearSubtaskInput(this)">
-                    <img src="./assets/img/close.svg">
+                    <img src="assets/img/close.svg">
                 </div>
                 <div class="subtask_separator_input"></div>
                 <div class="icon_wrapper subtask_icon right_icon" onclick="addNewSubtask('${taskData.id}')">
-                    <img src="./assets/img/check_black.svg">
+                    <img src="assets/img/check_black.svg">
                 </div>
             </div>
             <ul id="subtask_list" class="subtasklist"></ul>
@@ -294,7 +294,7 @@ function renderTaskEditCard(taskData) {
 
     <button type="submit" class="edit_task_button" onclick="saveEdits('${taskData.id}')">
         <span class="font_create">Ok</span>
-        <span class="check_svg"><img src="./assets/img/check.svg" alt="check icon" width="28px" height="28px"></span>
+        <span class="check_svg"><img src="assets/img/check.svg" alt="check icon" width="28px" height="28px"></span>
     </button>
     `;
     const dropdown = document.getElementById("userDropdownList");
@@ -319,9 +319,9 @@ function createSubtaskListItem(taskData, index, subtask) {
             <span class="subtask_element">${subtask.name}</span>
 
             <div class="subtask_actions d_none">
-                <img src="./assets/img/edit.svg" class="subtask_edit_icon">
+                <img src="assets/img/edit.svg" class="subtask_edit_icon">
                 <div class="subtask_separator"></div>
-                <img src="./assets/img/delete.svg" class="subtask_delete_icon"
+                <img src="assets/img/delete.svg" class="subtask_delete_icon"
                      onclick="openDeleteModal(event,'${taskData.id}', '${index}'); event.stopPropagation();">
             </div>
         </div>
@@ -352,7 +352,7 @@ function renderSubtaskEditTemplate(listItem, taskId, subtaskKey, subtaskName) {
 
         <div class="subtask_edit_actions">
             <div class="icon_wrapper_edit">
-                <img src="./assets/img/delete.svg"
+                <img src="assets/img/delete.svg"
                      class="subtask_delete_icon"
                      onclick="openDeleteModal(event,'${taskId}', '${subtaskKey}')">
             </div>
@@ -360,7 +360,7 @@ function renderSubtaskEditTemplate(listItem, taskId, subtaskKey, subtaskName) {
             <div class="subtask_separator_edit"></div>
 
             <div class="icon_wrapper_edit">
-                <img src="./assets/img/check_black.svg"
+                <img src="assets/img/check_black.svg"
                      class="subtask_check_icon"
                      onclick="saveSubtaskEdit(event,'${taskId}', '${subtaskKey}', this.closest('li'))">
             </div>

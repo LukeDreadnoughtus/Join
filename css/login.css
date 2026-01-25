@@ -6,21 +6,38 @@
 }
 
 .login_wrapper {
-    flex: 1;
-    position: relative; 
-    width: 100%;
-    max-width: 1440px;
-    padding: 0 24px;
-    box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center;      */
+    
+}
+
+.login_content {
+  max-width: 1440px;
+  width: 100%;
+  position: relative; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+   
+}
+
+.registration_content {
+  max-width: 1440px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .registration_wrapper {
-    flex: 1;
-    position: relative; 
-    width: 100%;
-    max-width: 1440px;
-    padding: 0 24px;
-    box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center;      */
 }
 
 .login_icon {
@@ -40,6 +57,13 @@
     gap: 35px; 
     display:flex; 
     align-items: center;
+}
+
+.buttons_login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:20px; 
 }
 
 .link_to_registration {
@@ -78,16 +102,15 @@
     height:449px; 
     width:652px;
     box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
-    margin-top: 230px;
-    margin-bottom: 165px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 15px;
+    margin: 0 auto;       
+    padding-top: 20px;
     display:flex; 
     align-items: center;
     flex-direction:column; 
     background-color: white;
     border-radius: 30px;
+    flex-shrink: 0;
+    margin-top: 200px;
     
 }
 
@@ -96,7 +119,7 @@
     width: 598px;
     box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
     margin-top: 170px;
-    margin-bottom: 58px;
+    /* margin-bottom: 58px; */
     margin-left: auto;
     margin-right: auto;
     display:flex; 
@@ -118,7 +141,7 @@
     width: 111px; 
     text-align: center;
     white-space: nowrap;
-    margin-top:30px; 
+    margin-top:40px; 
 }
 
 .login_button:hover {
@@ -137,6 +160,7 @@
     cursor:pointer; 
     width: 180px; 
     margin-left: 20px; 
+    margin-top: 40px; 
 }
 
 .guest_login_button:hover {
@@ -312,20 +336,23 @@ a {
 }
 
 .footer_login {
+    margin-top: auto; 
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    font-size: 16px;
+}
+
+
+.footer_registration {
+    margin-top: auto; 
     height: 100px; 
     display: flex;
     justify-content: center; 
     align-items: center;
     gap: 50px; 
-    font-size: 16px;
-}
-
-.footer_registration {
-    height: 100px; 
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    gap: 20px; 
     font-size: 16px;
 }
 

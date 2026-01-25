@@ -1,3 +1,32 @@
+/**
+ * Checks whether a filename points to a public (no-auth) page.
+ * @param {string} file - Lowercased filename from the current URL.
+ * @returns {boolean} True if the page is accessible without login.
+ */
+function isPublicPage(file) {
+  return [
+    'index.html',
+    'registration.html',
+    'privacy_policy_logout.html',
+    'legal_notice_logout.html'
+  ].includes(file);
+}
+
+/**
+ * Redirects logged-out visitors away from protected pages to the correct public target.
+ * - Keeps logout variants of legal/privacy when not authenticated.
+ * - Falls back to index.html for all other protected pages.
+ */
+function ensureLoggedIn() {
+  const file = (location.pathname.split('/').pop() || '').toLowerCase();
+  if (localStorage.getItem('userid') || isPublicPage(file)) return;
+  if (file === 'privacy_policy.html') window.location.href = 'privacy_policy_logout.html';
+  else if (file === 'legal_notice.html') window.location.href = 'legal_notice_logout.html';
+  else window.location.href = 'index.html';
+}
+
+ensureLoggedIn();
+
 /* for main Tasks */
 
 (() => {
