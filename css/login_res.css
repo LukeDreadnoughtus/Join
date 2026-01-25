@@ -5,6 +5,10 @@
     right: 0px; 
 }
 
+.div_login {
+    margin-top: 250px; 
+}
+
 }
 
 @media (max-width:750px) {
@@ -18,7 +22,7 @@
 @media (max-width:700px) {
 
 .not_a_join_user {
-        top: 736px;
+        top: 730px;
         position: absolute;          
         left: 50%;
         transform: translateX(-50%);
@@ -28,9 +32,8 @@
         right:0px; 
         text-align: center;
 }
-
-.div_login {
-    top:43%; 
+.footer_login {
+    margin-top: 125px;
 }
 }
 
@@ -49,9 +52,8 @@
 }
 
 .div_login {
-    top:38%; 
+    margin-top:170px;  
 } 
-
 
 h2 {
     font-size: 47px;
@@ -77,7 +79,7 @@ h2 {
 }
 
 .not_a_join_user {
-    top: 680px;
+    top: 650px;
 }
 
 .buttons_login {
@@ -100,6 +102,7 @@ h2 {
 .footer_login {
     padding:0px; 
     gap:45px; 
+    margin-top: 90px;
 }
 
 }
