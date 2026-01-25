@@ -368,43 +368,51 @@ function currentCompletedTasksNumber(currentTask) {
  * - Shows the "No tasks found" message if no tasks match the search.
  */
 function searchTask() {
-    const input = document.getElementById("search").value.toLowerCase().trim();
+    const inputElement = document.getElementById("search");
+    const input = inputElement.value.toLowerCase().trim();
+    const iconElement = document.getElementById("icon_search");
+    const tasksArray = Object.values(allTasks);
+    toggleInputHighlight(inputElement, iconElement, input !== "");
     clearBoardSlots();
     renderBoardBasics()
     toggleNoTasksFound(false);
-    const tasksArray = Object.values(allTasks);
+    renderFilteredTasks(tasksArray, input)
+}
+
+function renderFilteredTasks(tasksArray, input) {
     if (!input) {
         tasksArray.forEach(task => taskTemplate(task));
-        checkNoTasks();
-        return;
+    } else {
+        const filteredTasks = filterTasks(tasksArray, input);
+        if (filteredTasks.length === 0) {
+            toggleNoTasksFound(true);
+            return;
+        }
+        filteredTasks.forEach(task => taskTemplate(task));
     }
-    const filteredTasks = filterTasks(tasksArray, input)
-    if (filteredTasks.length === 0) {
-        toggleNoTasksFound(true);
-        return;
-    }
-    filteredTasks.forEach(task => taskTemplate(task));
     checkNoTasks();
 }
 
+function toggleInputHighlight(inputElement, iconElement, active) {
+    if (active) {
+        inputElement.classList.add("blue_input");
+        iconElement.classList.add("blue_icon");
+    } else {
+        inputElement.classList.remove("blue_input");
+        iconElement.classList.remove("blue_icon");
+    }
+}
+
 function searchTask_res() {
-    const input = document.getElementById("search_responsive").value.toLowerCase().trim();
+    const inputElement = document.getElementById("search_responsive");
+    const input = inputElement.value.toLowerCase().trim();
+    const iconElement = document.getElementById("icon_search_responsive");
+    const tasksArray = Object.values(allTasks);
+    toggleInputHighlight(inputElement, iconElement, input !== "");
     clearBoardSlots();
     renderBoardBasics()
     toggleNoTasksFound(false);
-    const tasksArray = Object.values(allTasks);
-    if (!input) {
-        tasksArray.forEach(task => taskTemplate(task));
-        checkNoTasks();
-        return;
-    }
-    const filteredTasks = filterTasks(tasksArray, input)
-    if (filteredTasks.length === 0) {
-        toggleNoTasksFound(true);
-        return;
-    }
-    filteredTasks.forEach(task => taskTemplate(task));
-    checkNoTasks();
+    renderFilteredTasks(tasksArray, input)
 }
 
 /**
@@ -419,8 +427,6 @@ function clearBoardSlots() {
     const boardSlots = document.querySelectorAll(".column_content");
     boardSlots.forEach(slot => slot.innerHTML = "");
 }
-
-
 
 /**
  * Filters the array of tasks objects by a search term.

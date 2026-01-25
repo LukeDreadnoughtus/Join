@@ -485,7 +485,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 275px;
+  top: 194px;
   background-color: #e7e7e7;
   height: 48px;
   width: 252px;
@@ -529,11 +529,19 @@
 
 .add_task_btn:hover,
 .add_task_btn:focus-visible {
-  color: #3b82f6;
+  color: #29ABE2;
 }
 
 .add_task_btn .plus_icon {
   display: block;
+}
+
+.blue_input {
+  border-color:  #29ABE2;
+}
+
+.blue_icon {
+    filter: invert(53%) sepia(80%) saturate(4600%) hue-rotate(180deg) brightness(95%) contrast(90%);
 }
 
 
