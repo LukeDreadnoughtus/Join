@@ -76,7 +76,7 @@ function checkName(name) {
     if (!isValidName(trimmedName)) {
         return false
     }
-    else return true;
+    return true;
 }
 
 /**
@@ -99,18 +99,25 @@ function checkEmail(email) {
 }
 
 /**
- * Validates the password field; highlights in red if empty.
+ * Checks whether the registration password is valid for form submission.
  *
- * @param {string} password - The entered password
- * @returns {boolean} True if valid, false otherwise
+ * - Returns false if the password is empty or does not meet the rules
+ * - Returns true if the password is non-empty and valid
+ *
+ * @param {string} password - The password string to validate
+ * @returns {boolean} True if the password is valid, otherwise false
  */
 function checkPasswordregistration(password) {
-    if (!password) {
+    const trimmedPassword = password.trim();
+    if (!trimmedPassword) {
         document.getElementById("password_registration").classList.add("input_style_red")
         document.getElementById("password_registration").classList.remove("input_style")
         return false;
     }
-    else return true;
+    if (!isValidPassword(trimmedPassword)) {
+        return false
+    }
+    return true;
 }
 
 /**
@@ -125,7 +132,7 @@ function checkPasswordConfirm(passwordConfirm) {
         document.getElementById("password_confirm").classList.remove("input_style")
         return false;
     }
-    else return true;
+    return true;
 }
 
 /**
@@ -254,19 +261,31 @@ function isValidName(name) {
 }
 
 /**
- * Handles input events for password fields in the registration form.
- * 1) Updates visibility icons based on which field is typed in
- * 2) Removes any general user feedback
- * 3) Checks for password match and displays feedback if needed
+ * Handles live validation for password fields in the registration form.
  *
- * @param {Event} event - The input or keyup event
+ * Behavior:
+ * 1) Updates the visibility icon depending on which password field is typed in
+ * 2) Resets error styling and hides the password feedback for the main registration field
+ * 3) Validates the password according to rules (min 6 characters, 1 number, 1 special character)
+ * 4) Calls additional functions to remove general feedback and check password match
+ *
+ * This function is intended for live UX feedback only.
+ * Final submit validation is handled separately.
+ *
+ * @param {Event} event - The input, keyup or change event triggered by a password field
  * @returns {void}
  */
 function handlePasswordInput(event) {
     event.stopPropagation();
     const input = event.target;
+    const passwordValue = input.value.trim();
     if (input.id === "password_registration") {
         showVisibilityIcon(event);
+        resetInputState(input, "validpassword");
+        if (passwordValue.length > 0 && !isValidPassword(passwordValue)) {
+            setInputError(input, "validpassword");
+        }
+
     } else if (input.id === "password_confirm") {
         showVisibilityIcon2(event);
     }
@@ -274,6 +293,23 @@ function handlePasswordInput(event) {
     checkInputUserfeedback();
     checkPassword();
 }
+
+/**
+ * Checks whether a given password meets the validation rules.
+ *
+ * Rules:
+ * - At least 6 characters
+ * - At least one number
+ * - At least one special character
+ *
+ * @param {string} password - The password string to validate
+ * @returns {boolean} True if the password is valid, otherwise false
+ */
+function isValidPassword(password) {
+    const passwordRegex = /^(?=.*[0-9])(?=.*[^A-Za-z0-9]).{6,}$/;
+    return passwordRegex.test(password);
+}
+
 
 /**
  * Shows the visibility icon for the first password field when typing.

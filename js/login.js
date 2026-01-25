@@ -168,6 +168,28 @@ function showPassword3(event) {
     input.type = input.type === "password" ? "text" : "password";
 }
 
+/**
+ * Handles live validation for the login email input field.
+ *
+ * - Resets error styling while the user is typing
+ * - Hides generic "required field" feedback
+ * - Validates the email format once input is present
+ * - Applies error styling if the email format is invalid
+ *
+ * @param {Event} event - The input or keyup event triggered by the login email field
+ * @returns {void}
+ */
+function checkLoginEmailField(event) {
+    event.stopPropagation();
+    const emailInput = document.getElementById("useremail");
+    const emailValue = emailInput.value.trim();
+    if (emailInput.classList.contains("input_style_red")) {
+        resetInputState(emailInput, "emailcheck");
+    }
+    if (emailValue.length > 0 && !isValidEmail(emailValue)) {
+        setInputError(emailInput, "emailcheck");
+    }
+}
 
 
  
