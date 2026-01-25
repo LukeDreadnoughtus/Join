@@ -48,7 +48,7 @@
             <p class="password_not_match d_none" id="namefeedback">Please enter a valid name. Use letters only.</p>
           </div>
           <div class="input-wrapper">
-            <input class="input_style input_registration margin_input" type="text" id="email_registration"
+            <input class="input_style input_registration margin_input" type="email" id="email_registration"
               onkeyup="checkEmailField(event)" oninput="checkEmailField(event)" onchange="checkEmailField(event)"
               placeholder="Email" required autocomplete="email" />
             <img src="assets/img/mail.svg" alt="" class="icon">
@@ -62,6 +62,7 @@
               onclick="showPassword(event)">
             <img id="visibilitynot" src="assets/img/visibility_off.svg" alt="" onclick="showPassword(event)"
               class="icon d_none">
+            <p class="password_not_match d_none" id="validpassword">Password needs 6+ characters, incl. 1 number & 1 special character.</p>
           </div>
           <div class="input-wrapper">
             <input class="input_style input_registration margin_input" type="password" id="password_confirm"
