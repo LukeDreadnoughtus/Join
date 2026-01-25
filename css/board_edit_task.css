@@ -667,12 +667,12 @@ ul#subtask_list {
 }
 
 /* ------------------------------------------------------------
-   Mobile date picker fallback (< 450px)
+   Mobile date picker fallback (< 699px)
    - Uses the native <input type="date"> injected in the edit template
    - JS syncs native value <-> dd/mm/yyyy string in #edit_due_date
 ------------------------------------------------------------ */
 
-@media (max-width: 449px) {
+@media (max-width: 699px) {
     /* Hide the flatpickr text input to avoid the big popup and centerMost layout */
     #edit_due_date {
         display: none;
@@ -691,7 +691,7 @@ ul#subtask_list {
     }
 }
 
-@media (min-width: 450px) {
+@media (min-width: 700px) {
     #edit_due_date_native {
         display: none;
     }
