@@ -298,7 +298,7 @@ function handlePasswordInput(event) {
  * Checks whether a given password meets the validation rules.
  *
  * Rules:
- * - At least 6 characters
+ * - At least 8 characters
  * - At least one number
  * - At least one special character
  *
@@ -306,7 +306,7 @@ function handlePasswordInput(event) {
  * @returns {boolean} True if the password is valid, otherwise false
  */
 function isValidPassword(password) {
-    const passwordRegex = /^(?=.*[0-9])(?=.*[^A-Za-z0-9]).{6,}$/;
+    const passwordRegex = /^(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}$/;
     return passwordRegex.test(password);
 }
 

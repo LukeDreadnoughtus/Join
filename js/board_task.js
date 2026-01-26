@@ -215,7 +215,7 @@ function initEditDatepicker() {
     const icon = document.getElementById("date_icon");
     if (!input || !icon) return;
 
-    const isMobile = window.matchMedia("(max-width: 4699px)");
+    const isMobile = window.matchMedia("(max-width: 539px)");
 
     const toDDMMYYYY = (iso) => {
         if (!iso || typeof iso !== "string" || !iso.includes("-")) return "";

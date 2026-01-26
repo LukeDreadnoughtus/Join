@@ -114,6 +114,15 @@
 .no_tasks_found {
     top: 267px;
 }
+
+.input_event { 
+    width: 328px; 
+}
+
+.event_icon {
+    right: 18px;
+    top: 50%
+}
 }
 
 @media (max-width: 540px) { 
@@ -277,8 +286,8 @@
     font-size:16px;
 }
 
-.input_event input {
-        width: 222px; 
+.input_event{
+        width: 222px;
 }
 
 .bold_font {
@@ -350,7 +359,8 @@ font-size:16px;
 }
 
 .event_icon{ 
- right: 70px;
+ right: 15px;
+ top: 50%;
  
 }
 
