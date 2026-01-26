@@ -298,7 +298,8 @@ transition: background-color 120ms ease;
 
 .user_option.assigned .user_checkbox {
     background-color: #2a3647;;
-    border-color: #2a3647;
+    border-color: white; 
+    border-width: 1px;
     box-shadow: 0 0 0 1px #1f2a3b inset;
 }
 

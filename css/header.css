@@ -8,6 +8,7 @@ header {
   width: 100%;
 }
 
+
 .header_overlay {
   position: fixed;
   inset: 0;                
@@ -47,12 +48,13 @@ header {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin: 0 auto;
-
+  /* margin: 0 auto; */
+  margin-left: clamp(20px, 5%, 100px); /* min 20px, max 100px */
+  margin-right: auto;
 }
 
 .header_div {
-  margin-left: 50px; 
+  margin-left: 20px; 
 }
 
 .help_res {

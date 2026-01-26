@@ -393,7 +393,7 @@ function renderSubtaskEditTemplate(listItem, taskId, subtaskKey, subtaskName) {
  */
 function buildUserTemplate(iconData, user, taskId, isAssigned) {
     return `
-        <div class="user_option">
+        <div class="user_option ${isAssigned ? "assigned" : ""}">
             <div class="selectable_user">
                 <div class="user_icon" style="background-color: ${iconData.iconColor};">
                     ${iconData.initials}
