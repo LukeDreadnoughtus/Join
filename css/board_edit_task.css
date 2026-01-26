@@ -672,7 +672,7 @@ ul#subtask_list {
    - JS syncs native value <-> dd/mm/yyyy string in #edit_due_date
 ------------------------------------------------------------ */
 
-@media (max-width: 699px) {
+@media (max-width: 539px) {
     /* Hide the flatpickr text input to avoid the big popup and centerMost layout */
     #edit_due_date {
         display: none;
@@ -691,9 +691,14 @@ ul#subtask_list {
     }
 }
 
-@media (min-width: 700px) {
+@media (min-width: 540px) {
     #edit_due_date_native {
-        display: none;
+        /* display: none; */
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+        width: 0;
+        height: 0;
     }
 }
 
