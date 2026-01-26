@@ -1,4 +1,29 @@
 /**
+ * Filters the user dropdown list based on the search term.
+ * Only matches the user name inside the <span> element.
+ *
+ * @param {string} searchTerm - Text typed in the input field
+ */
+window.filterUsers = function(searchTerm) {
+    searchTerm = searchTerm.toLowerCase();
+    const users = document.querySelectorAll("#userDropdownList .user_option");
+
+    users.forEach(user => {
+        const nameElement = user.querySelector(".selectable_user span");
+        if (!nameElement) return;
+
+        const fullName = nameElement.textContent.toLowerCase();
+        const nameParts = fullName.split(" "); // trennt Vor- und Nachname
+
+        // Prüfen, ob eines der Teile mit dem Suchbegriff beginnt
+        const matches = nameParts.some(part => part.startsWith(searchTerm));
+
+        user.style.display = matches ? "flex" : "none";
+    });
+};
+
+
+/**
  * Renders the icons of users already assigned to a task.
  *
  * Displays user initials with color-coded backgrounds based on assigned users.
@@ -49,7 +74,9 @@ async function closeTaskOverlayEdit(event) {
 async function toggleUserDropdown(id, event) {
     event.stopPropagation();
     const dropdown = document.getElementById("userDropdownList");
+    const selected = event.currentTarget;
     const isNowHidden = dropdown.classList.toggle("d_none");
+    selected.classList.toggle("open", !isNowHidden);
     if (!isNowHidden) {
         await loadUserDropdown(id);
     } 
@@ -64,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         closeUserDropdown(event);
     });
 });
+
 
 /**
  * Closes the user selection dropdown.
@@ -171,11 +199,13 @@ async function fetchAllUsers() {
 function toggleAssignedUsers(userColor, userName, id, checkbox) {
     const task = allTasks[id];
     ensureAssignedUserArrays(task);
-
+    const userOption = checkbox.closest(".user_option");
     if (checkbox.checked) {
         addAssignedUser(task, userName, userColor);
+        userOption.classList.add("assigned");
     } else {
         removeAssignedUser(task, userName);
+        userOption.classList.remove("assigned");
     }
 }
 
@@ -441,7 +471,6 @@ async function confirmDeleteTask(event) {
     document.getElementById("userfeedback_delete_task").classList.add("d_none")
     currentId = null
 }
-
 
 
 

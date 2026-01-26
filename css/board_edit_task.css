@@ -168,15 +168,46 @@ transition: background-color 120ms ease;
 }
 
 .user_dropdown_selected {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 8px;
     background: white;
     cursor: pointer;
     width: 302px; 
-    margin-top:20px; 
+    margin-top:7px; 
     font-size: 20px;
     font-family: "inter";
+    position: relative;
+}
+
+.user_search_input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    flex: 1; 
+    padding: 3px 0;
+    line-height: 1.2;
+    font-size: 20px;
+    font-family: "Inter";
+}
+
+.dropdown_arrow img {
+    display: block;        
+    transition: transform 0.2s ease;
+    width: 7px;
+    height: 5px;
+}
+
+
+.dropdown_arrow {
+    display: flex;
+}
+
+.user_dropdown_selected.open .dropdown_arrow img{
+    transform: rotate(180deg);
 }
 
 .user_dropdown_list {
@@ -205,6 +236,10 @@ transition: background-color 120ms ease;
     background: #777373;
 }
 
+.user_option.assigned:hover {
+    background-color: #2a3647;
+}
+
 .selectable_user {
     display: flex;
     justify-content: center;
@@ -231,7 +266,7 @@ transition: background-color 120ms ease;
   border-color: #2A3647;
 }
 
-.user_checkbox:checked::after {
+.user_checkbox::after {
   content: "";
   position: absolute;
   left: 4px;
@@ -255,6 +290,23 @@ transition: background-color 120ms ease;
     font-weight: bold;
     margin-right: 10px;
 }
+
+.user_option.assigned {
+    background-color: #2a3647;
+    color: white; 
+}
+
+.user_option.assigned .user_checkbox {
+    background-color: #2a3647;;
+    border-color: #2a3647;
+    box-shadow: 0 0 0 1px #1f2a3b inset;
+}
+
+.user_option.assigned .user_checkbox::after {
+    display: block;
+    border-color: white; 
+}
+
 
 .edit_subtasks {
     margin-top: 30px; 

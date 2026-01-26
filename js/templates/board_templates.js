@@ -266,7 +266,18 @@ function renderTaskEditCard(taskData) {
         <div class="edit_assigned_to">
             <h4>Assigned to</h4>
             <div class="user_dropdown">
-                <div class="user_dropdown_selected" onclick="toggleUserDropdown('${taskData.id}', event)">Select contacts to assign</div>
+                 <div class="user_dropdown_selected" onclick="toggleUserDropdown('${taskData.id}', event)">
+                <input 
+                type="text" 
+                class="user_search_input" 
+                placeholder="Select contacts to assign"
+                onkeyup="filterUsers(this.value)"
+                onclick="event.stopPropagation()">
+                    
+                    <span class="dropdown_arrow">
+                     <img src="assets/img/arrow_drop_down.svg" alt="">
+                    </span>
+                </div>
                 <div id="userDropdownList" class="user_dropdown_list d_none"></div>
             </div>
             <div id="already_assigned" class="already_assigned"></div>
