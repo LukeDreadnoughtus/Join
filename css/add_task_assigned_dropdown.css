@@ -69,7 +69,7 @@
 .select-display .assigned-search {
   border: none;
   max-height: 40px;
- }
+}
 
 .assigned-search:focus {
   outline: none;
@@ -80,7 +80,6 @@
   color: transparent;
 }
 
-
 .assigned-search-overlay {
   position: absolute;
   inset: 0;
@@ -88,6 +87,12 @@
   height: 100%;
   color: #000;
   caret-color: #000;
+}
+
+.task_main_wrapper .footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
 }
 
 .select-options::-webkit-scrollbar {
@@ -116,18 +121,24 @@
 }
 
 .select-options::-webkit-scrollbar-button:single-button:vertical:decrement {
-  background: #ccc url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M7 14l5-5 5 5z"/></svg>') center no-repeat;
+  background: #ccc
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M7 14l5-5 5 5z"/></svg>')
+    center no-repeat;
   background-size: 8px;
   border-radius: 10px 10px 0 0;
 }
 
 .select-options::-webkit-scrollbar-button:single-button:vertical:increment {
-  background: #ccc url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M7 10l5 5 5-5z"/></svg>') center no-repeat;
+  background: #ccc
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M7 10l5 5 5-5z"/></svg>')
+    center no-repeat;
   background-size: 8px;
   border-radius: 0 0 10px 10px;
 }
 
-.select-options.show { display: block; }
+.select-options.show {
+  display: block;
+}
 .option-item {
   display: flex;
   align-items: center;
@@ -137,7 +148,9 @@
   border-radius: 8px;
 }
 
-.option-item:hover { background: #f3f3f3; }
+.option-item:hover {
+  background: #f3f3f3;
+}
 
 .option-item.checked {
   background-color: #2a3647;
@@ -244,12 +257,16 @@
   color: #fff;
 }
 
-.user_icon:first-child { margin-left: 0; }
-.user_icon:hover { z-index: 10; }
+.user_icon:first-child {
+  margin-left: 0;
+}
+.user_icon:hover {
+  z-index: 10;
+}
 
 #assignedOptions {
   position: static;
-  display: none;          /* zu */
+  display: none; /* zu */
   margin-top: 0;
   border: none;
   border-radius: 0 0 10px 10px;
@@ -257,7 +274,7 @@
 }
 
 #assignedOptions.show {
-  display: block;         /* offen => schiebt Content nach unten */
+  display: block; /* offen => schiebt Content nach unten */
 }
 
 #task-assigned-to:has(#assignedOptions.show) ~ #assigned-users-icons {
