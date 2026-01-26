@@ -207,3 +207,7 @@
     z-index: 10;
   }
 }
+
+/* Logout: Navigation erst anzeigen, wenn JS bereinigt hat (verhindert Flicker). */
+html.logout-page .main-links{visibility:hidden;}
+html.logout-page.logout-ready .main-links{visibility:visible;}
