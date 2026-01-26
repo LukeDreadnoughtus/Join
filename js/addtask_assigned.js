@@ -8,9 +8,13 @@ function updateDisplayText() {
   const assignedUsersContainer = getContextElement("assigned-users-icons");
   if (!display || !assignedUsersContainer) return;
   const displayText = window.selectedUsers && window.selectedUsers.size > 0 ? "To:" : "Select contacts to assign";
-  rebuildDisplayElement(display, displayText);
+  // Only rebuild display if not in search mode (to preserve the invisible input)
+  if (!display.classList.contains("search-active")) {
+    rebuildDisplayElement(display, displayText);
+  }
   renderSelectedUserIcons(assignedUsersContainer);
 }
+
 
 
 /**
@@ -226,8 +230,16 @@ function toggleDropdown() {
   const options = getContextElement("assignedOptions");
   const arrow = getContextElement("assignedArrow");
   if (!options) return;
+  const willOpen = !options.classList.contains("show");
   options.classList.toggle("show");
   if (arrow) arrow.classList.toggle("rotate");
+  if (willOpen) {
+    enterAssignedSearchMode();
+    const search = getContextElement("assignedSearch");
+    if (search) search.focus();
+  } else {
+    exitAssignedSearchMode();
+  }
 }
 
 
@@ -239,6 +251,7 @@ function closeAssignedDropdown() {
   const arrow = getContextElement("assignedArrow");
   if (options) options.classList.remove("show");
   if (arrow) arrow.classList.remove("rotate");
+  exitAssignedSearchMode();
 }
 
 
@@ -263,4 +276,74 @@ function attachOutsideClickHandlerForAssignedDropdown() {
   document.addEventListener("click", (e) => {
     if (!isClickInsideAssignedDropdown(e.target)) closeAssignedDropdown();
   });
+}
+
+/**
+ * Creates the search input for filtering assigned options
+ * @returns {HTMLInputElement} The created input element
+ */
+function createAssignedSearchInput() {
+  const input = document.createElement("input");
+  input.type = "text";
+  input.className = "assigned-search";
+  input.id = getContextId("assignedSearch");
+  input.addEventListener("input", () => {
+    const term = input.value || "";
+    filterAssignedOptions(term);
+  });
+  input.addEventListener("click", (e) => e.stopPropagation());
+  input.addEventListener("keydown", (ev) => {
+    if (ev.key === "Escape") {
+      closeAssignedDropdown();
+    }
+  });
+  return input;
+}
+
+/**
+ * Filters option items by search term
+ * @param {string} term - Search text to filter by
+ */
+function filterAssignedOptions(term) {
+  const options = getContextElement("assignedOptions");
+  if (!options) return;
+  const normalized = String(term || "").trim().toLowerCase();
+  const items = options.querySelectorAll(".option-item");
+  items.forEach((item) => {
+    const nameEl = item.querySelector(".option-user-name");
+    const nameText = (nameEl?.textContent || "").toLowerCase();
+    const match = !normalized || nameText.includes(normalized);
+    item.style.display = match ? "flex" : "none";
+  });
+}
+
+/**
+ * Replaces display text with a search input while dropdown is open
+ */
+function enterAssignedSearchMode() {
+  const display = getContextElement("assignedDisplay");
+  if (!display) return;
+  let input = getContextElement("assignedSearch");
+  if (!input) {
+    input = createAssignedSearchInput();
+    input.classList.add("assigned-search-overlay");
+    display.appendChild(input);
+  }
+  display.classList.add("search-active");
+  display.onclick = null;
+}
+
+/**
+ * Restores the display text and clears any active filter
+ */
+function exitAssignedSearchMode() {
+  const input = getContextElement("assignedSearch");
+  if (input && input.parentElement) input.parentElement.removeChild(input);
+  updateDisplayText();
+  const display = getContextElement("assignedDisplay");
+  if (display) {
+    display.classList.remove("search-active");
+    display.onclick = toggleDropdown;
+  }
+  filterAssignedOptions("");
 }
