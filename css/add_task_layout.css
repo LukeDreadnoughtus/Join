@@ -31,9 +31,10 @@ html.add-task-page {
 
 .task_main_wrapper {
   max-height: calc(100vh - 96px);
-  overflow-y: auto;
+  overflow-y: hidden;
   padding-bottom: 150px;
   max-width: 1440px;
+  position: relative;
 }
 
 .add-task-page .page {
