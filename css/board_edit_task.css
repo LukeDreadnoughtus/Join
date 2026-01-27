@@ -719,8 +719,12 @@ ul#subtask_list {
     gap: 8px;              
 }
 
+.you_label {
+    padding-left: 20px; 
+}
+
 /* ------------------------------------------------------------
-   Mobile date picker fallback (< 699px)
+   Mobile date picker fallback (< 539px)
    - Uses the native <input type="date"> injected in the edit template
    - JS syncs native value <-> dd/mm/yyyy string in #edit_due_date
 ------------------------------------------------------------ */
@@ -754,7 +758,6 @@ ul#subtask_list {
         height: 0;
     }
 }
-
 
 /* Hide native date input calendar icon (prevents duplicate icon next to our custom icon) */
 #edit_due_date_native::-webkit-calendar-picker-indicator {

@@ -31,6 +31,21 @@ window.filterUsers = function(searchTerm) {
  *
  * @param {Object} taskData - Task object containing assigned user data
  */
+// function renderAssignedUserIcons(taskData) {
+//     const alreadyAssignedContainer = document.getElementById("already_assigned");
+//     alreadyAssignedContainer.innerHTML = ""
+//     if (!taskData.assignedUsers || taskData.assignedUsers.length === 0) {
+//         alreadyAssignedContainer.innerHTML = ""; 
+//         return;
+//     }
+//     const assignedIconsHtml = taskData.assignedUsers.map((user, i) => `
+//         <div class="assigned_icon color${taskData.assignedUserColors[i].replace('#', '')}">
+//             ${initials(user)}
+//         </div>
+//     `).join("");
+//     alreadyAssignedContainer.innerHTML = assignedIconsHtml;
+// }
+
 function renderAssignedUserIcons(taskData) {
     const alreadyAssignedContainer = document.getElementById("already_assigned");
     alreadyAssignedContainer.innerHTML = ""
@@ -39,7 +54,7 @@ function renderAssignedUserIcons(taskData) {
         return;
     }
     const assignedIconsHtml = taskData.assignedUsers.map((user, i) => `
-        <div class="assigned_icon color${taskData.assignedUserColors[i].replace('#', '')}">
+        <div class="assigned_icon" style="background-color: ${taskData.assignedUserColors[i]} ;">
             ${initials(user)}
         </div>
     `).join("");
@@ -143,7 +158,13 @@ async function loadUserDropdown(id) {
  */
 function createUserTemplate(user, id, isAssigned) {
     const iconData = getUserIconData(user);
-    return buildUserTemplate(iconData, user, id, isAssigned);
+    const loggedInUser = getLoggedInUser();
+    const isCurrentUser = loggedInUser === user.userId;
+    return buildUserTemplate(iconData, user, id, isAssigned,isCurrentUser);
+}
+
+function getLoggedInUser() {
+    return localStorage.getItem("userid");
 }
 
 /**

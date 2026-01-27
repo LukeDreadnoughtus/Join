@@ -391,7 +391,7 @@ function renderSubtaskEditTemplate(listItem, taskId, subtaskKey, subtaskName) {
  * @param {boolean} isAssigned - Whether the user is already assigned
  * @returns {string} HTML string for the user dropdown item
  */
-function buildUserTemplate(iconData, user, taskId, isAssigned) {
+function buildUserTemplate(iconData, user, taskId, isAssigned, isCurrentUser) {
     return `
         <div class="user_option ${isAssigned ? "assigned" : ""}">
             <div class="selectable_user">
@@ -399,6 +399,7 @@ function buildUserTemplate(iconData, user, taskId, isAssigned) {
                     ${iconData.initials}
                 </div>
                 <span>${user.name}</span>
+                ${isCurrentUser ? '<span class="you_label">(You)</span>' : ''}
             </div>
 
             <input 

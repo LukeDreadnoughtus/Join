@@ -49,7 +49,7 @@ header {
   justify-content: space-between;
   width: 100%;
   /* margin: 0 auto; */
-  margin-left: clamp(20px, 5%, 100px); /* min 20px, max 100px */
+  margin-left: clamp(20px, 5%, 100px);
   margin-right: auto;
 }
 
