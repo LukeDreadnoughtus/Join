@@ -35,6 +35,14 @@ let pathUser = "https://joinregistration-d9005-default-rtdb.europe-west1.firebas
 
 var allTasks = {}; // globales Objekt: key = Task-ID, value = Task-Daten
 
+// Avoid spamming multiple alert popups if user-data fetch fails for many tasks.
+let _userDataFetchAlertShown = false;
+function alertUserDataFetchOnce() {
+    if (_userDataFetchAlertShown) return;
+    _userDataFetchAlertShown = true;
+    alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
+}
+
 /**
  * Initializes the board after the page has loaded.
  * Prevents the default event, removes user feedback,
@@ -218,7 +226,7 @@ async function fetchUserNames(currentAssignedUserids) {
         return assignedUsers
     } catch (error) {
         console.error("Fehler beim Laden der Usernamen:", error);
-        alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
+        alertUserDataFetchOnce();
         return [];
     }
 }
@@ -285,7 +293,7 @@ async function fetchUsercolors(currentAssignedUserids) {
         return assignedUsercolors
     } catch (error) {
         console.error("Fehler beim Laden der Farben:", error);
-        alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
+        alertUserDataFetchOnce();
         return [];
     }
 }

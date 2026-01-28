@@ -97,11 +97,18 @@
     display: block;
   }
 
+
+  .left .main-links .link-row .nav-label{
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+  }
   .left .main-links .link-row .link-text{
     /* show link labels under the icons */
     /* helps readability on mobile */
     /* keeps spacing consistent across items */
-    display: block;
+    display: none;
   }
 
 
@@ -189,11 +196,50 @@
 }
 
 
-@media (max-width: 355px) {
+@media (max-width: 480px) {
+
+
+.main-links img, .main-links svg{
+  transform: scale(0.60)
+
+}
+
+.left .main-links .link-row .nav-label{
+  font-size: 12px;
+}
+
+
+}
+
+
+
+@media (max-width: 450px) {
+
+
+.main-links img, .main-links svg{
+  transform: scale(0.60)
+
+}
+
+.left .main-links .link-row .nav-label{
+  font-size: 12px;
+}
+
+}
+
+@media (max-width: 400px) {
 .left .main-links{
-  /* on super small screens, remove extra margins */
-  /* maximizes usable width for the nav items */
-  /* helps prevent squishing/wrapping */
+
   margin: 0 0;
+  width: 30%;
+  
+}
+}
+
+@media (max-width: 370px) {
+.left .main-links{
+
+  width: 25%;
+  
 }
 }

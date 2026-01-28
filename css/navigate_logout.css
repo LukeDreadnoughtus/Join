@@ -29,6 +29,9 @@
 .left .main-links .logout-login-row .link-icon {
   width: 30px;
   height: 30px;
+  display: block;
+  object-fit: contain;
+
 }
 
 /* 
@@ -118,7 +121,7 @@
   */
   .left.logout-nav .logout-legal-area .logout-legal-link {
     font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
     line-height: 120%;
     color: #CDCDCD;
@@ -211,3 +214,43 @@
 /* Logout: Navigation erst anzeigen, wenn JS bereinigt hat (verhindert Flicker). */
 html.logout-page .main-links{visibility:hidden;}
 html.logout-page.logout-ready .main-links{visibility:visible;}
+
+
+/* --- Desktop: center the main nav block in the sidebar while keeping left-aligned rows --- */
+@media (min-width: 1025px) {
+  .left .main-links {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    align-items: stretch;
+  }
+
+  .left .main-links .link-row {
+    width: 100%;
+  }
+
+  .left .main-links .logout-login-row {
+    width: 100%;
+    justify-content: center;
+  }
+
+
+  /* Align labels so all icons/text start at the same x-position, while rows stay centered */
+  .left .main-links .link-row .nav-label {
+    display: inline-block;
+    width: 96px;
+    text-align: left;
+  }
+
+} 
+
+
+@media (max-width: 480px) {
+
+
+
+.left.logout-nav .logout-login-row .logout-login-label{
+  font-size: 12px;
+}
+
+}

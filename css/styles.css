@@ -60,7 +60,12 @@ body {
 .left .main-links {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /*
+    Desktop sidebar: make all nav rows share the same left edge.
+    Previously the rows were centered and had width:max-content, which caused
+    shorter labels (e.g. "Board") to appear more indented than longer ones.
+  */
+  align-items: stretch;
   justify-content: flex-start;
   gap: 16px;
   width: 100%;
@@ -77,21 +82,35 @@ body {
   justify-content: center;
   gap: 12px;
   width: max-content;
-  line-height: 0;
+  line-height: normal;
   /* One nav item row: icon + label */
   /* Tight line-height to avoid random vertical spacing */
   /* width fits content so it doesn't stretch weirdly */
 }
 
+/*
+  Desktop sidebar alignment fix:
+  Ensure each .link-row is full width and left-aligned inside the sidebar.
+  This keeps "Board" on the same horizontal line/left padding as the other items.
+  (More specific than .main-links .link-row rules below.)
+*/
+.left .main-links .link-row {
+  width: 100%;
+  justify-content: center;
+  padding: 10px 24px;
+  box-sizing: border-box;
+}
+
 .left .link-icon {
-  height: 28px;
-  width: auto;
+  width: 30px;
+  height: 31px;
   display: block;
   object-fit: contain;
-  /* Standard icon sizing so everything aligns */
+  /* Use the SVGs at their intended pixel size (30×31) to avoid soft scaling. */
   /* block avoids inline-image baseline gaps */
   /* contain keeps the icon from getting squished */
 }
+
 
 .left .link-text {
   height: 28px;
@@ -102,6 +121,38 @@ body {
   /* Label image sizing to match the icon height */
   /* Fixed width keeps all items visually aligned */
   /* line-height 0 prevents extra whitespace around the image */
+}
+
+.left .nav-label {
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #CDCDCD;
+  white-space: nowrap;
+}
+
+.main-links .link-row:not(.is-active):hover .nav-label,
+.main-links .link-row:not(.is-active):focus-visible .nav-label {
+  color: #29ABE2;
+}
+
+/*
+  The sidebar icons are loaded via <img> (external SVG), so we can't change their
+  fill with CSS. To keep the original UI behavior (icon + label turning blue),
+  we tint the icons via a CSS filter on hover/focus and on the active page.
+*/
+.main-links .link-row:not(.is-active):hover .link-icon,
+.main-links .link-row:not(.is-active):focus-visible .link-icon {
+  filter: invert(54%) sepia(66%) saturate(1724%) hue-rotate(158deg) brightness(95%) contrast(92%);
+}
+
+.main-links .link-row.is-active .link-icon {
+  filter: invert(54%) sepia(66%) saturate(1724%) hue-rotate(158deg) brightness(95%) contrast(92%);
+}
+
+.main-links .link-row.is-active .nav-label {
+  color: #29ABE2;
 }
 
 .left .link-text--board {
@@ -381,4 +432,29 @@ body.contacts-page .page .content {
   /* Circular badge for user initials */
   /* Center text perfectly with flex */
   /* Slightly bold so initials read well */
+}
+
+
+/* --- Desktop: center the main nav block in the sidebar while keeping left-aligned rows --- */
+@media (min-width: 1025px) {
+  .left .main-links {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    align-items: stretch;
+  }
+
+  .left .main-links .link-row {
+    width: 100%;
+    justify-content: center;
+  }
+
+
+  /* Keep icon/text perfectly aligned across rows while the row background spans full width */
+  .left .main-links .link-row .nav-label {
+    display: inline-block;
+    width: 96px;
+    text-align: left;
+  }
+
 }
