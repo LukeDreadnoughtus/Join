@@ -29,7 +29,6 @@
   
   #overlay .overlay_footer {
     margin-top: 32px !important;
-    background: #f5f5f5;
   }
   
   #overlay .overlay_split_container {
@@ -195,6 +194,5 @@
 
  #overlay .overlay-content {
     margin: auto;
-    background: #f5f5f5;
     pointer-events: auto;
   }

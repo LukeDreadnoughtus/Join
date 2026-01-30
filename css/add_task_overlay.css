@@ -62,7 +62,6 @@
   align-items: center;
   justify-content: center;
   padding: clamp(12px, 2.5vw, 32px);
-  background: transparent;
   min-height: 100vh;
   height: 100dvh;
 }
@@ -670,7 +669,6 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  background-color: #f6f7f8;
 }
 
 #overlay .overlay_footer_text {
