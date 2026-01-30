@@ -75,6 +75,7 @@ header {
     justify-content: center;
     align-items: center;
     user-select: none;
+    cursor:pointer; 
 }
 
 .my_icon:hover {
@@ -127,6 +128,10 @@ ul {
 
 .d_none {
   display: none;
+}
+
+.last_item {
+  margin-bottom: 5px; 
 }
 
 @media (max-width: 680px) { 
