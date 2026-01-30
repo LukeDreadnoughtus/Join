@@ -52,6 +52,8 @@
 #subtask-list {
   margin: 0;
   padding: 0;
+  max-height: 100px;
+  overflow: auto;
 }
 
 .subtask-item {
@@ -196,7 +198,8 @@
 }
 
 @keyframes pulsar {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }

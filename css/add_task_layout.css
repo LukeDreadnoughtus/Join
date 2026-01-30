@@ -165,7 +165,7 @@ html.add-task-page {
 }
 
 .due_date_input {
-  padding-left: 16px;
+  padding: 10px 12px;
   font-family: "Inter", sans-serif;
   font-size: 20px;
   font-weight: 400;
@@ -236,13 +236,17 @@ html.add-task-page {
 }
 .priority_btn.medium.active {
   background-color: #f6c23e;
-  color: #fff;
+  color: #fff !important;
 }
 .priority_btn.urgent.active {
   background-color: #e74a3b;
   color: #fff;
 }
 .priority_btn.urgent.active .urgent_icon {
+  color: #fff;
+}
+
+.priority_btn.medium.active .medium_icon {
   color: #fff;
 }
 

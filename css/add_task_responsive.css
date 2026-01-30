@@ -43,6 +43,11 @@
 }
 
 @media (max-width: 1024px) {
+  .task_main_wrapper {
+    overflow-y: auto !important;
+    max-height: calc(100vh - 96px) !important;
+  }
+
   .split_container {
     gap: 0px !important;
     max-height: none !important;
@@ -71,13 +76,10 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
-    position: fixed;
-    left: 0;
-    bottom: 0;
     width: 100%;
-    z-index: 50;
-    background: #fff;
-    border-top: 1px solid #ccc;
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
   }
 
   .footer {
@@ -92,8 +94,7 @@
   }
   #subtask-list {
     max-width: 400px !important;
-    max-height: 200px;
-    overflow-y: auto;
+    max-height: 100px !important;
   }
   label {
     font-size: 18px;
@@ -151,7 +152,6 @@
   textarea,
   .custom_select {
     font-size: 20px !important;
-    height: 56px !important;
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
@@ -250,7 +250,7 @@
   }
 
   .task_controls_buttons {
-    width: 100%;
+    width: 80% !important;
   }
 
   .footer {
@@ -342,7 +342,7 @@
   }
 
   .task_controls_buttons {
-    width: 100% !important;
+    width: 80% !important;
   }
 
   .form_group.description {

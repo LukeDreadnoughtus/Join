@@ -90,7 +90,6 @@
 }
 
 .task_main_wrapper .footer {
-  position: sticky;
   bottom: 0;
   z-index: 5;
 }
@@ -228,6 +227,11 @@
   font-weight: 700;
   font-size: 12px;
   flex: 0 0 auto;
+}
+
+.assigned_user_more {
+  background-color: #2a3647;
+  color: #fff;
 }
 
 .user_icon {

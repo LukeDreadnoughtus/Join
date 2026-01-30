@@ -271,6 +271,10 @@
   box-shadow: none;
 }
 
+#overlay .overlay_priority_btn.overlay_active.overlay_medium .medium_icon {
+  color: #fff;
+}
+
 #overlay .overlay_form_group.overlay_assigned_to {
   display: block;
 }
@@ -523,6 +527,11 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+#overlay .assigned_user_more {
+  background-color: #2a3647;
+  color: #fff;
+}
+
 #overlay .user_icon {
   height: 32px;
   width: 32px;
@@ -568,15 +577,15 @@
 }
 
 #overlay #overlay-subtask-add {
-  right: 50px;
+  right: 135px;
 }
 #overlay #overlay-subtask-clear {
-  right: 25px;
+  right: 110px;
 }
 
 #overlay .overlay_divider_subtasks {
   position: absolute;
-  right: 52px;
+  right: 135px;
   top: 75%;
   transform: translateY(-50%);
   width: 2px;
@@ -677,9 +686,14 @@
   font-weight: 500;
 }
 
-#overlay #subtask-list {
-  margin: 0;
-  padding: 0;
+#overlay .overlay_subtask_list {
+  margin: 0 !important;
+  padding: 0 !important;
+  padding-top: 0 !important;
+  width: 100%;
+  max-height: 100px !important;
+  overflow: auto !important;
+  max-width: 600px;
 }
 
 #overlay .subtask-item {
@@ -703,6 +717,7 @@
   flex: 1;
   min-width: 0;
   padding-left: 10px;
+  width: 100%;
 }
 
 #overlay .subtask-dot {
@@ -807,13 +822,13 @@
 
 /* Error styling for validation */
 #overlay .input-error {
-  border: none !important;
-  background-color: transparent !important;
+  border: 2px solid #e53935 !important;
+  background-color: #ffecec;
+  border-radius: 10px !important;
 }
 
 #overlay .input-error .select-display,
 #overlay .input-error #categoryDisplay {
-  border: 2px solid #e53935 !important;
   background-color: #ffecec;
 }
 
