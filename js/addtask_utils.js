@@ -24,7 +24,10 @@ function getContextId(id) {
  * @returns {HTMLElement|null} The element or null
  */
 function getContextElement(id) {
-  return document.getElementById(getContextId(id));
+  const overlayId = getContextId(id);
+  const el = document.getElementById(overlayId);
+  if (el) return el;
+  return document.getElementById(id);
 }
 
 /**

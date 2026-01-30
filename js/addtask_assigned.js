@@ -24,11 +24,32 @@ function updateDisplayText() {
 function renderSelectedUserIcons(container) {
   container.innerHTML = "";
   if (window.selectedUsers && window.selectedUsers.size > 0) {
-    window.selectedUsers.forEach((id) => {
+    const maxIcons = 4;
+    const selectedIds = Array.from(window.selectedUsers);
+    const visibleIds = selectedIds.slice(0, maxIcons);
+    const hiddenCount = selectedIds.length - visibleIds.length;
+    visibleIds.forEach((id) => {
       const icon = createSelectedUserIcon(id);
       if (icon) container.appendChild(icon);
     });
+    if (hiddenCount > 0) {
+      container.appendChild(createMoreIndicator(hiddenCount));
+    }
   }
+}
+
+
+/**
+ * Creates a "+N" indicator for additional assigned users
+ * @param {number} count - Number of hidden assigned users
+ * @returns {HTMLDivElement} The indicator element
+ */
+function createMoreIndicator(count) {
+  const el = document.createElement("div");
+  el.className = "assigned_user_icon assigned_user_more";
+  el.textContent = `+${count}`;
+  el.title = `${count} more assigned`;
+  return el;
 }
 
 

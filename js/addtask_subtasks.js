@@ -8,13 +8,9 @@ function updateAddUIState() {
   const input = getContextElement("subtask-input");
   const add = getContextElement("subtask-add");
   if (!ul || !input || !add) return;
-  if (getSubtaskCount() >= MAX_SUBTASKS) {
-    input.disabled = true;
-    add.disabled = true;
-  } else {
-    input.disabled = false;
-    add.disabled = false;
-  }
+  input.disabled = false;
+  add.style.pointerEvents = "auto";
+  add.style.opacity = "1";
 }
 
 
@@ -118,12 +114,6 @@ function attachEnterKeyListener(elements) {
  */
 function addSubtask(text) {
   if (!text.trim()) return;
-  if (getSubtaskCount() >= MAX_SUBTASKS) {
-    showMessage("You can add a maximum of 3 subtasks.", "error");
-    clearDivider();
-    updateAddUIState();
-    return;
-  }
   const ul = getContextElement("subtask-list");
   if (!ul) return;
   const item = createSubtaskElement(text);
@@ -131,7 +121,6 @@ function addSubtask(text) {
   clearDivider();
   updateAddUIState();
 }
-
 
 /**
  * Creates a complete subtask element with all children

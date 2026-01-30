@@ -5,15 +5,18 @@
  * @returns {Object} The task data object with all form values
  */
 function getTaskDataFromForm() {
+    const boardSlotEl = getContextElement("board-slot");
+    const boardSlot = boardSlotEl?.value || "todo";
+    
     return {
-        title: document.getElementById("task-title")?.value || "",
-        boardslot: document.getElementById("board-slot")?.value || "todo",
-        description: document.getElementById("task-description")?.value || "",
+        title: getContextElement("task-title")?.value || "",
+        boardslot: boardSlot,
+        description: getContextElement("task-description")?.value || "",
         category: getContextElement("task-category")?.getAttribute("data-selected") || "",
         assigned: Array.from(window.selectedUsers?.keys?.() || []),
-        priority: document.getElementById("task-priority")?.value || "",
+        priority: getContextElement("task-priority")?.value || "",
         subtasks: getSubtasksForDB(),
-        duedate: document.getElementById("task-due-date")?.value || "",
+        duedate: getContextElement("task-due-date")?.value || "",
     };
 }
 
@@ -23,7 +26,7 @@ function getTaskDataFromForm() {
  * @returns {Object} The subtasks object indexed by number
  */
 function getSubtasksForDB() {
-    const ul = document.getElementById("subtask-list");
+    const ul = getContextElement("subtask-list");
     const subtasks = {};
     if (!ul) return subtasks;
     collectSubtasksFromList(ul, subtasks);
@@ -40,7 +43,7 @@ function collectSubtasksFromList(ul, subtasks) {
     let index = 0;
     for (const item of ul.children) {
         if (!item.classList || !item.classList.contains("subtask-item")) continue;
-        const { name, done } = extractSubtaskData(item);
+        const { name, done } = extractSubtaskItemData(item);
         subtasks[index++] = { name, done };
     }
 }
@@ -51,10 +54,10 @@ function collectSubtasksFromList(ul, subtasks) {
  * @param {HTMLElement} item - The subtask item element
  * @returns {Object} Object containing name and done properties
  */
-function extractSubtaskData(item) {
+function extractSubtaskItemData(item) {
     const left = item.getElementsByClassName("subtask-left")[0];
-    const spans = left ? left.getElementsByTagName("span") : null;
-    const name = spans && spans[0] ? spans[0].innerText.trim() : "";
+    const textSpan = left ? left.getElementsByClassName("subtask-text")[0] : null;
+    const name = textSpan ? textSpan.innerText.trim() : "";
     const done = item.classList.contains("done") || false;
     return { name, done };
 }
@@ -130,7 +133,7 @@ function checkAllFields(fieldsToValidate) {
  * @returns {boolean} True if the field is valid or not found
  */
 function validateField(id) {
-    const field = document.getElementById(id);
+    const field = getContextElement(id);
     if (!field) return true;
     const value = field.value !== undefined
         ? String(field.value ?? "").trim()
@@ -159,10 +162,18 @@ function clearPreviousErrors() {
  * @param {string} id - The field ID to clear errors from
  */
 function clearFieldError(id) {
-    const field = document.getElementById(id);
+    const field = getContextElement(id);
     if (field) field.classList.remove("input-error");
-    const errorEl = document.getElementById(`error-${id}`);
-    if (errorEl) errorEl.remove();
+    const errorIds = new Set([
+        `error-${id}`,
+        `error-${getContextId(id)}`,
+        field ? `error-${field.id}` : null,
+    ]);
+    errorIds.forEach((errId) => {
+        if (!errId) return;
+        const errorEl = document.getElementById(errId);
+        if (errorEl) errorEl.remove();
+    });
 }
 
 
@@ -186,6 +197,7 @@ function markFieldAsInvalid(field) {
  * Clears all form inputs and resets the form to initial state
  */
 function clearForm() {
+    clearPreviousErrors();
     clearFormInputs();
     resetPriority();
     clearAssignedDropdown();
@@ -218,7 +230,7 @@ function clearFormInputs() {
  * Clears all subtasks from the subtask list
  */
 function clearSubtasks() {
-    const ul = document.getElementById("subtask-list");
+    const ul = getContextElement("subtask-list");
     if (ul) ul.innerHTML = "";
     clearDivider();
     updateAddUIState();
@@ -353,9 +365,18 @@ function requiredFieldMarker() {
  * @param {string} id - The field ID to mark
  */
 function markFieldAsRequired(id) {
-    const field = document.getElementById(id);
+    const field = getContextElement(id);
     if (!field) return;
-    const label = document.querySelector(`label[for="${id}"]`) || document.querySelector(`span[data-for="${id}"]`);
+    
+    // Search within the correct context (overlay or main page)
+    let label;
+    if (isOverlayContext()) {
+        const overlay = document.getElementById("overlay");
+        label = overlay ? overlay.querySelector(`span[data-for="${id}"]`) : null;
+    } else {
+        label = document.querySelector(`label[for="${id}"]`) || document.querySelector(`span[data-for="${id}"]`);
+    }
+    
     if (!label || label.dataset.requiredMarked === "1") return;
     const star = document.createElement("span");
     star.style.color = "red";
@@ -569,6 +590,21 @@ function initializeUI() {
     renderUserIcon();
     wireSubtaskInputRow();
     updateAddUIState();
+    setMinDueDate();
+}
+
+
+/**
+ * Sets the minimum selectable due date to today
+ */
+function setMinDueDate() {
+    const dueDate = document.getElementById("task-due-date");
+    if (!dueDate) return;
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+    dueDate.min = `${yyyy}-${mm}-${dd}`;
 }
 
 document.addEventListener("DOMContentLoaded", initAddTask);

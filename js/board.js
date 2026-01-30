@@ -1,29 +1,38 @@
+/**
+ * Handles the add task button click event
+ * @param {Event} e - The click event
+ * @param {HTMLElement} overlay - The overlay element
+ * @param {HTMLElement} boardSlotSelect - The board slot select element
+ */
+function handleAddTaskClick(e, overlay, boardSlotSelect) {
+    const btn = e.target.closest(".add_task_overlay");
+    if (!btn) return;
+    const slot = btn.dataset.boardslot;
+    if (window.innerWidth <= 1024) {
+        window.location.href = `add_task.html?slot=${slot || 'todo'}`;
+        return;}
+    if (boardSlotSelect && slot) boardSlotSelect.value = slot;
+    overlay.classList.remove("overlay_hidden");
+    setTimeout(() => {
+        loadUserAssignments?.();
+        buildCategoryDropdown?.();
+        wireSubtaskInputRow?.();
+        requiredFieldMarker?.();
+    }, 
+    50);
+}
+
+/**
+ * Initializes the add task overlay functionality
+ * Sets up click event listeners for opening/closing the overlay and handling task creation
+ */
 function initAddTaskOverlay() {
     const overlay = document.getElementById("overlay");
-    const boardSlotSelect = document.getElementById("board-slot");
     if (!overlay) return;
-    document.addEventListener("click", (e) => {
-        const btn = e.target.closest(".add_task_overlay");
-        if (!btn) return;
-        const slot = btn.dataset.boardslot;
-        if (window.innerWidth <= 1024) {
-            window.location.href = `add_task.html?slot=${slot || 'todo'}`;
-            return;
-        }
-        if (boardSlotSelect && slot) {
-            boardSlotSelect.value = slot;
-        }
-        overlay.classList.remove("overlay_hidden");
-        setTimeout(() => {
-            if (typeof loadUserAssignments === 'function') loadUserAssignments();
-            if (typeof buildCategoryDropdown === 'function') buildCategoryDropdown();
-            if (typeof wireSubtaskInputRow === 'function') wireSubtaskInputRow();
-        }, 50);
-    });
+    const boardSlotSelect = document.getElementById("board-slot");
+    document.addEventListener("click", (e) => handleAddTaskClick(e, overlay, boardSlotSelect));
     overlay.addEventListener("click", (e) => {
-        if (window.innerWidth > 1024 && e.target.id === "overlay") {
-            overlay.classList.add("overlay_hidden");
-        }
+        if (window.innerWidth > 1024 && e.target.id === "overlay") overlay.classList.add("overlay_hidden");
     });
 }
 
