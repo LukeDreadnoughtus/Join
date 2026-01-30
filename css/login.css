@@ -20,9 +20,18 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-   
+  align-items: center; 
+  min-height: 100vh;
 }
+
+.login_center {
+  flex: 1;                     /* nimmt den freien Platz */
+  width: 100%;
+  display: flex;
+  justify-content: center;     /* horizontal */
+  align-items: center;         /* vertikal */
+}
+
 
 .registration_content {
   max-width: 1440px;
@@ -109,9 +118,8 @@
     flex-direction:column; 
     background-color: white;
     border-radius: 30px;
-    flex-shrink: 0;
-    margin-top: 200px;
-    
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .div_sign_up {

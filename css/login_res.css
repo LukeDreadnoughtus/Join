@@ -66,6 +66,7 @@ h2 {
     top: 60px;
     height: 78px;
     width: 64px;
+    left: 76px;
 }
 .input_login {
     height: 50px;
@@ -106,6 +107,14 @@ h2 {
 }
 
 }
+
+@media (max-width:490px) { 
+ .login_icon {
+    left: 40px;
+}
+
+}
+
 
 @media (max-width:430px) {
 
@@ -148,6 +157,9 @@ h2 {
 .sign_up_button {
     margin-left: 0px;
 }
-
-
 }
+
+@media (max-width:390px) { 
+ .login_icon {
+    left: 20px;
+} }
