@@ -210,6 +210,7 @@ function renderEdit (id) {
  * @returns {void}
  */
 function initEditDatepicker() {
+    const todayISO = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
     const input = document.getElementById("edit_due_date");
     const nativeInput = document.getElementById("edit_due_date_native");
     const icon = document.getElementById("date_icon");
@@ -284,6 +285,9 @@ function initEditDatepicker() {
     const enableMobile = () => {
         // Destroy flatpickr to prevent the large popup on very small screens
         if (input._flatpickr) input._flatpickr.destroy();
+        if (nativeInput) {
+        nativeInput.min = todayISO; // ⬅ verhindert Vergangenheit
+        }
         syncNativeFromText();
     };
 
@@ -298,6 +302,7 @@ function initEditDatepicker() {
             dateFormat: "d/m/Y",
             allowInput: true,
             clickOpens: false,
+            minDate: "today",
             onChange: (_selectedDates, dateStr) => {
                 // Hard-sync to the visible input to avoid "selection not applied" issues
                 input.value = dateStr;
