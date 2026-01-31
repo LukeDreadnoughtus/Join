@@ -268,10 +268,6 @@ function initEditDatepicker() {
         input.dataset.nativeSyncBound = "true";
         input.addEventListener("change", () => {
             syncNativeFromText();
-            if (input._flatpickr) {
-                // Let flatpickr parse manual input and normalize it
-                input._flatpickr.setDate(input.value, true, "d/m/Y");
-            }
         });
     }
 

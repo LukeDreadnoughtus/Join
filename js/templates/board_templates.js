@@ -34,49 +34,40 @@ function renderBoardBasics() {
  *   - subtasksTotal: number - Total number of subtasks
  *   - subtasksDone: number - Number of completed subtasks
  */
+
 function taskTemplate(taskData) {
-let assignedUsersHtml = "";
-if (taskData.assignedUsers.length === 0) {
-   assignedUsersHtml = `<div class="no_assignies"><p>No Users</p>
-  <p>assigend</p></div>`;
-} else {
- taskData.assignedUsers.forEach((user, index) => {
-  const color = taskData.assignedUserColors[index] || "#000000"; 
-  const usericon = initials(user)
- assignedUsersHtml += `<div class="user_icon_task_card" style="background-color: ${color}">${usericon}</div>`;
- });
- }
- const taskHtml = `
-    <div class="task_card" onclick="openTaskOverlay('${taskData.id}')" draggable ="true" ondragstart="startDragging(event,'${taskData.id}')" ondragend="stopDragging(event)">
-      <div class="card_header">
-      <div class="task_category_card task_category_color_${taskData.categoryColor}">${taskData.category}</div>
-      <div class="menu_wrapper">
-      <img src="assets/img/swap_horiz.svg" alt="menü icon" class="responsive_task_card_menu" onclick="openResMenu('${taskData.boardSlot}', '${taskData.id}', event)">
-      <div class="menu_task_card_res d_none" id="menu_task_card_res_${taskData.id}">
-      </div>
-      </div>
-      </div>
-      <div class="task_titel_card">${taskData.title}</div>
-      <div class="task_description_card">${taskData.description}</div>
-      ${taskData.subtasksTotal > 0 ? `
-      <div class="task_progress_subtasks_card">
-      <div class="progressbar_subtasks">
-      <div class="progressbar_fill" style="width: ${Math.round((taskData.subtasksDone / taskData.subtasksTotal) * 100)}%;"></div>
-      <span class="progressbar_tooltip">${Math.round((taskData.subtasksDone / taskData.subtasksTotal) * 100)}% done</span>
-      </div>
-      <p>${taskData.subtasksDone}/${taskData.subtasksTotal} Subtasks</p>
-      </div>
-      ` : ''}
-      <div class="task_assigned_members_card">
-      <div class="icons">
-        ${assignedUsersHtml}
-      </div>
-        <img src="assets/img/priority_${taskData.priority}.svg" alt="priority icon" class="priority_icon_board">
-      </div>
+    const assignedUsersHtml = renderAssignedUsersTaskCard(taskData);
+    const progressHtml = renderTaskProgress(taskData);
+
+    const taskHtml = `
+    <div class="task_card"
+         onclick="openTaskOverlay('${taskData.id}')"
+         draggable="true"
+         ondragstart="startDragging(event,'${taskData.id}')"
+         ondragend="stopDragging(event)">
+        <div class="card_header">
+            <div class="task_category_card task_category_color_${taskData.categoryColor}">${taskData.category}</div>
+            <div class="menu_wrapper">
+                <img src="assets/img/swap_horiz.svg" alt="menü icon" class="responsive_task_card_menu"
+                     onclick="openResMenu('${taskData.boardSlot}', '${taskData.id}', event)">
+                <div class="menu_task_card_res d_none" id="menu_task_card_res_${taskData.id}"></div>
+            </div>
+        </div>
+        <div class="task_titel_card">${taskData.title}</div>
+        <div class="task_description_card">${taskData.description}</div>
+        ${progressHtml}
+        <div class="task_assigned_members_card">
+            <div class="icons">
+                ${assignedUsersHtml}
+            </div>
+            <img src="assets/img/priority_${taskData.priority}.svg" alt="priority icon" class="priority_icon_board">
+        </div>
     </div>
     `;
-  document.getElementById(`${taskData.boardSlot}`).innerHTML += taskHtml;
+
+    document.getElementById(taskData.boardSlot).innerHTML += taskHtml;
 }
+
 
 /**
  * Renders the full task overlay view, displaying all task details including title, description,

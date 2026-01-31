@@ -31,34 +31,32 @@ window.filterUsers = function(searchTerm) {
  *
  * @param {Object} taskData - Task object containing assigned user data
  */
-// function renderAssignedUserIcons(taskData) {
-//     const alreadyAssignedContainer = document.getElementById("already_assigned");
-//     alreadyAssignedContainer.innerHTML = ""
-//     if (!taskData.assignedUsers || taskData.assignedUsers.length === 0) {
-//         alreadyAssignedContainer.innerHTML = ""; 
-//         return;
-//     }
-//     const assignedIconsHtml = taskData.assignedUsers.map((user, i) => `
-//         <div class="assigned_icon color${taskData.assignedUserColors[i].replace('#', '')}">
-//             ${initials(user)}
-//         </div>
-//     `).join("");
-//     alreadyAssignedContainer.innerHTML = assignedIconsHtml;
-// }
+
+function createUserIcon(user, color) {
+    return `<div class="assigned_icon" style="background-color: ${color}">
+                ${initials(user)}
+            </div>`;
+}
+
+function createOverflowIcon(count) {
+    return `<div class="assigned_icon overflow_icon">+${count}</div>`;
+}
 
 function renderAssignedUserIcons(taskData) {
-    const alreadyAssignedContainer = document.getElementById("already_assigned");
-    alreadyAssignedContainer.innerHTML = ""
-    if (!taskData.assignedUsers || taskData.assignedUsers.length === 0) {
-        alreadyAssignedContainer.innerHTML = ""; 
-        return;
-    }
-    const assignedIconsHtml = taskData.assignedUsers.map((user, i) => `
-        <div class="assigned_icon" style="background-color: ${taskData.assignedUserColors[i]} ;">
-            ${initials(user)}
-        </div>
-    `).join("");
-    alreadyAssignedContainer.innerHTML = assignedIconsHtml;
+    const container = document.getElementById("already_assigned");
+    container.innerHTML = "";
+    const users = taskData.assignedUsers || [];
+    const colors = taskData.assignedUserColors || [];
+    const maxVisible = 4;
+    if (!users.length) return;
+    const visibleIcons = users
+        .slice(0, maxVisible)
+        .map((user, i) => createUserIcon(user, colors[i]))
+        .join("");
+    const overflowIcon = users.length > maxVisible
+        ? createOverflowIcon(users.length - maxVisible)
+        : "";
+    container.innerHTML = visibleIcons + overflowIcon;
 }
 
 /**

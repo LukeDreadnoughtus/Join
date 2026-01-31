@@ -291,6 +291,16 @@ transition: background-color 120ms ease;
     margin-right: 10px;
 }
 
+.assigned_icon.overflow_icon {
+    background-color: #2A3647; 
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .user_option.assigned {
     background-color: #2a3647;
     color: white; 

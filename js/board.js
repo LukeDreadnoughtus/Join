@@ -470,3 +470,71 @@ function toggleNoTasksFound(show) {
     element.classList.toggle("d_none", !show);
 }
 
+/**
+ * Creates a single user icon for a task card.
+ *
+ * @param {string} user - The full name of the user.
+ * @param {string} color - The background color for the icon (hex or CSS color).
+ * @returns {string} HTML string representing the user icon.
+ */
+function createTaskUserIcon(user, color) {
+    return `<div class="user_icon_task_card" style="background-color: ${color}">${initials(user)}</div>`;
+}
+
+/**
+ * Creates an overflow icon for a task card showing how many extra users are assigned.
+ *
+ * @param {number} count - Number of additional users beyond the visible limit.
+ * @returns {string} HTML string representing the overflow icon (e.g., "+2").
+ */
+function createTaskOverflowIcon(count) {
+    return `<div class="user_icon_task_card overflow_icon">+${count}</div>`;
+}
+
+/**
+ * Renders the progress bar for subtasks on a task card.
+ *
+ * @param {Object} taskData - The task data object containing subtasks info.
+ * @param {number} taskData.subtasksDone - Number of completed subtasks.
+ * @param {number} taskData.subtasksTotal - Total number of subtasks.
+ * @returns {string} HTML string for the task's subtask progress bar, or empty string if no subtasks.
+ */
+function renderTaskProgress(taskData) {
+    if (!taskData.subtasksTotal || taskData.subtasksTotal === 0) return "";
+    const progressPercent = Math.round((taskData.subtasksDone / taskData.subtasksTotal) * 100);
+    return `
+    <div class="task_progress_subtasks_card">
+        <div class="progressbar_subtasks">
+            <div class="progressbar_fill" style="width: ${progressPercent}%;"></div>
+            <span class="progressbar_tooltip">${progressPercent}% done</span>
+        </div>
+        <p>${taskData.subtasksDone}/${taskData.subtasksTotal} Subtasks</p>
+    </div>
+    `;
+}
+
+/**
+ * Renders the assigned users for a task card, including a max of 4 visible icons
+ * and an overflow icon if more users are assigned.
+ *
+ * @param {Object} taskData - The task data object containing assigned users.
+ * @param {string[]} taskData.assignedUsers - Array of user names assigned to the task.
+ * @param {string[]} taskData.assignedUserColors - Array of colors corresponding to each user.
+ * @returns {string} HTML string representing all assigned user icons, including overflow if necessary.
+ */
+function renderAssignedUsersTaskCard(taskData) {
+    const users = taskData.assignedUsers || [];
+    const colors = taskData.assignedUserColors || [];
+    const maxVisible = 4;
+    if (!users.length) {
+        return `<div class="no_assignies"><p>No Users</p><p>assigned</p></div>`;
+    }
+    const visibleIcons = users
+        .slice(0, maxVisible)
+        .map((user, i) => createTaskUserIcon(user, colors[i] || "#000000"))
+        .join("");
+    const overflowIcon = users.length > maxVisible
+        ? createTaskOverflowIcon(users.length - maxVisible)
+        : "";
+    return visibleIcons + overflowIcon;
+}
