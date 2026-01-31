@@ -5,10 +5,6 @@
     right: 0px; 
 }
 
-.div_login {
-    margin-top: 250px; 
-}
-
 }
 
 @media (max-width:750px) {
@@ -51,9 +47,9 @@
     padding:0px; 
 }
 
-.div_login {
+/* .div_login {
     margin-top:170px;  
-} 
+}  */
 
 h2 {
     font-size: 47px;
@@ -80,7 +76,7 @@ h2 {
 }
 
 .not_a_join_user {
-    top: 650px;
+    top: 720px;
 }
 
 .buttons_login {
@@ -103,7 +99,7 @@ h2 {
 .footer_login {
     padding:0px; 
     gap:45px; 
-    margin-top: 90px;
+    margin-top: 135px;
 }
 
 }
@@ -129,8 +125,7 @@ h2 {
 
 .div_login {
     width: 300px;
-    height: 400px; 
-    top: 35%; 
+    height: 400px;  
 }
 
 .div_login input::placeholder {
@@ -150,9 +145,9 @@ h2 {
     font-size: 16px;
 }
 
-.not_a_join_user {
+/* .not_a_join_user {
     top: 630px;
-}
+} */
 
 .sign_up_button {
     margin-left: 0px;

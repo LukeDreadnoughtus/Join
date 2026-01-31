@@ -9,7 +9,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    /* align-items: center;      */
+    width:100%;
     
 }
 
@@ -21,16 +21,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center; 
-  min-height: 100vh;
+  flex: 1;
 }
 
-.login_center {
-  flex: 1;                     /* nimmt den freien Platz */
+/* .login_center {
+  flex: 1;                     
   width: 100%;
   display: flex;
-  justify-content: center;     /* horizontal */
-  align-items: center;         /* vertikal */
-}
+  justify-content: center;     
+  align-items: center;         
+} */
 
 
 .registration_content {
@@ -115,15 +115,13 @@
     height:449px; 
     width:652px;
     box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
-    margin: 0 auto;       
+    margin: 0;       
     padding-top: 20px;
     display:flex; 
     align-items: center;
     flex-direction:column; 
     background-color: white;
     border-radius: 30px;
-    margin-top: auto;
-    margin-bottom: auto;
 }
 
 .div_sign_up {
@@ -349,8 +347,7 @@ a {
 }
 
 .footer_login {
-    margin-top: auto; 
-    height: 100px;
+    /* height: 100px; */
     display: flex;
     justify-content: center;
     align-items: center;
