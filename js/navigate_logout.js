@@ -85,6 +85,27 @@
     });
   }
 
+  /**
+   * Desktop / SVG-Links (wie bei den normalen Seiten):
+   * - setzt .is-active auf .legal-area .legal-row anhand der aktuellen Datei
+   * - sorgt dafür, dass der Sidebar-Background identisch zu den "normal" Seiten ist
+   */
+  function markActiveSidebarLegalRows() {
+    if (isLoggedIn() || !isLegalInfoLogoutPage) return;
+
+    try {
+      const rows = document.querySelectorAll('.legal-area .legal-row');
+      rows.forEach((row) => {
+        const hrefFile = ((row.getAttribute('href') || '').split('/').pop() || '').toLowerCase();
+        const active = hrefFile === currentFile;
+        row.classList.toggle('is-active', active);
+        row.setAttribute('aria-current', active ? 'page' : 'false');
+      });
+    } catch (e) {
+      console && console.warn && console.warn('legal-area highlight error:', e);
+    }
+  }
+
   function ensureMobileBackArrow() {
     if (isLoggedIn() || !isLegalInfoLogoutPage) return;
 
@@ -135,6 +156,7 @@
     wireLoginRow();
     ensureMobileLegalTextLinks();
     markActiveLogoutLegalLinks();
+    markActiveSidebarLegalRows();
     ensureMobileBackArrow();
 
     // Jetzt darf die Navigation sichtbar werden.

@@ -4,6 +4,8 @@
   - Contact details open as full-screen overlay (white background) and hide sidebar.
 */
 
+
+
 @media (max-width: 700px) {
 
   main.content .contacts_sidebar .contacts_sidebar_add {

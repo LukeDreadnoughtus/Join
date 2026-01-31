@@ -18,7 +18,6 @@
 }
 
 
-
 @media (max-width: 1024px) {
   /* Layout: single column + bottom navigation */
   .page {
@@ -108,7 +107,7 @@
     /* show link labels under the icons */
     /* helps readability on mobile */
     /* keeps spacing consistent across items */
-    display: none;
+    display: block;
   }
 
 
@@ -120,14 +119,59 @@
   }
 
 
-  /* Requested: elements in the sidebar should have a width of 50px */
-  .left .link-row {
-    /* give each nav item a fixed-ish footprint */
-    /* width controls the visual spacing in the bottom bar */
-    /* flex-basis keeps the item from stretching weirdly */
-    width: 100px;
-    flex: 0 0 50px;
-    justify-content: center;
+  /* Keep each nav item footprint stable (no jumping when .is-active changes) */
+  .left .main-links .link-row {
+    /* Let all items take the same share of space */
+    flex: 1 1 0;
+    width: auto;
+    min-width: 72px;
+
+    /* Active state must not change outer size */
+    padding: 8px 0;
+    box-sizing: border-box;
+  }
+
+  .left .main-links .link-row.is-active {
+    /* Ensure the active item keeps the exact same padding on mobile */
+    padding: 8px 0;
+  }
+
+  /*
+    Mobile fix:
+    When the sidebar becomes the bottom navigation (<= 1024px), the desktop rule
+    `.main-links .link-row.is-active { background-color: #091931; }` paints the
+    full width of each nav tile. The user requested a smaller highlight that
+    only wraps the icon/label area while keeping the tap/click area unchanged.
+
+    We therefore:
+    - keep the full tile width for interaction
+    - move the active background to a centered pseudo-element "pill"
+  */
+  .left .main-links .link-row {
+    position: relative;
+  }
+
+  .left .main-links .link-row.is-active {
+    background-color: transparent;
+  }
+
+  .left .main-links .link-row.is-active::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 6px;
+    bottom: 6px;
+    width: clamp(56px, 16vw, 76px);
+    transform: translateX(-50%);
+    background-color: #091931;
+    border-radius: 16px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .left .main-links .link-row > * {
+    position: relative;
+    z-index: 1;
   }
 
   /* Requested: hover effect should have a radius of 16px */
@@ -157,7 +201,7 @@
 
 
 @media (max-width: 1024px) {
-    .main-links {
+    .left .main-links {
         /* let the link container use full width on smaller screens */
         /* slightly smaller type so labels fit better */
         /* keeps the nav from feeling cramped */
@@ -165,16 +209,16 @@
         font-size: 0.85rem;
     }
 
-    .main-links img,
-    .main-links svg {
+    .left .main-links img,
+    .left .main-links svg {
         /* shrink icons a bit for small screens */
         /* makes icon + label fit inside the bottom bar */
         /* keeps proportions consistent */
         transform: scale(0.85);
     }
 
-    .main-links span,
-    .main-links p {
+    .left .main-links span,
+    .left .main-links p {
         /* reduce label font size to match the nav scale */
         /* prevents line breaks in short labels */
         /* keeps the nav visually balanced */
@@ -199,7 +243,7 @@
 @media (max-width: 480px) {
 
 
-.main-links img, .main-links svg{
+.left .main-links img, .left .main-links svg{
   transform: scale(0.60)
 
 }
@@ -216,7 +260,7 @@
 @media (max-width: 450px) {
 
 
-.main-links img, .main-links svg{
+.left .main-links img, .left .main-links svg{
   transform: scale(0.60)
 
 }
@@ -230,8 +274,8 @@
 @media (max-width: 400px) {
 .left .main-links{
 
-  margin: 0 0;
-  width: 30%;
+  margin: 0;
+  width: 100%;
   
 }
 }
@@ -239,7 +283,7 @@
 @media (max-width: 370px) {
 .left .main-links{
 
-  width: 25%;
+  width: 100%;
   
 }
 }

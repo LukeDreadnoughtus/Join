@@ -23,7 +23,7 @@ body {
   grid-template-columns: 16.5% 1fr;
   height: 100vh;
   overflow-y: hidden;
-  scrollbar-gutter: stable;
+  
   /* max-width: 1440px; minus menü  232px und dann header position absolute +  page 96 margin top*/
   background-color: #f5f5f5;
   /* Layout wrapper: sidebar + main content split */
@@ -60,6 +60,7 @@ body {
 .left .main-links {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
   /*
     Desktop sidebar: make all nav rows share the same left edge.
     Previously the rows were centered and had width:max-content, which caused
@@ -67,7 +68,7 @@ body {
   */
   align-items: stretch;
   justify-content: flex-start;
-  gap: 16px;
+  gap: 20px;
   width: 100%;
   margin: 12px 0 16px;
   /* Main nav inside the sidebar */
@@ -148,11 +149,11 @@ body {
 }
 
 .main-links .link-row.is-active .link-icon {
-  filter: invert(54%) sepia(66%) saturate(1724%) hue-rotate(158deg) brightness(95%) contrast(92%);
+   
 }
 
 .main-links .link-row.is-active .nav-label {
-  color: #29ABE2;
+  
 }
 
 .left .link-text--board {
@@ -224,7 +225,6 @@ body {
 .main-links .link-row.is-active {
   transform: none !important;
   pointer-events: none;
-
   background-color: #091931;
   /* Active page: no hover/scale, just a solid highlight */
   /* pointer-events off so you can't re-click the current page */
