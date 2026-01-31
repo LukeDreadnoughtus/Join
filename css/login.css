@@ -99,6 +99,7 @@
     font-weight: bold;
     cursor:pointer; 
     margin-left: 50px; 
+    border:unset; 
 }
 
 .sign_up_button:hover {
@@ -150,6 +151,7 @@
     text-align: center;
     white-space: nowrap;
     margin-top:40px; 
+    border:unset; 
 }
 
 .login_button:hover {
@@ -164,7 +166,8 @@
     color: #2A3647;
     text-decoration: none; 
     border-radius: 8px;
-    border-color:#2A3647;  
+    border-color:#2A3647; 
+    border: 1px solid; 
     cursor:pointer; 
     width: 180px; 
     margin-left: 20px; 

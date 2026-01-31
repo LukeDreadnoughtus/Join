@@ -285,6 +285,7 @@ html.add-task-page {
   border-radius: 10px;
   border: 0;
   transition: background-color 0.1s ease;
+  border:unset; 
 }
 
 .add_task_create_button:hover {

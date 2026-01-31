@@ -23,11 +23,19 @@
 
 @media (max-width: 1024px) {
 
- .board_layout {
-       margin-bottom: 160px;
-       
-    }
+.header_board {
+    margin: 0 auto;
+    padding-left: 0;
+    width: fit-content;
+    justify-content: center;
+    gap: 32px; 
+  }
 
+.board_layout {
+    margin: 0 auto 160px;
+    padding-left: 0;
+    width: fit-content;
+}
 
 .show_task_overlay {
    left: 50%;
@@ -36,7 +44,6 @@
 .edit_task_overlay { 
     left: 50%;
 }
-
 }
 
 @media (max-width: 860px) {

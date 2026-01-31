@@ -510,6 +510,7 @@ transition: background-color 120ms ease;
   color:white; 
   font-family: "inter";
   font-weight: bold;
+  border:unset; 
 
 }
 

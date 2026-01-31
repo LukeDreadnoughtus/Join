@@ -69,6 +69,7 @@
   border: 0px;
   gap: 12px;
   cursor: pointer;
+  border:unset; 
 }
 
 .plus_svg {
