@@ -8,8 +8,7 @@
 <link href="css/styles.css" rel="stylesheet"/>
 <link href="css/header.css" rel="stylesheet"/>
 <link href="css/footer.css" rel="stylesheet"/>
-<link href="css/fonts.css" rel="stylesheet"/> 
-
+<link href="css/fonts.css" rel="stylesheet"/>
 <link href="assets/img/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="assets/img/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
 <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"/>
@@ -17,26 +16,32 @@
 <link href="css/contacts_mediaquery.css" rel="stylesheet"/>
 <link href="css/styles_mediaquery.css" rel="stylesheet"/>
 </head>
-<body class="contacts-page">
+<body class="contacts-page"><div class="overlay_userfeedback_email d_none" id="userfeedback_email">
+<p>This email does already exist</p>
+</div><div class="overlay_userfeedback_sign_up d_none" id="userfeedback_contact_created">
+<p>Contact created successfully</p>
+</div><div class="overlay_userfeedback_sign_up d_none" id="userfeedback_contact_deleted">
+<p>Contact deleted successfully</p>
+</div>
 <div class="page">
 <div aria-hidden="true" class="left">
 <div aria-hidden="true" class="logo-spacer"></div>
 <div aria-hidden="false" class="main-links">
 <div class="link-row" data-link="summary">
 <img alt="Summary icon" class="link-icon" src="assets/img/main_links_left/summary_icon.svg"/>
-<span class="nav-label" aria-hidden="true">Summary</span>
+<span aria-hidden="true" class="nav-label">Summary</span>
 </div>
 <div class="link-row" data-link="add_task">
 <img alt="addTask icon" class="link-icon" src="assets/img/main_links_left/add_task_icon.svg"/>
-<span class="nav-label" aria-hidden="true">Add Task</span>
+<span aria-hidden="true" class="nav-label">Add Task</span>
 </div>
 <div class="link-row" data-link="board">
 <img alt="Board icon" class="link-icon" src="assets/img/main_links_left/board_icon.svg"/>
-<span class="nav-label" aria-hidden="true">Board</span>
+<span aria-hidden="true" class="nav-label">Board</span>
 </div>
 <div class="link-row" data-link="contacts">
 <img alt="contacts icon" class="link-icon" src="assets/img/main_links_left/contacts_icon.svg"/>
-<span class="nav-label" aria-hidden="true">Contacts</span>
+<span aria-hidden="true" class="nav-label">Contacts</span>
 </div>
 </div>
 <div class="legal-area">
@@ -54,24 +59,24 @@
 </div>
 <main class="content">
 <header>
-    <div class="header_max">
-        <div class="header_div">
-        <h4>Kanban Project Management Tool</h4>
-        <img class="join_icon" src="assets/img/login_join.svg">
-        </div>
-        <div class="header_icons">
-            <img class="help_icon" src="assets/img/help.svg" onclick="toHelpPage()">
-            <div class="my_icon" onclick="openUserMenu()"></div>
-            <nav class="user_menu d_none" id="user_menu" onclick="event.stopPropagation()">
-            <ul>
-            <li class="help_res"><a href="help.html"><span>Help</span></a></li>
-            <li><a href="legal_notice.html"><span>Legal Notice</span></a></li>
-            <li><a href="privacy_policy.html"><span>Privacy Policy</span></a></li>
-            <li class="last_item"><a href="" onclick="logoutUser(event)"><span>Log out</span></a></li>
-            </ul>
-            </nav>
-        </div>
-    </div>
+<div class="header_max">
+<div class="header_div">
+<h4>Kanban Project Management Tool</h4>
+<img class="join_icon" src="assets/img/login_join.svg"/>
+</div>
+<div class="header_icons">
+<img class="help_icon" onclick="toHelpPage()" src="assets/img/help.svg"/>
+<div class="my_icon" onclick="openUserMenu()"></div>
+<nav class="user_menu d_none" id="user_menu" onclick="event.stopPropagation()">
+<ul>
+<li class="help_res"><a href="help.html"><span>Help</span></a></li>
+<li><a href="legal_notice.html"><span>Legal Notice</span></a></li>
+<li><a href="privacy_policy.html"><span>Privacy Policy</span></a></li>
+<li class="last_item"><a href="" onclick="logoutUser(event)"><span>Log out</span></a></li>
+</ul>
+</nav>
+</div>
+</div>
 </header>
 <div class="header_overlay d_none" id="header_overlay" onclick="closeUserMenu()"></div>
 <div class="contacts_sidebar"><button class="contacts_sidebar_add">Add new contact</button><div class="contacts_sidebar_list"></div></div>

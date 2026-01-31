@@ -492,3 +492,7 @@
     font-size: 20px;
   }
 }
+
+
+/* Ensure d_none always wins over component display rules */
+.d_none { display: none !important; }

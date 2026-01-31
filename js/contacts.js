@@ -1,6 +1,39 @@
 (function(){
   // Firebase Realtime Database URL
-  const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/";
+      // Overlay helper: behaves like registration.html (no layout shift, auto-hide for success messages)
+  const showContactsOverlay=(id,ms=2200)=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    // ensure hidden-class can't be overridden by later CSS
+    el.classList.remove('d_none');
+    el.style.display = 'flex';
+    if(ms){
+      window.clearTimeout(el._hideTimer);
+      el._hideTimer=window.setTimeout(()=>hideContactsOverlay(id), ms);
+    }
+  };
+
+  const hideContactsOverlay=(id)=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    el.classList.add('d_none');
+    el.style.display = 'none';
+  };
+
+  const hideAllContactsOverlays=()=>{
+    ['userfeedback_email','userfeedback_contact_created','userfeedback_contact_deleted'].forEach(hideContactsOverlay);
+  };
+const wireContactsOverlayHiders=()=>{
+    const email=document.getElementById('c_email');
+    if(email && !email._overlayWired){
+      email.addEventListener('input', ()=>hideContactsOverlay('userfeedback_email'));
+      email.addEventListener('focus', ()=>hideContactsOverlay('userfeedback_email'));
+      email._overlayWired=true;
+    }
+  };
+
+
+const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/";
   const BOARD="https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/";
 
   // Predefined color palette for random color assignment
@@ -264,6 +297,8 @@
     if(!layer) return;
     layer.classList.add('is-open');
     resetDialogInputs();
+    hideContactsOverlay('userfeedback_email');
+    wireContactsOverlayHiders();
     configureCreateMode(layer);
   };
 
@@ -346,15 +381,21 @@
     if(!hasRequiredFields(form)) return;
     const all=await fetchContacts();
     if(findEmailConflict(all,form.email,EDIT_ID)){
-      alert('E-Mail already exists.');
+      showContactsOverlay('userfeedback_email');
       return;
     }
     const layer=document.querySelector('.contacts_modal_backdrop');
-    if(isEditMode(layer)&&EDIT_ID) await saveExistingContact(all,form);
-    else await createNewContact(form);
+    if(isEditMode(layer)&&EDIT_ID) {
+      await saveExistingContact(all,form);
+    } else {
+      await createNewContact(form);
+      // transient userfeedback (<= 2s) like in registration.html
+      showContactsOverlay('userfeedback_contact_created', 2000);
+    }
     await refreshContactsUI();
     EDIT_ID=null;
     closeDialog();
+    // Do NOT show the deleted overlay on save.
   };
 
   const createDetailHeader=()=>{
@@ -557,6 +598,8 @@
     if(!layer) return;
     layer.classList.add('is-open');
     fillEditInputs(user);
+    hideContactsOverlay('userfeedback_email');
+    wireContactsOverlayHiders();
     configureEditMode(layer);
     updateEditAvatar(layer,user);
   };
@@ -592,9 +635,13 @@
     await refreshContactsUI();
     EDIT_ID=null;
     closeDialog();
+    // deleted userfeedback should be visible max 2s
+    showContactsOverlay('userfeedback_contact_deleted', 2000);
   };
 
   const init=async()=>{
+    hideAllContactsOverlays();
+
     // - Bootstraps the contacts UI: sidebar, list render, detail layout, positioning.
     // - Runs once on DOM ready (or immediately if the DOM is already loaded).
     const sidebar=ensureSidebar();

@@ -269,3 +269,40 @@ body.contacts-page .contacts_modal_backdrop.mode-edit .contacts_modal_title::aft
 body.contacts-page .contacts_modal_backdrop.mode-create .contacts_modal_subtitle::after{
   margin:12px 0 0 0 !important;
 }
+
+
+/* --- Registration-style overlays (reused for Contacts form validation & feedback) --- */
+body.contacts-page .overlay_userfeedback_email,
+body.contacts-page .overlay_userfeedback_sign_up{
+    position: fixed;
+    background-color: #2A3647;
+    color: white;
+    border-radius: 10px;
+    top: 90px;
+    width: 300px;
+    height: 50px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 200;
+    text-align: center;
+    white-space: normal;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    padding: 0 10px;
+}
+
+@media (max-width: 650px){
+  body.contacts-page .overlay_userfeedback_email,
+  body.contacts-page .overlay_userfeedback_sign_up{
+      top: 120px;
+      width: 280px;
+      font-size: 18px;
+  }
+}
+
+
+/* Ensure d_none always wins over component display rules */
+.d_none { display: none !important; }
