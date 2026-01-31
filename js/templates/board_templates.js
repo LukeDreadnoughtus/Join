@@ -263,7 +263,7 @@ function renderTaskEditCard(taskData) {
                 class="user_search_input" 
                 placeholder="Select contacts to assign"
                 onkeyup="filterUsers(this.value)"
-                onclick="event.stopPropagation()">
+                onclick="event.stopPropagation(); toggleUserDropdown('${taskData.id}', event)">
                     
                     <span class="dropdown_arrow">
                      <img src="assets/img/arrow_drop_down.svg" alt="">
@@ -384,7 +384,7 @@ function renderSubtaskEditTemplate(listItem, taskId, subtaskKey, subtaskName) {
  */
 function buildUserTemplate(iconData, user, taskId, isAssigned, isCurrentUser) {
     return `
-        <div class="user_option ${isAssigned ? "assigned" : ""}">
+        <div class="user_option ${isAssigned ? "assigned" : ""}" onclick="toggleUserOption('${user.color}','${user.name}','${taskId}', this)">
             <div class="selectable_user">
                 <div class="user_icon" style="background-color: ${iconData.iconColor};">
                     ${iconData.initials}
@@ -397,7 +397,7 @@ function buildUserTemplate(iconData, user, taskId, isAssigned, isCurrentUser) {
                 type="checkbox"
                 class="user_checkbox"
                 ${isAssigned ? "checked" : ""}
-                onclick="toggleAssignedUsers('${user.color}','${user.name}','${taskId}', this)"
+                
             >
         </div>
     `;

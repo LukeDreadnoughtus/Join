@@ -87,7 +87,7 @@ async function closeTaskOverlayEdit(event) {
 async function toggleUserDropdown(id, event) {
     event.stopPropagation();
     const dropdown = document.getElementById("userDropdownList");
-    const selected = event.currentTarget;
+    const selected = event.currentTarget.closest(".user_dropdown_selected");
     const isNowHidden = dropdown.classList.toggle("d_none");
     selected.classList.toggle("open", !isNowHidden);
     if (!isNowHidden) {
@@ -491,6 +491,22 @@ async function confirmDeleteTask(event) {
     currentId = null
 }
 
+/**
+ * Toggles a user assignment when clicking on the entire user element in the dropdown.
+ * This function updates the checkbox state and calls the existing `toggleAssignedUsers` function.
+ *
+ * @param {string} color - The color associated with the user (used for UI updates).
+ * @param {string} name - The name of the user being toggled.
+ * @param {string} taskId - The ID of the task for which the user assignment is changed.
+ * @param {HTMLElement} containerDiv - The container element representing the user option that was clicked.
+ * @returns {void}
+ */
+
+function toggleUserOption(color, name, taskId, containerDiv) {
+    const checkbox = containerDiv.querySelector(".user_checkbox");
+    checkbox.checked = !checkbox.checked; // toggle checkbox
+    toggleAssignedUsers(color, name, taskId, checkbox); // rufe bestehende Funktion auf
+}
 
 
 

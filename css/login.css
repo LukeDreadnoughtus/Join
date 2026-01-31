@@ -279,10 +279,10 @@
 
 .custom_check {
     transition: transform 0.75s ease;
-    height: 24px;
-    width: 24px; 
+    height: 16px;
+    width: 16px; 
     background-color: #F0F0F0;
-    border: 2px solid #A8A8A8;
+    border: 2px solid #2A3647;
     border-radius:3px;
     display: inline-block;
     position: relative;
@@ -295,22 +295,24 @@
 
 .checkbox:hover .custom_check{
    background-color: #e4dada;
-   border-color: #5e5b5b;
+   border-color: #2A3647;
    transform: scale(1.1);
 }
 
 .check:checked + .custom_check {
-  background-color: #29ABE2 ;
+  /* background-color: #29ABE2 ; */
+   background-color: #ffffff; /* Background white */
+   border-color: #2A3647;
 }
 
 .check:checked + .custom_check::after {
   content: "✔";
-  color: white;
+  color: #2A3647;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .div_sign_up input::placeholder {
