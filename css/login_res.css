@@ -5,6 +5,10 @@
     right: 0px; 
 }
 
+.div_login {
+   margin-top: 60px; 
+}
+
 }
 
 @media (max-width:750px) {
@@ -18,7 +22,7 @@
 @media (max-width:700px) {
 
 .not_a_join_user {
-        top: 730px;
+        top: 715px;
         position: absolute;          
         left: 50%;
         transform: translateX(-50%);
@@ -30,6 +34,9 @@
 }
 .footer_login {
     margin-top: 125px;
+}
+.div_login {
+     margin-top: 0px;
 }
 }
 
@@ -47,16 +54,13 @@
     padding:0px; 
 }
 
-/* .div_login {
-    margin-top:170px;  
-}  */
-
 h2 {
     font-size: 47px;
 }
 
 .div_login {
     width: 396px; 
+    margin-bottom: 50px;
 }
 .login_icon {
     top: 60px;
@@ -76,7 +80,7 @@ h2 {
 }
 
 .not_a_join_user {
-    top: 720px;
+    top: 680px;
 }
 
 .buttons_login {
@@ -99,7 +103,7 @@ h2 {
 .footer_login {
     padding:0px; 
     gap:45px; 
-    margin-top: 135px;
+    margin-top: 90px;
 }
 
 }
@@ -125,7 +129,8 @@ h2 {
 
 .div_login {
     width: 300px;
-    height: 400px;  
+    height: 400px;
+    margin-bottom: 100px;  
 }
 
 .div_login input::placeholder {
@@ -145,13 +150,14 @@ h2 {
     font-size: 16px;
 }
 
-/* .not_a_join_user {
-    top: 630px;
-} */
-
 .sign_up_button {
     margin-left: 0px;
 }
+
+.not_a_join_user {
+    top: 650px;
+}
+
 }
 
 @media (max-width:390px) { 

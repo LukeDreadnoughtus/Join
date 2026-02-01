@@ -9,6 +9,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    align-items: center;
     width:100%;
     
 }
@@ -40,14 +41,14 @@
     display: flex;
     flex-direction: column;
     width:100%; 
-    /* align-items: center;      */
+    align-items: center;     
 }
 
 .login_icon {
     height: 122px; 
     width: 100px;
     position:absolute; 
-    top:80px;
+    top:40px;
     left: 77px; 
 }
 
@@ -340,12 +341,13 @@ a {
 }
 
 .footer_login {
-    /* height: 100px; */
+    height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 50px;
     font-size: 16px;
+    margin-top: 150px; 
 }
 
 
@@ -356,6 +358,7 @@ a {
     align-items: center;
     gap: 50px; 
     font-size: 16px;
+    margin-top: 115px; 
 }
 
 .footer_registration a {
