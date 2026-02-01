@@ -253,7 +253,7 @@
      - Zero margin so spacing is controlled by flex gaps.
      - Slightly heavier weight so it stays readable. */
   margin: 0;
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 600;
 }
 

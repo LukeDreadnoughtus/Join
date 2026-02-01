@@ -100,6 +100,7 @@ function handleTaskLoadError(error) {
   alert("Something went wrong. I couldn't load your tasks.");
 }
 
+/*
 function searchTasksForCurrentUser(userTasks, userId) {
   // - Loops over every task and keeps only the ones where the current userId is in assigned[].
   // - Builds the summary arrays (slots, priorities, due dates) while scanning the tasks once.
@@ -110,6 +111,55 @@ function searchTasksForCurrentUser(userTasks, userId) {
     if (!assigned.includes(userId)) return;
     addTaskMetaToSummary(task);
   });
+}
+*/
+
+function searchTasksForCurrentUser(userTasks, userId) {
+  //hier ausblenden
+  // egal wer eingeloggt ist: in der summary soll wirklich ALLES sichtbar sein
+  // ich lass die slot-logik drin (todo bleibt todo usw.), aber userId ist hier komplett egal
+  const tasks = Object.values(userTasks || {});
+  tasks.forEach(task => {
+    if (!task) return;
+    addTaskMetaToSummary(task);
+  });
+}
+
+function getCombinedSummaryUserIds(currentUserId) {
+  //hier ausblenden
+  // hier hole ich mir die userIds zusammen, die auf dem device schonmal eingeloggt waren
+  const KEY = "known_userids";
+  const raw = localStorage.getItem(KEY);
+  const list = safeParseJSON(raw, []);
+  const ids = Array.isArray(list) ? list.slice() : [];
+
+  // aktuellen user immer mit reinnehmen
+  if (currentUserId && !ids.includes(currentUserId)) ids.push(currentUserId);
+
+  // Guest nur dann, wenn er wirklich genutzt wurde oder aktuell aktiv ist
+  // (wenn Guest nie benutzt wurde, taucht er auch nicht in known_userids auf)
+  if (currentUserId === "Guest" && !ids.includes("Guest")) ids.push("Guest");
+
+  return Array.from(new Set(ids.filter(Boolean)));
+}
+
+function hasAnyUserId(assignedArr, userIds) {
+  //hier ausblenden
+  // mini helper, weil ich kein bock auf 3x includes-geschwurbel hab
+  for (let i = 0; i < userIds.length; i++) {
+    if (assignedArr.includes(userIds[i])) return true;
+  }
+  return false;
+}
+
+function safeParseJSON(raw, fallback) {
+  //hier ausblenden
+  // fallback falls jemand im storage rumfummelt
+  try {
+    return raw ? JSON.parse(raw) : fallback;
+  } catch (_) {
+    return fallback;
+  }
 }
 
 function toAssignedArray(assigned) {

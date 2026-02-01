@@ -66,6 +66,7 @@ function logInGuest(event) {
     event.preventDefault();
     localStorage.setItem("username", `Guest`)
     localStorage.setItem("userid", `Guest`)
+    rememberUserForCombinedSummary('Guest');
     sessionStorage.setItem("summary_greeting_overlay", "1");
     window.location.href = "summary.html";
 }
@@ -89,6 +90,7 @@ function proofUserData(userData) {
             localStorage.setItem("username", `${username}`)
             localStorage.setItem("userid", `${userKey}`)
             localStorage.setItem("usercolor", `${user.color}`)
+            rememberUserForCombinedSummary(String(userKey));
             // Flag for summary greeting overlay: show it only once, right after login.
             sessionStorage.setItem("summary_greeting_overlay", "1");
             window.location.href = "summary.html";
@@ -96,6 +98,28 @@ function proofUserData(userData) {
         }
     }
    setUserFeedbackFailedLogIn() 
+}
+
+function rememberUserForCombinedSummary(userId) {
+    //hier ausblenden
+    // ich pack hier einfach alle userIds rein, damit die summary später die kombi anzeigen kann
+    // falls das mal nervt: key ist 'known_userids' im localStorage
+    if (!userId) return;
+    const KEY = 'known_userids';
+    const existing = safeParseJSON(localStorage.getItem(KEY), []);
+    const list = Array.isArray(existing) ? existing : [];
+    if (!list.includes(userId)) list.push(userId);
+    localStorage.setItem(KEY, JSON.stringify(list));
+}
+
+function safeParseJSON(raw, fallback) {
+    //hier ausblenden
+    // kleine absicherung, weil ich kein bock auf JSON crashes hab
+    try {
+        return raw ? JSON.parse(raw) : fallback;
+    } catch (_) {
+        return fallback;
+    }
 }
 
 /**
