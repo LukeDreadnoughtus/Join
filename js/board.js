@@ -392,8 +392,8 @@ function searchTask() {
     toggleInputHighlight(inputElement, iconElement, input !== "");
     clearBoardSlots();
     renderBoardBasics()
-    toggleNoTasksFound(false);
-    renderFilteredTasks(tasksArray, input)
+    toggleNoTasksFound_Header(false);
+    renderFilteredTasks_Header(tasksArray, input)
 }
 
 function renderFilteredTasks(tasksArray, input) {
@@ -403,6 +403,20 @@ function renderFilteredTasks(tasksArray, input) {
         const filteredTasks = filterTasks(tasksArray, input);
         if (filteredTasks.length === 0) {
             toggleNoTasksFound(true);
+            return;
+        }
+        filteredTasks.forEach(task => taskTemplate(task));
+    }
+    checkNoTasks();
+}
+
+function renderFilteredTasks_Header(tasksArray, input) {
+    if (!input) {
+        tasksArray.forEach(task => taskTemplate(task));
+    } else {
+        const filteredTasks = filterTasks(tasksArray, input);
+        if (filteredTasks.length === 0) {
+            toggleNoTasksFound_Header(true);
             return;
         }
         filteredTasks.forEach(task => taskTemplate(task));
@@ -469,6 +483,12 @@ function toggleNoTasksFound(show) {
     const element = document.getElementById("no_tasks_found");
     element.classList.toggle("d_none", !show);
 }
+
+function toggleNoTasksFound_Header(show) {
+    const element = document.getElementById("no_tasks_found_header");
+    element.classList.toggle("d_none", !show);
+}
+
 
 /**
  * Creates a single user icon for a task card.
