@@ -562,7 +562,6 @@
   .add_controll_form select,
   .add_controll_form button {
     width: 90%;
-    padding: 16px !important
   }
 
   ::placeholder {
