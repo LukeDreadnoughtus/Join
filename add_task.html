@@ -45,7 +45,7 @@
         <div class="link-row" data-link="contacts">
           <img alt="contacts icon" class="link-icon" src="assets/img/main_links_left/contacts_icon.svg">
           <span class="nav-label" aria-hidden="true">Contacts</span>
-          
+
         </div>
       </div>
       <div class="legal-area">
@@ -70,30 +70,29 @@
     <main class="content">
       <header>
         <div class="header_max">
-        <div class="header_div">
-          <h4>Kanban Project Management Tool</h4>
-          <img class="join_icon" src="assets/img/login_join.svg">
-        </div>
-        <div class="header_icons">
-          <img class="help_icon" src="assets/img/help.svg" onclick="toHelpPage()">
-          <div class="my_icon" id="myIcon" onclick="openUserMenu()"></div>
-          <nav class="user_menu d_none" id="user_menu" onclick="event.stopPropagation()">
-            <ul>
-              <li class="help_res"><a href="help.html"><span>Help</span></a></li>
-              <li><a href="legal_notice.html"><span>Legal Notice</span></a></li>
-              <li><a href="privacy_policy.html"><span>Privacy Policy</span></a></li>
-              <li class="last_item"><a href="" onclick="logoutUser(event)"><span>Log out</span></a></li>
-            </ul>
-          </nav>
-        </div>
+          <div class="header_div">
+            <h4>Kanban Project Management Tool</h4>
+            <img class="join_icon" src="assets/img/login_join.svg">
+          </div>
+          <div class="header_icons">
+            <img class="help_icon" src="assets/img/help.svg" onclick="toHelpPage()">
+            <div class="my_icon" id="myIcon" onclick="openUserMenu()"></div>
+            <nav class="user_menu d_none" id="user_menu" onclick="event.stopPropagation()">
+              <ul>
+                <li class="help_res"><a href="help.html"><span>Help</span></a></li>
+                <li><a href="legal_notice.html"><span>Legal Notice</span></a></li>
+                <li><a href="privacy_policy.html"><span>Privacy Policy</span></a></li>
+                <li class="last_item"><a href="" onclick="logoutUser(event)"><span>Log out</span></a></li>
+              </ul>
+            </nav>
+          </div>
         </div>
       </header>
       <div class="header_overlay d_none" id="header_overlay" onclick="closeUserMenu()"></div>
 
-
       <div class="task_main_wrapper">
         <div class="add_task_heading">
-        <h2>Add Task</h2>
+          <h2>Add Task</h2>
         </div>
         <div class="split_container">
 
@@ -221,25 +220,28 @@
         </div>
 
         </form>
-        <div class="footer">
-          <div class="footer_content">
-            <div>
-              <p class="footer_text">This field is required<span style="color:red">*</span></p>
-            </div>
+        <div class="footer_buttons_bar">
+          <div class="footer_buttons">
             <div class="task_controls_buttons" id="taskControlsButtons">
               <button type="reset" id="clear-button" class="add_task_clear_button">
                 <span class="font_clear">Clear</span>
-                <span class="clear_svg"><img src="assets/img/clear.svg" alt="clear icon" width="24px"
+                <span><img class="clear_svg" src="assets/img/clear.svg" alt="clear icon" width="24px"
                     height="24px"></span>
               </button>
               <button type="submit" class="add_task_create_button" id="create-button">
                 <span class="font_create">Create Task</span>
-                <span class="check_svg"><img src="assets/img/check.svg" alt="check icon" width="24px"
+                <span><img class="check_svg" src="assets/img/check.svg" alt="check icon" width="24px"
                     height="24px"></span>
               </button>
             </div>
           </div>
         </div>
+        <div class="footer">
+          <div class="footer_required">
+            <p class="footer_text">This field is required<span style="color:red">*</span></p>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
   </div>
