@@ -192,6 +192,9 @@
     width: 422px; 
     box-sizing: border-box;
     padding-right: 40px;      
+    padding-left: 20px; 
+    font-size: 20px;
+    font-family: "inter";
 }
 
 
@@ -212,14 +215,17 @@
 
 .input_login {
     height: 48px; 
-    width: 422px; 
+    width: 422px;
+    padding-left: 20px; 
+    font-size: 20px; 
+    font-family: "inter";
 }
 
 .div_login input::placeholder {
     font-weight: 400;
     font-size: 20px;
     color: #D1D1D1; 
-    padding-left: 15px
+    padding-left: 0px
 }
 
 .div_login_form{
@@ -259,7 +265,7 @@
   font-family: "inter";
   color: rgb(48, 47, 47); 
   gap:8px; 
-  margin-top: 24px; 
+  margin-top: 44px; 
   margin-bottom: 24px; 
   margin-left: 104px; 
 }
@@ -310,7 +316,7 @@
     font-weight: 400;
     font-size: 20px;
     color: #D1D1D1;
-    padding-left: 15px 
+    padding-left: 0px 
 }
 
 a {
@@ -448,10 +454,12 @@ a {
 }
 
 .password_not_match {
-    font-size: 12px; 
+    font-size: 16px; 
     color: red; 
     margin-bottom:15px; 
     margin-top:0px; 
     position:absolute; 
+    margin-left:5px; 
+
 }
 
