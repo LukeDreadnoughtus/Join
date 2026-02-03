@@ -581,8 +581,8 @@ function getUserColor() {
         '#FF0000', // red
         '#00FF00', // light-green
         '#0000FF', // blue
-        '#FFFF00', // yellow
-        '#00FFFF', // cyan
+        '#251d53', // darkblue
+        '#124343', // darkgreen
         '#FF00FF',  // magenta
         '#8A2BE2',  // blue-violet
         '#ff8800',  // orange
