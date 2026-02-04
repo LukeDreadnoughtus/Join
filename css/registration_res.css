@@ -142,6 +142,7 @@ h2 {
 .input_registration {
     height: 40px;
     width: 280px; 
+    font-size: 16px; 
 }
 .div_sign_up_form {
     width: 280px; 
@@ -149,6 +150,7 @@ h2 {
 
 .checkbox {
     margin-left: 20px;
+    margin-top: 60px; 
 }
 
 .margin_155 {

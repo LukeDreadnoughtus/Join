@@ -6,10 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
   <title>Registrierung</title>
+  <link rel="stylesheet" href="css/fonts.css" />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/header.css" />
   <link rel="stylesheet" href="css/footer.css" />
-  <link rel="stylesheet" href="css/fonts.css" />
   <link rel="stylesheet" href="css/colors.css" />
   <link rel="stylesheet" href="css/login.css" />
   <link rel="stylesheet" href="css/registration_res.css" />
@@ -42,31 +42,31 @@
         <form class="div_sign_up_form">
           <div class="input-wrapper">
             <input class="input_style input_registration margin_input" type="text" id="name_registration"
-              onkeyup="checkNameField(event)" oninput="checkNameField(event)" onchange="checkNameField(event)"
+              onblur="checkNameField(event)" oninput="resetInputState(this, 'namefeedback')"
               placeholder="Name" required autocomplete="username" />
             <img src="assets/img/person.svg" alt="" class="icon">
-            <p class="password_not_match d_none" id="namefeedback">Please enter a valid name. Use letters only.</p>
+            <p class="password_not_match d_none" id="namefeedback">Enter first & last name, letters only.</p>
           </div>
           <div class="input-wrapper">
             <input class="input_style input_registration margin_input" type="email" id="email_registration"
-              onkeyup="checkEmailField(event)" oninput="checkEmailField(event)" onchange="checkEmailField(event)"
+              onblur="checkEmailField(event)" oninput="resetInputState(this, 'emailfeedback')"
               placeholder="Email" required autocomplete="email" />
             <img src="assets/img/mail.svg" alt="" class="icon">
             <p class="password_not_match d_none" id="emailfeedback">Please enter a valid email address.</p>
           </div>
           <div class="input-wrapper">
             <input class="input_style input_registration margin_input" type="password" id="password_registration"
-              onkeyup="handlePasswordInput(event)" placeholder="Passwort" required autocomplete="new-password" />
+             onblur="handlePasswordInput(event)" oninput="resetInputState(this, 'validpassword'); showVisibilityIcon(event)" placeholder="Passwort" required autocomplete="new-password" />
             <img id="lock" src="assets/img/lock.svg" alt="" class="icon">
             <img id="visibility" src="assets/img/visibility.svg" alt="" class="icon d_none"
               onclick="showPassword(event)">
             <img id="visibilitynot" src="assets/img/visibility_off.svg" alt="" onclick="showPassword(event)"
               class="icon d_none">
-            <p class="password_not_match d_none" id="validpassword">Password needs 8+ characters, incl. 1 number & 1 special character.</p>
+            <p class="password_not_match d_none" id="validpassword">8+ chars · 1 number · 1 special</p>
           </div>
           <div class="input-wrapper">
             <input class="input_style input_registration margin_input" type="password" id="password_confirm"
-              onkeyup="handlePasswordInput(event)" placeholder="Confirm Password" required
+              onblur="handlePasswordInput(event)" oninput="resetInputState(this, 'passwordmatch'); showVisibilityIcon2(event)" placeholder="Confirm Password" required
               autocomplete="new-password" />
             <img id="lock2" src="assets/img/lock.svg" alt="" class="icon">
             <img id="visibility2" src="assets/img/visibility.svg" alt="" class="icon d_none"

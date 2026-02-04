@@ -52,6 +52,7 @@ function alertUserDataFetchOnce() {
     alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
 }
 
+
 /**
  * Initializes the board after the page has loaded.
  * Prevents the default event, removes user feedback,
@@ -63,10 +64,22 @@ function alertUserDataFetchOnce() {
  */
 async function init() {
     removeUserfeedback()
+    await getUserData();
     await showTasks()
     checkNoTasks();
     renderUserIcon();
 }
+
+let cachedUserData = null;
+
+async function getUserData() {
+    if (cachedUserData) return cachedUserData;
+
+    const response = await fetch(pathUser + ".json");
+    cachedUserData = await response.json();
+    return cachedUserData;
+}
+
 
 /**
  * Hides the user feedback element if it is currently visible.
@@ -119,6 +132,7 @@ async function renderAllTasks(tasks) {
         taskTemplate(taskData);
     }
 }
+
 /**
  * Builds a complete task data object from raw task data.
  *
@@ -223,18 +237,35 @@ function formatDateDDMMYYYY(dateInput) {
  * @param {string[]} currentAssignedUserids - Array of user IDs
  * @returns {Promise<string[]>} Array of user names
  */
+
 async function fetchUserNames(currentAssignedUserids) {
-    let assignedUsers = [];
     try {
-        const response = await fetch(pathUser + ".json");
-        const userData = await response.json();
-        for (const user of currentAssignedUserids) {
-            let userName = findUserName(user, userData)
-            assignedUsers.push(userName)
-        }
-        return assignedUsers
+        const userData = await getUserData();
+        return currentAssignedUserids.map(id =>
+            findUserName(id, userData)
+        );
     } catch (error) {
         console.error("Fehler beim Laden der Usernamen:", error);
+        alertUserDataFetchOnce();
+        return [];
+    }
+}
+/**
+ * Fetches color values for assigned users by their IDs.
+ *
+ * @async
+ * @param {string[]} currentAssignedUserids - Array of assigned user IDs
+ * @returns {Promise<string[]>} Array of user color values
+ */
+
+async function fetchUsercolors(currentAssignedUserids) {
+    try {
+        const userData = await getUserData();
+        return currentAssignedUserids.map(id =>
+            findUserColor(id, userData)
+        );
+    } catch (error) {
+        console.error("Fehler beim Laden der Farben:", error);
         alertUserDataFetchOnce();
         return [];
     }
@@ -281,30 +312,6 @@ function currentCategoryColor(currentCategory) {
     }
 
     return categoryColor
-}
-
-/**
- * Fetches color values for assigned users by their IDs.
- *
- * @async
- * @param {string[]} currentAssignedUserids - Array of assigned user IDs
- * @returns {Promise<string[]>} Array of user color values
- */
-async function fetchUsercolors(currentAssignedUserids) {
-    let assignedUsercolors = [];
-    try {
-        const response = await fetch(pathUser + ".json");
-        const userData = await response.json();
-        for (const user of currentAssignedUserids) {
-            let userColor = findUserColor(user, userData)
-            assignedUsercolors.push(userColor)
-        }
-        return assignedUsercolors
-    } catch (error) {
-        console.error("Fehler beim Laden der Farben:", error);
-        alertUserDataFetchOnce();
-        return [];
-    }
 }
 
 /**
