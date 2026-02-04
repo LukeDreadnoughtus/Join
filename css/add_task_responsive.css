@@ -149,7 +149,7 @@
   select,
   textarea,
   .custom_select {
-    font-size: 15px !important;
+    font-size: 16px !important;
     max-width: 370px !important;
   }
 
@@ -161,7 +161,7 @@
 
   .font_clear,
   .font_create {
-    font-size: 14px !important;
+    font-size: 16px !important;
   }
 
   .split_container {
@@ -180,7 +180,7 @@
   }
 
   .priority_btn {
-    font-size: 15px !important;
+    font-size: 16px !important;
     width: 100px !important;
     max-height: 50px !important;
   }
@@ -200,7 +200,7 @@
   .urgent_icon,
   .medium_icon,
   .low_icon {
-    max-width: 14px !important;
+    max-width: 16px !important;
   }
 
   .left_split {
@@ -275,14 +275,14 @@
 
   .font_clear,
   .font_create {
-    font-size: 14px !important;
+    font-size: 16px !important;
   }
 
   input,
   select,
   textarea,
   .custom_select {
-    font-size: 15px !important;
+    font-size: 16px !important;
     max-width: 440px !important;
   }
 
@@ -317,7 +317,7 @@
   .urgent_icon,
   .medium_icon,
   .low_icon {
-    max-width: 20px !important;
+    max-width: 16px !important;
   }
 
   .left_split {
@@ -500,7 +500,7 @@
 
   .font-clear,
   .font-create {
-    font-size: 12px !important;
+    font-size: 16px !important;
   }
 
   .urgent_icon,
@@ -543,7 +543,7 @@
   input,
   select {
     max-width: 90%;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .add_task_heading {
@@ -565,17 +565,17 @@
   }
 
   ::placeholder {
-    font-size: 14px !important;
+    font-size: 16px !important;
   }
 
   label {
-    font-size: 14px !important;
+    font-size: 16px !important;
   }
 
   .priority_button {
     width: 90px;
     height: 60px;
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .footer {
@@ -588,27 +588,27 @@
   .span_form,
   .priority_name,
   .footer_text {
-    font-size: 12px !important;
+    font-size: 16px !important;
   }
 
   input,
   select,
   textarea,
   .custom_select {
-    font-size: 12px !important;
+    font-size: 16px !important;
     max-width: 90% !important;
   }
 
   .priority_btn {
     width: 90px !important;
     height: 36px !important;
-    font-size: 11px !important;
+    font-size: 16px !important;
   }
 
   .priority_button {
     width: 90px;
     height: 60px;
-    font-size: 11px;
+    font-size: 16px;
   }
 
   .priority_container {
@@ -617,7 +617,7 @@
 
   .font-clear,
   .font-create {
-    font-size: 12px !important;
+    font-size: 16px !important;
   }
 
   .task_controls_buttons {
@@ -635,12 +635,12 @@
 @media (max-width: 430px) {
   .font_clear,
   .font_create {
-    font-size: 12px !important;
+    font-size: 16px !important;
   }
   .priority_btn {
     width: 120px !important;
     height: 50px !important;
-    font-size: 10px !important;
+    font-size: 16px !important;
   }
 }
 
@@ -650,13 +650,13 @@
   }
   .font_clear,
   .font_create{
-    font-size: 10px !important;
+    font-size: 16px !important;
   }
 
   .low_icon,
   .medium_icon,
   .urgent_icon{
-    max-width: 12px !important;
+    max-width: 16px !important;
   }
 
   .check_svg {
@@ -668,6 +668,6 @@
   .priority_button {
     width: 75px;
     height: 35px;
-    font-size: 10px;
+    font-size: 16px;
   }
 }

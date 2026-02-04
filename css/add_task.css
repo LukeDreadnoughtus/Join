@@ -90,8 +90,8 @@ label {
 
 #categoryOptions {
   overflow-y: auto;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   padding-right: 0 !important;
 }
 
@@ -204,7 +204,6 @@ label {
 
 .footer_required {
   grid-column: 1;
-  width: 440px;
 }
 
 .add_task_headline {
