@@ -9,6 +9,10 @@
    margin-top: 60px; 
 }
 
+.fill_container {
+    height: 150px;
+}
+
 }
 
 @media (max-width:750px) {
@@ -21,20 +25,19 @@
 
 @media (max-width:700px) {
 
+
+.fill_container {
+    height: 200px;
+}
+
 .not_a_join_user {
-        top: 715px;
-        position: absolute;          
-        left: 50%;
-        transform: translateX(-50%);
-        padding-right: 0;
-        justify-content: center;
-        gap: 12px;
-        right:0px; 
-        text-align: center;
+       display:none; 
 }
-.footer_login {
-    margin-top: 125px;
+
+.not_a_join_user_mobile {
+     display:flex; 
 }
+
 .div_login {
      margin-top: 0px;
 }
@@ -42,13 +45,17 @@
 
 @media (max-width:620px) {
 
-.not_a_join_user{
+.not_a_join_user_mobile{
     width: 315px; 
+    gap:20px; 
 }
 }
 
 @media (max-width:540px) {
 
+.fill_container {
+    height: 170px;
+}
 
 .sign_up_button {
     padding:0px; 
@@ -77,10 +84,6 @@ h2 {
 .div_login_form {
     width: 365px;
     margin-top: 10px; 
-}
-
-.not_a_join_user {
-    top: 680px;
 }
 
 .buttons_login {
@@ -124,10 +127,6 @@ h2 {
 }
 
 
-.login_wrapper {
-    padding: 0 10px;
-}
-
 .div_login {
     width: 300px;
     height: 400px;
@@ -155,11 +154,6 @@ h2 {
 .sign_up_button {
     margin-left: 0px;
 }
-
-.not_a_join_user {
-    top: 650px;
-}
-
 
 
 }
