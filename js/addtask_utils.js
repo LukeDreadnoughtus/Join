@@ -133,3 +133,33 @@ function clearDivider() {
   const wrapper = document.querySelector(".subtask-icons-wrapper");
   if (wrapper) wrapper.classList.add("hidden");
 }
+
+/**
+ * Marks a field as invalid with a custom error message
+ * @param {HTMLElement} field - The field element to mark as invalid
+ * @param {string} message - The error message to display
+ */
+function markFieldAsInvalidWithMessage(field, message) {
+  field.classList.add("input-error");
+  const existing = document.getElementById(`error-${field.id}`);
+  if (existing) existing.remove();
+  const error = document.createElement("span");
+  error.id = `error-${field.id}`;
+  error.className = "error-message";
+  error.textContent = message;
+  field.insertAdjacentElement("afterend", error);
+}
+
+/**
+ * Checks if a given date string is before today
+ * @param {string} dateValue - The date string (YYYY-MM-DD)
+ * @returns {boolean} True if the date is in the past
+ */
+function isDateInPast(dateValue) {
+  if (!dateValue) return false;
+  const selected = new Date(dateValue);
+  const today = new Date();
+  selected.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+  return selected < today;
+}

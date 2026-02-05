@@ -71,11 +71,13 @@ function extractSubtaskItemData(item) {
 async function createTask(event) {
     event.preventDefault();
     if (!validateForm()) return;
+    setPageInteractionDisabled(true);
     const newTask = getTaskDataFromForm();
     try {
         await saveTaskToFirebase(newTask);
     } catch (error) {
         console.error("Firebase error:", error);
+        setPageInteractionDisabled(false);
     }
 }
 
@@ -96,7 +98,19 @@ async function saveTaskToFirebase(newTask) {
         clearForm();
     } else {
         console.error("Error saving to Firebase");
+        setPageInteractionDisabled(false);
     }
+}
+
+
+/**
+ * Disables or enables page interaction (buttons and links)
+ * @param {boolean} disabled - Whether to disable or enable interactions
+ */
+function setPageInteractionDisabled(disabled) {
+    const body = document.body;
+    if (!body) return;
+    body.classList.toggle("is-busy", disabled);
 }
 
 
@@ -140,6 +154,10 @@ function validateField(id) {
         : String(field.getAttribute("data-selected") ?? "").trim();
     if (!value) {
         markFieldAsInvalid(field);
+        return false;
+    }
+    if (id === "task-due-date" && isDateInPast(value)) {
+        markFieldAsInvalidWithMessage(field, "Date must be today or later");
         return false;
     }
     return true;
@@ -288,6 +306,7 @@ function reloadBoardIfOnBoardPage() {
             clearBoardSlots();
         }
         init();
+        setPageInteractionDisabled(false);
     }
 }
 
