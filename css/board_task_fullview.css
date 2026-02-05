@@ -19,7 +19,7 @@
     left: 40%;
     transform: translateX(-50%);
     box-sizing: border-box;
-    overflow-x: hidden;
+    overflow-x: hidden; 
 }
 
 .task_category_card_overlay {
