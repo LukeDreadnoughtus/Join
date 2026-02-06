@@ -481,7 +481,7 @@ transition: background-color 120ms ease;
 
 .input_event input {
     width: 328px;
-    padding-right: 40px; /* Platz für das SVG */
+    padding-right: 30px; 
 }
 
 .already_assigned {
@@ -734,57 +734,22 @@ ul#subtask_list {
     padding-left: 20px; 
 }
 
-/* ------------------------------------------------------------
-   Mobile date picker fallback (< 539px)
-   - Uses the native <input type="date"> injected in the edit template
-   - JS syncs native value <-> dd/mm/yyyy string in #edit_due_date
------------------------------------------------------------- */
 
-@media (max-width: 539px) {
-    /* Hide the flatpickr text input to avoid the big popup and centerMost layout */
-    #edit_due_date {
-        display: none;
-    }
+.date_userfeedback {
+    font-size: 16px; 
+    color: red; 
+    margin-bottom:15px; 
+    margin-top:0px; 
+    position:absolute; 
+    margin-left:5px; 
 
-    /* Show the native date input in the exact same slot */
-    #edit_due_date_native {
-        display: block;
-        width: 100%;
-        background-color: transparent;
-    }
-
-    /* Prevent stray flatpickr popups from being visible on very small screens */
-    .flatpickr-calendar {
-        display: none !important;
-    }
 }
 
-@media (min-width: 540px) {
-    #edit_due_date_native {
-        /* display: none; */
-        position: absolute;
-        opacity: 0;
-        pointer-events: none;
-        width: 0;
-        height: 0;
-    }
+.input_style_date {
+    border: 1px solid red;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-/* Hide native date input calendar icon (prevents duplicate icon next to our custom icon) */
-#edit_due_date_native::-webkit-calendar-picker-indicator {
-  opacity: 0;
-  display: none;
-  -webkit-appearance: none;
-}
-#edit_due_date_native::-webkit-inner-spin-button,
-#edit_due_date_native::-webkit-clear-button {
-  display: none;
-  -webkit-appearance: none;
-}
-#edit_due_date_native {
-  -webkit-appearance: none;
-  -moz-appearance: textfield;
-  appearance: none;
-  background-image: none;
-}
 

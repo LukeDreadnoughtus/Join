@@ -107,10 +107,12 @@
 
     .show_task_overlay {
         left: 50%;
+        height: 650px; 
     }
 
     .edit_task_overlay {
         left: 50%;
+        height: 650px; 
     }
 
     .menu_wrapper {
@@ -152,19 +154,6 @@
     .column_head {
         min-width: 550px;
     }
-
-    /* .header_board_responsive {
-    align-items: center;
-    margin-left: auto;
-    margin-right: auto;
-}
-.board_layout {
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    align-items: center;
-    justify-content: center;
-} */
 }
 
 @media (max-width: 680px) {
@@ -194,6 +183,15 @@
 }
 
 @media (max-width: 540px) {
+
+    .date_userfeedback {
+        font-size: 15px; 
+    }
+
+    .input_event input {
+        width: 220px; 
+        padding-right: 20px; 
+    }
 
     .column_content {
         min-width: 350px;
@@ -330,7 +328,7 @@
     }
 
     .show_task_overlay {
-        height: 640px;
+        height: 500px;
         width: 270px;
         top: 15px;
         padding: 32px 15px;
@@ -356,6 +354,8 @@
 
     .input_edit_date {
         font-size: 16px;
+        /* padding-right: 20px;  */
+  
     }
 
     .input_event {
@@ -445,7 +445,7 @@
     }
 
     .edit_task_overlay {
-        height: 640px;
+        height: 500px;
         width: 270px;
         top: 15px;
         padding: 32px 15px;

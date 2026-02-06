@@ -321,11 +321,21 @@ function currentCategoryColor(currentCategory) {
  * @param {Object} userData - Object containing all user data
  * @returns {string} User color or default color as fallback
  */
-function findUserColor(user, userData) {
-    const searchedUser = userData[user];
-    let userColor = searchedUser.color || "#393737ff";
-    return userColor
+// function findUserColor(user, userData) {
+//     const searchedUser = userData[user];
+//     let userColor = searchedUser.color || "#393737ff";
+//     return userColor
+// }
+
+function findUserColor(userId, userData) {
+    const searchedUser = userData[userId];
+    if (!searchedUser) return "#393737ff"; // user nicht gefunden
+
+    // fallback: color → colors → default
+    const userColor = searchedUser.color || searchedUser.colors || "#393737ff";
+    return userColor;
 }
+
 
 /**
  * Checks if board columns contain no rendered tasks.

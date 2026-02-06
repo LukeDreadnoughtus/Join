@@ -191,19 +191,15 @@ function renderTaskEditCard(taskData) {
         <div class="edit_duedate">
             <h4>Due Date</h4>
             <div class="input_event">
-                <img src="assets/img/event.svg" class="event_icon" id="date_icon">
                 <input class="input_edit_date input_style" 
-                       type="text" 
-                       id="edit_due_date" 
-                       placeholder="dd/mm/yyyy" 
-                       required 
-                       value="${taskData.duedate || ''}"/>
-                <!-- Native date input (mobile fallback < 700px). The displayed value is synced back to #edit_due_date in JS -->
-                <input class="input_edit_date_native input_style" 
                        type="date" 
-                       id="edit_due_date_native" 
-                       aria-hidden="true" 
-                       tabindex="-1" />
+                       id="edit_due_date" 
+                       placeholder="dd.mm.yyyy" 
+                       required 
+                       value="${taskData.duedate || ''}"
+                       onclick="event.stopPropagation()"
+                       />
+             <p class="date_userfeedback d_none" id="pastdate">Pick a present or future date.</p>
             </div>
         </div>
         <div class="edit_priority">
@@ -392,12 +388,11 @@ function buildUserTemplate(iconData, user, taskId, isAssigned, isCurrentUser) {
                 <span>${user.name}</span>
                 ${isCurrentUser ? '<span class="you_label">(You)</span>' : ''}
             </div>
-
             <input 
                 type="checkbox"
                 class="user_checkbox"
                 ${isAssigned ? "checked" : ""}
-                
+                onclick="toggleUserOption('${user.color}','${user.name}','${taskId}', this.closest('.user_option'))"
             >
         </div>
     `;
