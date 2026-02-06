@@ -25,8 +25,7 @@
 
 .add-task-page,
 html.add-task-page {
-  height: 100%;
-  max-height: 1080px;
+  min-height: 100vh;
 }
 
 .task_main_wrapper {
@@ -38,13 +37,14 @@ html.add-task-page {
 }
 
 .add-task-page .page {
-  height: 100vh;
-  max-height: 1080px;
+  height: auto;
+  min-height: 100vh;
+  overflow-y: auto;
 }
 
 .add-task-page .page .content {
-  height: 100vh;
-  max-height: 1080px;
+  height: auto;
+  min-height: 100vh;
 }
 
 .add_task_heading {

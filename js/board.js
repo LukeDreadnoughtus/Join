@@ -18,6 +18,7 @@ function handleAddTaskClick(e, overlay, boardSlotSelect) {
         buildCategoryDropdown?.();
         wireSubtaskInputRow?.();
         requiredFieldMarker?.();
+        setMinDueDate?.();
     }, 
     50);
 }
