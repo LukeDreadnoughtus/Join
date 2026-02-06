@@ -176,10 +176,10 @@
         width: 328px;
     }
 
-    .event_icon {
+    /* .event_icon {
         right: 18px;
         top: 50%
-    }
+    } */
 }
 
 @media (max-width: 540px) {
@@ -436,12 +436,6 @@
     .input_edit_subtask {
         padding: 10px 55px 10px 7px;
         font-size: 16px;
-    }
-
-    .event_icon {
-        right: 15px;
-        top: 50%;
-
     }
 
     .edit_task_overlay {
