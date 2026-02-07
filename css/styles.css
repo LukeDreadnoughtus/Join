@@ -22,7 +22,7 @@ body {
   display: grid;
   grid-template-columns: 16.5% 1fr;
   height: 100vh;
-  overflow-y: hidden;
+  
   
   /* max-width: 1440px; minus menü  232px und dann header position absolute +  page 96 margin top*/
   background-color: #f5f5f5;
@@ -409,14 +409,21 @@ body {
 
 .page .content {
   height: 100vh;
+   /* header stays put; scrolling happens in .content-scroll */
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.content-scroll {
+  flex: 1 1 auto;
   overflow-y: auto;
-  /* Main content column scrolls independently */
-  /* Keeps the sidebar fixed visually */
-  /* Full height so scrolling is stable */
+  
+  min-height: 0; /* critical for flex overflow */
 }
 
 body.contacts-page .page .content {
-  overflow-y: hidden;
+  
   /* Contacts page handles its own scrolling */
   /* Prevents double-scroll issues */
   /* Keeps layout consistent for that view */
