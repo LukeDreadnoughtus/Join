@@ -320,3 +320,24 @@
     box-sizing: border-box;
   }
 }
+
+/* --- Fix: keep nav icons + labels from shrinking below 680px --- */
+@media (max-width: 680px) {
+  /* Keep nav text readable (override the 0.85rem scaling from <=1024px) */
+  .left .main-links {
+    font-size: 1rem !important;
+  }
+
+  /* Prevent icon scaling (overrides <=1024px and <=480/450px rules) */
+  .left .main-links img,
+  .left .main-links svg {
+    transform: none !important;
+  }
+
+  /* Keep nav labels at normal size */
+  .left .main-links .nav-label,
+  .left .main-links span,
+  .left .main-links p {
+    font-size: 1rem !important;
+  }
+}
