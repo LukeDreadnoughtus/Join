@@ -48,7 +48,6 @@ function checkAllFieldsFilled() {
     allFilled = checkPasswordregistration(password) && allFilled;
     allFilled = checkPasswordConfirm(passwordConfirm) && allFilled;
     allFilled = checkTwoPasswords(passwordConfirm, password) && allFilled;
-    console.log("Ergebnis ALL:", allFilled);
     return allFilled;
 }
 
@@ -151,17 +150,11 @@ function checkPasswordConfirm(passwordConfirm) {
  */
 
 function checkEmailField(event) {
-    event.stopPropagation();
-    const emailInput = document.getElementById("email_registration")
+    const emailInput = event.target;
     const emailValue = emailInput.value.trim();
-    if (emailInput.classList.contains("input_style_red")) {
-        resetInputState(emailInput, "emailfeedback");
-    }
-    if (!document.getElementById("userfeedback_email").classList.contains("d_none")) {
-        document.getElementById("userfeedback_email").classList.add("d_none")
-    }
-    removeUserFeedbackCheckAllFields()
-    if (emailValue.length > 5 && !isValidEmail(emailValue)) {
+    resetInputState(emailInput, "emailfeedback");
+    removeUserFeedbackCheckAllFields();
+    if (emailValue.length > 0 && !isValidEmail(emailValue)) {
         setInputError(emailInput, "emailfeedback");
     }
 }
@@ -176,9 +169,10 @@ function checkEmailField(event) {
  */
 
 function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email.trim());
 }
+
 
 /**
  * Resets the visual state of an input field.
@@ -232,32 +226,40 @@ function setInputError(inputElement, feedbackId) {
  * @param {Event} event - The input, keyup or change event triggered by the name field
  * @returns {void}
  */
+
 function checkNameField(event) {
-    event.stopPropagation();
-    const nameInput = document.getElementById("name_registration");
+    const nameInput = event.target;
     const nameValue = nameInput.value.trim();
-    if (nameInput.classList.contains("input_style_red")) {
-        resetInputState(nameInput, "namefeedback");
-    }
-    removeUserFeedbackCheckAllFields()
+
+    resetInputState(nameInput, "namefeedback");
+    removeUserFeedbackCheckAllFields();
+
     if (nameValue.length > 0 && !isValidName(nameValue)) {
-         setInputError(nameInput, "namefeedback");
+        setInputError(nameInput, "namefeedback");
     }
 }
 
 /**
- * Checks whether a given string is a valid personal name.
+ * Validates a full name input, ensuring it contains at least a first and last name.
  *
- * A valid name:
- * - contains only letters (including umlauts), spaces and hyphens
- * - has a minimum length of two characters
+ * Rules:
+ * - Must be between 2 and 50 characters long.
+ * - Must contain at least two words separated by a space, hyphen, or apostrophe.
+ * - Allows letters from any language (Unicode), including accented characters.
  *
- * @param {string} name - The name to validate
- * @returns {boolean} True if the name format is valid, otherwise false
+ * @param {string} name - The full name to validate.
+ * @returns {boolean} Returns true if the name is valid according to the rules, false otherwise.
  */
+
+// function isValidName(name) {
+//     const nameRegex = /^(?=.{2,50}$)[\p{L}]+(?:[ '\-][\p{L}]+)*$/u;
+//     return nameRegex.test(name.trim());
+// }
+
 function isValidName(name) {
-    const nameRegex = /^[A-Za-zÄÖÜäöüß\- ]{2,}$/;
-    return nameRegex.test(name);
+    // Vor- und Nachname, getrennt durch mindestens ein Leerzeichen
+    const nameRegex = /^(?=.{2,50}$)[\p{L}]+(?:[ '\-][\p{L}]+)+$/u;
+    return nameRegex.test(name.trim());
 }
 
 /**
@@ -275,23 +277,24 @@ function isValidName(name) {
  * @param {Event} event - The input, keyup or change event triggered by a password field
  * @returns {void}
  */
+
 function handlePasswordInput(event) {
-    event.stopPropagation();
     const input = event.target;
     const passwordValue = input.value.trim();
+    removeUserFeedbackCheckAllFields();
+    checkInputUserfeedback();
     if (input.id === "password_registration") {
-        showVisibilityIcon(event);
         resetInputState(input, "validpassword");
+        showVisibilityIcon(event);
         if (passwordValue.length > 0 && !isValidPassword(passwordValue)) {
             setInputError(input, "validpassword");
         }
-
+        checkPassword();
     } else if (input.id === "password_confirm") {
+        resetInputState(input, "passwordmatch");
         showVisibilityIcon2(event);
+        checkPassword();
     }
-    removeUserFeedbackCheckAllFields()
-    checkInputUserfeedback();
-    checkPassword();
 }
 
 /**
@@ -391,16 +394,17 @@ function removesRedBorderInput() {
  *
  * @returns {void}
  */
+
 function checkPassword() {
     const passwordInput = document.getElementById("password_registration");
-    const passwordLength = passwordInput.value.length;
-    const passwordInputConfirm = document.getElementById("password_confirm");
-    const passwordConfirmLength = passwordInputConfirm.value.length;
-
-    if (passwordLength <= passwordConfirmLength) {
-        if (passwordInput.value === passwordInputConfirm.value) {
-            console.log("Passwörter stimmen überein");
-        } else { showUserfeedback(); }
+    const passwordConfirm = document.getElementById("password_confirm");
+    const passwordValue = passwordInput.value.trim();
+    const confirmValue = passwordConfirm.value.trim();
+    resetInputState(passwordConfirm, "passwordmatch");
+    if (passwordValue && confirmValue) {
+        if (passwordValue !== confirmValue) {
+            setInputError(passwordConfirm, "passwordmatch"); 
+        }
     }
 }
 
@@ -539,7 +543,6 @@ async function proofEmail(userData) {
         }
         return false;
     } catch (error) {
-        console.error("Fehler beim Prüfen der E-Mail:", error);
         document.getElementById("userfeedback_email_prooffail").classList.remove("d_none")
         return true;
     }
@@ -564,9 +567,7 @@ async function postUserData(event, userData) {
             body: JSON.stringify(userData)
         });
         const responseToJson = await response.json();
-        console.log("Benutzer gespeichert:", responseToJson);
     } catch (error) {
-        console.error("Fehler bei der Registrierung:", error.message, error);
         alert("Ein Fehler ist aufgetreten. Bitte versuche es erneut.");
     }
 }
@@ -581,8 +582,8 @@ function getUserColor() {
         '#FF0000', // red
         '#00FF00', // light-green
         '#0000FF', // blue
-        '#FFFF00', // yellow
-        '#00FFFF', // cyan
+        '#251d53', // darkblue
+        '#124343', // darkgreen
         '#FF00FF',  // magenta
         '#8A2BE2',  // blue-violet
         '#ff8800',  // orange

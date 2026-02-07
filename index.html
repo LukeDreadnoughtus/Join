@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Join</title>
+  <link rel="stylesheet" href="css/fonts.css" />
   <link rel="stylesheet" href="css/keyframe.css" />
   <link rel="stylesheet" href="css/overlay.css" />
   <link rel="stylesheet" href="css/add_task.css" />
@@ -13,7 +14,6 @@
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/header.css" />
   <link rel="stylesheet" href="css/footer.css" />
-  <link rel="stylesheet" href="css/fonts.css" />
   <link rel="stylesheet" href="css/login.css" />
   <link rel="stylesheet" href="css/assets.css" />
   <link rel="stylesheet" href="css/login_res.css" />
@@ -28,6 +28,7 @@
   </div>
   <div class="login_wrapper">
     <div class="login_content">
+      <div class="fill_container"></div>
       <img class="login_icon" src="assets/img/login_join.svg">
       <div class="not_a_join_user">
         <h4><a href="registration.html" class="link_to_registration">Not a Join user?</a></h4>
@@ -39,7 +40,7 @@
         <form class="div_login_form">
           <div class="input-wrapper">
             <input class="input_style input_login margin_input" type="email" id="useremail" placeholder="Email" required
-              autocomplete="email" oninput="checkLoginEmailField(event)" onkeyup="checkLoginEmailField(event)"/>
+             onblur="checkLoginEmailField(event)" oninput="resetInputState(this, 'emailcheck')" autocomplete="email" />
             <img src="assets/img/mail.svg" alt="" class="icon">
             <p class="password_not_match d_none" id="emailcheck">Please enter a valid email address.</p>
           </div>
@@ -60,6 +61,10 @@
               Log In</button>
           </div>
         </form>
+      </div>
+      <div class="not_a_join_user_mobile">
+        <h4><a href="registration.html" class="link_to_registration">Not a Join user?</a></h4>
+        <button class="sign_up_button button_sizeone button_df" onclick="toRegistration()">Sign up</button>
       </div>
       <footer class="footer_login">
         <a href="privacy_policy_logout.html">Privacy Policy</a>

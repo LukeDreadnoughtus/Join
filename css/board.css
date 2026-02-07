@@ -25,7 +25,7 @@
 }
 
 .landscape_blocker {
-    display:none; 
+  display: none;
 }
 
 .d_none {
@@ -69,7 +69,7 @@
   border: 0px;
   gap: 12px;
   cursor: pointer;
-  border:unset; 
+  border: unset;
 }
 
 .plus_svg {
@@ -106,7 +106,7 @@
   display: inline-block;
 }
 
-.board_layout {
+/* .board_layout {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -115,6 +115,17 @@
   width: auto;
   height: auto;
   gap: 10px;
+} */
+
+.board_layout {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-left: 30px;
+  padding-top: 60px;
+  width: 1200px;
+  max-height: 600px;
+  overflow-y: auto;
 }
 
 .board_row {
@@ -144,12 +155,19 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* width: 252px;  */
   width: 290px;
-  /* height: 550px;  */
+  max-height: none;
+  overflow: visible;
+}
+
+/* .board_column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 290px;
   min-height: 200px;
   max-height: 550px;
-}
+} */
 
 .column_head {
   width: 250px;
@@ -403,15 +421,19 @@
   0% {
     transform: rotate(0deg) scale(1.03);
   }
+
   25% {
     transform: rotate(0.8deg) scale(1.03);
   }
+
   50% {
     transform: rotate(0deg) scale(1.03);
   }
+
   75% {
     transform: rotate(-0.8deg) scale(1.03);
   }
+
   100% {
     transform: rotate(0deg) scale(1.03);
   }
@@ -486,7 +508,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 194px;
+  top: 100%;
   background-color: #e7e7e7;
   height: 48px;
   width: 252px;
@@ -498,6 +520,7 @@
   align-items: center;
   justify-content: center;
   margin-top: 15px;
+  z-index: 10;
 }
 
 .font_no_found_task {
@@ -538,20 +561,19 @@
 }
 
 .blue_input {
-  border-color:  #29ABE2;
+  border-color: #29ABE2;
 }
 
 .blue_icon {
-    filter: invert(53%) sepia(80%) saturate(4600%) hue-rotate(180deg) brightness(95%) contrast(90%);
+  filter: invert(53%) sepia(80%) saturate(4600%) hue-rotate(180deg) brightness(95%) contrast(90%);
 }
 
 .user_icon_task_card.overflow_icon {
-    background-color: #2A3647; 
-    color: white;
-    font-size: 16px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background-color: #2A3647;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
