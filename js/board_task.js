@@ -196,133 +196,137 @@ function editTask(id) {
  */
 function renderEdit (id) {
     const taskData = allTasks[id];
-    taskData.duedate = convertToDatePickerFormat(taskData.duedate);
     renderTaskEditCard(taskData)
-    initEditListeners(id);
     highlightCurrentPriority(taskData.priority)
     renderAssignedUserIcons(taskData)
     renderEditSubtasks(taskData)
+    initEditDatepicker()
 }
 
 /**
- * Initializes all input listeners for the edit view of a task.
- * Binds change/input events to keep the task state in sync
- * while the user is editing.
+ * Initializes the flatpickr date picker for the edit task view.
+ * Opens the date picker when the date icon is clicked.
  *
- * @param {number|string} id - The identifier of the task in the allTasks array/object.
+ * @returns {void}
  */
-function initEditListeners(id) {
-    initDateListener(id);
-    initTitleListener(id);
-    initDescriptionListener(id);
-}
+function initEditDatepicker() {
+    const todayISO = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+    const input = document.getElementById("edit_due_date");
+    const nativeInput = document.getElementById("edit_due_date_native");
+    const icon = document.getElementById("date_icon");
+    if (!input || !icon) return;
 
-/**
- * Attaches a change listener to the due date input field.
- * Updates the task's due date whenever the user selects a new date.
- *
- * @param {number|string} id - The identifier of the task in the allTasks array/object.
- */
-function initDateListener(id) {
-    const input = document.getElementById('edit_due_date');
-    const feedback = document.getElementById('pastdate');
-    if (!input) return;
-    if (!feedback) console.warn('Feedback element not found');
-    input.min = getTodayISO();
-   input.addEventListener('change', e => {
-    allTasks[id].duedate = e.target.value;
-    });
-    input.addEventListener('blur', e => {
-        const value = e.target.value;
-        if (isPastDate(value)) {
-            showDateError(input, feedback);
-            e.target.value = allTasks[id].duedate || '';
-        } else {
-            hideDateError(input, feedback);
+    const isMobile = window.matchMedia("(max-width: 539px)");
+
+    const toDDMMYYYY = (iso) => {
+        if (!iso || typeof iso !== "string" || !iso.includes("-")) return "";
+        const [y, m, d] = iso.split("-");
+        if (!y || !m || !d) return "";
+        return `${d.padStart(2, "0")}/${m.padStart(2, "0")}/${y}`;
+    };
+
+    const ddmmyyyyToISO = (val) => {
+        if (!val || typeof val !== "string" || !val.includes("/")) return "";
+        const [d, m, y] = val.split("/");
+        if (!y || !m || !d) return "";
+        return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
+    };
+
+    const syncNativeFromText = () => {
+        if (!nativeInput) return;
+        const iso = ddmmyyyyToISO(input.value.trim());
+        nativeInput.value = iso || "";
+    };
+
+    const syncTextFromNative = () => {
+        if (!nativeInput) return;
+        const formatted = toDDMMYYYY(nativeInput.value);
+        if (formatted) input.value = formatted;
+    };
+
+    // Avoid stacking event listeners when the edit view is re-rendered
+    if (!icon.dataset.datepickerBound) {
+        icon.dataset.datepickerBound = "true";
+        icon.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (isMobile.matches) {
+                if (!nativeInput) return;
+                // Some browsers support showPicker(); fallback to click/focus.
+                if (typeof nativeInput.showPicker === "function") nativeInput.showPicker();
+                else {
+                    nativeInput.focus();
+                    nativeInput.click();
+                }
+            } else {
+                if (input._flatpickr) input._flatpickr.open();
+            }
+        });
+    }
+
+    // Keep native input in sync when user types manually into the text input
+    if (!input.dataset.nativeSyncBound) {
+        input.dataset.nativeSyncBound = "true";
+        input.addEventListener("change", () => {
+            syncNativeFromText();
+        });
+    }
+
+    if (nativeInput && !nativeInput.dataset.textSyncBound) {
+        nativeInput.dataset.textSyncBound = "true";
+        nativeInput.addEventListener("change", () => {
+            syncTextFromNative();
+        });
+    }
+
+    const enableMobile = () => {
+        // Destroy flatpickr to prevent the large popup on very small screens
+        if (input._flatpickr) input._flatpickr.destroy();
+        if (nativeInput) {
+        nativeInput.min = todayISO; // ⬅ verhindert Vergangenheit
         }
-    });
-    input.addEventListener('input', e => {
-        hideDateError(input, feedback);
-    });
-}
-function isPastDate(dateStr) {
-    if (!dateStr) return false;
-    const selected = new Date(dateStr);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return selected < today;
-}
+        syncNativeFromText();
+    };
 
-/** helper: get today's date in yyyy-mm-dd */
-function getTodayISO() {
-    return new Date().toISOString().split('T')[0];
-}
+    const enableDesktop = () => {
+        // Create flatpickr only once per render cycle
+        if (!window.flatpickr || input._flatpickr) {
+            syncNativeFromText();
+            return;
+        }
 
-/** show feedback and add red border class */
-function showDateError(inputEl, feedbackEl) {
-    if (feedbackEl) feedbackEl.classList.remove('d_none');
-    if (inputEl) inputEl.classList.add('input_style_date');
-}
+        const picker = flatpickr(input, {
+            dateFormat: "d/m/Y",
+            allowInput: true,
+            clickOpens: false,
+            minDate: "today",
+            onChange: (_selectedDates, dateStr) => {
+                // Hard-sync to the visible input to avoid "selection not applied" issues
+                input.value = dateStr;
+                syncNativeFromText();
+            },
+            onClose: (_selectedDates, dateStr) => {
+                input.value = dateStr;
+                syncNativeFromText();
+            },
+        });
 
-/** hide feedback and remove red border class */
-function hideDateError(inputEl, feedbackEl) {
-    if (feedbackEl) feedbackEl.classList.add('d_none');
-    if (inputEl) inputEl.classList.remove('input_style_date');
-}
+        // If there is already a date in the input, make sure flatpickr picks it up.
+        if (input.value) picker.setDate(input.value, false, "d/m/Y");
+        syncNativeFromText();
+    };
 
-/**
- * Attaches an input listener to the title textarea.
- * Keeps the task title updated in real time while typing.
- *
- * @param {number|string} id - The identifier of the task in the allTasks array/object.
- */
-function initTitleListener(id) {
-    const input = document.getElementById('edit_title');
-    if (!input) return;
+    // Initial mode selection
+    if (isMobile.matches) enableMobile();
+    else enableDesktop();
 
-    input.addEventListener('input', e => {
-        allTasks[id].title = e.target.value;
-    });
-}
-
-/**
- * Attaches an input listener to the description textarea.
- * Keeps the task description updated in real time while typing.
- *
- * @param {number|string} id - The identifier of the task in the allTasks array/object.
- */
-function initDescriptionListener(id) {
-    const input = document.getElementById('edit_description');
-    if (!input) return;
-
-    input.addEventListener('input', e => {
-        allTasks[id].description = e.target.value;
-    });
-}
-
-
-/**
- * Converts a date string into the ISO format required by native date inputs.
- * Supports conversion from "dd/mm/yyyy" to "yyyy-mm-dd".
- * If the date is already in ISO format, it is returned unchanged.
- *
- * @param {string} dateStr - The date string to convert.
- * @returns {string} The converted date string in "yyyy-mm-dd" format,
- *                   or an empty string if the input is invalid.
- */
-function convertToDatePickerFormat(dateStr) {
-    if (!dateStr) return '';
-    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
-        return dateStr;
+    // React to viewport changes
+    if (!input.dataset.responsiveDpBound) {
+        input.dataset.responsiveDpBound = "true";
+        const handler = (e) => (e.matches ? enableMobile() : enableDesktop());
+        if (typeof isMobile.addEventListener === "function") isMobile.addEventListener("change", handler);
+        else isMobile.addListener(handler); // Safari fallback
     }
-    if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
-        const [day, month, year] = dateStr.split('/');
-        return `${year}-${month}-${day}`;
-    }
-    console.warn('Unbekanntes Datumsformat:', dateStr);
-    return '';
 }
-
 
 /**
  * Highlights the currently selected priority button in the edit view.

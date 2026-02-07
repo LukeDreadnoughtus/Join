@@ -203,14 +203,17 @@ function showPassword3(event) {
  * @param {Event} event - The input or keyup event triggered by the login email field
  * @returns {void}
  */
-
 function checkLoginEmailField(event) {
-    const emailInput = event.target;                
+    event.stopPropagation();
+    const emailInput = document.getElementById("useremail");
     const emailValue = emailInput.value.trim();
-    resetInputState(emailInput, "emailcheck");
+    if (emailInput.classList.contains("input_style_red")) {
+        resetInputState(emailInput, "emailcheck");
+    }
     if (emailValue.length > 0 && !isValidEmail(emailValue)) {
-        setInputError(emailInput, "emailcheck"); 
+        setInputError(emailInput, "emailcheck");
     }
 }
+
 
  

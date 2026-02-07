@@ -188,31 +188,14 @@ function getUserIconData(user) {
  * @returns {Promise<Array<{userId: string, name: string, color: string}>>}
  *          A promise resolving to an array of user objects
  */
-// async function fetchAllUsers() {
-//     try {
-//         const response = await fetch(pathUser + ".json");
-//         const userData = await response.json();
-//         return Object.entries(userData).map(([userId, data]) => ({
-//             userId,
-//             name: data.name,
-//             color: data.color
-//         }));
-//     } catch (error) {
-//         console.error("Fehler beim Laden der User:", error);
-//         alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
-//         return [];
-//     }
-// }
-
 async function fetchAllUsers() {
     try {
         const response = await fetch(pathUser + ".json");
         const userData = await response.json();
-
         return Object.entries(userData).map(([userId, data]) => ({
             userId,
             name: data.name,
-            color: data.color || data.colors || "#393737ff"
+            color: data.color
         }));
     } catch (error) {
         console.error("Fehler beim Laden der User:", error);
@@ -220,7 +203,6 @@ async function fetchAllUsers() {
         return [];
     }
 }
-
 
 /**
  * Toggles the assignment of a user to a task.
@@ -442,30 +424,11 @@ async function updateTaskInFirebase(id, data) {
  * @param {string} dateStr - Date string in DD/MM/YYYY format
  * @returns {string} Converted date string in YYYY-MM-DD format
  */
-// function convertDateToFirebaseFormat(dateStr) {
-//     if (!dateStr) return dateStr;
-//     const [day, month, year] = dateStr.split("/");
-//     return `${year}-${month}-${day}`;
-// }
-
-/**
- * Convert a date string to Firebase format (yyyy-mm-dd)
- * Supports dd/mm/yyyy or yyyy-mm-dd input.
- * @param {string} dateStr
- * @returns {string} formatted date
- */
 function convertDateToFirebaseFormat(dateStr) {
-    if (!dateStr) return "";
-    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
-        return dateStr;
-    }
-    if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
-        const [day, month, year] = dateStr.split("/");
-        return `${year}-${month}-${day}`;
-    }
-    return "";
+    if (!dateStr) return dateStr;
+    const [day, month, year] = dateStr.split("/");
+    return `${year}-${month}-${day}`;
 }
-
 
 /**
  * Deletes a task from Firebase and removes it locally.
@@ -541,8 +504,8 @@ async function confirmDeleteTask(event) {
 
 function toggleUserOption(color, name, taskId, containerDiv) {
     const checkbox = containerDiv.querySelector(".user_checkbox");
-    checkbox.checked = !checkbox.checked; 
-    toggleAssignedUsers(color, name, taskId, checkbox); 
+    checkbox.checked = !checkbox.checked; // toggle checkbox
+    toggleAssignedUsers(color, name, taskId, checkbox); // rufe bestehende Funktion auf
 }
 
 

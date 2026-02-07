@@ -16,12 +16,11 @@
 
 .login_content {
   max-width: 1440px;
-  /* height:100vh;  */
   width: 100%;
-  /* position: relative;  */
+  position: relative; 
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center; 
   flex: 1;
 }
@@ -32,7 +31,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
   flex: 1;
 }
@@ -193,9 +192,6 @@
     width: 422px; 
     box-sizing: border-box;
     padding-right: 40px;      
-    padding-left: 20px; 
-    font-size: 20px;
-    font-family: "inter";
 }
 
 
@@ -216,17 +212,14 @@
 
 .input_login {
     height: 48px; 
-    width: 422px;
-    padding-left: 20px; 
-    font-size: 20px; 
-    font-family: "inter";
+    width: 422px; 
 }
 
 .div_login input::placeholder {
     font-weight: 400;
     font-size: 20px;
     color: #D1D1D1; 
-    padding-left: 0px
+    padding-left: 15px
 }
 
 .div_login_form{
@@ -266,7 +259,7 @@
   font-family: "inter";
   color: rgb(48, 47, 47); 
   gap:8px; 
-  margin-top: 44px; 
+  margin-top: 24px; 
   margin-bottom: 24px; 
   margin-left: 104px; 
 }
@@ -317,7 +310,7 @@
     font-weight: 400;
     font-size: 20px;
     color: #D1D1D1;
-    padding-left: 0px 
+    padding-left: 15px 
 }
 
 a {
@@ -354,7 +347,7 @@ a {
     align-items: center;
     gap: 50px;
     font-size: 16px;
-    margin-top: 70px; 
+    margin-top: 150px; 
 }
 
 
@@ -401,7 +394,7 @@ a {
     background-color: #2A3647;
     color: white; 
     border-radius: 10px; 
-    top:75px; 
+    top:790px; 
     left:50%; 
     transform: translateX(-50%);
     width: 350px; 
@@ -455,30 +448,10 @@ a {
 }
 
 .password_not_match {
-    font-size: 16px; 
+    font-size: 12px; 
     color: red; 
     margin-bottom:15px; 
     margin-top:0px; 
     position:absolute; 
-    margin-left:5px; 
-
 }
 
-.not_a_join_user_mobile {
- justify-content:center; 
- align-items: center; 
- margin-top: 80px; 
- display: none; 
-}
-
-.fill_container {
-    height: 200px;
-    width:100%; 
-    background-color:transparent;
-}
-
-.fill_container_sign_up {
-    height: 200px;
-    width:100%; 
-    background-color:transparent;
-}

@@ -29,11 +29,23 @@
   }
 
  
+  /*
+    Scroll-Fix (mobile/tablet):
+    The sidebar (.left) becomes a fixed bottom navigation bar.
+    Padding on `main.content` does NOT create additional scroll range because
+    `main.content` has `overflow: hidden` and a fixed viewport height.
+
+    Therefore we add the extra space to the actual scroll container
+    (`.content-scroll`) so the user can scroll far enough to see the last
+    elements above the bottom nav.
+  */
   main.content {
-    /* extra space so content doesn't get hidden behind bottom nav */
-    /* matches the nav height + some breathing room */
-    /* avoids awkward "last item covered" scrolling issues */
-    padding-bottom: 110px;
+    padding-bottom: 0;
+  }
+
+  .content-scroll {
+    padding-bottom: 140px; /* nav height (96px) + breathing room */
+    box-sizing: border-box;
   }
 
  
@@ -286,4 +298,25 @@
   width: 100%;
   
 }
+}
+
+}
+
+
+/* Scroll-Fix: Header bleibt stehen, Scrollbar beginnt unter dem Header.
+   Extra bottom space so you can scroll "100px further down". */
+@media (min-width: 1000px) and (max-height: 800px) {
+  html, body {
+    overflow: hidden; /* prevent body scrolling behind the fixed layout */
+  }
+
+  .content-scroll {
+    /*
+      On very small viewport heights the last KPI row can otherwise end up
+      "stuck" under the fold because the outer layout is locked to 100vh.
+      A larger bottom padding creates additional scroll range.
+    */
+    padding-bottom: 180px;
+    box-sizing: border-box;
+  }
 }

@@ -18,7 +18,6 @@ function handleAddTaskClick(e, overlay, boardSlotSelect) {
         buildCategoryDropdown?.();
         wireSubtaskInputRow?.();
         requiredFieldMarker?.();
-        setMinDueDate?.();
     }, 
     50);
 }
@@ -53,7 +52,6 @@ function alertUserDataFetchOnce() {
     alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
 }
 
-
 /**
  * Initializes the board after the page has loaded.
  * Prevents the default event, removes user feedback,
@@ -65,22 +63,10 @@ function alertUserDataFetchOnce() {
  */
 async function init() {
     removeUserfeedback()
-    await getUserData();
     await showTasks()
     checkNoTasks();
     renderUserIcon();
 }
-
-let cachedUserData = null;
-
-async function getUserData() {
-    if (cachedUserData) return cachedUserData;
-
-    const response = await fetch(pathUser + ".json");
-    cachedUserData = await response.json();
-    return cachedUserData;
-}
-
 
 /**
  * Hides the user feedback element if it is currently visible.
@@ -133,7 +119,6 @@ async function renderAllTasks(tasks) {
         taskTemplate(taskData);
     }
 }
-
 /**
  * Builds a complete task data object from raw task data.
  *
@@ -238,35 +223,18 @@ function formatDateDDMMYYYY(dateInput) {
  * @param {string[]} currentAssignedUserids - Array of user IDs
  * @returns {Promise<string[]>} Array of user names
  */
-
 async function fetchUserNames(currentAssignedUserids) {
+    let assignedUsers = [];
     try {
-        const userData = await getUserData();
-        return currentAssignedUserids.map(id =>
-            findUserName(id, userData)
-        );
+        const response = await fetch(pathUser + ".json");
+        const userData = await response.json();
+        for (const user of currentAssignedUserids) {
+            let userName = findUserName(user, userData)
+            assignedUsers.push(userName)
+        }
+        return assignedUsers
     } catch (error) {
         console.error("Fehler beim Laden der Usernamen:", error);
-        alertUserDataFetchOnce();
-        return [];
-    }
-}
-/**
- * Fetches color values for assigned users by their IDs.
- *
- * @async
- * @param {string[]} currentAssignedUserids - Array of assigned user IDs
- * @returns {Promise<string[]>} Array of user color values
- */
-
-async function fetchUsercolors(currentAssignedUserids) {
-    try {
-        const userData = await getUserData();
-        return currentAssignedUserids.map(id =>
-            findUserColor(id, userData)
-        );
-    } catch (error) {
-        console.error("Fehler beim Laden der Farben:", error);
         alertUserDataFetchOnce();
         return [];
     }
@@ -316,27 +284,41 @@ function currentCategoryColor(currentCategory) {
 }
 
 /**
+ * Fetches color values for assigned users by their IDs.
+ *
+ * @async
+ * @param {string[]} currentAssignedUserids - Array of assigned user IDs
+ * @returns {Promise<string[]>} Array of user color values
+ */
+async function fetchUsercolors(currentAssignedUserids) {
+    let assignedUsercolors = [];
+    try {
+        const response = await fetch(pathUser + ".json");
+        const userData = await response.json();
+        for (const user of currentAssignedUserids) {
+            let userColor = findUserColor(user, userData)
+            assignedUsercolors.push(userColor)
+        }
+        return assignedUsercolors
+    } catch (error) {
+        console.error("Fehler beim Laden der Farben:", error);
+        alertUserDataFetchOnce();
+        return [];
+    }
+}
+
+/**
  * Finds the color assigned to a user.
  *
  * @param {string} user - User ID
  * @param {Object} userData - Object containing all user data
  * @returns {string} User color or default color as fallback
  */
-// function findUserColor(user, userData) {
-//     const searchedUser = userData[user];
-//     let userColor = searchedUser.color || "#393737ff";
-//     return userColor
-// }
-
-function findUserColor(userId, userData) {
-    const searchedUser = userData[userId];
-    if (!searchedUser) return "#393737ff"; // user nicht gefunden
-
-    // fallback: color → colors → default
-    const userColor = searchedUser.color || searchedUser.colors || "#393737ff";
-    return userColor;
+function findUserColor(user, userData) {
+    const searchedUser = userData[user];
+    let userColor = searchedUser.color || "#393737ff";
+    return userColor
 }
-
 
 /**
  * Checks if board columns contain no rendered tasks.
@@ -410,8 +392,8 @@ function searchTask() {
     toggleInputHighlight(inputElement, iconElement, input !== "");
     clearBoardSlots();
     renderBoardBasics()
-    toggleNoTasksFound_Header(false);
-    renderFilteredTasks_Header(tasksArray, input)
+    toggleNoTasksFound(false);
+    renderFilteredTasks(tasksArray, input)
 }
 
 function renderFilteredTasks(tasksArray, input) {
@@ -421,20 +403,6 @@ function renderFilteredTasks(tasksArray, input) {
         const filteredTasks = filterTasks(tasksArray, input);
         if (filteredTasks.length === 0) {
             toggleNoTasksFound(true);
-            return;
-        }
-        filteredTasks.forEach(task => taskTemplate(task));
-    }
-    checkNoTasks();
-}
-
-function renderFilteredTasks_Header(tasksArray, input) {
-    if (!input) {
-        tasksArray.forEach(task => taskTemplate(task));
-    } else {
-        const filteredTasks = filterTasks(tasksArray, input);
-        if (filteredTasks.length === 0) {
-            toggleNoTasksFound_Header(true);
             return;
         }
         filteredTasks.forEach(task => taskTemplate(task));
@@ -501,12 +469,6 @@ function toggleNoTasksFound(show) {
     const element = document.getElementById("no_tasks_found");
     element.classList.toggle("d_none", !show);
 }
-
-function toggleNoTasksFound_Header(show) {
-    const element = document.getElementById("no_tasks_found_header");
-    element.classList.toggle("d_none", !show);
-}
-
 
 /**
  * Creates a single user icon for a task card.
