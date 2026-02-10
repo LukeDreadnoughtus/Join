@@ -1,3 +1,11 @@
+function checkAuth() {
+    if (!localStorage.getItem('userid')) {
+        window.location.replace('index.html');
+    }
+    document.documentElement.style.visibility = 'visible';
+    document.body.style.visibility = 'visible';
+}
+
 checkAuth();
 /**
  * @fileoverview Add Task module - Handles task creation, form validation, and Firebase integration

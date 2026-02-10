@@ -10,7 +10,7 @@
     background-color: #FFFFFF;
     z-index: 1000;
     top: 16px;
-    left: 40%;
+    left: 50%;
     transform: translateX(-50%);
     box-sizing: border-box; 
 }
