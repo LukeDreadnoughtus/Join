@@ -118,6 +118,7 @@ function checkAuth() {
     if (!localStorage.getItem('userid')) {
         window.location.replace('index.html');
     }
+    document.documentElement.style.visibility = 'visible';
     document.body.style.visibility = 'visible';
 }
 
