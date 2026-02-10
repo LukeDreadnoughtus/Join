@@ -71,11 +71,27 @@ function extractSubtaskItemData(item) {
 async function createTask(event) {
     event.preventDefault();
     if (!validateForm()) return;
+    disableFormButtons(true);
     const newTask = getTaskDataFromForm();
     try {
         await saveTaskToFirebase(newTask);
     } catch (error) {
         console.error("Firebase error:", error);
+        disableFormButtons(false);
+    }
+}
+
+
+/**
+ * Enables or disables all interaction while task is being created
+ * @param {boolean} disabled - Whether interaction should be blocked
+ */
+function disableFormButtons(disabled) {
+    const overlay = document.getElementById('overlay');
+    if (overlay && !overlay.classList.contains('overlay_hidden')) {
+        overlay.classList.toggle("task-creating", disabled);
+    } else {
+        document.body.classList.toggle("task-creating", disabled);
     }
 }
 
@@ -140,6 +156,10 @@ function validateField(id) {
         : String(field.getAttribute("data-selected") ?? "").trim();
     if (!value) {
         markFieldAsInvalid(field);
+        return false;
+    }
+    if (id === "task-due-date" && value < getTodayString()) {
+        markFieldWithCustomError(field, "Due date must be today or in the future");
         return false;
     }
     return true;
@@ -275,11 +295,12 @@ function reloadBoardIfOnBoardPage() {
     if (currentPage.toLowerCase() === 'add_task.html') {
         window.location.href = 'board.html';
     } else if (currentPage.toLowerCase() === 'board.html' && typeof init === 'function') {
-        // Close the overlay
         const overlay = document.getElementById('overlay');
         if (overlay) {
+            overlay.classList.remove('task-creating');
             overlay.classList.add('overlay_hidden');
         }
+        document.body.classList.remove('task-creating');
         // Clear and reload the board
         if (typeof allTasks !== 'undefined') {
             allTasks = {};
@@ -595,16 +616,59 @@ function initializeUI() {
 
 
 /**
- * Sets the minimum selectable due date to today
+ * Sets the minimum selectable due date to today and wires up live validation
  */
 function setMinDueDate() {
     const dueDate = document.getElementById("task-due-date");
     if (!dueDate) return;
+    dueDate.min = getTodayString();
+    dueDate.addEventListener("input", validateDueDateNotPast);
+    dueDate.addEventListener("change", validateDueDateNotPast);
+}
+
+
+/**
+ * Returns today's date as a YYYY-MM-DD string
+ * @returns {string}
+ */
+function getTodayString() {
     const today = new Date();
     const yyyy = today.getFullYear();
     const mm = String(today.getMonth() + 1).padStart(2, "0");
     const dd = String(today.getDate()).padStart(2, "0");
-    dueDate.min = `${yyyy}-${mm}-${dd}`;
+    return `${yyyy}-${mm}-${dd}`;
+}
+
+
+/**
+ * Validates that the due date is not in the past (live validation on input/change)
+ */
+function validateDueDateNotPast() {
+    const dueDate = document.getElementById("task-due-date");
+    if (!dueDate) return;
+    clearFieldError("task-due-date");
+    const value = dueDate.value;
+    if (!value) return;
+    if (value < getTodayString()) {
+        markFieldWithCustomError(dueDate, "Due date must be today or in the future");
+    }
+}
+
+
+/**
+ * Marks a field as invalid with a custom error message
+ * @param {HTMLElement} field - The field element to mark as invalid
+ * @param {string} message - The error message to display
+ */
+function markFieldWithCustomError(field, message) {
+    field.classList.add("input-error");
+    const existing = document.getElementById(`error-${field.id}`);
+    if (existing) existing.remove();
+    const error = document.createElement("span");
+    error.id = `error-${field.id}`;
+    error.className = "error-message";
+    error.textContent = message;
+    field.insertAdjacentElement("afterend", error);
 }
 
 document.addEventListener("DOMContentLoaded", initAddTask);
