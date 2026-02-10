@@ -26,56 +26,51 @@
 .add-task-page,
 html.add-task-page {
   height: 100%;
-  overflow: hidden;
+  max-height: 1080px;
 }
 
 .task_main_wrapper {
-  max-height: calc(100vh - 96px);
-  overflow-y: hidden;
-  padding-bottom: 150px;
   max-width: 1440px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .add-task-page .page {
   height: 100vh;
-  overflow: hidden;
+  max-height: 1080px;
 }
 
 .add-task-page .page .content {
   height: 100vh;
-  overflow: hidden;
+  max-height: 1080px;
 }
 
-/* keep page itself from scrolling on add task; only the wrapper scrolls */
-.page .content {
-  overflow-y: hidden;
-  height: 100vh;
-}
 .add_task_heading {
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 24px;
-  margin-bottom: 50px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+  margin-top: 60px;
+  padding-left: 7%;
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box;
 }
 
 .split_container {
   display: flex;
   align-items: stretch;
+  justify-content: center;
   width: 100%;
+  max-width: 1200px;
   min-height: 450px;
   box-sizing: border-box;
   gap: 50px;
-  justify-content: center;
+  margin-top: 24px;
 }
 
 .left_split,
 .right_split {
   flex: 1;
+  max-height: 400px;
 }
 .left_split {
   max-height: 376px;
@@ -269,6 +264,8 @@ html.add-task-page {
   flex-direction: row;
   gap: 16px;
   justify-content: flex-end;
+  align-items: center;
+  height: 48px;
 }
 
 .task_controls_buttons .add_task_create_button {
@@ -285,7 +282,7 @@ html.add-task-page {
   border-radius: 10px;
   border: 0;
   transition: background-color 0.1s ease;
-  border:unset; 
+  border: unset;
 }
 
 .add_task_create_button:hover {
@@ -344,4 +341,9 @@ html.add-task-page {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.footer_buttons {
+  max-width: 1200px;
+  width: 100%;
 }

@@ -11,39 +11,6 @@
 (function () {
   const root = document.documentElement;
 
-  // Lock all scrolling for very small handset viewports.
-  // CSS handles most cases, but iOS can still "rubber-band" unless we
-  // actively prevent touchmove.
-  const scrollLockQuery = window.matchMedia('(max-width: 376px) and (max-height: 668px)');
-  let scrollLocked = false;
-
-  /** @param {Event} e */
-  function preventScroll(e) {
-    // allow taps/clicks, block the scroll gesture
-    e.preventDefault();
-  }
-
-  function setScrollLock(shouldLock) {
-    if (shouldLock === scrollLocked) return;
-    scrollLocked = shouldLock;
-
-    const content = document.querySelector('.content-scroll');
-
-    if (shouldLock) {
-      // Hard-stop any existing scroll position.
-      if (content) content.scrollTop = 0;
-      window.scrollTo(0, 0);
-
-      // iOS/Android: prevent the swipe gesture from moving the viewport.
-      document.addEventListener('touchmove', preventScroll, { passive: false });
-      // Desktop trackpads: avoid inertial "bounce".
-      document.addEventListener('wheel', preventScroll, { passive: false });
-    } else {
-      document.removeEventListener('touchmove', preventScroll, { passive: false });
-      document.removeEventListener('wheel', preventScroll, { passive: false });
-    }
-  }
-
   
   function applyKpiLabelLineBreaks(w) {
     const shouldBreak = w < 1000;
@@ -112,13 +79,9 @@
 
   function applyBreakpointClasses() {
     const w = window.innerWidth || root.clientWidth || 0;
-    const h = window.innerHeight || 0;
     root.classList.toggle('is-below-1024', w < 1025);
     root.classList.toggle('is-below-600', w < 601);
     root.classList.toggle('is-below-1000', w < 1000);
-
-    // Keep scroll lock in sync for tiny viewports.
-    setScrollLock(scrollLockQuery.matches && (h > 0 ? h <= 668 : true));
 
     applySummaryLayoutVars(w);
     applyKpiLabelLineBreaks(w);
@@ -127,14 +90,6 @@
 
   // Initial
   applyBreakpointClasses();
-
-  // MatchMedia change handler (covers some mobile browsers without resize events)
-  if (typeof scrollLockQuery.addEventListener === 'function') {
-    scrollLockQuery.addEventListener('change', (e) => setScrollLock(e.matches));
-  } else if (typeof scrollLockQuery.addListener === 'function') {
-    // Safari < 14
-    scrollLockQuery.addListener((e) => setScrollLock(e.matches));
-  }
 
   // Update on resize/orientation changes
   window.addEventListener('resize', applyBreakpointClasses, { passive: true });

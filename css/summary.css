@@ -1,4 +1,35 @@
 /* Summary page KPI buttons layout */
+
+/*
+  Scroll handling
+  - Prevent the full page from being scrollable/draggable.
+  - Only the summary content area scrolls (below the header).
+*/
+
+html,
+body {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.page {
+  overflow: hidden;
+}
+
+.page .content {
+  height: 100vh;
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-scroll {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 110px;
+  -webkit-overflow-scrolling: touch;
+}
 .summary-grid{
   display: grid;
 

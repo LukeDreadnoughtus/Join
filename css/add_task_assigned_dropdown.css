@@ -89,11 +89,6 @@
   caret-color: #000;
 }
 
-.task_main_wrapper .footer {
-  bottom: 0;
-  z-index: 5;
-}
-
 .select-options::-webkit-scrollbar {
   width: 10px;
 }

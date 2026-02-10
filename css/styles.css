@@ -22,7 +22,7 @@ body {
   display: grid;
   grid-template-columns: 16.5% 1fr;
   height: 100vh;
-  
+  overflow-y: hidden;
   
   /* max-width: 1440px; minus menü  232px und dann header position absolute +  page 96 margin top*/
   background-color: #f5f5f5;
@@ -90,16 +90,24 @@ body {
 }
 
 /*
-  Desktop sidebar alignment fix:
-  Ensure each .link-row is full width and left-aligned inside the sidebar.
-  This keeps "Board" on the same horizontal line/left padding as the other items.
-  (More specific than .main-links .link-row rules below.)
+  Desktop sidebar (<= 2024px):
+  Standardize hover/active background tile size WITHOUT affecting very large desktops (> 2024px).
 */
-.left .main-links .link-row {
-  width: 100%;
-  justify-content: center;
-  padding: 10px 24px;
-  box-sizing: border-box;
+@media (max-width: 2024px) and (min-width: 1025px) {
+  .left .main-links .link-row {
+    width: 184px;
+    height: 46px;
+    margin: 0 auto;
+    justify-content: flex-start;
+    padding: 0 24px;
+    box-sizing: border-box;
+    border-radius: 10px;
+  }
+}
+/* Keep sidebar hover/active visuals standardized (no scaling) */
+.left .main-links .link-row:not(.is-active):hover,
+.left .main-links .link-row:not(.is-active):focus-visible {
+  transform: none;
 }
 
 .left .link-icon {
@@ -157,12 +165,11 @@ body {
 }
 
 .left .link-text--board {
-  transform: scale(0.7);
+  /* keep label at its natural size (no scaling) */
+  transform: none;
   transform-origin: left center;
-  /* Board label is visually larger, so we shrink it */
-  /* Anchor scaling to the left so it stays aligned */
-  /* Quick tweak without touching the asset itself */
 }
+
 
 .main-links {
   display: grid;
@@ -187,7 +194,7 @@ body {
   justify-content: center;
   margin: 0 !important;
   box-sizing: border-box;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.2s ease;
   /* Full-size clickable tile per nav item */
   /* Smooth hover feel with subtle scale + bg */
   /* Forcing margin reset so layout stays clean */
@@ -207,19 +214,17 @@ body {
 
 .main-links .link-row:not(.is-active):hover {
   background-color: rgba(255, 255, 255, 0.08);
-  transform: scale(1.03);
   /* Hover highlight only if it's not the active page */
-  /* Slight scale makes it feel interactive */
+  /* No scaling: hover area keeps a fixed size */
   /* Low opacity so it stays subtle on dark bg */
 }
 
 .main-links .link-row:not(.is-active):focus-visible {
   outline: 2px solid rgba(255, 255, 255, 0.35);
   outline-offset: 2px;
-  transform: scale(1.02);
   /* Keyboard focus state that is actually visible */
   /* Offset so outline doesn't clip into the tile */
-  /* Slight scale but less aggressive than hover */
+  /* No scaling: focus area keeps a fixed size */
 }
 
 .main-links .link-row.is-active {
@@ -409,21 +414,14 @@ body {
 
 .page .content {
   height: 100vh;
-   /* header stays put; scrolling happens in .content-scroll */
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-.content-scroll {
-  flex: 1 1 auto;
   overflow-y: auto;
-  
-  min-height: 0; /* critical for flex overflow */
+  /* Main content column scrolls independently */
+  /* Keeps the sidebar fixed visually */
+  /* Full height so scrolling is stable */
 }
 
 body.contacts-page .page .content {
-  
+  overflow-y: hidden;
   /* Contacts page handles its own scrolling */
   /* Prevents double-scroll issues */
   /* Keeps layout consistent for that view */
