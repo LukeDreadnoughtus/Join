@@ -15,7 +15,7 @@ body {
 .page {
   overflow: hidden;
 }
-
+ 
 .page .content {
   height: 100vh;
   overflow: hidden !important;

@@ -7,12 +7,9 @@ body {
   flex-direction: column;
 }
 
-/* body {
-  font-family: Arial, sans-serif;
-  background: #f0f0f0;
-} */
 
-body {
+
+body { 
   font-family: "inter";
   font-size: 16px;
 }

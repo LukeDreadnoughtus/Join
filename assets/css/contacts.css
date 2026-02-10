@@ -180,7 +180,7 @@ main.content .contacts_name_row.is-selected .contacts_name{
   /* - Contact name in detail header. - Slightly larger + bold. - Keeps hierarchy clear. */
 }
 .detail_edit{
-  font-size:12px;
+  font-size:16px;
   opacity:.8;
   cursor:pointer;
   margin-top:2px;
@@ -332,7 +332,7 @@ body.contacts-page .contacts_modal_content{
 }
 
 .detail_delete{
-  font-size:12px;
+  font-size:16px;
   opacity:.8;
   cursor:pointer;
   margin-top:2px;
