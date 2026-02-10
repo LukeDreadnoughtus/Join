@@ -1,3 +1,4 @@
+checkAuth();
 /**
  * @fileoverview Add Task module - Handles task creation, form validation, and Firebase integration
  * @author Join Team

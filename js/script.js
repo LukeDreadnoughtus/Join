@@ -1,6 +1,4 @@
-
-
-
+checkAuth();
 (() => {
   const ACTIVE_COLOR = '#091931';
 
@@ -109,15 +107,21 @@ function closeUserMenu() {
  * @param {Event} event - The click event triggering the logout.
  */
 function logoutUser(event) {
-  event.preventDefault();
-  localStorage.removeItem('username')
-  localStorage.removeItem('userid')
-  localStorage.removeItem('usercolor')
+    event.preventDefault();
 
- 
-
-  window.location.href = 'index.html';
+    localStorage.removeItem('username');
+    localStorage.removeItem('userid');
+    localStorage.removeItem('usercolor');
+    window.location.replace('index.html');
 }
+
+function checkAuth() {
+    if (!localStorage.getItem('userid')) {
+        window.location.replace('index.html');
+    }
+}
+
+
 //Help_page
 /**
  * Navigates back to the previous page in the browser history.
