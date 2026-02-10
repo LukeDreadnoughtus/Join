@@ -1,4 +1,3 @@
-checkAuth();
 (() => {
   const ACTIVE_COLOR = '#091931';
 
@@ -119,6 +118,7 @@ function checkAuth() {
     if (!localStorage.getItem('userid')) {
         window.location.replace('index.html');
     }
+    document.body.style.visibility = 'visible';
 }
 
 
