@@ -306,3 +306,47 @@ body.contacts-page .overlay_userfeedback_sign_up{
 
 /* Ensure d_none always wins over component display rules */
 .d_none { display: none !important; }
+
+
+/* ===== Desktop Fix: More space for detail_name ===== */
+@media (min-width: 701px) {
+  .contact_detail_root {
+    max-width: 520px;
+  }
+
+  .detail_row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .detail_avatar {
+    flex: 0 0 120px;
+  }
+
+  .detail_name {
+    flex: 1 1 auto;
+    min-width: 0;
+    word-break: break-word;
+    white-space: normal;
+  }
+}
+
+
+
+/* === Scroll Fix v2: contact_detail_root full height handling === */
+html, body {
+    height: 100%;
+    overflow: hidden !important;
+}
+
+.page, main, .content {
+    height: 100vh;
+    overflow: hidden !important;
+}
+
+.contact_detail_root {
+    height: calc(100vh - 140px);
+    max-height: calc(100vh - 140px);
+    overflow-y: auto !important;
+}

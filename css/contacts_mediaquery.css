@@ -57,9 +57,7 @@
     display: none;
   }
 
-  body.contacts-page.contacts-overlay-open {
-    overflow: hidden;
-  }
+ 
 
  
   body.contacts-page.contacts-overlay-open header {
@@ -406,7 +404,7 @@
     flex:1;
     justify-content:flex-start;
 
-    padding:calc(var(--contacts-avatar-size) / 2 + 36px) 24px 24px 24px;
+    padding:calc(var(--contacts-avatar-size) / 2 + 4px) 24px 24px 24px;
     box-sizing:border-box;
     overflow:auto;
   }
@@ -491,8 +489,36 @@
     /* Keeps the hierarchy clear without bolding everything */
     font-size: 20px;
   }
+
+  .detail_name{
+    font-size: 36px;
+  }
+
+ h4{
+  font-size: 16px;
+  font-weight: 700;
+ }
 }
 
 
 /* Ensure d_none always wins over component display rules */
 .d_none { display: none !important; }
+
+
+
+/* === Scroll Fix v2: contact_detail_root full height handling === */
+html, body {
+    height: 100%;
+    overflow: hidden !important;
+}
+
+.page, main, .content {
+    height: 100vh;
+    overflow: hidden !important;
+}
+
+.contact_detail_root {
+    height: calc(100vh - 140px);
+    max-height: calc(100vh - 340px);
+    overflow-y: auto !important;
+}
