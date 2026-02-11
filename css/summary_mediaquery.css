@@ -95,15 +95,7 @@
     gap: 12px !important;
   }
 
- .summary-btn h4{
-  font-size: 16px;
-  font-weight: 400 !important;
- }
-
- .summary-btn__duedate{
-  font-size: 16px;
-  font-weight: 700;
- }
+ 
   .summary-btn--board,
   .summary-btn--progress,
   .summary-btn--feedback{
@@ -126,19 +118,14 @@
   }
 
   .summary-btn--board h4,
-  
+  .summary-btn--progress h4,
   .summary-btn--feedback h4{
     /* Drops font size so titles don’t wrap too aggressively */
     /* Keeps all three buttons visually consistent */
     /* Prevents headings from pushing the layout taller than needed */
     font-size: 16px;
   }
-
-  .summary-btn--progress h4,{
-    font-size: 14px;
-  }
 }
-
 
 
 @media (max-width: 600px) {
@@ -150,10 +137,7 @@
     align-items: flex-start;
     gap: 8px;
   }
-.summary-btn__icon-img--urgent{
-    width: 40px;
-  height: 40px;
-}
+
  
   .summary-headline__brand {
     /* Puts the brand first in the mobile stack */
@@ -165,7 +149,6 @@
     /* Places the headline text under the brand */
     /* Makes the reading flow feel more natural on mobile */
     order: 2;
-    font-size: 20px;
   }
 
  
@@ -190,6 +173,18 @@
     /* Uses a CSS var so it’s easy to tweak globally */
     /* Ensures buttons don’t become too tall/huge */
     height: var(--summary-btn-height, 128px) !important;
+  }
+
+  
+    .text_urgent-specialsize
+    {
+      font-size: 16px !important;
+      font-weight: 400 !important;
+    }
+  .summary-btn h4
+  {
+    font-size: 16px !important;
+      font-weight: 400 !important;
   }
 }
 

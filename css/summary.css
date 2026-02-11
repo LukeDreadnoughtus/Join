@@ -8,12 +8,12 @@
 
 html,
 body {
-
+  overflow: hidden;
   overscroll-behavior: none;
 }
 
 .page {
-
+  overflow: hidden;
 }
  
 .page .content {
@@ -26,6 +26,7 @@ body {
 .summary-scroll {
   flex: 1 1 auto;
   overflow-y: auto;
+  overflow-x: hidden;
   padding-bottom: 110px;
   -webkit-overflow-scrolling: touch;
 }
@@ -109,7 +110,7 @@ body {
      - Removes default margins so spacing is controlled by flex gap.
      - Slightly muted color so the name stands out more. */
   margin: 0;
-  font-size: 47px;
+  font-size: 20px;
   font-weight: 500;
   color: rgba(0,0,0,0.6);
 }
@@ -118,7 +119,7 @@ body {
      - Strong weight + large size for emphasis.
      - Tight line-height so it feels like a single bold block. */
   margin: 0;
-  font-size: 64px;
+  font-size: 48px;
   font-weight: 700;
   line-height: 1.0;
 }
@@ -271,8 +272,8 @@ body {
   /* - Bigger urgent icon size without affecting the other KPI icons.
      - No invert filter because the urgent SVG should keep its own colors.
      - Helps the urgent tile feel more “important” visually. */
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
   display: block;
   filter: none;
 }
@@ -285,11 +286,6 @@ body {
   margin: 0;
   font-size: 20px;
   font-weight: 600;
-}
-
-.urgent-text-line{
-  font-size: 16px !important;
-  font-weight: 400 !important;
 }
 
 .summary-btn h2{
