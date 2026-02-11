@@ -1,3 +1,4 @@
+checkAuth();
 (function(){
   // Firebase Realtime Database URL
       // Overlay helper: behaves like registration.html (no layout shift, auto-hide for success messages)

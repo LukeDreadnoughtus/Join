@@ -3,6 +3,11 @@
 <html lang="de">
 
 <head>
+   <style>
+        html, body {
+            visibility: hidden;
+        }
+    </style>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>Join</title>
@@ -30,6 +35,14 @@
 </head>
 
 <body onload="init()">
+  <div id="task_full_view" class="transparent_overlay d_none" onclick="closeTaskOverlay(event)">
+        <div id="show_task_overlay" class="show_task_overlay" onclick="event.stopPropagation()">
+        </div>
+      </div>
+      <div id="task_edit_view" class="transparent_overlay d_none" onclick="closeTaskOverlayEdit(event)">
+        <div id="edit_task_overlay" class="edit_task_overlay">
+        </div>
+      </div>
   <div class="landscape_blocker">
     <p>Bitte Gerät hochkant drehen</p>
   </div>
@@ -96,14 +109,6 @@
         </div>
       </header>
       <div class="header_overlay d_none" id="header_overlay" onclick="closeUserMenu()"></div>
-      <div id="task_full_view" class="transparent_overlay d_none" onclick="closeTaskOverlay(event)">
-        <div id="show_task_overlay" class="show_task_overlay" onclick="event.stopPropagation()">
-        </div>
-      </div>
-      <div id="task_edit_view" class="transparent_overlay d_none" onclick="closeTaskOverlayEdit(event)">
-        <div id="edit_task_overlay" class="edit_task_overlay">
-        </div>
-      </div>
       <div class="header_board_responsive">
         <div class="header_board_row">
           <h2>Board</h2>

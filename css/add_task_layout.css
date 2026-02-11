@@ -205,6 +205,25 @@ html.add-task-page {
   background: white;
   color: black;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.urgent_icon,
+.medium_icon,
+.low_icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.priority_btn .priority_name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  flex-shrink: 1;
 }
 
 .priority_name {

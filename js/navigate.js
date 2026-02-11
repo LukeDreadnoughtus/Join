@@ -1,3 +1,4 @@
+checkAuth();
 /**
  * Checks whether a filename points to a public (no-auth) page.
  * @param {string} file - Lowercased filename from the current URL.
