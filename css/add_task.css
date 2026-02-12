@@ -194,22 +194,8 @@ label {
 
 .footer_text {
   margin: 0;
-  font-size: 14px;
-  color: #2a3647;
-  font-weight: 500;
-  height: 48px;
-  display: flex;
-  align-items: center;
-}
-
-.footer_required {
-  grid-column: 1;
-}
-
-.add_task_headline {
-  margin: 0;
-  text-align: left;
-}
+font-size: 20px; color: #2a3647; font-weight: 400; height: 48px; display: flex; align-items: center; }
+.footer_required { grid-column: 1; } .add_task_headline { margin: 0; text-align: left; }
 
 .footer_buttons {
   grid-column: 3;
