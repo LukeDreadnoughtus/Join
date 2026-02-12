@@ -248,6 +248,7 @@ transition: background-color 120ms ease;
     padding: 10px 12px;
     width: 302px;
     cursor: pointer;
+    border-radius: 8px;
 }
 
 .user_option:hover {
