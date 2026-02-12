@@ -173,7 +173,7 @@ function renderTaskEditCard(taskData) {
     </div>
     <div class="scroll-area" onclick="closeUserDropdown(event,'${taskData.id}')">
         <div class="edit_title" onclick="event.stopPropagation()">
-            <h4>Title</h4>
+            <h4>Title<span class="red_star">*</span></h4>
             <textarea class="input_edit_title input_style auto-grow" 
                       id="edit_title" 
                       placeholder="Enter a title" 
@@ -189,7 +189,7 @@ function renderTaskEditCard(taskData) {
                       oninput="autoGrow(this)">${taskData.description}</textarea>
         </div>
         <div class="edit_duedate">
-            <h4>Due Date</h4>
+            <h4>Due Date<span class="red_star">*</span> </h4>
             <div class="input_event">
                 <input class="input_edit_date input_style" 
                        type="date" 

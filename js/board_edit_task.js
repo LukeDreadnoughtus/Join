@@ -293,8 +293,22 @@ function removeAssignedUser(task, userName) {
  *
  * @param {string|number} id - Task ID
  */
+// async function saveEdits(id) {
+//     const input = collectEditInputs();
+//     const firebaseDate = convertDateToFirebaseFormat(input.rawDueDate);
+//     updateLocalTask(id, input);
+//     const assignedUserIds = await prepareAssignedUserIds(id);
+//     const patchData = buildPatchData(id, firebaseDate, assignedUserIds);
+//     await updateTaskInFirebase(id, patchData);
+//     toggleEditView();
+//     renderTaskCardFullView(allTasks[id]);
+// }
+
 async function saveEdits(id) {
     const input = collectEditInputs();
+    if (!input) {
+        return; 
+    }
     const firebaseDate = convertDateToFirebaseFormat(input.rawDueDate);
     updateLocalTask(id, input);
     const assignedUserIds = await prepareAssignedUserIds(id);
@@ -304,18 +318,46 @@ async function saveEdits(id) {
     renderTaskCardFullView(allTasks[id]);
 }
 
+
 /**
  * Collects all input values from the edit form.
  *
  * @returns {{newTitle: string, newDescription: string, rawDueDate: string}}
  */
+// function collectEditInputs() {
+//     return {
+//         newTitle: document.getElementById("edit_title").value,
+//         newDescription: document.getElementById("edit_description").value,
+//         rawDueDate: document.getElementById("edit_due_date").value
+//     };
+// }
+
 function collectEditInputs() {
+    const titleInput = document.getElementById("edit_title");
+    const dateInput = document.getElementById("edit_due_date");
+    const newTitle = titleInput.value.trim();
+    const rawDueDate = dateInput.value.trim();
+    let isValid = true;
+    titleInput.classList.remove("input_style_date");
+    dateInput.classList.remove("input_style_date");
+    if (!newTitle) {
+        titleInput.classList.add("input_style_date");
+        isValid = false;
+    }
+    if (!rawDueDate) {
+        dateInput.classList.add("input_style_date");
+        isValid = false;
+    }
+    if (!isValid) {
+        return null; 
+    }
     return {
-        newTitle: document.getElementById("edit_title").value,
+        newTitle,
         newDescription: document.getElementById("edit_description").value,
-        rawDueDate: document.getElementById("edit_due_date").value
+        rawDueDate
     };
 }
+
 
 /**
  * Updates the local task object with edited values.
