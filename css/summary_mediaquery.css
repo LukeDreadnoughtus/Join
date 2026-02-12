@@ -123,7 +123,7 @@
     /* Drops font size so titles don’t wrap too aggressively */
     /* Keeps all three buttons visually consistent */
     /* Prevents headings from pushing the layout taller than needed */
-    font-size: 13px;
+    font-size: 16px;
   }
 }
 
@@ -173,6 +173,18 @@
     /* Uses a CSS var so it’s easy to tweak globally */
     /* Ensures buttons don’t become too tall/huge */
     height: var(--summary-btn-height, 128px) !important;
+  }
+
+  
+    .text_urgent-specialsize
+    {
+      font-size: 16px !important;
+      font-weight: 400 !important;
+    }
+  .summary-btn h4
+  {
+    font-size: 16px !important;
+      font-weight: 400 !important;
   }
 }
 

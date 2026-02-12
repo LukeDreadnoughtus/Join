@@ -52,7 +52,7 @@ main.content .contacts_divider { height: 1px; background: rgba(0,0,0,.12); margi
   }
 }
 main.content .contacts_name_row{display:flex;align-items:center;gap:10px;padding:8px 4px /* - One contact row layout (avatar + texts). - Flex + gap keeps spacing consistent. - Padding defines the click area size. */ }
-main.content .contacts_avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex:0 0 28px;text-transform:uppercase /* - Circle avatar badge (initials). - Fixed size so rows stay aligned. - Uppercase + bold for readable initials. */ }
+main.content .contacts_avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:400;color:#fff;flex:0 0 28px;text-transform:uppercase /* - Circle avatar badge (initials). - Fixed size so rows stay aligned. - Uppercase + bold for readable initials. */ }
 main.content .contacts_name { padding: 8px 4px; margin: 0; /* - Same as above: keeps name spacing consistent. - Resets default margins. - Helps align with avatar nicely. */ }
 body.contacts-page .contacts_modal_backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.35);z-index:1000 /* - Fullscreen overlay behind the modal. - Hidden by default, shown only when open. - Dark tint to focus attention on dialog. */ }
 body.contacts-page .contacts_modal_backdrop.is-open{display:flex /* - Toggles the backdrop + modal visibility. - Uses flex to center the modal. - Keeps layout simple via class switch. */ }
@@ -102,7 +102,7 @@ main.content .contacts_sidebar_add{
   /* - Stacks name + email vertically in one row. - min-width:0 allows text truncation/overflow to behave in flex. - Keeps layout tidy even with long emails. */
 }
 .contacts_email{
-  font-size:12px;
+  font-size:16px;
   opacity:.8;
   line-height:1.2;
   word-break:break-all;
@@ -175,8 +175,9 @@ main.content .contacts_name_row.is-selected .contacts_name{
   /* - Big avatar circle in detail view. - Centers initials perfectly. - Bold + white for contrast. */
 }
 .detail_name{
-  font-size:16px;
+  font-size:47px;
   font-weight:500;
+
   /* - Contact name in detail header. - Slightly larger + bold. - Keeps hierarchy clear. */
 }
 .detail_edit{
@@ -520,4 +521,23 @@ body.contacts-page .contacts_modal_backdrop.mode-edit .contacts_modal_title::aft
 body.contacts-page .contacts_modal_backdrop.mode-create .contacts_modal_subtitle::after{
   margin:12px 0 0 0 !important;
   /* - Same alignment fix for create mode. - Divider starts at the same x-position. - Keeps both modes visually consistent. */
+}
+
+
+
+/* === Scroll Fix v2: contact_detail_root full height handling === */
+html, body {
+    height: 100%;
+    overflow: hidden !important;
+}
+
+.page, main, .content {
+    height: 100vh;
+    overflow: hidden !important;
+}
+
+.contact_detail_root {
+    height: calc(100vh - 140px);
+    max-height: calc(100vh - 140px);
+    overflow-y: auto !important;
 }
