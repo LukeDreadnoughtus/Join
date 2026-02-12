@@ -122,8 +122,8 @@
 }
 
 #overlay .overlay_form_group {
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 
 #overlay .overlay_form_group.overlay_title,
@@ -180,6 +180,8 @@
   font-weight: 400;
   font-size: 1rem;
   line-height: 120%;
+  color: #000;
+  padding-left: 16px;
   padding: 10px 16px;
   transition:
     border-color 0.1s,
@@ -223,24 +225,45 @@
 
 #overlay .overlay_priority_container {
   display: flex;
-  gap: 15px;
+  padding-top: 10px;
+  gap: 16px;
   max-width: 600px;
 }
 
 #overlay .overlay_priority_btn {
-  padding: 5px 5px;
   width: 136px;
   height: 56px;
   border: 0;
   border-radius: 10px;
   background: #fff;
+  color: black;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  font-size: 1rem;
+  margin-bottom: 10px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   transition: all 0.1s ease;
+  overflow: hidden;
+}
+
+#overlay .overlay_priority_btn .overlay_priority_name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+#overlay .overlay_priority_btn .urgent_icon,
+#overlay .overlay_priority_btn .medium_icon,
+#overlay .overlay_priority_btn .low_icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 #overlay .overlay_priority_name {
@@ -254,6 +277,19 @@
   font-size: 18px;
 }
 
+#overlay .urgent_icon {
+  color: red;
+}
+
+#overlay .medium_icon {
+  color: orange;
+  transform: translateY(4px);
+}
+
+#overlay .low_icon {
+  color: green;
+}
+
 #overlay .overlay_priority_btn.overlay_active.overlay_low {
   background: #7ae229;
   color: #fff;
@@ -261,7 +297,7 @@
 }
 #overlay .overlay_priority_btn.overlay_active.overlay_medium {
   background: #f6c23e;
-  color: #fff;
+  color: #fff !important;
   box-shadow: none;
 }
 #overlay .overlay_priority_btn.overlay_active.overlay_urgent {
@@ -270,7 +306,15 @@
   box-shadow: none;
 }
 
+#overlay .overlay_priority_btn.overlay_active.overlay_urgent .urgent_icon {
+  color: #fff;
+}
+
 #overlay .overlay_priority_btn.overlay_active.overlay_medium .medium_icon {
+  color: #fff;
+}
+
+#overlay .overlay_priority_btn.overlay_active.overlay_low .low_icon {
   color: #fff;
 }
 
@@ -303,27 +347,20 @@
 #overlay .overlay_assigned_users_icons {
   margin-top: 12px;
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: nowrap;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-#overlay .overlay_assigned_users_icons {
-  display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 8px;
   max-width: 240px;
   overflow: hidden;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 #overlay #task-assigned-to {
   position: relative;
   width: 100%;
   max-width: 600px;
+  padding-top: 10px;
 }
 
 #overlay .select-display {
@@ -336,6 +373,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 26px;
 }
 
 #overlay .icon-assign {
@@ -450,7 +488,6 @@
 #overlay .option-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 8px 10px;
   cursor: pointer;
   gap: 12px;
@@ -465,6 +502,11 @@
 }
 
 #overlay .option-user-name {
+  font-family: "inter";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -514,16 +556,16 @@
 }
 
 #overlay .assigned_user_icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
+  width: 34px;
+  height: 34px;
+  border-radius: 50% !important;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   color: #fff;
   font-weight: 700;
   font-size: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex: 0 0 auto;
 }
 
 #overlay .assigned_user_more {
@@ -534,12 +576,14 @@
 #overlay .user_icon {
   height: 32px;
   width: 32px;
-  border-radius: 50%;
+  border-radius: 50% !important;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 300;
   border: 2px solid #fff;
+  margin-left: -10px;
+  z-index: 1;
   color: #fff;
 }
 
@@ -673,9 +717,12 @@
 
 #overlay .overlay_footer_text {
   margin: 0;
-  font-size: 14px;
+  font-size: 20px;
   color: #2a3647;
-  font-weight: 500;
+  font-weight: 400;
+  height: 48px;
+  display: flex;
+  align-items: center;
 }
 
 .footer_text {
@@ -833,7 +880,7 @@
 
 #overlay .error-message {
   color: #e53935;
-  font-size: 13px;
+  font-size: 16px;
   margin-top: 4px;
   display: block;
   font-weight: 500;
