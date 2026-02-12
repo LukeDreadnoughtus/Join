@@ -180,7 +180,14 @@ function createOptionsContainer(data) {
   const options = document.createElement("div");
   options.className = "select-options";
   options.id = getContextId("assignedOptions");
-  for (const key of Object.keys(data || {})) {
+  const loggedInUserId = localStorage.getItem("userid");
+  const keys = Object.keys(data || {});
+  keys.sort((a, b) => {
+    if (a === loggedInUserId) return -1;
+    if (b === loggedInUserId) return 1;
+    return 0;
+  });
+  for (const key of keys) {
     addOptionItem(options, key, data[key]);
   }
   return options;
@@ -212,12 +219,14 @@ function createOptionItemElement(id, user) {
   item.id = getContextId(`option-${id}`);
   item.dataset.id = id;
   const userName = (user?.name || "").trim();
+  const loggedInUserId = localStorage.getItem("userid");
+  const displayName = (id === loggedInUserId && loggedInUserId !== "Guest") ? `(You) ${userName}` : userName;
   const userIconText = initials(userName);
   const color = user?.color || "#393737";
   item.innerHTML = `
     <div class="option-left">
       <div class="user_icon" id="${getContextId(`option-icon-${id}`)}" style="background-color:${color}">${userIconText}</div>
-      <span class="option-user-name" id="${getContextId(`option-name-${id}`)}">${userName}</span>
+      <span class="option-user-name" id="${getContextId(`option-name-${id}`)}">${displayName}</span>
     </div>
     <span class="checkbox-square"></span>
   `;
