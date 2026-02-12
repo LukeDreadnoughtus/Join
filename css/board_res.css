@@ -105,15 +105,15 @@
 
     }
 
-    .show_task_overlay {
+    /* .show_task_overlay {
         left: 50%;
         height: 650px; 
-    }
+    } */
 
-    .edit_task_overlay {
+    /* .edit_task_overlay {
         left: 50%;
         height: 650px; 
-    }
+    } */
 
     .menu_wrapper {
         position: relative;
@@ -327,12 +327,12 @@
         width: 210px;
     }
 
-    .show_task_overlay {
+    /* .show_task_overlay {
         height: 500px;
         width: 270px;
         top: 15px;
         padding: 32px 15px;
-    }
+    } */
 
     .edit_delete_task {
         width: 200px;
@@ -436,12 +436,12 @@
         font-size: 16px;
     }
 
-    .edit_task_overlay {
+    /* .edit_task_overlay {
         height: 500px;
         width: 270px;
         top: 15px;
         padding: 32px 15px;
-    }
+    } */
 
     .edit_title h4 {
         font-weight: bold;
