@@ -1,7 +1,8 @@
 @media (max-height: 900px) {
   .add-task-page .page .content {
-    height: auto !important;
-    overflow: visible !important;
+    height: calc(100vh - 96px) !important;
+    max-height: none !important;
+    overflow-y: auto !important;
   }
 
   .task_main_wrapper {
@@ -9,9 +10,9 @@
     overflow: visible !important;
   }
 
-  .page .content {
-    overflow-y: visible !important;
-    height: auto !important;
+  .add-task-page .page {
+    max-height: none !important;
+    height: 100vh !important;
   }
 }
 

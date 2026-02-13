@@ -266,7 +266,7 @@
 
 #assignedOptions {
   position: static;
-  display: none; /* zu */
+  display: none;
   margin-top: 0;
   border: none;
   border-radius: 0 0 10px 10px;
@@ -274,7 +274,7 @@
 }
 
 #assignedOptions.show {
-  display: block; /* offen => schiebt Content nach unten */
+  display: block;
 }
 
 #task-assigned-to:has(#assignedOptions.show) ~ #assigned-users-icons {
