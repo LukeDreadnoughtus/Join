@@ -118,12 +118,18 @@
   }
 
   .summary-btn--board h4,
-  .summary-btn--progress h4,
   .summary-btn--feedback h4{
     /* Drops font size so titles don’t wrap too aggressively */
     /* Keeps all three buttons visually consistent */
     /* Prevents headings from pushing the layout taller than needed */
     font-size: 16px;
+    font-weight: 400 !important;
+  }
+
+    .summary-btn--progress h4
+  {
+    font-size: 14px !important;
+      font-weight: 400 !important;
   }
 }
 
@@ -181,11 +187,7 @@
       font-size: 16px !important;
       font-weight: 400 !important;
     }
-  .summary-btn h4
-  {
-    font-size: 16px !important;
-      font-weight: 400 !important;
-  }
+
 }
 
 
@@ -198,7 +200,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 24px;
     padding-left: 16px;
     padding-right: 16px;
     box-sizing: border-box;
@@ -230,4 +232,62 @@
     max-height: calc(100vh - 96px);
     scrollbar-gutter: stable;
   }
+}
+
+
+@media (max-width: 400px){
+h1{
+    font-family: "inter";
+    font-size:64px; 
+    font-weight: 700; 
+    line-height: 120%;
+    color:  #29ABE2;   
+} 
+
+/* Für Login/AddTask */
+h2 {
+    font-family: "inter";
+    font-size:61px; 
+    font-weight: 700; 
+    line-height: 120%;
+    margin-bottom:0px; 
+    margin-top: 0px;
+}
+
+/* für Board - Spaltenüberschrift */
+h3 { 
+    font-family: "inter";
+    font-size:20px; 
+    font-weight: bold; 
+    line-height: 120%;
+    margin:0px; 
+}
+
+
+.button_fonts {
+    font-family: "inter";
+    font-weight: 700; 
+    font-size:21px; 
+    line-height: 120%;
+    letter-spacing: 0%;
+    
+}
+
+.button_df {
+    display:flex; 
+    align-items:center; 
+    justify-content: center;
+}
+}
+
+@media (max-width:540px) {
+h2 {
+   font-size: 47px; 
+}
+}
+
+@media (max-width:540px) {
+h2 {
+   font-size: 47px; 
+}
 }
