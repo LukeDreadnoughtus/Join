@@ -55,7 +55,7 @@
 @media (max-width:540px) {
 
 .fill_container {
-    height: 125px;
+    height: 150px;
 }
 
 .sign_up_button {
@@ -71,7 +71,7 @@ h2 {
     margin-bottom: 50px;
 }
 .login_icon {
-    top: 30px;
+    top: 40px;
     height: 78px;
     width: 64px;
     left: 76px;

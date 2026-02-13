@@ -91,7 +91,12 @@ h2 {
 .margin_155 {
     margin-left: 135px !important;
 }
+}
 
+@media (max-width:490px) {
+.login_icon {
+    left:40px; 
+}
 
 }
 
@@ -99,6 +104,7 @@ h2 {
 .div_sign_up {
     width: 300px;
     height: 550px; 
+    
 }
 
 .arrow_blue {
@@ -112,6 +118,7 @@ h2 {
 .login_icon {
     height: 78px;
     width: 64px;
+    left:30px;
 }
 .input_registration {
     height: 40px;
@@ -150,9 +157,7 @@ top:740px;
  top:740px; 
 }
 
-.login_icon {
-    left:30px;
-}
+
 
 
 }
