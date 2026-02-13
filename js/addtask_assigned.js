@@ -102,7 +102,7 @@ function createSelectedUserIcon(id) {
   const nameEl = getContextElement(`option-name-${id}`);
   const iconEl = getContextElement(`option-icon-${id}`);
   if (!nameEl || !iconEl) return null;
-  const userName = nameEl.textContent.trim();
+  const userName = nameEl.textContent.trim().replace(/^\(You\)\s*/i, "");
   const bgColor = window.getComputedStyle(iconEl).backgroundColor;
   const newIcon = document.createElement("div");
   newIcon.className = "assigned_user_icon";
@@ -222,7 +222,7 @@ function createOptionItemElement(id, user) {
   const loggedInUserId = localStorage.getItem("userid");
   const displayName = (id === loggedInUserId && loggedInUserId !== "Guest") ? `(You) ${userName}` : userName;
   const userIconText = initials(userName);
-  const color = user?.color || "#393737";
+  const color = user?.color || user?.colors || "#393737";
   item.innerHTML = `
     <div class="option-left">
       <div class="user_icon" id="${getContextId(`option-icon-${id}`)}" style="background-color:${color}">${userIconText}</div>

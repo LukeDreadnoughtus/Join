@@ -1,5 +1,3 @@
-/* Responsive styles for overlay */
-
 @media (max-width: 1024px) {
   #overlay {
     display: none !important;
