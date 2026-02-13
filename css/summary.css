@@ -110,7 +110,7 @@ body {
      - Removes default margins so spacing is controlled by flex gap.
      - Slightly muted color so the name stands out more. */
   margin: 0;
-  font-size: 20px;
+  font-size: 47px;
   font-weight: 500;
   color: rgba(0,0,0,0.6);
 }
@@ -226,7 +226,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 16px;
   width: 100%;
 }
 
@@ -272,10 +272,11 @@ body {
   /* - Bigger urgent icon size without affecting the other KPI icons.
      - No invert filter because the urgent SVG should keep its own colors.
      - Helps the urgent tile feel more “important” visually. */
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   display: block;
   filter: none;
+  
 }
 
 
@@ -284,9 +285,24 @@ body {
      - Zero margin so spacing is controlled by flex gaps.
      - Slightly heavier weight so it stays readable. */
   margin: 0;
-  font-size: 20px;
-  font-weight: 600;
+
 }
+
+  .summary-btn--board h4,
+  .summary-btn--feedback h4{
+    /* Drops font size so titles don’t wrap too aggressively */
+    /* Keeps all three buttons visually consistent */
+    /* Prevents headings from pushing the layout taller than needed */
+    font-size: 20px;
+  font-weight: 400;
+  }
+
+    .summary-btn--progress h4
+  {
+       font-size: 21px;
+  font-weight: 400;
+  }
+
 
 .summary-btn h2{
   /* - KPI main number styling.
@@ -426,7 +442,7 @@ body {
      - Slightly muted so the date stays the focus.
      - Medium weight so it doesn’t look too thin. */
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
   color: rgba(0,0,0,0.6);
 }
 
@@ -444,4 +460,66 @@ body {
      - Keeps the urgent tile readable in the dark hover state.
      - Applies to both the date and its label. */
   color: #fff;
+}
+
+.done_text{
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.To-do_text{
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.text_urgent-specialsize{
+  font-size: 16px;
+  font-weight: 400;
+}
+
+h2 {
+    font-family: "inter";
+    font-size:61px; 
+    font-weight: 700; 
+    line-height: 120%;
+    margin-bottom:0px; 
+    margin-top: 0px;
+}
+
+h1{
+    font-family: "inter";
+    font-size:64px; 
+    font-weight: 700; 
+    line-height: 120%;
+    color:  #29ABE2;   
+} 
+
+h3 { 
+    font-family: "inter";
+    font-size:20px; 
+    font-weight: bold; 
+    line-height: 120%;
+    margin:0px; 
+}
+
+.button_fonts {
+    font-family: "inter";
+    font-weight: 700; 
+    font-size:21px; 
+    line-height: 120%;
+    letter-spacing: 0%;
+    
+}
+
+.button_df {
+    display:flex; 
+    align-items:center; 
+    justify-content: center;
+}
+
+@font-face {
+    font-family: "inter"; 
+    src: url(../assets/fonts/Inter-VariableFont.ttf) format('truetype');
+    font-display: swap;
+
 }
