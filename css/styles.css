@@ -168,6 +168,11 @@ body {
 }
 
 
+.main-links .link-row {
+  position: relative;
+  z-index: 0;
+}
+
 .main-links {
   display: grid;
   grid-auto-flow: column;
@@ -232,6 +237,18 @@ body {
   /* Active page: no hover/scale, just a solid highlight */
   /* pointer-events off so you can't re-click the current page */
   /* Darker shade to clearly show "selected" */
+}
+
+.main-links .link-row.is-active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -6px;       /* 4px größer nach oben */
+  bottom: -6px;    /* 4px größer nach unten */
+  background-color: #091931;
+  border-radius: inherit;
+  z-index: -1;     /* liegt hinter Icon/Text */
 }
 
 .left .legal-area {
