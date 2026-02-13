@@ -119,9 +119,46 @@ body {
      - Strong weight + large size for emphasis.
      - Tight line-height so it feels like a single bold block. */
   margin: 0;
-  font-size: 48px;
+  font-size: 64px;
   font-weight: 700;
   line-height: 1.0;
+  color: #29ABE2;
+}
+
+#done
+{
+  font-size: 64px;
+  font-weight: 600;
+}
+
+#to_do
+{
+  font-size: 64px;
+  font-weight: 600;
+}
+
+#urgent
+{
+  font-size: 64px;
+  font-weight: 600;
+}
+
+#tasks_in_board
+{
+  font-size: 64px;
+  font-weight: 600;
+}
+
+#tasks_in_progress
+{
+  font-size: 64px;
+  font-weight: 600;
+}
+
+#awaiting_feedback
+{
+  font-size: 64px;
+  font-weight: 600;
 }
 
 @media (max-width: 1100px){
@@ -246,9 +283,9 @@ body {
   /* - Circular badge behind the icon.
      - Fixed sizing so all tiles have consistent icon proportions.
      - Smooth background transition for hover effects. */
-  width: 40px;
-  height: 40px;
-  flex: 0 0 40px;
+  width: 69px;
+  height: 69px;
+  flex: 0 0 69px;
   border-radius: 50%;
   background-color: #2A3647;
   display: flex;

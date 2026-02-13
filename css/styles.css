@@ -228,6 +228,7 @@ body {
   transform: none !important;
   pointer-events: none;
   background-color: #091931;
+
   /* Active page: no hover/scale, just a solid highlight */
   /* pointer-events off so you can't re-click the current page */
   /* Darker shade to clearly show "selected" */

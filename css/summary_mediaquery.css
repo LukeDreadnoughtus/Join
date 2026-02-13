@@ -32,7 +32,8 @@
     margin-right: auto;
 
   }
-  
+
+
 }
 
 @media (max-width: 1023px) {
@@ -44,6 +45,49 @@
   margin-left:auto !important;
   margin-right: auto !important;
 
+}
+
+#done
+{
+  font-size: 47px;
+  font-weight: 600;
+}
+
+#to_do
+{
+  font-size: 47px;
+  font-weight: 600;
+}
+
+#urgent
+{
+  font-size: 47px;
+  font-weight: 600;
+}
+
+#tasks_in_board
+{
+  font-size: 47px;
+  font-weight: 600;
+}
+
+#tasks_in_progress
+{
+  font-size: 47px;
+  font-weight: 600;
+}
+
+#awaiting_feedback
+{
+  font-size: 47px;
+  font-weight: 600;
+}
+
+.summary-btn__icon{
+
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
 }
 }
 
@@ -179,13 +223,31 @@
     /* Uses a CSS var so it’s easy to tweak globally */
     /* Ensures buttons don’t become too tall/huge */
     height: var(--summary-btn-height, 128px) !important;
+   padding-bottom: 5px;
   }
 
+  .summary-btn.summary-btn--urgent,
+  .summary-btn .summary-btn--to-do,
+  .summary-btn .summary-btn--done,
+  .summary-btn.summary-btn--board,
+  .summary-btn.summary-btn--progress,
+  .summary-btn.summary-btn--feedback {
+    height: auto;          /* feste Höhe aufheben */
+    min-height: 100px;     /* Grundhöhe behalten */
+    justify-content: flex-start; /* Inhalt nach oben -> Bottom-Padding wird sichtbar */
+    padding-bottom: 5px;  /* jetzt wirkt es */
+  }
   
     .text_urgent-specialsize
     {
       font-size: 16px !important;
       font-weight: 400 !important;
+    }
+    
+    .summary-btn__icon-img--urgent{
+          width: 40px;
+    height: 40px;
+
     }
 
 }
@@ -289,5 +351,10 @@ h2 {
 @media (max-width:540px) {
 h2 {
    font-size: 47px; 
+}
+
+.summary-btn__text{
+  gap: 0px;
+
 }
 }
