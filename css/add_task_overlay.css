@@ -1,11 +1,116 @@
+#overlay .subtask-edit-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
 #overlay .subtask-edit-wrapper .edit-input {
   max-height: 25px;
+  width: 100%;
+  padding: 4px 72px 4px 16px;
+  border-radius: 8px;
+  border: 1px solid #d1d1d1;
+  font-size: 16px;
+  line-height: 1.2;
+  box-sizing: border-box;
+}
+
+#overlay .subtask-edit-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  padding: 3px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+#overlay .subtask-edit-icon:hover {
+  background-color: #e0e0e0;
+}
+
+#overlay .subtask-edit-check {
+  right: 36px;
+}
+
+#overlay .subtask-edit-cancel {
+  right: 10px;
+}
+
+#overlay .subtask-edit-divider {
+  position: absolute;
+  right: 34px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 16px;
+  background-color: #0c01018a;
 }
 
 #overlay .subtask-edit-icon svg {
   display: block;
   width: 16px;
   height: 16px;
+}
+
+#overlay .subtask-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.125s ease;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+#overlay .subtask-item:hover .subtask-actions,
+#overlay .subtask-item:focus-within .subtask-actions {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+#overlay .subtask-action-btn {
+  border: 0;
+  background: none;
+  padding: 2px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+#overlay .subtask-action-btn:hover {
+  animation: pulsar 1.5s ease-in-out infinite;
+}
+
+@keyframes pulsar {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+}
+
+#overlay .subtask-action-btn svg {
+  display: block;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+#overlay .subtask-separator {
+  width: 1px;
+  height: 16px;
+  background: #ccc;
 }
 
 #overlay {
@@ -25,17 +130,41 @@
 }
 
 #overlay .overlay-content {
-  width: 100%;
-  max-width: 1280px;
-  max-height: 750px;
-  background: #fff;
-  padding: 40px;
+  width: min(95vw, 1150px);
+  max-height: min(80vh, 750px);
+  background: #f5f5f5;
+  padding: clamp(20px, 3vw, 40px);
   border-radius: 30px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
   overflow: auto;
   display: flex;
   flex-direction: column;
   pointer-events: auto;
+  margin: auto;
+  position: relative;
+}
+
+#overlay .overlay-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #2a3647;
+  transition: color 0.2s ease;
+  padding: 0;
+  z-index: 10;
+}
+
+#overlay .overlay-close:hover {
+  color: #2196f3;
 }
 
 #overlay .overlay-wrapper {
@@ -50,7 +179,7 @@
   line-height: 120%;
   font-weight: 700;
   font-family: "inter";
-  padding-left: 74px;
+  padding-left: 105px;
   padding-bottom: 32px;
 }
 
@@ -79,9 +208,8 @@
   background: #ccc;
 }
 
-#overlay .overlay_form_group{
+#overlay .overlay_due_date {
   padding-top: 16px;
-  padding-bottom: 16px;
 }
 
 #overlay .overlay_form_group.overlay_description {
@@ -110,7 +238,6 @@
 
 #overlay #label-task-priority {
   display: block;
-  padding-bottom: 8px;
   font-family: "Inter", sans-serif;
   font-size: 20px;
   font-weight: 400;
@@ -183,6 +310,7 @@
 }
 
 #overlay .overlay_priority_btn {
+  gap: 8px;
   width: 136px;
   height: 56px;
   border: 0;
@@ -261,27 +389,65 @@
 }
 
 #overlay .overlay_assigned_users_icons {
-  margin-top: 12px;
+  margin-top: 6px;
+  margin-bottom: 16px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 8px;
-  max-width: 240px;
+  max-width: 440px;
   overflow: hidden;
   flex-wrap: nowrap;
   white-space: nowrap;
 }
 
-#overlay #task-assigned-to {
+#overlay .assigned_users_icons {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+#overlay .assigned_user_icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50% !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  flex: 0 0 auto;
+}
+
+#overlay #task-assigned-to,
+#overlay #overlay-task-assigned-to {
+  position: relative;
+  width: 100%;
+  padding-top: 10px;
   max-width: 440px;
 }
 
-#overlay .select-display {
-  max-width: 440px;
+#overlay
+  #overlay-task-assigned-to:has(#overlayAssignedOptions.show)
+  ~ #overlay-assigned-users-icons {
+  display: none;
 }
 
-#overlay .select-options {
-  z-index: 50;
+#overlay .select-display.search-active .icon-assign {
+  visibility: visible !important;
+}
+
+#overlay .select-display.search-active .select-display-text {
+  visibility: hidden;
+}
+
+#overlay .select-display input,
+#overlay .select-display .assigned-search {
+  border: none !important;
+  padding: 0 !important;
 }
 
 #overlay .overlay_subtask-input-wrapper {
@@ -318,7 +484,7 @@
 }
 
 #overlay #overlay-subtask-add {
-  right: 40px;
+  right: 36px;
 }
 #overlay #overlay-subtask-clear {
   right: 10px;
@@ -326,7 +492,7 @@
 
 #overlay .overlay_divider_subtasks {
   position: absolute;
-  right: 38px;
+  right: 37px;
   top: 75%;
   transform: translateY(-50%);
   width: 2px;
@@ -398,7 +564,7 @@
 #overlay .overlay_footer {
   padding: 0;
   margin: 0;
-  background: white;
+  background: #f6f7f8;
 }
 
 #overlay .overlay_footer_content {
@@ -410,7 +576,11 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  max-width: 1040px;
+  max-width: 1057px;
+}
+
+#overlay .overlay_form_group.overlay_title{
+  padding-bottom: 16px;
 }
 
 #overlay .overlay_footer_text {
@@ -421,6 +591,7 @@
   height: 48px;
   display: flex;
   align-items: center;
+  padding-left: 105px;
 }
 
 .footer_text {
@@ -440,12 +611,47 @@
   max-width: 600px;
 }
 
+#overlay .subtask-item:hover {
+  background: #e8e8e8;
+}
+
 #overlay .subtask-item {
   padding: 2px 2px 2px 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 32px;
+  padding: 2px 8px 2px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.1s ease;
 }
 
 #overlay .subtask-left {
-  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  padding-left: 10px;
+}
+
+#overlay .subtask-dot {
+  width: 4px;
+  height: 4px;
+  background-color: #000;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+#overlay .subtask-text {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #overlay .overlay_font_create {
@@ -480,4 +686,137 @@
 #overlay .input-error .select-display,
 #overlay .input-error #categoryDisplay {
   background-color: #ffecec;
+}
+
+#overlay .select-options,
+#overlay-assignedOptions {
+  max-height: 200px;
+  overflow-y: scroll;
+  padding-right: 0 !important;
+}
+
+#overlay #overlay-assignedOptions::-webkit-scrollbar {
+  width: 10px !important;
+}
+
+#overlay #overlay-assignedOptions::-webkit-scrollbar-track {
+  background: #f1f1f1 !important;
+  border-radius: 10px !important;
+}
+
+#overlay #overlay-assignedOptions::-webkit-scrollbar-thumb {
+  background: #888 !important;
+  border-radius: 10px !important;
+  border: 2px solid #f1f1f1 !important;
+}
+
+#overlay #overlay-assignedOptions::-webkit-scrollbar-thumb:hover {
+  background: #555 !important;
+}
+
+#overlay #overlay-assignedOptions::-webkit-scrollbar-button:single-button {
+  display: block !important;
+  height: 16px !important;
+  background-color: #ccc !important;
+}
+
+#overlay
+  #overlay-assignedOptions::-webkit-scrollbar-button:single-button:vertical:decrement {
+  background: #ccc
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M7 14l5-5 5 5z"/></svg>')
+    center no-repeat !important;
+  background-size: 8px !important;
+  border-radius: 10px 10px 0 0 !important;
+}
+
+#overlay
+  #overlay-assignedOptions::-webkit-scrollbar-button:single-button:vertical:increment {
+  background: #ccc
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M7 10l5 5 5-5z"/></svg>')
+    center no-repeat !important;
+  background-size: 8px !important;
+  border-radius: 0 0 10px 10px !important;
+}
+
+#overlay .select-options.show,
+#overlay-assignedOptions.show {
+  display: block;
+  max-height: 200px;
+  overflow-y: scroll;
+  padding-right: 0 !important;
+}
+
+#overlay #overlay-assignedOptions.show::-webkit-scrollbar {
+  width: 10px !important;
+}
+
+#overlay #overlay-assignedOptions.show::-webkit-scrollbar-track {
+  background: #f1f1f1 !important;
+  border-radius: 10px !important;
+}
+
+#overlay #overlay-assignedOptions.show::-webkit-scrollbar-thumb {
+  background: #888 !important;
+  border-radius: 10px !important;
+  border: 2px solid #f1f1f1 !important;
+}
+
+#overlay #overlay-assignedOptions.show::-webkit-scrollbar-thumb:hover {
+  background: #555 !important;
+}
+
+#overlay #overlay-assignedOptions.show::-webkit-scrollbar-button:single-button {
+  display: block !important;
+  height: 16px !important;
+  background-color: #ccc !important;
+}
+
+#overlay
+  #overlay-assignedOptions.show::-webkit-scrollbar-button:single-button:vertical:decrement {
+  background: #ccc
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M7 14l5-5 5 5z"/></svg>')
+    center no-repeat !important;
+  background-size: 8px !important;
+  border-radius: 10px 10px 0 0 !important;
+}
+
+#overlay
+  #overlay-assignedOptions.show::-webkit-scrollbar-button:single-button:vertical:increment {
+  background: #ccc
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M7 10l5 5 5-5z"/></svg>')
+    center no-repeat !important;
+  background-size: 8px !important;
+  border-radius: 0 0 10px 10px !important;
+}
+
+@media (max-width: 1185px) {
+  #overlay .overlay_split_container {
+    padding-left: 0;
+  }
+
+  #overlay .overlay_footer_text {
+    padding-left: 32px;
+  }
+
+  #overlay .overlay_add_task_heading {
+    padding-left: 32px;
+  }
+
+  #overlay .overlay_footer_content {
+    max-width: 985px;
+  }
+}
+
+@media (max-width: 1090px) {
+  #overlay .overlay_split_container {
+    max-width: 927px;
+  }
+
+  #overlay .overlay_add_task_heading {
+    padding-left: 2px;
+  }
+
+  #overlay .overlay_footer_text {
+    padding-left: 2px;
+  }
 }

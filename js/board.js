@@ -23,6 +23,15 @@ function handleAddTaskClick(e, overlay, boardSlotSelect) {
 }
 
 /**
+ * Closes the add task overlay when the user clicks outside of it or on the close button.
+ */
+function closeOverlay() {
+    const overlay = document.getElementById("overlay");
+    if (!overlay) return;
+    overlay.classList.add("overlay_hidden");
+}
+
+/**
  * Initializes the add task overlay functionality
  * Sets up click event listeners for opening/closing the overlay and handling task creation
  */
