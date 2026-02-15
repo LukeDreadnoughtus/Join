@@ -1,6 +1,5 @@
 @media (max-height: 900px) {
   .add-task-page .page .content {
-    height: calc(100vh - 96px) !important;
     max-height: none !important;
     overflow-y: auto !important;
   }
