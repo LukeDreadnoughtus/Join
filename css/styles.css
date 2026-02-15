@@ -215,7 +215,7 @@ body {
 }
 
 .main-links .link-row:not(.is-active):hover {
-  background-color: rgba(255, 255, 255, 0.08);
+  background-color: transparent;
   /* Hover highlight only if it's not the active page */
   /* No scaling: hover area keeps a fixed size */
   /* Low opacity so it stays subtle on dark bg */
@@ -250,6 +250,19 @@ body {
   border-radius: inherit;
   z-index: -1;     /* liegt hinter Icon/Text */
 }
+
+.main-links .link-row:not(.is-active):hover::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -6px;
+  bottom: -6px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: inherit;
+  z-index: -1;
+}
+
 
 .left .legal-area {
   display: flex;
@@ -478,3 +491,5 @@ body.contacts-page .page .content {
   }
 
 }
+
+

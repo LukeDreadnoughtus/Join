@@ -7,6 +7,11 @@ body.contacts-page .contacts_modal{
   min-height:30dvh;
 }
 
+.contacts_email{
+  font-size: 16px;
+  font-weight: 400;
+}
+
 /* 
 - Makes the modal content stretch to full height
 - Uses flexbox to center content vertically
