@@ -478,7 +478,7 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
   const buildEmailElements=(user)=>{
     // - Creates the email label + a clickable "mailto:" link.
     // - Keeps it empty if the user has no email (so layout stays stable).
-    const label=document.createElement('h4');
+    const label=document.createElement('div');
     label.className='contact_detail_item font_weight_700';
     label.textContent='E-Mail';
     const mail=document.createElement('a');
@@ -493,7 +493,7 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
   const buildPhoneElements=(user)=>{
     // - Creates the phone label + value container.
     // - Phone stays plain text (no click-to-call), so it works everywhere.
-    const label=document.createElement('h4');
+    const label=document.createElement('div');
     label.className='contact_detail_item font_weight_700';
     label.textContent='Phone';
     const phone=document.createElement('div');

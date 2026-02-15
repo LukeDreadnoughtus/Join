@@ -10,6 +10,7 @@ body.contacts-page .contacts_modal{
 .contacts_email{
   font-size: 16px;
   font-weight: 400;
+  color: #1976d2;
 }
 
 /* 
@@ -257,6 +258,11 @@ body.contacts-page .contacts_modal_title,
 body.contacts-page .contacts_modal_subtitle{
   text-align:left !important;
   margin-left:0 !important;
+}
+
+.contact_detail_item .slide_in_right{
+font-size: 16px;
+font-weight: 400;
 }
 
 /* 
