@@ -73,9 +73,9 @@ color:#2A3647;
   /* - Wrapper for the headline area above the KPI grid.
      - Aligns headline text + divider horizontally with flex.
      - Allows wrapping so it stays readable on smaller widths. */
-  margin-left: 5%;
+  margin-left: 70px !important;
   margin-right: 5%;
-  margin-top: 24px;
+  margin-top: 70px !important;
   display: flex;
   align-items: center;
   gap: 16px;
