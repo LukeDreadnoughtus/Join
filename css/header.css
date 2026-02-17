@@ -44,12 +44,12 @@ header {
 }
 
 .header_max {
+  /* max-width: 1208px; (Menu hat Breite 232px) */
   max-width: 1208px;
   display:flex;  
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  /* margin: 0 auto; */
   margin-left: clamp(20px, 5%, 100px);
   margin-right: auto;
 }
@@ -171,6 +171,12 @@ ul {
   margin-bottom: 5px; 
 }
 
+@media (max-width: 1024px) { 
+.header_max { 
+  max-width: 1440px;
+}
+}
+
 @media (max-width: 680px) { 
 
   .join_icon {
@@ -209,10 +215,5 @@ margin-right:30px;
 header {
   height: 80px;
 }
-
-/* .user_menu_legal {
-
-} */
-
 
 }

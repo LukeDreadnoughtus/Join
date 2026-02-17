@@ -39,11 +39,9 @@ function taskTemplate(taskData) {
     const users = taskData.assignedUsers || [];
     const assignedUsersHtml = renderAssignedUsersTaskCard(taskData);
     const progressHtml = renderTaskProgress(taskData);
-
     const iconsWrapper = users.length
         ? `<div class="icons">${assignedUsersHtml}</div>`
         : assignedUsersHtml;
-
     const taskHtml = `
     <div class="task_card"
          onclick="openTaskOverlay('${taskData.id}')"
@@ -63,12 +61,9 @@ function taskTemplate(taskData) {
                      id="menu_task_card_res_${taskData.id}"></div>
             </div>
         </div>
-
         <div class="task_titel_card">${taskData.title}</div>
         <div class="task_description_card">${taskData.description}</div>
-
         ${progressHtml}
-
         <div class="task_assigned_members_card">
             ${iconsWrapper}
             <img src="assets/img/priority_${taskData.priority}.svg"
@@ -77,44 +72,8 @@ function taskTemplate(taskData) {
         </div>
     </div>
     `;
-
     document.getElementById(taskData.boardSlot).innerHTML += taskHtml;
 }
-
-
-// function taskTemplate(taskData) {
-//     const assignedUsersHtml = renderAssignedUsersTaskCard(taskData);
-//     const progressHtml = renderTaskProgress(taskData);
-
-//     const taskHtml = `
-//     <div class="task_card"
-//          onclick="openTaskOverlay('${taskData.id}')"
-//          draggable="true"
-//          ondragstart="startDragging(event,'${taskData.id}')"
-//          ondragend="stopDragging(event)">
-//         <div class="card_header">
-//             <div class="task_category_card task_category_color_${taskData.categoryColor}">${taskData.category}</div>
-//             <div class="menu_wrapper">
-//                 <img src="assets/img/swap_horiz.svg" alt="menü icon" class="responsive_task_card_menu"
-//                      onclick="openResMenu('${taskData.boardSlot}', '${taskData.id}', event)">
-//                 <div class="menu_task_card_res d_none" id="menu_task_card_res_${taskData.id}"></div>
-//             </div>
-//         </div>
-//         <div class="task_titel_card">${taskData.title}</div>
-//         <div class="task_description_card">${taskData.description}</div>
-//         ${progressHtml}
-//         <div class="task_assigned_members_card">
-//             <div class="icons">
-//                 ${assignedUsersHtml}
-//             </div>
-//             <img src="assets/img/priority_${taskData.priority}.svg" alt="priority icon" class="priority_icon_board">
-//         </div>
-//     </div>
-//     `;
-
-//     document.getElementById(taskData.boardSlot).innerHTML += taskHtml;
-// }
-
 
 /**
  * Renders the full task overlay view, displaying all task details including title, description,
