@@ -6,7 +6,7 @@
 
 
 
-@media (max-width: 700px) {
+@media (max-width: 950px) {
 
   main.content .contacts_sidebar .contacts_sidebar_add {
     display: none;
@@ -31,12 +31,25 @@
     padding: 0;
   }
 
+  .contacts_modal_subtitle{
+    font-size: 20px;
+    font-weight: 400px;
+  }
+
+  .contacts_modal_title{
+    font-size: 47px;
+  }
+
   body.contacts-page:not(.contacts-overlay-open) .contacts_sidebar_add_fab img {
     width: 26px;
     height: 26px;
     display: block;
   }
-
+  body.contacts-page:not(.contacts-overlay-open) 
+  .contacts_modal 
+  .contacts_delete_btn {
+    display: none !important;
+  }
  
   main.content .contacts_sidebar {
     /* Sidebar becomes full width on mobile */
@@ -473,6 +486,18 @@
     justify-content: center;
     text-align: left;
   }
+
+h4 { 
+font-family: "Inter";
+font-weight: 400;
+font-style: normal;
+font-size: 20px;
+/* leading-trim: none; */
+line-height: 120%;
+letter-spacing: 0%;
+margin:0px; 
+color:#2A3647; 
+}
 
   .contacts_modal_actions {
     /* Keep actions centered but start them at the top edge */
