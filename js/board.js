@@ -364,6 +364,8 @@ function checkNoTasks() {
         const columnEl = document.getElementById(col.id);
         const noTasksEl = document.getElementById(col.noTasksId);
 
+        if (!noTasksEl) return;
+
         if (columnEl.children.length === 1) {
             noTasksEl.classList.remove("d_none");
         } else {
