@@ -1,27 +1,8 @@
-/* .edit_task_overlay {
-    position: relative; 
-    display:flex; 
-    flex-direction: column; 
-    width: 396px; 
-    height: 724px; 
-    height:650px; 
-    border-radius: 30px;
-    padding: 32px 24px;
-    box-shadow: 0px 0px 4px 0px #00000029;
-    background-color: #FFFFFF;
-    z-index: 1000;
-    top: 16px;
-    left: 50%;
-    transform: translateX(-50%);
-    box-sizing: border-box; 
-} */
-
 .edit_task_overlay {
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 90%;
-    max-width: 420px;
+    width: min(90%, 525px);
     max-height: 90vh;
     padding: 32px 24px;
     border-radius: 24px;
@@ -30,8 +11,6 @@
     box-sizing: border-box;
     overflow-y: auto;
 }
-
-
 
 .no_assignies { 
     white-space: nowrap;
@@ -63,7 +42,17 @@ align-items: center;
 transition: background-color 120ms ease;
 }
 
-/* Dieser hover muss noch bearbeitet werden */
+.close_icon_margin { 
+margin-bottom: 20px; 
+margin-right: 20px; 
+}
+
+.close_button {
+    display: flex;
+    align-items:center;
+    justify-content: flex-end;
+}
+
 .task_view_head {
     display: flex;
     justify-content: space-between;
@@ -126,10 +115,8 @@ transition: background-color 120ms ease;
     max-height: 400px; 
 }
 
-.close_icon_margin {
-    margin-left: 310px; 
-    margin-bottom: 20px; 
-}
+
+
 
 .scroll-area {
     max-height: 600px;   
@@ -162,7 +149,7 @@ transition: background-color 120ms ease;
     justify-content: center;
     align-items: center;
     gap:8px; 
-    margin-right: 15px; 
+    margin-right: 12px; 
 }
 
 .bold_font {
@@ -182,19 +169,17 @@ transition: background-color 120ms ease;
 .user_dropdown {
     display: flex;
     flex-direction: column;
-    width: 250px;
 }
 
 .user_dropdown_selected {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 12px;
+    align-items: center; 
     border: 1px solid #ccc;
     border-radius: 8px;
     background: white;
     cursor: pointer;
-    width: 302px; 
+    width: 97%; 
     margin-top:7px; 
     font-size: 20px;
     font-family: "inter";
@@ -206,10 +191,14 @@ transition: background-color 120ms ease;
     outline: none;
     font-size: 16px;
     flex: 1; 
-    padding: 3px 0;
     line-height: 1.2;
     font-size: 20px;
     font-family: "Inter";
+    padding-left: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: transparent;
+    width:100%; 
 }
 
 .dropdown_arrow img {
@@ -222,6 +211,7 @@ transition: background-color 120ms ease;
 
 .dropdown_arrow {
     display: flex;
+    padding-right: 12px;
 }
 
 .user_dropdown_selected.open .dropdown_arrow img{
@@ -232,7 +222,6 @@ transition: background-color 120ms ease;
     position: static;
     top: 50px;
     left: 0;
-    width: fit-content; 
     background: white;
     border-radius: 8px;
     max-height: 347px;
@@ -246,7 +235,6 @@ transition: background-color 120ms ease;
     align-items: center;
     justify-content: space-between;
     padding: 10px 12px;
-    width: 302px;
     cursor: pointer;
     border-radius: 8px;
 }

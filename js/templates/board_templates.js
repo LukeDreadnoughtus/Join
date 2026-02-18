@@ -174,8 +174,10 @@ function renderTaskEditCard(taskData) {
             <button type="button" class="button_delete_subtask button_red" id="deleteNo" onclick="cancelDeleteSubtask(event)">No</button>
         </div>
     </div>
+    <div class="close_button">
     <div class="close_icon_wrapper close_icon_margin">
         <img src="assets/img/close.svg" alt="close icon" class="close_icon" onclick="closeTaskOverlayEdit(event)">
+    </div>
     </div>
     <div class="scroll-area" onclick="closeUserDropdown(event,'${taskData.id}')">
         <div class="edit_title" onclick="event.stopPropagation()">
@@ -295,11 +297,12 @@ function renderTaskEditCard(taskData) {
             <ul id="subtask_list" class="subtasklist"></ul>
         </div>
     </div>
-
+    <div class="button_wrapper">
     <button type="submit" class="edit_task_button" onclick="saveEdits('${taskData.id}')">
         <span class="font_create">Ok</span>
         <span class="check_svg"><img src="assets/img/check.svg" alt="check icon" width="28px" height="28px"></span>
     </button>
+    </div>
     `;
     const dropdown = document.getElementById("userDropdownList");
     dropdown.addEventListener("click", (e) => e.stopPropagation());

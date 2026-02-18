@@ -204,11 +204,6 @@ font-size: 20px; color: #2a3647; font-weight: 400; height: 48px; display: flex; 
   justify-content: flex-end;
 }
 
-/* .header_max{
-  max-width:1440px !important;
-  width:100% !important;
-} */
-
 body.task-creating {
   pointer-events: none;
   cursor: not-allowed;
