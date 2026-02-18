@@ -417,22 +417,23 @@
 
 .userfeedback_delete_subtask {
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: #2a3647;
   color: white;
   border-radius: 10px;
-  top: 222px;
   width: 250px;
   height: 230px;
   font-size: 24px;
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 0 10px;
   font-weight: 200;
-  left: 14%;
   z-index: 1200;
 }
+
 
 .button_delete_subtask {
   padding: 5px 5px;

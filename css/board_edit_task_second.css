@@ -50,11 +50,7 @@
 
 .input_event {
     position: relative;
-    width:275px; 
-}
-
-.input_event input {
-    width: 328px;
+    width:100%; 
 }
 
 .already_assigned {
@@ -82,12 +78,12 @@
   justify-content: center;
   align-items: center;
   width: 73px;
-  height: 56px;
+  height: 56px; 
   background-color: #2a3647;
   border-radius: 10px;
   border: 0px;
-  margin-left: 260px; 
   margin-top: 20px; 
+  margin-right: 20px; 
   gap:5px; 
   font-size:18px; 
   color:white; 
@@ -95,6 +91,12 @@
   font-weight: bold;
   border:unset; 
 
+}
+
+.button_wrapper {
+    display:flex; 
+    align-items:center;
+    justify-content: flex-end;
 }
 
 .edit_task_button:hover {
