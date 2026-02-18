@@ -493,3 +493,26 @@ body.contacts-page .page .content {
 }
 
 
+
+.left .legal-area .legal-row .nav-label {
+  color: #837e7e;            
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 200px;                
+  height: 48px;
+}
+
+
+.left .legal-area .legal-row:hover .nav-label,
+.left .legal-area .legal-row:focus-visible .nav-label {
+  color: #29abe2;
+}
+
+
+.left .legal-area .legal-row.is-active .nav-label {
+  color: #837e7e;    
+}
+
+

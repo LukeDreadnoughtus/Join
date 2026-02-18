@@ -15,6 +15,10 @@
     max-width: 232px;
     flex: 0 0 232px;
   } 
+
+  .left .legal-area .legal-row.is-active .nav-label{
+    color: #837e7e;
+  }
 }
 
 
@@ -220,9 +224,15 @@
 }
 
 @media (max-width: 359px) {
-  .left .main-links .link-row {
+
+    .left .main-links .link-row:not(.logout-login-row) {
     width: 64px;
     height: 64px;
     padding: 40px;
+}
+  .left.logout-nav .logout-login-row{
+    padding: 6px 12px;
   }
+
+
 }

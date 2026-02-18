@@ -151,6 +151,12 @@
     gap: 12px !important;
   }
 
+    .summary-btn--done, .summary-btn--urgent, .summary-btn--todo{
+              padding-left: 0px !important;
+        padding-right: 0px !important;
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
  
   .summary-btn--board,
   .summary-btn--progress,

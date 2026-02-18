@@ -572,3 +572,11 @@ h3 {
     font-display: swap;
 
 }
+
+    .summary-btn--done, .summary-btn--urgent, .summary-btn--todo,
+    .summary-btn--board, .summary-btn--progress, .summary-btn--feedback {
+        padding-left: 8px ;
+        padding-right: 8px ;
+        padding-top: 70px ;
+        padding-bottom: 80px ;
+    }
