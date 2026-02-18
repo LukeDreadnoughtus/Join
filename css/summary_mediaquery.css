@@ -9,7 +9,7 @@
   /* Keeps the headline + grid aligned with the same left offset */
   /* Limits the layout width so it doesn’t stretch too wide on large screens */
   /* Uses border-box so padding doesn’t mess with the final width */
-  margin-left: var(--summary-inline) !important;
+  margin-left: var(--summary-inline);
   margin-right: auto !important;
   width: min(var(--summary-max-width), calc(100% - var(--summary-inline) - var(--summary-inline))) !important;
   max-width: var(--summary-max-width) !important;

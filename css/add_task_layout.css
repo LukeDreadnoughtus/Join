@@ -46,23 +46,24 @@ html.add-task-page {
 }
 
 .add_task_heading {
-  margin-top: 60px;
-  padding-left: 7%;
+  margin-top: 70px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1440px;
   box-sizing: border-box;
+  padding-left: 70px;
 }
 
 .split_container {
   display: flex;
   align-items: stretch;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1440px;
   min-height: 450px;
   box-sizing: border-box;
   gap: 50px;
   margin-top: 24px;
+  padding-left: 70px;
 }
 
 .left_split,
@@ -111,7 +112,61 @@ html.add-task-page {
   transition:
     border-color 0.1s,
     box-shadow 0.1s;
-box-sizing: border-box; width: 100%; } .add_task_form input { height: 48px; } .add_task_form select { height: 44px; } .add_task_form textarea { width: 440px; height: 120px; resize: none; } .add_task_form label, .add_task_form input, .add_task_form textarea, .add_task_form select, .add_task_form button, .add_controll_form label, .add_controll_form input, .add_controll_form select, .add_controll_form button { display: block; } .form_group { padding-top: 12px; padding-bottom: 12px; } .form_group.title, .form_group.due_date { height: 96px; } .form_group.description { height: 168px; padding-top: 8px; } .task_title { height: 24px; width: 440px; } .due_date_input { padding: 10px 12px; font-family: "Inter", sans-serif; font-size: 20px; font-weight: 400; line-height: 120%; color: #000; } .due_date_input::-webkit-calendar-picker-indicator { cursor: pointer; } .due_date_input:invalid::-webkit-datetime-edit { color: #d1d1d1; }
+  box-sizing: border-box;
+  width: 100%;
+}
+.add_task_form input {
+  height: 48px;
+}
+.add_task_form select {
+  height: 44px;
+}
+.add_task_form textarea {
+  width: 440px;
+  height: 120px;
+  resize: none;
+}
+.add_task_form label,
+.add_task_form input,
+.add_task_form textarea,
+.add_task_form select,
+.add_task_form button,
+.add_controll_form label,
+.add_controll_form input,
+.add_controll_form select,
+.add_controll_form button {
+  display: block;
+}
+.form_group {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.form_group.title,
+.form_group.due_date {
+  height: 96px;
+}
+.form_group.description {
+  height: 168px;
+  padding-top: 8px;
+}
+.task_title {
+  height: 24px;
+  width: 440px;
+}
+.due_date_input {
+  padding: 10px 12px;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000;
+}
+.due_date_input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+.due_date_input:invalid::-webkit-datetime-edit {
+  color: #d1d1d1;
+}
 .due_date_input:valid::-webkit-datetime-edit {
   color: #000;
 }
@@ -123,20 +178,20 @@ box-sizing: border-box; width: 100%; } .add_task_form input { height: 48px; } .a
 }
 
 .priority_btn {
-    border-radius: 10px;
-    border: 0px;
-    cursor: pointer;
-    transition: all 0.1s ease;
-    font-size: 1rem;
-    width: 136px;
-    height: 56px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    color: black;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: 0px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  font-size: 1rem;
+  width: 136px;
+  height: 56px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: black;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .urgent_icon,
