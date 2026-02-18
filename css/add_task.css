@@ -152,6 +152,10 @@ label {
   padding-left: 70px;
 }
 
+#task-description {
+  padding-top: 10px;
+}
+
 .footer_buttons_bar {
   margin-top: 120px;
   padding-left: 7%;
