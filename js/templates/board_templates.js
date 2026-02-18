@@ -36,9 +36,12 @@ function renderBoardBasics() {
  */
 
 function taskTemplate(taskData) {
+    const users = taskData.assignedUsers || [];
     const assignedUsersHtml = renderAssignedUsersTaskCard(taskData);
     const progressHtml = renderTaskProgress(taskData);
-
+    const iconsWrapper = users.length
+        ? `<div class="icons">${assignedUsersHtml}</div>`
+        : assignedUsersHtml;
     const taskHtml = `
     <div class="task_card"
          onclick="openTaskOverlay('${taskData.id}')"
@@ -46,28 +49,31 @@ function taskTemplate(taskData) {
          ondragstart="startDragging(event,'${taskData.id}')"
          ondragend="stopDragging(event)">
         <div class="card_header">
-            <div class="task_category_card task_category_color_${taskData.categoryColor}">${taskData.category}</div>
+            <div class="task_category_card task_category_color_${taskData.categoryColor}">
+                ${taskData.category}
+            </div>
             <div class="menu_wrapper">
-                <img src="assets/img/swap_horiz.svg" alt="menü icon" class="responsive_task_card_menu"
+                <img src="assets/img/swap_horiz.svg"
+                     alt="menü icon"
+                     class="responsive_task_card_menu"
                      onclick="openResMenu('${taskData.boardSlot}', '${taskData.id}', event)">
-                <div class="menu_task_card_res d_none" id="menu_task_card_res_${taskData.id}"></div>
+                <div class="menu_task_card_res d_none"
+                     id="menu_task_card_res_${taskData.id}"></div>
             </div>
         </div>
         <div class="task_titel_card">${taskData.title}</div>
         <div class="task_description_card">${taskData.description}</div>
         ${progressHtml}
         <div class="task_assigned_members_card">
-            <div class="icons">
-                ${assignedUsersHtml}
-            </div>
-            <img src="assets/img/priority_${taskData.priority}.svg" alt="priority icon" class="priority_icon_board">
+            ${iconsWrapper}
+            <img src="assets/img/priority_${taskData.priority}.svg"
+                 alt="priority icon"
+                 class="priority_icon_board">
         </div>
     </div>
     `;
-
     document.getElementById(taskData.boardSlot).innerHTML += taskHtml;
 }
-
 
 /**
  * Renders the full task overlay view, displaying all task details including title, description,
@@ -168,8 +174,10 @@ function renderTaskEditCard(taskData) {
             <button type="button" class="button_delete_subtask button_red" id="deleteNo" onclick="cancelDeleteSubtask(event)">No</button>
         </div>
     </div>
+    <div class="close_button">
     <div class="close_icon_wrapper close_icon_margin">
         <img src="assets/img/close.svg" alt="close icon" class="close_icon" onclick="closeTaskOverlayEdit(event)">
+    </div>
     </div>
     <div class="scroll-area" onclick="closeUserDropdown(event,'${taskData.id}')">
         <div class="edit_title" onclick="event.stopPropagation()">
@@ -289,11 +297,12 @@ function renderTaskEditCard(taskData) {
             <ul id="subtask_list" class="subtasklist"></ul>
         </div>
     </div>
-
+    <div class="button_wrapper">
     <button type="submit" class="edit_task_button" onclick="saveEdits('${taskData.id}')">
         <span class="font_create">Ok</span>
         <span class="check_svg"><img src="assets/img/check.svg" alt="check icon" width="28px" height="28px"></span>
     </button>
+    </div>
     `;
     const dropdown = document.getElementById("userDropdownList");
     dropdown.addEventListener("click", (e) => e.stopPropagation());

@@ -23,6 +23,11 @@ window.addEventListener('DOMContentLoaded', () => {
        if (!splash || !logo || !loginLogo) {
         return;
     }
+        if (sessionStorage.getItem('splashPlayed')) {
+        splash.style.display = 'none';
+        return;
+    }
+    sessionStorage.setItem('splashPlayed', 'true');
     const rect = loginLogo.getBoundingClientRect();
     const loginWidth = rect.width;
     const loginHeight = rect.height;

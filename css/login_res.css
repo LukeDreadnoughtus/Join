@@ -5,13 +5,13 @@
     right: 0px; 
 }
 
-.div_login {
+/* .div_login {
    margin-top: 60px; 
-}
+} */
 
-.fill_container {
-    height: 150px;
-}
+/* .fill_container {
+    height: 250px;
+} */
 
 }
 
@@ -36,7 +36,7 @@
 
 .not_a_join_user_mobile {
      display:flex; 
-     margin-top:0px; 
+     margin-top:50px; 
 }
 
 .div_login {
@@ -49,10 +49,16 @@
 .not_a_join_user_mobile{
     width: 310px; 
     gap:18px; 
+   
 }
 }
 
 @media (max-width:540px) {
+
+    .not_a_join_user_mobile{
+    margin-top:0px; 
+   
+}
 
 .fill_container {
     height: 150px;

@@ -9,7 +9,8 @@
 
       .header_board {
         gap: 20px;
-        padding-left:80px; 
+        padding-left: 70px;  
+  
     }
 
     .board_layout {
@@ -17,8 +18,8 @@
     flex-direction: column;
     gap: 50px;
     margin: 50px 0;
-    padding-left: 80px; 
-    padding-right: 80px; 
+    padding-left: 70px; 
+    padding-right: 70px; 
     padding-top:0px; 
     width: 100%;
     box-sizing: border-box;
@@ -51,16 +52,6 @@
         margin-right: 20px;
     }
 
-    /* .show_task_overlay {
-        left: 50%;
-        height: 650px; 
-    } */
-
-    /* .edit_task_overlay {
-        left: 50%;
-        height: 650px; 
-    } */
-
     .menu_wrapper {
         position: relative;
         display: block;
@@ -76,15 +67,15 @@
         flex-direction: column;
         justify-content: space-between;
         gap: 20px; 
-        padding-left: 80px;
-        padding-right: 80px;
+        padding-left: 70px;
+        padding-right: 70px;
     }
 
       .header_board_row {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-top: 50px;
+        margin-top: 70px;
     }
 
     .search_task {
@@ -124,16 +115,6 @@
         width: 20px;
     }
 
-    /* .show_task_overlay {
-        left: 50%;
-        height: 650px; 
-    } */
-
-    /* .edit_task_overlay {
-        left: 50%;
-        height: 650px; 
-    } */
-
     .menu_wrapper {
         position: relative;
         display: block;
@@ -156,13 +137,15 @@
         padding-left: 30px;
         padding-right: 30px;
     }
-}
 
-@media (max-width: 680px) {
-
-    .input_event {
-        width: 328px;
+      /* .show_task_overlay {
+        width: 396px; 
     }
+
+    .edit_task_overlay {
+        width: 396px; 
+    } */
+
 
 }
 
@@ -170,10 +153,6 @@
 
     .date_userfeedback {
         font-size: 15px; 
-    }
-
-    .input_event input {
-        width: 220px; 
     }
 
     .header_board_row h2 {
@@ -247,7 +226,6 @@
 
     .due_date {
         padding-bottom: 10px;
-        width: 200px;
     }
 
     .assigned_to h4 {
@@ -255,13 +233,7 @@
         color: #42526E;
     }
 
-    .assigned_to {
-        width: 200px;
-
-    }
-
     .user_row_layout {
-        width: 200px;
         padding: 7px 10px;
     }
 
@@ -278,30 +250,13 @@
         width: 97%;
     }
 
-    .subtask_check {
-        width: 210px;
-    }
-
-    /* .show_task_overlay {
-        height: 500px;
-        width: 270px;
-        top: 15px;
-        padding: 32px 15px;
-    } */
-
-    .edit_delete_task {
-        width: 200px;
-    }
-
     .input_edit_title {
         font-size: 16px;
-        width: 222px;
         padding-top: 5px;
     }
 
     .input_edit_description {
         font-size: 16px;
-        width: 222px;
         padding-top: 5px;
     }
 
@@ -309,17 +264,9 @@
         font-size: 16px;
     }
 
-    .input_event {
-        width: 222px;
-    }
-
     .bold_font {
         font-size: 16px;
 
-    }
-
-    .close_icon_margin {
-        margin-left: 204px;
     }
 
     .edit_priority {
@@ -347,20 +294,10 @@
 
     .user_dropdown_selected {
         font-size: 16px;
-        padding: 12px 4px;
-        width: 212px;
-    }
-
-    .user_dropdown {
-        width: 197px;
-    }
-
-    .user_option {
-        width: 212px;
     }
 
     .edit_task_button {
-        margin-left: 145px;
+        margin-left: 240px;
     }
 
     #edit_subtask_input::placeholder {
@@ -375,10 +312,6 @@
         font-size: 16px;
     }
 
-    .user_search_input {
-        width: 200px
-    }
-
 
     #edit_title::placeholder {
         font-size: 16px;
@@ -389,12 +322,6 @@
         font-size: 16px;
     }
 
-    /* .edit_task_overlay {
-        height: 500px;
-        width: 270px;
-        top: 15px;
-        padding: 32px 15px;
-    } */
 
     .edit_title h4 {
         font-weight: bold;
@@ -429,7 +356,6 @@
     }
 
     .userfeedback_delete_subtask {
-        left: 5%;
         width: 200px;
         top: 180px;
         font-size: 22px;
