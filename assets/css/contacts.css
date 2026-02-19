@@ -1,18 +1,22 @@
 main.content .contacts_sidebar {
-  width: 300px;
-  min-width: 300px;
-  max-width: 300px;
+  width: 400px;
+  min-width: 400px;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 12px;
+  
   border-right: 1px solid rgba(0,0,0,.1);
   background: #fff;
   box-sizing: border-box;
   position: sticky;
   top: 0;
   max-height: 100dvh;
-  overflow-y: hidden; /* - Keeps the whole sidebar fixed/stable (no sidebar scroll). - Only the inner list is allowed to scroll. - Prevents double-scroll on smaller screens. */
+
+  
+
+ 
+  
 }
  
 main.content .contacts_sidebar_add {
@@ -36,7 +40,9 @@ main.content .contacts_sidebar_list {
   padding-bottom: 70px;
   box-sizing: border-box;
   flex: 1 1 auto;
-  overflow-y: auto; /* - This is the only scrollable area inside the sidebar. - Padding bottom keeps last items from hiding behind sticky stuff. - Flex makes it take the remaining height. */
+  overflow-y: auto; 
+  
+  
 }
 main.content .contacts_group { padding: 8px 0; /* - Wrapper for one letter/group section. - Adds breathing room between groups. - Keeps layout simple (spacing-only helper). */ }
 main.content .contacts_group_label { font-size: 20px; font-weight: 400; letter-spacing: .08em; opacity: .7; margin: 6px 0 4px 0; /* - Small uppercase-ish group label (A, B, C...). - Letter spacing makes it look like a section header. - Slight opacity so it doesn’t compete with names. */ }
@@ -395,6 +401,8 @@ body.contacts-page .contacts_modal{
 .contacts_sidebar_list {
   padding-bottom: 70px;
   box-sizing: border-box;
+   margin-right: 60px;
+  
   /* - Adds bottom space so last list item isn’t hidden. - Helps when sticky add button overlaps. - Keeps layout predictable. */
 }
 
@@ -553,4 +561,26 @@ html, body {
     height: calc(100vh - 140px);
     max-height: calc(100vh - 140px);
     overflow-y: auto !important;
+}
+
+
+/* Name + Email dürfen in Flex auch wirklich schrumpfen */
+main.content .contacts_texts{
+  flex: 1;
+  min-width: 0;
+}
+
+/* Name in einer Zeile */
+main.content .contacts_name{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Email in einer Zeile (und NICHT break-all) */
+main.content .contacts_email{
+  word-break: normal;      /* ersetzt break-all */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
