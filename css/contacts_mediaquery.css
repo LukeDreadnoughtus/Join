@@ -4,7 +4,11 @@
   - Contact details open as full-screen overlay (white background) and hide sidebar.
 */
 
-
+@media (max-width:1024px )
+{
+  main.content .contacts_sidebar_list {
+  padding-bottom: 150px;}
+}
 
 @media (max-width: 950px) {
 
@@ -39,6 +43,9 @@
   .contacts_modal_title{
     font-size: 47px;
   }
+
+main.content .contacts_sidebar_list {
+  padding-bottom: 70px;}
 
   body.contacts-page:not(.contacts-overlay-open) .contacts_sidebar_add_fab img {
     width: 26px;
@@ -476,7 +483,9 @@
 
 
 
-@media (max-width: 700px) {
+/* Previously applied only up to 700px.
+   Requirement: apply these rules already below 950px and remove the 950-700 intermediate step. */
+@media (max-width: 950px) {
   .contacts_modal_left_panel {
     /* Stack modal header content vertically on mobile */
     /* Center it vertically so it feels like a hero section */
@@ -537,13 +546,10 @@ html, body {
     overflow: hidden !important;
 }
 
-.page, main, .content {
-    height: 100vh;
-    overflow: hidden !important;
-}
+
 
 .contact_detail_root {
     height: calc(100vh - 140px);
-    max-height: calc(100vh - 340px);
+    
     overflow-y: auto !important;
 }

@@ -320,7 +320,7 @@ body.contacts-page .overlay_userfeedback_sign_up{
 
 
 /* ===== Desktop Fix: More space for detail_name ===== */
-@media (min-width: 701px) {
+@media (min-width: 951px) {
   .contact_detail_root {
     max-width: 520px;
   }
@@ -363,10 +363,6 @@ html, body {
 }
 /* ===== Sidebar scrollbar to the very right ===== */
 
-/* 1) Sidebar padding rechts weg, damit der Scrollcontainer bis zum Rand kann */
-main.content .contacts_sidebar{
-  padding: 12px 0 12px 12px;
-}
 
 /* 2) Scrollcontainer bis an den rechten Rand ziehen (über das alte Padding) */
 main.content .contacts_sidebar_list{
@@ -393,65 +389,21 @@ main.content .contacts_sidebar_list{
   padding-right: 12px;           /* Text hat rechts Luft, scrollbar überdeckt nix */
   box-sizing: border-box;
 }
-
-/* ==========================================================
-   Contacts Sidebar final layout (auto-generated)
-   - 60px inner spacing left + right for the sidebar content
-   - Scrollbar at far right edge (sidebar is the scroll container)
-   - No forced line breaks and no ellipsis for name/email
-   ========================================================== */
-
-main.content .contacts_sidebar{
-  width: 520px !important;
-  min-width: 520px !important;
-  max-width: 520px !important;
-
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-
-  /* keep vertical padding only so scrollbar can sit flush right */
-  padding: 12px 0 !important;
-  box-sizing: border-box;
-}
-
-@media (max-width: 900px) {
-  main.content .contacts_sidebar{
-    width: 360px !important;
-    min-width: 360px !important;
-    max-width: 360px !important;
-  }
-}
-
-/* Sidebar list: provide 60px gutters on both sides */
+/* Links + rechts je 60px Gutter (Inhalt der Liste einrücken) */
 main.content .contacts_sidebar_list{
-  overflow: visible !important;      /* sidebar scrolls */
   padding-left: 60px !important;
   padding-right: 60px !important;
-  scrollbar-gutter: stable;
-  box-sizing: border-box;
 }
 
-/* Keep Add button centered within the same gutters */
-main.content .contacts_sidebar_add{
-  /* assets/css sets width:100%; override so the button truly sits inside the gutters */
-  width: calc(100% - 120px) !important; /* 60px left + 60px right */
+/* Optional: Gruppenüberschrift (A, B, C...) und Trennlinie gleich mit einrücken */
+main.content .contacts_group_label,
+main.content .contacts_divider{
   margin-left: 60px !important;
-  margin-right: 60px !important;
+}
+
+/* "Add new contact" Button soll innerhalb der 60px Gutters sitzen (wirklich mittig) */
+main.content .contacts_sidebar_add{
+  width: calc(100% - 120px) !important;
+  margin: 0 60px !important;
   box-sizing: border-box;
-}
-
-/* Text behavior: no wrap, no ellipsis, no aggressive breaking */
-main.content .contacts_texts{ min-width: 0; }
-main.content .contacts_name,
-main.content .contacts_email{
-  word-break: normal !important;
-  overflow-wrap: normal !important;
-  white-space: nowrap !important;
-  overflow: visible !important;
-  text-overflow: clip !important;
-}
-
-/* Ensure the old break-all from assets doesn't win inside selected rows */
-main.content .contacts_name_row.is-selected .contacts_email{
-  color: #fff;
 }

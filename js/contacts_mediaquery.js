@@ -1,13 +1,13 @@
-// Mobile overlay behavior for Contacts (<= 700px)
+// Mobile overlay behavior for Contacts (<= 950px)
 // Sidebar takes full width. When a contact is selected, details are shown
 // as a full-screen white overlay so the sidebar is hidden (no new page).
 //
 // Additionally:
-// - At <=700px the Add/Edit contact dialog is rearranged (CSS in contacts_mediaquery.css).
+// - At <=950px the Add/Edit contact dialog is rearranged (CSS in contacts_mediaquery.css).
 // - The close button (×) is moved into the top-right of .contacts_modal_left_panel.
 
 (function () {
-  const mq = window.matchMedia('(max-width: 700px)');
+  const mq = window.matchMedia('(max-width: 950px)');
   const BODY_OPEN_CLASS = 'contacts-overlay-open';
   const BODY_MENU_CLASS = 'contacts-fab-menu-open';
   // Separate FAB for "Add contact" on the sidebar.
@@ -15,7 +15,7 @@
   const SIDEBAR_ADD_FAB_CLASS = 'contacts_sidebar_add_fab';
 
   function isMobile() {
-    // Checks if the current viewport matches the mobile breakpoint (<= 700px).
+    // Checks if the current viewport matches the mobile breakpoint (<= 950px).
     // Basically a single source of truth so you don't sprinkle mq.matches everywhere.
     return mq.matches;
   }
@@ -245,7 +245,7 @@
       return;
     }
 
-    // On <=700px: show the "Add contact" FAB on the sidebar.
+    // On <=950px: show the "Add contact" FAB on the sidebar.
     ensureSidebarAddFab();
 
     const root = document.querySelector('.contact_detail_root');
@@ -285,7 +285,7 @@
     }
   }
 
-  // Move the avatar column into the left (dark) panel on <=700px so it can be
+  // Move the avatar column into the left (dark) panel on <=950px so it can be
   // anchored to the panel's bottom edge (CSS). On larger screens we restore the
   // original DOM order (between left and right panels).
   function syncDialogAvatarPlacement() {

@@ -1,7 +1,7 @@
 main.content .contacts_sidebar {
-  width: 400px;
-  min-width: 400px;
-  max-width: 400px;
+  width: 460px;
+  min-width: 460px;
+  max-width: 460px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -13,7 +13,9 @@ main.content .contacts_sidebar {
   top: 0;
   max-height: 100dvh;
 
-  
+   padding: 12px 0 12px 12px;
+     overflow-y: auto !important;
+  overflow-x: hidden !important;
 
  
   
@@ -40,7 +42,7 @@ main.content .contacts_sidebar_list {
   padding-bottom: 70px;
   box-sizing: border-box;
   flex: 1 1 auto;
-  overflow-y: auto; 
+  overflow-y: visible; 
   
   
 }
