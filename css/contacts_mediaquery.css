@@ -4,26 +4,33 @@
   - Contact details open as full-screen overlay (white background) and hide sidebar.
 */
 
-@media (max-width:1024px )
-{
+@media (max-width: 1024px) {
   main.content .contacts_sidebar_list {
-  padding-bottom: 150px;}
+    padding-bottom: 150px;
+  }
 }
 
-@media (max-width: 950px) {
-
+@media (max-width: 1030px) {
   main.content .contacts_sidebar .contacts_sidebar_add {
     display: none;
   }
 
- 
+  .contacts_modal_body {
+    width: 300px !important;
+    height: 215px !important;
+    padding-left: 0 !important;
+  }
+  .contacts_modal_inputs {
+    gap: 10px !important;
+  }
+
   body.contacts-page:not(.contacts-overlay-open) .contacts_sidebar_add_fab {
     position: fixed;
     right: 16px;
-    bottom: 122px; 
+    bottom: 122px;
     width: 56px;
     height: 56px;
-    background: #2A3647;
+    background: #2a3647;
     border: 1px solid #ffffff;
     border-radius: 56px;
     z-index: 1100;
@@ -35,29 +42,30 @@
     padding: 0;
   }
 
-  .contacts_modal_subtitle{
+  .contacts_modal_subtitle {
     font-size: 20px;
     font-weight: 400px;
   }
 
-  .contacts_modal_title{
+  .contacts_modal_title {
     font-size: 47px;
   }
 
-main.content .contacts_sidebar_list {
-  padding-bottom: 70px;}
+  main.content .contacts_sidebar_list {
+    padding-bottom: 70px;
+  }
 
   body.contacts-page:not(.contacts-overlay-open) .contacts_sidebar_add_fab img {
     width: 26px;
     height: 26px;
     display: block;
   }
-  body.contacts-page:not(.contacts-overlay-open) 
-  .contacts_modal 
-  .contacts_delete_btn {
+  body.contacts-page:not(.contacts-overlay-open)
+    .contacts_modal
+    .contacts_delete_btn {
     display: none !important;
   }
- 
+
   main.content .contacts_sidebar {
     /* Sidebar becomes full width on mobile */
     /* Keep it constrained so it behaves like the main page column */
@@ -68,32 +76,26 @@ main.content .contacts_sidebar_list {
     border-right: none;
     position: relative;
     max-height: none;
-    height: calc(100dvh - 110px); 
+    height: calc(100dvh - 110px);
   }
 
- 
   .contact_detail_header,
   .contact_detail_root {
     display: none;
   }
 
- 
-
- 
   body.contacts-page.contacts-overlay-open header {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1101; 
+    z-index: 1101;
   }
-
 
   body.contacts-page.contacts-overlay-open main.content .contacts_sidebar {
     display: none;
   }
 
- 
   body.contacts-page.contacts-overlay-open .contact_detail_header {
     /* Mobile overlay header: fixed + grid so title/back/subline align nicely */
     /* White background to feel like a separate "page" on small screens */
@@ -103,19 +105,18 @@ main.content .contacts_sidebar_list {
     top: 96px;
     left: 0 !important;
     right: 0;
-    
+
     grid-template-columns: 1fr auto;
     grid-template-rows: auto auto auto;
     align-items: center;
     padding: 10px 14px;
     box-sizing: border-box;
     background: #ffffff;
-    border-bottom: 1px solid rgba(0,0,0,.08);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     z-index: 1000;
     row-gap: 4px;
     column-gap: 10px;
   }
-
 
   body.contacts-page.contacts-overlay-open .cdh_title {
     /* Big contact name in the overlay header */
@@ -151,7 +152,6 @@ main.content .contacts_sidebar_list {
     display: block;
   }
 
-
   body.contacts-page.contacts-overlay-open .cdh_sub {
     /* Subtitle sits under the title and spans full width */
     /* Slight opacity so it reads as secondary info */
@@ -160,7 +160,7 @@ main.content .contacts_sidebar_list {
     grid-column: 1 / -1;
     display: block;
     font-size: 20px;
-    opacity: .7;
+    opacity: 0.7;
     white-space: normal;
   }
 
@@ -173,11 +173,10 @@ main.content .contacts_sidebar_list {
     display: block;
     width: 92px;
     height: 3px;
-    background: #29ABE2;
+    background: #29abe2;
     border-radius: 2px;
     margin-top: -2px;
   }
-
 
   body.contacts-page.contacts-overlay-open .contact_detail_root {
     /* Details area becomes a scrollable "page" below the fixed header */
@@ -215,12 +214,12 @@ main.content .contacts_sidebar_list {
     /* Rounded + centered so any icon looks balanced */
     position: fixed;
     right: 16px;
-   
+
     bottom: 122px; /* above bottom nav */
-   
+
     width: 56px;
     height: 56px;
-    background: #2A3647;
+    background: #2a3647;
     border: 1px solid #ffffff;
     border-radius: 56px;
     z-index: 1102; /* above header/overlay; modal backdrop is raised on mobile so this sits behind the dialog */
@@ -231,7 +230,7 @@ main.content .contacts_sidebar_list {
   }
 
   /* 3-dots icon inside the FAB */
-  body.contacts-page.contacts-overlay-open .contacts_overlay_fab img{
+  body.contacts-page.contacts-overlay-open .contacts_overlay_fab img {
     width: 22px;
     height: 22px;
     display: block;
@@ -256,7 +255,7 @@ main.content .contacts_sidebar_list {
     height: 116px;
     background: #ffffff;
     border-radius: 14px;
-    box-shadow: 0 8px 22px rgba(0,0,0,.18);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
     z-index: 1103;
     box-sizing: border-box;
     padding: 10px 8px;
@@ -270,7 +269,10 @@ main.content .contacts_sidebar_list {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: transform 180ms ease, opacity 180ms ease, visibility 0s linear 180ms;
+    transition:
+      transform 180ms ease,
+      opacity 180ms ease,
+      visibility 0s linear 180ms;
     will-change: transform, opacity;
   }
 
@@ -282,7 +284,10 @@ main.content .contacts_sidebar_list {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transition: transform 180ms ease, opacity 180ms ease, visibility 0s;
+    transition:
+      transform 180ms ease,
+      opacity 180ms ease,
+      visibility 0s;
   }
 
   /* Ensure the menu's items look tappable and stack vertically */
@@ -302,7 +307,7 @@ main.content .contacts_sidebar_list {
 
   body.contacts-page .contacts_fab_menu .detail_edit:active,
   body.contacts-page .contacts_fab_menu .detail_delete:active {
-    background: rgba(0,0,0,.06);
+    background: rgba(0, 0, 0, 0.06);
   }
 
   body.contacts-page .contacts_fab_menu .detail_action_icon {
@@ -317,80 +322,66 @@ main.content .contacts_sidebar_list {
     opacity: 1 !important;
   }
 
-  
-
-  body.contacts-page .contacts_modal{
+  body.contacts-page .contacts_modal {
     /* Dialog sizing on very small screens (<=400px)
        Height is proportional to the viewport and remains stable on mobile browsers
        thanks to the JS-updated CSS var --vh (= 1% of innerHeight). */
-
-    width: min(92vw, 360px);
+    width: min(92vw, 360px) !important;
     max-width: 92vw;
     transform: translateY(-3vh);
-
     --contacts-modal-vh: 3;
-
     height: calc(var(--vh, 1vh) * var(--contacts-modal-vh));
     max-height: calc(var(--vh, 1vh) * var(--contacts-modal-vh));
     min-height: calc(var(--vh, 1vh) * 70);
-
     border-radius: 18px;
     overflow: hidden; /* avatar overlaps within */
   }
 
   /* Ensure the Add/Edit dialog is always above the mobile overlay FAB.
      (The FAB should remain in the background while the dialog is open.) */
-  body.contacts-page .contacts_modal_backdrop{
+  body.contacts-page .contacts_modal_backdrop {
     /* Backdrop sits above everything on mobile so the dialog is always clickable */
     /* Top padding pushes the dialog down into a comfortable reach zone */
     /* Using flex-start prevents the dialog from being vertically centered */
     z-index: 1200;
-        align-items: flex-start;          /* statt center */
+    align-items: flex-start; /* statt center */
     padding-top: clamp(16px, 66vh, 90px);
     padding-bottom: 16px;
     box-sizing: border-box;
   }
 
-  body.contacts-page .contacts_modal_content{
-
+  body.contacts-page .contacts_modal_content {
     --contacts-left-panel-h: 38%;
     --contacts-avatar-size: clamp(76px, 24vw, 96px);
-
-    flex-direction:column;
-    align-items:stretch;
-    justify-content:flex-start;
-    height:100%;
-    position:relative;
-    padding:0;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    height: 100%;
+    position: relative;
+    padding: 0;
     margin-top: 0;
     transform: none;
   }
 
   /* top panel */
-  body.contacts-page .contacts_modal_left_panel{
+  body.contacts-page .contacts_modal_left_panel {
     /* Left panel becomes the top section on mobile */
     /* Uses a fixed percentage height so the layout is predictable */
     /* Allows the avatar to overlap into the bottom (white) panel */
-    width:100%;
+    width: 100%;
     flex: 0 0 var(--contacts-left-panel-h);
     height: auto;
     justify-content: center !important;
     /* Center the headline/subtitle horizontally on very small screens */
-    align-items:center !important;
-  
-    padding:
-      clamp(0px, 4vh, 32px)
-      20px
-      clamp(36px, 7vh, 56px)
-      20px !important;
-    box-sizing:border-box;
-    position:relative;
+    align-items: center !important;
+    padding: clamp(0px, 4vh, 32px) 20px clamp(36px, 7vh, 56px) 20px !important;
+    box-sizing: border-box;
+    position: relative;
     overflow: visible; /* allow avatar to overlap into the white panel */
   }
 
-
   body.contacts-page .contacts_modal_left_panel .contacts_modal_title,
-  body.contacts-page .contacts_modal_left_panel .contacts_modal_subtitle{
+  body.contacts-page .contacts_modal_left_panel .contacts_modal_subtitle {
     /* Force full width so text-align center actually centers nicely */
     /* Keeps title/subtitle stacked and readable */
     /* Prevents weird narrow columns on small phones */
@@ -400,7 +391,7 @@ main.content .contacts_sidebar_list {
 
   /* Action buttons (Delete / Create) centered on very small screens.
      Height stays unchanged; we only adjust alignment. */
-  body.contacts-page .contacts_modal_actions{
+  body.contacts-page .contacts_modal_actions {
     /* Center actions so the dialog feels balanced on tiny screens */
     /* Wrap enables buttons to break to a new line if needed */
     /* Align-items keeps vertical spacing consistent */
@@ -411,77 +402,73 @@ main.content .contacts_sidebar_list {
   }
 
   /* Hide logo at <= 400px */
-  body.contacts-page .contacts_modal_logo{
-    display:none !important;
+  body.contacts-page .contacts_modal_logo {
+    display: none !important;
   }
 
   /* bottom panel */
-  body.contacts-page .contacts_modal_right_panel{
+  body.contacts-page .contacts_modal_right_panel {
     /* Right panel becomes the bottom content area */
     /* Extra top padding makes room for the overlapping avatar */
     /* Scroll enabled so long forms still work on small screens */
-    width:100%;
-    flex:1;
-    justify-content:flex-start;
+    width: 100%;
+    flex: 1;
+    justify-content: flex-start;
 
-    padding:calc(var(--contacts-avatar-size) / 2 + 4px) 24px 24px 24px;
-    box-sizing:border-box;
-    overflow:auto;
+    padding: calc(var(--contacts-avatar-size) / 2 + 4px) 24px 24px 24px;
+    box-sizing: border-box;
+    overflow: auto;
   }
 
-
-  body.contacts-page .contacts_modal_left_panel .contacts_modal_avatar_col{
+  body.contacts-page .contacts_modal_left_panel .contacts_modal_avatar_col {
     /* Avatar column is centered and overlaps the panel boundary */
     /* Pointer-events off so it doesn't block clicks on nearby controls */
     /* z-index keeps it above both panels visually */
-    position:absolute;
-    left:50%;
-    bottom:0;
-    transform:translate(-50%, 50%); /* center sits on the panel edge */
-    height:auto;
-    padding:0;
-    z-index:2;
-    pointer-events:none; /* purely decorative */
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 50%); /* center sits on the panel edge */
+    height: auto;
+    padding: 0;
+    z-index: 2;
+    pointer-events: none; /* purely decorative */
   }
 
   /* safety: if JS didn't move avatar into the left panel, keep old behavior */
-  body.contacts-page .contacts_modal_content > .contacts_modal_avatar_col{
-    position:absolute;
-    left:50%;
+  body.contacts-page .contacts_modal_content > .contacts_modal_avatar_col {
+    position: absolute;
+    left: 50%;
     top: var(--contacts-left-panel-h);
-    transform:translate(-50%,-50%);
-    height:auto;
-    padding:0;
-    z-index:2;
+    transform: translate(-50%, -50%);
+    height: auto;
+    padding: 0;
+    z-index: 2;
   }
 
   body.contacts-page .contacts_modal_avatar_slot .detail_avatar,
-  body.contacts-page .contacts_modal_avatar_slot .contacts_modal_avatar_image{
-    width:var(--contacts-avatar-size);
-    height:var(--contacts-avatar-size);
+  body.contacts-page .contacts_modal_avatar_slot .contacts_modal_avatar_image {
+    width: var(--contacts-avatar-size);
+    height: var(--contacts-avatar-size);
   }
 
   /* Close button: top-right inside the left panel (moved by JS on mobile) */
-  body.contacts-page .contacts_modal_left_panel .contacts_modal_close{
+  body.contacts-page .contacts_modal_left_panel .contacts_modal_close {
     /* Keep close button reachable and consistent with native dialogs */
     /* White color for contrast on the dark/colored left panel */
     /* High z-index so it stays above the avatar overlap */
-    position:absolute;
-    top:16px;
-    right:16px;
-    color:#ffffff;
-    font-size:28px;
-    z-index:3;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    color: #ffffff;
+    font-size: 28px;
+    z-index: 3;
   }
 
   /* The original header inside the right panel is not needed visually on mobile */
-  body.contacts-page .contacts_modal_right_panel .contacts_modal_header{
-    display:none;
+  body.contacts-page .contacts_modal_right_panel .contacts_modal_header {
+    display: none;
   }
-
 }
-
-
 
 /* Previously applied only up to 700px.
    Requirement: apply these rules already below 950px and remove the 950-700 intermediate step. */
@@ -496,17 +483,17 @@ main.content .contacts_sidebar_list {
     text-align: left;
   }
 
-h4 { 
-font-family: "Inter";
-font-weight: 400;
-font-style: normal;
-font-size: 20px;
-/* leading-trim: none; */
-line-height: 120%;
-letter-spacing: 0%;
-margin:0px; 
-color:#2A3647; 
-}
+  h4 {
+    font-family: "Inter";
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
+    /* leading-trim: none; */
+    line-height: 120%;
+    letter-spacing: 0%;
+    margin: 0px;
+    color: #2a3647;
+  }
 
   .contacts_modal_actions {
     /* Keep actions centered but start them at the top edge */
@@ -517,39 +504,67 @@ color:#2A3647;
     align-items: flex-start;
   }
 
-  .detail_section_label{
+  .detail_section_label {
     /* Slightly larger label size for readability on phones */
     /* Helps section headers stand out in the form */
     /* Keeps the hierarchy clear without bolding everything */
     font-size: 20px;
   }
 
-  .detail_name{
+  .detail_name {
     font-size: 36px;
   }
 
- h4{
-  font-size: 16px;
-  font-weight: 700;
- }
+  h4 {
+    font-size: 16px;
+    font-weight: 700;
+  }
 }
-
 
 /* Ensure d_none always wins over component display rules */
-.d_none { display: none !important; }
-
-
-
-/* === Scroll Fix v2: contact_detail_root full height handling === */
-html, body {
-    height: 100%;
-    overflow: hidden !important;
+.d_none {
+  display: none !important;
 }
 
-
+/* === Scroll Fix v2: contact_detail_root full height handling === */
+html,
+body {
+  height: 100%;
+  overflow: hidden !important;
+}
 
 .contact_detail_root {
-    height: calc(100vh - 140px);
-    
-    overflow-y: auto !important;
+  height: calc(100vh - 140px);
+
+  overflow-y: auto !important;
+}
+
+@media (max-width: 1245px) {
+  .contacts_modal {
+    max-width: 1100px !important;
+  }
+
+  .contacts_modal_body {
+    padding-left: 0 !important;
+  }
+
+  .contacts_modal_inputs {
+    width: 90% !important;
+  }
+}
+
+@media (max-width: 1140px) {
+  .contacts_modal {
+    width: 1000px !important;
+  }
+}
+
+@media (max-width: 1030px) {
+  .contacts_modal {
+    width: 900px !important;
+  }
+
+  .contacts_modal_inputs {
+    width: 90% !important;
+  }
 }

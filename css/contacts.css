@@ -2,12 +2,23 @@
 - Limits the modal height so it fits nicely on most screens
 - Prevents the modal from getting too small or too tall
 */
-body.contacts-page .contacts_modal{
-  max-height:85dvh;
-  min-height:30dvh;
+body.contacts-page .contacts_modal {
+  max-height: 85dvh;
+  min-height: 30dvh;
 }
 
-.contacts_email{
+.contacts_modal_left_panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 453px;
+  height: 594px;
+  background-color: #2a3647;
+  border: none;
+  border-radius: 10px;
+}
+
+.contacts_email {
   font-size: 16px;
   font-weight: 400;
   color: #1976d2;
@@ -17,58 +28,47 @@ body.contacts-page .contacts_modal{
 - Makes the modal content stretch to full height
 - Uses flexbox to center content vertically
 */
-body.contacts-page .contacts_modal_content{
-  height:100%;
-  min-height:100%;
-  display:flex;
-  align-items:center;  
-}
-
-/* 
-- Left section of the modal layout
-- Centers content vertically and horizontally
-*/
-.contacts_modal_left_panel{
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+body.contacts-page .contacts_modal_content {
+  height: 100%;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 /* 
 - Column that holds the avatar
 - Keeps spacing consistent with padding
 */
-.contacts_modal_avatar_col{
-  flex:0 0 auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:0 24px;
-  box-sizing:border-box;
-  height:100%;
+.contacts_modal_avatar_col {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  box-sizing: border-box;
+  height: 100%;
 }
 
 /* 
 - Right section of the modal layout
 - Stacks elements vertically and centers them
 */
-.contacts_modal_right_panel{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  height:100%;
+.contacts_modal_right_panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* 
 - Wrapper for avatar content
 - Ensures avatar stays centered
 */
-.contacts_modal_avatar_slot{
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.contacts_modal_avatar_slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+  padding-bottom: 20px;
 }
 
 /* 
@@ -76,53 +76,21 @@ body.contacts-page .contacts_modal_content{
 - Makes the avatar round and centered
 */
 .contacts_modal_avatar_slot .detail_avatar,
-.contacts_modal_avatar_slot .contacts_modal_avatar_image{
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.contacts_modal_avatar_slot .contacts_modal_avatar_image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 
 - Ensures avatar image fills the circle properly
 - Prevents image distortion
 */
-.contacts_modal_avatar_image{
-  object-fit:cover;
-}
-
-/* 
-- Adds space for icons inside input fields
-- Positions background icons to the right
-*/
-body.contacts-page #c_name,
-body.contacts-page #c_email,
-body.contacts-page #c_phone {
-  padding-right: 40px;            
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 16px 16px;      
-}
-
-body.contacts-page #c_name {
-}
-
-body.contacts-page #c_email {
-}
-
-body.contacts-page #c_phone {
-}
-
-/* 
-- Ensures consistent right padding on all contact inputs
-- Prevents text from overlapping icons
-*/
-body.contacts-page #c_name,
-body.contacts-page #c_email,
-body.contacts-page #c_phone {
-  padding-right: 40px; 
+.contacts_modal_avatar_image {
+  object-fit: cover;
 }
 
 /* 
@@ -153,41 +121,42 @@ body.contacts-page #c_phone {
 }
 
 /* 
-- Controls logo size inside the modal
-- Keeps logo responsive
-*/
-.contacts_modal_logo{
-  width:56px;
-  max-width:56px;
-  height:auto;
-}
-
-/* 
 - Decorative line under title in edit mode
 - Visually separates title from content
 */
-body.contacts-page .contacts_modal_backdrop.mode-edit .contacts_modal_title::after{
-  content:"";
-  display:block;
-  width:92px;
-  height:3px;
-  background:#1976d2;
-  margin:12px auto 0;
-  border-radius:2px;
+body.contacts-page
+  .contacts_modal_backdrop.mode-edit
+  .contacts_modal_title::after {
+  content: "";
+  display: block;
+  width: 92px;
+  height: 3px;
+  background: #1976d2;
+  margin: 12px auto 0;
+  border-radius: 2px;
 }
 
 /* 
 - Decorative line under subtitle in create mode
 - Matches edit mode styling
 */
-body.contacts-page .contacts_modal_backdrop.mode-create .contacts_modal_subtitle::after{
-  content:"";
-  display:block;
-  width:92px;
-  height:3px;
-  background:#1976d2;
-  margin:12px auto 0;
-  border-radius:2px;
+body.contacts-page
+  .contacts_modal_backdrop.mode-create
+  .contacts_modal_subtitle::after {
+  content: "";
+  display: block;
+  width: 92px;
+  height: 3px;
+  background: #1976d2;
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+.contacts_modal_subtitle_container {
+  display: flex;
+  align-items: center;
+  padding-left: 24px;
+  padding-bottom: 30px;
 }
 
 /* 
@@ -196,7 +165,7 @@ body.contacts-page .contacts_modal_backdrop.mode-create .contacts_modal_subtitle
 */
 .detail_edit:hover,
 .detail_delete:hover {
-    color: #1976d2;
+  color: #1976d2;
 }
 
 /* 
@@ -205,19 +174,19 @@ body.contacts-page .contacts_modal_backdrop.mode-create .contacts_modal_subtitle
 */
 .detail_edit:hover img,
 .detail_delete:hover img {
-    filter: brightness(0) saturate(100%)
-            invert(32%) sepia(85%) saturate(2871%)
-            hue-rotate(199deg) brightness(91%) contrast(94%);
+  filter: brightness(0) saturate(100%) invert(32%) sepia(85%) saturate(2871%)
+    hue-rotate(199deg) brightness(91%) contrast(94%);
 }
 
 /* 
 - Primary button hover state
 - Makes action more noticeable
 */
-.contacts_create_btn:hover {
-    background-color: #1976d2 !important;
-    border-color: #1976d2 !important;
-    color: #ffffff !important;
+.contacts_create_btn:hover,
+.contacts_save_btn:hover {
+  background-color: #1976d2 !important;
+  border-color: #1976d2 !important;
+  color: #ffffff !important;
 }
 
 /* 
@@ -225,99 +194,95 @@ body.contacts-page .contacts_modal_backdrop.mode-create .contacts_modal_subtitle
 - Emphasizes action without filling background
 */
 .contacts_delete_btn:hover {
-    border-color: #1976d2 !important;
-    color: #1976d2 !important;
-    background-color: transparent !important;
+  border-color: #1976d2 !important;
+  color: #1976d2 !important;
+  background-color: transparent !important;
 }
 
-/* 
-- Adjusts left panel layout for contacts page
-- Aligns content to the left
-*/
-body.contacts-page .contacts_modal_left_panel{
-  align-items:flex-start !important;
-  padding-left:48px !important;
+.contacts_modal_logo {
+  width: 55.6px;
+  height: 66.48px;
+  padding-left: 24.9px;
+  margin-bottom: 30px;
 }
 
-/* 
-- Smaller logo version for contacts page
-- Aligns logo with left layout
-*/
-body.contacts-page .contacts_modal_logo{
-  width:48px !important;
-  max-width:48px !important;
-  height:auto;
-  margin-left:0 !important;
+.contacts_modal_inputs {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  margin-bottom: 48px;
 }
 
-/* 
-- Left-aligns modal title and subtitle
-- Matches overall layout style
-*/
-body.contacts-page .contacts_modal_title,
-body.contacts-page .contacts_modal_subtitle{
-  text-align:left !important;
-  margin-left:0 !important;
+.contacts_modal_title_container {
+  width: 361px;
+  height: 89px;
+  display: flex;
+  align-items: center;
+  padding-left: 24px;
 }
 
-.contact_detail_item .slide_in_right{
-font-size: 16px;
-font-weight: 400;
+.contact_detail_item .slide_in_right {
+  font-size: 16px;
+  font-weight: 400;
 }
 
 /* 
 - Aligns edit mode underline to the left
 - Keeps spacing consistent
 */
-body.contacts-page .contacts_modal_backdrop.mode-edit .contacts_modal_title::after{
-  margin:12px 0 0 0 !important;
+body.contacts-page
+  .contacts_modal_backdrop.mode-edit
+  .contacts_modal_title::after {
+  margin: 12px 0 0 0 !important;
 }
 
 /* 
 - Aligns create mode underline to the left
 - Matches edit mode behavior
 */
-body.contacts-page .contacts_modal_backdrop.mode-create .contacts_modal_subtitle::after{
-  margin:12px 0 0 0 !important;
+body.contacts-page
+  .contacts_modal_backdrop.mode-create
+  .contacts_modal_subtitle::after {
+  margin: 12px 0 0 0 !important;
 }
-
 
 /* --- Registration-style overlays (reused for Contacts form validation & feedback) --- */
 body.contacts-page .overlay_userfeedback_email,
-body.contacts-page .overlay_userfeedback_sign_up{
-    position: fixed;
-    background-color: #2A3647;
-    color: white;
-    border-radius: 10px;
-    top: 90px;
-    width: 300px;
-    height: 50px;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 200;
-    text-align: center;
-    white-space: normal;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9999;
-    padding: 0 10px;
+body.contacts-page .overlay_userfeedback_sign_up {
+  position: fixed;
+  background-color: #2a3647;
+  color: white;
+  border-radius: 10px;
+  top: 90px;
+  width: 300px;
+  height: 50px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 200;
+  text-align: center;
+  white-space: normal;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 0 10px;
 }
 
-@media (max-width: 650px){
+@media (max-width: 650px) {
   body.contacts-page .overlay_userfeedback_email,
-  body.contacts-page .overlay_userfeedback_sign_up{
-      top: 120px;
-      width: 280px;
-      font-size: 18px;
+  body.contacts-page .overlay_userfeedback_sign_up {
+    top: 120px;
+    width: 280px;
+    font-size: 18px;
   }
 }
 
-
 /* Ensure d_none always wins over component display rules */
-.d_none { display: none !important; }
-
+.d_none {
+  display: none !important;
+}
 
 /* ===== Desktop Fix: More space for detail_name ===== */
 @media (min-width: 951px) {
@@ -343,32 +308,32 @@ body.contacts-page .overlay_userfeedback_sign_up{
   }
 }
 
-
-
 /* === Scroll Fix v2: contact_detail_root full height handling === */
-html, body {
-    height: 100%;
-    overflow: hidden !important;
+html,
+body {
+  height: 100%;
+  overflow: hidden !important;
 }
 
-.page, main, .content {
-    height: 100vh;
-    overflow: hidden !important;
+.page,
+main,
+.content {
+  height: 100vh;
+  overflow: hidden !important;
 }
 
 .contact_detail_root {
-    height: calc(100vh - 140px);
-    max-height: calc(100vh - 140px);
-    overflow-y: auto !important;
+  height: calc(100vh - 140px);
+  max-height: calc(100vh - 140px);
+  overflow-y: auto !important;
 }
 /* ===== Sidebar scrollbar to the very right ===== */
 
-
 /* 2) Scrollcontainer bis an den rechten Rand ziehen (über das alte Padding) */
-main.content .contacts_sidebar_list{
+main.content .contacts_sidebar_list {
   /* Scroll bleibt hier */
-  overflow-y: auto;           /* sicherstellen */
-  padding-right: 12px;        /* Abstand für Text, damit nichts unter der Scrollbar liegt */
+  overflow-y: auto; /* sicherstellen */
+  padding-right: 12px; /* Abstand für Text, damit nichts unter der Scrollbar liegt */
   box-sizing: border-box;
   /* reserviert Platz für Scrollbar (wo supported) */
   scrollbar-gutter: stable;
@@ -376,33 +341,32 @@ main.content .contacts_sidebar_list{
   box-sizing: border-box;
 }
 
-
 /* Sidebar soll selbst scrollen -> Scrollbar ganz rechts am Rand */
-main.content .contacts_sidebar{
-  overflow-y: auto !important;   /* überschreibt overflow-y: hidden */
+main.content .contacts_sidebar {
+  overflow-y: auto !important; /* überschreibt overflow-y: hidden */
   overflow-x: hidden;
 }
 
 /* Liste scrollt nicht mehr selbst */
-main.content .contacts_sidebar_list{
+main.content .contacts_sidebar_list {
   overflow: visible !important;
-  padding-right: 12px;           /* Text hat rechts Luft, scrollbar überdeckt nix */
+  padding-right: 12px; /* Text hat rechts Luft, scrollbar überdeckt nix */
   box-sizing: border-box;
 }
 /* Links + rechts je 60px Gutter (Inhalt der Liste einrücken) */
-main.content .contacts_sidebar_list{
+main.content .contacts_sidebar_list {
   padding-left: 60px !important;
   padding-right: 60px !important;
 }
 
 /* Optional: Gruppenüberschrift (A, B, C...) und Trennlinie gleich mit einrücken */
 main.content .contacts_group_label,
-main.content .contacts_divider{
+main.content .contacts_divider {
   margin-left: 60px !important;
 }
 
 /* "Add new contact" Button soll innerhalb der 60px Gutters sitzen (wirklich mittig) */
-main.content .contacts_sidebar_add{
+main.content .contacts_sidebar_add {
   width: calc(100% - 120px) !important;
   margin: 0 60px !important;
   box-sizing: border-box;
