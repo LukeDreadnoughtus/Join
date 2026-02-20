@@ -12,8 +12,10 @@
     '<div class="contacts_modal_content">' +
       '<div class="contacts_modal_left_panel">' +
         '<img src="assets/img/join-logo-vector.svg" class="contacts_modal_logo">' +
-        '<div id="contacts_modal_title" class="contacts_modal_title">Edit contact</div>' +
-        '<div id="contacts_modal_subtitle" class="contacts_modal_subtitle"></div>' +
+        '<span id="contacts_modal_title" class="contacts_modal_title">Edit contact</span>' +
+        '<div class="contacts_modal_subtitle_container">' +
+          '<span id="contacts_modal_subtitle" class="contacts_modal_subtitle"></span>' +
+        '</div>' +
       '</div>' +
       '<div class="contacts_modal_avatar_col">' +
         '<div id="contacts_modal_avatar_slot" class="contacts_modal_avatar_slot"></div>' +
@@ -23,12 +25,15 @@
           '<button class="contacts_modal_close" onclick="closeDialog()">×</button>' +
         '</div>' +
         '<div class="contacts_modal_body">' +
-          '<input id="c_name" placeholder="Name">' +
-          '<input id="c_email" placeholder="E-Mail">' +
-          '<input id="c_phone" placeholder="Phone">' +
+          '<div class="contacts_modal_inputs">' +
+            '<input id="c_name" placeholder="Name">' +
+            '<input id="c_email" placeholder="E-Mail">' +
+            '<input id="c_phone" placeholder="Phone">' +
+          '</div>' +
           '<div class="contacts_modal_actions">' +
-            '<button class="contacts_delete_btn" onclick="deleteContact()">Delete</button>' +
-            '<button class="contacts_create_btn" onclick="saveContact()">create contact ✓</button>' +
+            '<button id="contacts_delete_btn" class="contacts_delete_btn" onclick="deleteContact()">Delete</button>' +
+            '<button id="contacts_create_btn" class="contacts_create_btn" onclick="saveContact()">Create contact ✓</button>' +
+            '<button id="contacts_save_btn" class="contacts_save_btn" onclick="saveContact()" style="display:none;">Save ✓</button>' +
           '</div>' +
         '</div>' +
       '</div>' +

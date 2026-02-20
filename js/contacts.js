@@ -279,15 +279,29 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
     }
     const title=document.getElementById('contacts_modal_title');
     const sub=document.getElementById('contacts_modal_subtitle');
-    if(title) title.textContent='Add contact';
+    if(title){
+      title.textContent='Add contact';
+      // Wrap title in a container div if not already wrapped
+      if(!title.parentElement.classList.contains('contacts_modal_title_container')){
+        const container=document.createElement('div');
+        container.className='contacts_modal_title_container';
+        title.parentElement.insertBefore(container,title);
+        container.appendChild(title);
+      }
+    }
     if(sub) sub.textContent='Tasks are better with a team!';
     const avatarSlot=layer.querySelector('#contacts_modal_avatar_slot');
     if(avatarSlot&&T.createDialogAvatar)
       avatarSlot.innerHTML=T.createDialogAvatar();
-    const btn=layer.querySelector('.contacts_create_btn');
-    if(btn) btn.textContent='create contact ✓';
-    const del=layer.querySelector('.contacts_delete_btn');
-    if(del) del.textContent='cancel x';
+    const createBtn=layer.querySelector('#contacts_create_btn');
+    const saveBtn=layer.querySelector('#contacts_save_btn');
+    if(createBtn) {
+      createBtn.style.display='block';
+      createBtn.textContent='Create contact ✓';
+    }
+    if(saveBtn) saveBtn.style.display='none';
+    const del=layer.querySelector('#contacts_delete_btn');
+    if(del) del.textContent='Cancel x';
   };
 
   const openDialog=()=>{
@@ -330,11 +344,9 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
   };
 
   const isEditMode=(layer)=>{
-    // - Detects edit mode by checking the button label ("save ✓").
-    // - That way the logic works even if the modal is reused instead of rebuilt.
-    const btn=layer?.querySelector('.contacts_create_btn');
-    const label=btn?.textContent?.trim().toLowerCase()||'';
-    return label.startsWith('save');
+    // - Detects edit mode by checking if the layer has 'mode-edit' class.
+    // - More reliable than checking button text since buttons can be hidden.
+    return layer?.classList.contains('mode-edit')===true;
   };
 
   const saveExistingContact=async(all,form)=>{
@@ -559,11 +571,25 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
     }
     const title=document.getElementById('contacts_modal_title');
     const sub=document.getElementById('contacts_modal_subtitle');
-    if(title) title.textContent='Edit contact';
+    if(title){
+      title.textContent='Edit contact';
+      // Wrap title in a container div if not already wrapped
+      if(!title.parentElement.classList.contains('contacts_modal_title_container')){
+        const container=document.createElement('div');
+        container.className='contacts_modal_title_container';
+        title.parentElement.insertBefore(container,title);
+        container.appendChild(title);
+      }
+    }
     if(sub) sub.textContent='';
-    const btn=layer.querySelector('.contacts_create_btn');
-    if(btn) btn.textContent='save ✓';
-    const del=layer.querySelector('.contacts_delete_btn');
+    const createBtn=layer.querySelector('#contacts_create_btn');
+    const saveBtn=layer.querySelector('#contacts_save_btn');
+    if(createBtn) createBtn.style.display='none';
+    if(saveBtn) {
+      saveBtn.style.display='block';
+      saveBtn.textContent='Save ✓';
+    }
+    const del=layer.querySelector('#contacts_delete_btn');
     if(del) del.textContent='Delete';
   };
 
