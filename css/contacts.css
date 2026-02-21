@@ -1,7 +1,17 @@
+body.contacts-page #c_name:focus,
+body.contacts-page #c_email:focus,
+body.contacts-page #c_phone:focus {
+  border: 1px solid #29ABE2;
+  outline: none;
+}
 /* 
 - Limits the modal height so it fits nicely on most screens
 - Prevents the modal from getting too small or too tall
 */
+input:focus {
+  border: 1px solid #29ABE2;
+}
+
 body.contacts-page .contacts_modal {
   max-height: 85dvh;
   min-height: 30dvh;
@@ -215,8 +225,6 @@ body.contacts-page
 }
 
 .contacts_modal_title_container {
-  width: 361px;
-  height: 89px;
   display: flex;
   align-items: center;
   padding-left: 24px;

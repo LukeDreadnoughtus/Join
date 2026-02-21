@@ -408,16 +408,11 @@
 
   /* bottom panel */
   body.contacts-page .contacts_modal_right_panel {
-    /* Right panel becomes the bottom content area */
-    /* Extra top padding makes room for the overlapping avatar */
-    /* Scroll enabled so long forms still work on small screens */
     width: 100%;
     flex: 1;
     justify-content: flex-start;
-
-    padding: calc(var(--contacts-avatar-size) / 2 + 4px) 24px 24px 24px;
+    padding: 50px;
     box-sizing: border-box;
-    overflow: auto;
   }
 
   body.contacts-page .contacts_modal_left_panel .contacts_modal_avatar_col {
@@ -472,7 +467,7 @@
 
 /* Previously applied only up to 700px.
    Requirement: apply these rules already below 950px and remove the 950-700 intermediate step. */
-@media (max-width: 950px) {
+@media (max-width: 1024px) {
   .contacts_modal_left_panel {
     /* Stack modal header content vertically on mobile */
     /* Center it vertically so it feels like a hero section */
@@ -566,5 +561,50 @@ body {
 
   .contacts_modal_inputs {
     width: 90% !important;
+  }
+}
+
+@media (max-width: 950px) {
+  body.contacts-page #c_name,
+  body.contacts-page #c_email,
+  body.contacts-page #c_phone {
+    font-size: 16px !important;
+    height: 41px !important;
+  }
+  body.contacts-page .contacts_modal_actions {
+    padding-right: 30px;
+    display: flex;
+    justify-content: center;
+    width: auto !important;
+  }
+}
+@media (max-width: 390px) {
+  .contacts_modal_subtitle {
+    font-size: 16px;
+  }
+
+  .contacts_modal_title {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 370px) {
+  .contacts_modal_right_panel {
+    justify-content: center !important;
+    padding-left: 30px !important;
+  }
+}
+
+@media (max-width: 340px) {
+  .contacts_modal_right_panel {
+    justify-content: center !important;
+    padding-left: 20px !important;
+  }
+}
+
+@media (max-width: 330px) {
+  .contacts_modal_right_panel {
+    justify-content: center !important;
+    padding-left: 10px !important;
   }
 }

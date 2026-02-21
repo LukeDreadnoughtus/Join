@@ -143,8 +143,8 @@ body.contacts-page .contacts_modal_body {
   padding-left: 50px;
 }
 body.contacts-page .contacts_modal_body input {
-  border: 1px solid #e4e4e7;
-  border-radius: 8px;
+  border: #d1d1d1 1px solid;
+  border-radius: 10px;
   font-size: 14px;
   outline: none; /* - Input base styling. - Rounded corners to match modal. - Removes default outline for custom focus state. */
 }
