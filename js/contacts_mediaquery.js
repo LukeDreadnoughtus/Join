@@ -7,7 +7,7 @@
 // - The close button (×) is moved into the top-right of .contacts_modal_left_panel.
 
 (function () {
-  const mq = window.matchMedia('(max-width: 950px)');
+  const mq = window.matchMedia('(max-width: 1024px)');
   const BODY_OPEN_CLASS = 'contacts-overlay-open';
   const BODY_MENU_CLASS = 'contacts-fab-menu-open';
   // Separate FAB for "Add contact" on the sidebar.
@@ -15,7 +15,7 @@
   const SIDEBAR_ADD_FAB_CLASS = 'contacts_sidebar_add_fab';
 
   function isMobile() {
-    // Checks if the current viewport matches the mobile breakpoint (<= 950px).
+    // Checks if the current viewport matches the mobile breakpoint (<= 1024px).
     // Basically a single source of truth so you don't sprinkle mq.matches everywhere.
     return mq.matches;
   }

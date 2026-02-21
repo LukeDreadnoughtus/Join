@@ -290,6 +290,10 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
       }
     }
     if(sub) sub.textContent='Tasks are better with a team!';
+        if(sub) {
+          sub.textContent = 'Tasks are better with a team!';
+          sub.className = 'contacts_modal_subtitle add-subtitle';
+        }
     const avatarSlot=layer.querySelector('#contacts_modal_avatar_slot');
     if(avatarSlot&&T.createDialogAvatar)
       avatarSlot.innerHTML=T.createDialogAvatar();
@@ -297,11 +301,11 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
     const saveBtn=layer.querySelector('#contacts_save_btn');
     if(createBtn) {
       createBtn.style.display='block';
-      createBtn.textContent='Create contact ✓';
+      createBtn.innerHTML = 'Create contact <span class="contacts-checkmark"><svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.288 8.775L13.763 0.3C13.963 0.1 14.2005 0 14.4755 0C14.7505 0 14.988 0.1 15.188 0.3C15.388 0.5 15.488 0.7375 15.488 1.0125C15.488 1.2875 15.388 1.525 15.188 1.725L5.988 10.925C5.788 11.125 5.55467 11.225 5.288 11.225C5.02133 11.225 4.788 11.125 4.588 10.925L0.288 6.625C0.088 6.425 -0.00783333 6.1875 0.0005 5.9125C0.00883333 5.6375 0.113 5.4 0.313 5.2C0.513 5 0.7505 4.9 1.0255 4.9C1.3005 4.9 1.538 5 1.738 5.2L5.288 8.775Z" fill="white"/></svg></span>';
     }
     if(saveBtn) saveBtn.style.display='none';
     const del=layer.querySelector('#contacts_delete_btn');
-    if(del) del.textContent='Cancel x';
+    if(del) del.innerHTML = 'Cancel <span class="contacts-x"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.243 6.243L11.486 11.486M1 11.486L6.243 6.243L1 11.486ZM11.486 1L6.242 6.243L11.486 1ZM6.242 6.243L1 1L6.242 6.243Z" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
   };
 
   const openDialog=()=>{
@@ -582,15 +586,19 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
       }
     }
     if(sub) sub.textContent='';
+        if(sub) {
+          sub.textContent = '';
+          sub.className = 'contacts_modal_subtitle edit-subtitle';
+        }
     const createBtn=layer.querySelector('#contacts_create_btn');
     const saveBtn=layer.querySelector('#contacts_save_btn');
     if(createBtn) createBtn.style.display='none';
     if(saveBtn) {
       saveBtn.style.display='block';
-      saveBtn.textContent='Save ✓';
+      saveBtn.innerHTML = 'Save <span class="contacts-checkmark"><svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.288 8.775L13.763 0.3C13.963 0.1 14.2005 0 14.4755 0C14.7505 0 14.988 0.1 15.188 0.3C15.388 0.5 15.488 0.7375 15.488 1.0125C15.488 1.2875 15.388 1.525 15.188 1.725L5.988 10.925C5.788 11.125 5.55467 11.225 5.288 11.225C5.02133 11.225 4.788 11.125 4.588 10.925L0.288 6.625C0.088 6.425 -0.00783333 6.1875 0.0005 5.9125C0.00883333 5.6375 0.113 5.4 0.313 5.2C0.513 5 0.7505 4.9 1.0255 4.9C1.3005 4.9 1.538 5 1.738 5.2L5.288 8.775Z" fill="white"/></svg></span>';
     }
     const del=layer.querySelector('#contacts_delete_btn');
-    if(del) del.textContent='Delete';
+    if(del) del.innerHTML = 'Delete <span class="contacts-x"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.243 6.243L11.486 11.486M1 11.486L6.243 6.243L1 11.486ZM11.486 1L6.242 6.243L11.486 1ZM6.242 6.243L1 1L6.242 6.243Z" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
   };
 
   const updateEditAvatar=(layer,user)=>{
