@@ -264,9 +264,10 @@ body.contacts-page .overlay_userfeedback_sign_up {
   border-radius: 10px;
   top: 90px;
   width: 300px;
-  height: 50px;
+  min-height: 50px;
   font-size: 20px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-weight: 200;
@@ -275,7 +276,18 @@ body.contacts-page .overlay_userfeedback_sign_up {
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;
-  padding: 0 10px;
+  padding: 10px 12px;
+}
+
+body.contacts-page .overlay_userfeedback_email p,
+body.contacts-page .overlay_userfeedback_sign_up p {
+  margin: 0;
+  line-height: 1.2;
+}
+
+body.contacts-page .overlay_userfeedback_email p + p,
+body.contacts-page .overlay_userfeedback_sign_up p + p {
+  margin-top: 6px;
 }
 
 @media (max-width: 650px) {

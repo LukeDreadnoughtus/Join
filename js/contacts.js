@@ -14,9 +14,27 @@ checkAuth();
     }
   };
 
+  const showContactsOverlayMessages=(id,messages,baseMs=2200)=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+
+    if(!el.dataset.defaultHtml) el.dataset.defaultHtml=el.innerHTML;
+
+    const list=[].concat(messages||[]).filter(Boolean);
+    el.innerHTML=list.map(m=>`<p>${String(m)}</p>`).join('');
+
+    const ms=baseMs + Math.max(0,list.length-1)*1000;
+    showContactsOverlay(id, ms);
+  };
+
   const hideContactsOverlay=(id)=>{
     const el=document.getElementById(id);
     if(!el) return;
+
+    if(id==='userfeedback_email' && el.dataset.defaultHtml){
+      el.innerHTML=el.dataset.defaultHtml;
+    }
+
     el.classList.add('d_none');
     el.style.display = 'none';
   };
@@ -24,13 +42,27 @@ checkAuth();
   const hideAllContactsOverlays=()=>{
     ['userfeedback_email','userfeedback_contact_created','userfeedback_contact_deleted'].forEach(hideContactsOverlay);
   };
-const wireContactsOverlayHiders=()=>{
-    const email=document.getElementById('c_email');
-    if(email && !email._overlayWired){
-      email.addEventListener('input', ()=>hideContactsOverlay('userfeedback_email'));
-      email.addEventListener('focus', ()=>hideContactsOverlay('userfeedback_email'));
-      email._overlayWired=true;
-    }
+
+  const wireContactsOverlayHiders=()=>{
+    ['c_name','c_email','c_phone'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el && !el._overlayWired){
+        el.addEventListener('input', ()=>hideContactsOverlay('userfeedback_email'));
+        el.addEventListener('focus', ()=>hideContactsOverlay('userfeedback_email'));
+        el._overlayWired=true;
+      }
+    });
+  };
+
+  const isValidEmail=(email)=>{
+    if(!email) return false;
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const getInvalidPhoneChars=(phone)=>{
+    if(!phone) return [];
+    const invalid=[...String(phone)].filter(ch=>!/[0-9]/.test(ch));
+    return [...new Set(invalid)];
   };
 
 
@@ -396,11 +428,30 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
     // - Blocks duplicates by email, then refreshes UI and closes the modal.
     const form=readContactForm();
     if(!hasRequiredFields(form)) return;
+
+    const messages=[];
+
+    if(!isValidEmail(form.email)){
+      messages.push('Das ist keine gültige E-Mail-Adresse');
+    }
+
+    const invalidPhone=getInvalidPhoneChars(form.phone);
+    if(invalidPhone.length){
+      messages.push('Es wurden folgende invalide Zeichen festgestellt');
+      messages.push(invalidPhone.join(' '));
+    }
+
     const all=await fetchContacts();
+
     if(findEmailConflict(all,form.email,EDIT_ID)){
-      showContactsOverlay('userfeedback_email');
+      messages.push('This email does already exist');
+    }
+
+    if(messages.length){
+      showContactsOverlayMessages('userfeedback_email', messages);
       return;
     }
+
     const layer=document.querySelector('.contacts_modal_backdrop');
     if(isEditMode(layer)&&EDIT_ID) {
       await saveExistingContact(all,form);
