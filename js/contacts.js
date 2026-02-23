@@ -31,7 +31,7 @@ checkAuth();
     const el=document.getElementById(id);
     if(!el) return;
 
-    if(id==='userfeedback_email' && el.dataset.defaultHtml){
+    if(el.dataset.defaultHtml){
       el.innerHTML=el.dataset.defaultHtml;
     }
 
@@ -47,8 +47,16 @@ checkAuth();
     ['c_name','c_email','c_phone'].forEach(id=>{
       const el=document.getElementById(id);
       if(el && !el._overlayWired){
-        el.addEventListener('input', ()=>hideContactsOverlay('userfeedback_email'));
-        el.addEventListener('focus', ()=>hideContactsOverlay('userfeedback_email'));
+        el.addEventListener('input', ()=>{
+          hideContactsOverlay('userfeedback_email');
+          hideContactsOverlay('userfeedback_contact_created');
+          hideContactsOverlay('userfeedback_contact_deleted');
+        });
+        el.addEventListener('focus', ()=>{
+          hideContactsOverlay('userfeedback_email');
+          hideContactsOverlay('userfeedback_contact_created');
+          hideContactsOverlay('userfeedback_contact_deleted');
+        });
         el._overlayWired=true;
       }
     });
@@ -78,6 +86,7 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
   // In-memory array of contacts in render order
   let ORDER=[];
   let EDIT_ID=null;
+  let SELECTED_ID=null;
 
   const T=window.contactsTemplates||{};
 
@@ -360,7 +369,7 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
     if(layer) layer.classList.remove('is-open');
   };
 
-  const readContactForm=()=>({
+  const readContactForm=() => ({
     // - Reads values from the modal inputs and trims whitespace.
     // - Returns a simple object so validation/saving stays clean.
     name:document.getElementById('c_name')?.value.trim(),
@@ -407,11 +416,13 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
       phone:form.phone||'',
       colors:pickColor()
     };
-    await fetch(DB+'.json',{
+    const r=await fetch(DB+'.json',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify(body)
     });
+    const data=await r.json().catch(()=>null);
+    return data?.name||null;
   };
 
   const refreshContactsUI=async()=>{
@@ -421,6 +432,11 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
     if(!sidebar) return;
     const list=sidebar.querySelector('.contacts_sidebar_list');
     renderContacts(list,await fetchContacts());
+    if(SELECTED_ID){
+      const idx=ORDER.findIndex(u=>u.id===SELECTED_ID);
+      if(idx>-1) selectUserAt(idx);
+      else clearSelection();
+    }
   };
 
   const saveContact=async()=>{
@@ -454,9 +470,34 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
 
     const layer=document.querySelector('.contacts_modal_backdrop');
     if(isEditMode(layer)&&EDIT_ID) {
+
+      const current=all.find(u=>u.id===EDIT_ID) || null;
+
+      const changedMessages=[];
+      if(current){
+        const oldName=(current.name||'').trim();
+        const oldEmail=(current.email||'').trim();
+        const oldPhone=(current.phone||'').trim();
+
+        const newName=(form.name||'').trim();
+        const newEmail=(form.email||'').trim();
+        const newPhone=(form.phone||'').trim();
+
+        if(oldName !== newName) changedMessages.push('Name was successfully updated');
+        if(oldEmail !== newEmail) changedMessages.push('E-mail was successfully updated');
+        if(oldPhone !== newPhone) changedMessages.push('Phone number was successfully updated');
+      }
+
+      SELECTED_ID=EDIT_ID;
       await saveExistingContact(all,form);
+
+      if(changedMessages.length){
+        showContactsOverlayMessages('userfeedback_contact_created', changedMessages, 2000);
+      }
+
     } else {
-      await createNewContact(form);
+      const newId=await createNewContact(form);
+      if(newId) SELECTED_ID=newId;
       // transient userfeedback (<= 2s) like in registration.html
       showContactsOverlay('userfeedback_contact_created', 2000);
     }
@@ -520,6 +561,7 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
   const clearSelection=()=>{
     // - Removes highlight from selected sidebar row.
     // - Clears the detail panel so nothing is shown when no user is selected.
+    SELECTED_ID=null;
     document.querySelectorAll('.contacts_name_row.is-selected')
       .forEach(el=>el.classList.remove('is-selected'));
     const root=document.querySelector('.contact_detail_root');
@@ -607,7 +649,10 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
     const row=document.querySelector('.contacts_name_row[data-idx="'+idx+'"]');
     if(row) row.classList.add('is-selected');
     const user=ORDER[idx];
-    if(user) fillProfile(user,idx);
+    if(user){
+      SELECTED_ID=user.id||null;
+      fillProfile(user,idx);
+    }
   };
 
   const sidebarClick=(e)=>{
@@ -718,6 +763,7 @@ const DB="https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatab
     if(!EDIT_ID){closeDialog();return;}
     await removeUserFromTasks(EDIT_ID);
     await fetch(DB+'/'+EDIT_ID+'.json',{method:'DELETE'});
+    if(SELECTED_ID===EDIT_ID) SELECTED_ID=null;
     await refreshContactsUI();
     EDIT_ID=null;
     closeDialog();
