@@ -362,6 +362,7 @@ checkAuth();
       const el = document.getElementById(id);
       if (el) el.value = '';
     });
+    resetErrorBorders();
   };
 
   const configureCreateMode = (layer) => {
@@ -411,6 +412,7 @@ checkAuth();
     if (!layer) return;
     layer.classList.add('is-open');
     resetDialogInputs();
+    resetErrorBorders();
     hideContactsOverlay('userfeedback_email');
     wireContactsOverlayHiders();
     configureCreateMode(layer);
@@ -421,6 +423,7 @@ checkAuth();
     // - Doesn’t destroy elements, so opening again is instant.
     const layer = document.querySelector('.contacts_modal_backdrop');
     if (layer) layer.classList.remove('is-open');
+    resetErrorBorders();
   };
 
   const readContactForm = () => ({
@@ -818,6 +821,13 @@ checkAuth();
       });
     }
   };
+
+  function resetErrorBorders() {
+    ['c_name', 'c_email', 'c_phone'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('input-error');
+    });
+  }
 
   const deleteContact = async () => {
     // - Deletes the currently edited contact from Firebase.
