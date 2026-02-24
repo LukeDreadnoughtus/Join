@@ -250,7 +250,10 @@ main.content .contacts_email {
 .contacts_name_row.is-selected {
   background: #2a3647;
   color: #fff;
-  /* - Selected row highlight. - White text for contrast on dark background. - Helps user see what contact is active. */
+
+  /* nach rechts “breiter”, ohne Layout/Box zu vergrößern (wird vom Sidebar-Overflow abgeschnitten) */
+  --selected-extend: 60px;
+  box-shadow: var(--selected-extend) 0 0 #2a3647;
 }
 /* Ensure name text turns white when a row is selected (h4 inherits styles from fonts.css otherwise) */
 main.content .contacts_name_row.is-selected .contacts_name {
