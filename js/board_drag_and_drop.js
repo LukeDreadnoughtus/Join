@@ -115,10 +115,18 @@ function onDragOverColumn(event, slot) {
 async function moveTo (slot, event) {
 const taskId = currentDraggedTask;
 allTasks[taskId].boardSlot = slot
-removeHighlight(slot);
 await updateBoardSlotInFirebase(taskId, slot) 
+removeHighlight(slot);
 renderBoardBasics()
-await init()
+renderTaskCards(allTasks)
+checkNoTasks();
+}
+
+function renderTaskCards(allTasks) {
+    for (const key in allTasks) {
+        const taskData = allTasks[key];
+        taskTemplate(taskData);
+    }
 }
 
 /**

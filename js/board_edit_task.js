@@ -72,8 +72,6 @@ async function closeTaskOverlayEdit(event) {
     document.getElementById("task_edit_view").classList.add("d_none")
     document.getElementById("task_full_view").classList.add("d_none")
     document.body.classList.remove("no-scroll");
-    renderBoardBasics()
-    await init()
 }
 
 /**
@@ -293,16 +291,6 @@ function removeAssignedUser(task, userName) {
  *
  * @param {string|number} id - Task ID
  */
-// async function saveEdits(id) {
-//     const input = collectEditInputs();
-//     const firebaseDate = convertDateToFirebaseFormat(input.rawDueDate);
-//     updateLocalTask(id, input);
-//     const assignedUserIds = await prepareAssignedUserIds(id);
-//     const patchData = buildPatchData(id, firebaseDate, assignedUserIds);
-//     await updateTaskInFirebase(id, patchData);
-//     toggleEditView();
-//     renderTaskCardFullView(allTasks[id]);
-// }
 
 async function saveEdits(id) {
     const input = collectEditInputs();

@@ -40,12 +40,12 @@
 
     .column_content {
     display: flex;
-    flex-direction: row;
-    gap: 16px;            
+    flex-direction: row;            
     width: 100%;
     overflow-x: auto;       
     overflow-y: hidden;
     padding-right:0px; 
+    padding-bottom:10px; 
     }
 
     .task_card {

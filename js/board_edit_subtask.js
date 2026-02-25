@@ -16,8 +16,32 @@ async function toggleSubtask(event, indexSubtask, taskData) {
     taskData.subtasks[indexSubtask].done = newValue; //Hier wird das nur im taskData des Overlays gespeichert.
     const taskId = taskData.id;
     allTasks[taskId].subtasks[indexSubtask].done = newValue;
+    allTasks[taskId].subtasksTotal = currentSubtaskNumber(allTasks[taskId])
+    allTasks[taskId].subtasksDone =currentCompletedTasksNumber(allTasks[taskId])
+    renderBoardBasics()
+    renderTaskCards(allTasks)
+    checkNoTasks();
     await postSubtaskData(taskId, indexSubtask, newValue);
 }
+
+
+// function extractSubtaskData(task) {
+//     const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
+
+//     if (subtasks.length === 0) {
+//         return {
+//             subtasksTotal: 0,
+//             subtasksDone: 0,
+//             subtasks: [],
+//         };
+//     }
+//     return {
+//         subtasksTotal: currentSubtaskNumber(task),
+//         subtasksDone: currentCompletedTasksNumber(task),
+//         subtasks: subtasks,
+//     };
+// }
+
 
 /**
  * Updates the completion state of a single subtask in Firebase.
