@@ -121,7 +121,9 @@
     /* only applied to the board label */
     transform-origin: center;
   }
-
+  .page .content { 
+    overflow: visible;
+  }
 
   /* Keep each nav item footprint stable (no jumping when .is-active changes) */
   .left .main-links .link-row {

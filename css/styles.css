@@ -19,7 +19,7 @@ body {
   display: grid;
   grid-template-columns: 16.5% 1fr;
   height: 100vh;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
   
   /* max-width: 1440px; minus menü  232px und dann header position absolute +  page 96 margin top*/
   background-color: #f5f5f5;
@@ -449,7 +449,7 @@ body {
 }
 
 body.contacts-page .page .content {
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
   /* Contacts page handles its own scrolling */
   /* Prevents double-scroll issues */
   /* Keeps layout consistent for that view */
