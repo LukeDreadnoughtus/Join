@@ -72,6 +72,7 @@ async function closeTaskOverlayEdit(event) {
     document.getElementById("task_edit_view").classList.add("d_none")
     document.getElementById("task_full_view").classList.add("d_none")
     document.body.classList.remove("no-scroll");
+
 }
 
 /**
@@ -243,6 +244,10 @@ function toggleAssignedUsers(userColor, userName, id, checkbox) {
         userOption.classList.remove("assigned");
     }
 }
+
+ // renderBoardBasics()
+    // renderTaskCards(allTasks)
+    // checkNoTasks();
 
 /**
  * Ensures that assigned user arrays exist on the task.
@@ -573,6 +578,9 @@ function toggleUserOption(color, name, taskId, containerDiv) {
     const checkbox = containerDiv.querySelector(".user_checkbox");
     checkbox.checked = !checkbox.checked; 
     toggleAssignedUsers(color, name, taskId, checkbox); 
+    renderBoardBasics()
+    renderTaskCards(allTasks)
+    checkNoTasks();
 }
 
 

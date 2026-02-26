@@ -152,13 +152,30 @@ function reindexSubtasksObject(subtasks) {
 async function deleteSubtask(id, subtaskKey) {
     delete allTasks[id].subtasks[subtaskKey];
     const reindexed = reindexSubtasksObject(allTasks[id].subtasks);
-    allTasks[id].subtasks = reindexed;
-    await updateSubtasksInFirebase(id, reindexed);
+    console.log(reindexed)
+    allTasks[id].subtasks = Object.values(reindexed);
+    allTasks[id].subtasksTotal--; 
+    allTasks[id].subtasksDone = countCompletedSubTasks(id)
     renderEdit(id);
     requestAnimationFrame(() => {
         focusSubtaskInput();
     });
+    renderBoardBasics()
+    renderTaskCards(allTasks)
+    checkNoTasks(); 
+    await updateSubtasksInFirebase(id, reindexed);
 }
+
+function countCompletedSubTasks(id) {
+    let allSubTasks = allTasks[id].subtasks
+    let count = 0
+    for (key  in allSubTasks) {
+        if (allSubTasks[key].done === true) {count++}
+        else continue
+    }
+    return count;
+}
+
 
 let currentTaskId = null;
 let currentSubtaskKey = null;
@@ -254,7 +271,9 @@ function editSubtask(event, taskId, subtaskKey) {
     const listItem = getSubtaskListItem(subtaskKey);
     setSubtaskEditingState(listItem);
     renderSubtaskEditTemplate(listItem, taskId, subtaskKey, subtask.name);
+    
 }
+
 
 /**
  * Returns the list item element of a subtask based on its index.
@@ -300,6 +319,7 @@ async function saveSubtaskEdit(event,taskId, subtaskKey, liElement) {
     newInput.focus();
 }
 
+
 /**
  * Clears the subtask input field related to the clicked icon.
  *
@@ -330,12 +350,17 @@ async function addNewSubtask(id) {
         name: newSubtaskName 
     };
     allTasks[id].subtasks.push(newSubtask);
-    await updateSubtasksInFirebase (id, allTasks[id].subtasks);
+    allTasks[id].subtasksTotal++;  
     input.value = ""; 
     renderEdit(id);  
     const newInput = document.getElementById("edit_subtask_input");
     newInput.focus();
+    renderBoardBasics()
+    renderTaskCards(allTasks)
+    checkNoTasks();
+    await updateSubtasksInFirebase (id, allTasks[id].subtasks);
 }
+
 
 /**
  * Handles the Enter key to add a new subtask.
