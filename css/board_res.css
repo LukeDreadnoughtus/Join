@@ -24,12 +24,14 @@
     width: 100%;
     box-sizing: border-box;
     max-width: 1000px; 
+    min-width: 320px;
+    overflow-x: auto; 
     }
 
     .board_column {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width:100%; 
     max-width: 100%;
     min-height: 0;
     }
