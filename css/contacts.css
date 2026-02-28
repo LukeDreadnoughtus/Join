@@ -125,7 +125,7 @@ body.contacts-page
   width: 92px;
   height: 3px;
   background: #1976d2;
-  margin: 12px 0 0 0 !important;
+  margin: 12px 0 0 0;
   border-radius: 2px;
 }
 
@@ -137,7 +137,7 @@ body.contacts-page
   width: 92px;
   height: 3px;
   background: #1976d2;
-  margin: 12px 0 0 0 !important;
+  margin: 12px 0 0 0;
   border-radius: 2px;
 }
 
@@ -162,15 +162,15 @@ body.contacts-page
 
 .contacts_create_btn:hover,
 .contacts_save_btn:hover {
-  background-color: #1976d2 !important;
-  border-color: #1976d2 !important;
-  color: #ffffff !important;
+  background-color: #1976d2;
+  border-color: #1976d2;
+  color: #ffffff;
 }
 
 .contacts_delete_btn:hover {
-  border-color: #1976d2 !important;
-  color: #1976d2 !important;
-  background-color: transparent !important;
+  border-color: #1976d2;
+  color: #1976d2;
+  background-color: transparent;
 }
 
 .contacts_modal_logo {
@@ -313,6 +313,7 @@ main,
 
 /* ===== Sidebar scrollbar / layout (zusammengeführt, finale Werte) ===== */
 main.content .contacts_sidebar {
+  --contacts-sidebar-pad: 60px;
   width: 460px;
   min-width: 460px;
   max-width: 460px;
@@ -326,13 +327,13 @@ main.content .contacts_sidebar {
   top: 0;
   max-height: 100dvh;
   padding: 12px 0 12px 12px;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 main.content .contacts_sidebar_add {
-  width: calc(100% - 120px) !important;
-  margin: 0 60px !important;
+  width: calc(100% - (var(--contacts-sidebar-pad) * 2));
+  margin: 0 var(--contacts-sidebar-pad);
   box-sizing: border-box;
   padding: 10px 12px;
   border: none;
@@ -354,12 +355,12 @@ main.content .contacts_sidebar_add {
 main.content .contacts_sidebar_list {
   flex: 1 1 auto;
   padding-bottom: 70px;
-  padding-left: 60px !important;
-  padding-right: 60px !important;
+  padding-left: var(--contacts-sidebar-pad);
+  padding-right: var(--contacts-sidebar-pad);
   box-sizing: border-box;
-  overflow: visible !important;
+  overflow: visible;
   scrollbar-gutter: stable;
-  margin-right: 60px;
+  margin-right: 0;
 }
 
 main.content .contacts_group {
@@ -378,16 +379,12 @@ main.content .contacts_divider {
   height: 1px;
   background: rgba(0, 0, 0, 0.12);
   margin: 0;
-  /* Extend the line into the right padding of the sidebar list
-     (same visual width as .contacts_name_row.is-selected background). */
   width: 100%;
-  box-shadow: var(--selected-extend, 60px) 0 0 rgba(0, 0, 0, 0.12);
 }
 
 main.content .contacts_group_label,
 main.content .contacts_divider {
-  /* Align label + divider with the start of the contact rows (incl. avatar). */
-  margin-left: 0 !important;
+  margin-left: 0;
 }
 
 @media (max-width: 900px) {
@@ -433,9 +430,8 @@ main.content .contacts_name {
   padding: 0;
   margin: 0;
   line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow-wrap: normal;
 }
 
 main.content .contacts_email {
@@ -444,13 +440,12 @@ main.content .contacts_email {
   display: block;
   line-height: 1.2;
   word-break: normal;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
-.input-error {
-  border: 2px solid #d32f2f !important;
+body.contacts-page .contacts_modal_body input.input-error {
+  border: 2px solid #d32f2f;
   outline: none;
 }
 
@@ -738,12 +733,6 @@ main.content .contacts_name_row.is-selected .contacts_name {
 
 .contact_detail_item .font_weight_700 .slide_in_right {
   font-size: 16px;
-}
-
-.contacts_sidebar_list {
-  padding-bottom: 70px;
-  box-sizing: border-box;
-  margin-right: 60px;
 }
 
 .contacts_sidebar_list::after {
