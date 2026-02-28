@@ -80,14 +80,37 @@ body.contacts-page .contacts_modal_content {
 .contacts_modal_avatar_slot .contacts_modal_avatar_image {
   width: 120px;
   height: 120px;
+  min-width: 120px;
+  min-height: 120px;
+
+  aspect-ratio: 1 / 1;
+  flex: 0 0 auto;
+  flex-shrink: 0;
+
   border-radius: 50%;
+  overflow: hidden;
+
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .contacts_modal_avatar_image {
-  object-fit: cover;
+  width: 120px;
+  height: 120px;
+  min-width: 120px;
+  min-height: 120px;
+
+  aspect-ratio: 1 / 1;
+  flex: 0 0 auto;
+  flex-shrink: 0;
+
+  border-radius: 50%;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* --- Icons in den Kontakt-Inputfeldern (finale Version) --- */
@@ -594,13 +617,21 @@ main.content .contacts_name_row.is-selected .contacts_name {
 .detail_avatar {
   width: 120px;
   height: 120px;
-  /* Prevent the avatar from being squeezed in flex layouts when space gets tight */
-  flex: 0 0 120px;
   min-width: 120px;
+  min-height: 120px;
+
+  /* Keep the avatar perfectly round and prevent squashing in flex/grid contexts */
+  aspect-ratio: 1 / 1;
+  flex: 0 0 auto;
+  flex-shrink: 0;
+
   border-radius: 50%;
+  overflow: hidden;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   color: #fff;
   font-weight: 500;
   font-size: 47px;

@@ -455,6 +455,12 @@
   body.contacts-page .contacts_modal_avatar_slot .contacts_modal_avatar_image {
     width: var(--contacts-avatar-size);
     height: var(--contacts-avatar-size);
+    min-width: var(--contacts-avatar-size);
+    min-height: var(--contacts-avatar-size);
+
+    aspect-ratio: 1 / 1;
+    flex: 0 0 auto;
+    flex-shrink: 0;
   }
 
   /* Close button: top-right inside the left panel (moved by JS on mobile) */
