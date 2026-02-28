@@ -516,23 +516,13 @@
   }
 }
 
-/* Ensure d_none always wins over component display rules */
-.d_none {
-  display: none !important;
-}
+/*
+  NOTE:
+  `.d_none` is already defined globally (header.css, etc.).
+  Avoid overriding it here with `!important`.
 
-/* === Scroll Fix v2: contact_detail_root full height handling === */
-html,
-body {
-  height: 100%;
-  overflow: hidden !important;
-}
-
-.contact_detail_root {
-  height: calc(100vh - 140px);
-
-  overflow-y: auto !important;
-}
+  Scroll handling is defined in css/contacts.css without `!important`.
+*/
 
 @media (max-width: 1245px) {
   .contacts_modal {
