@@ -264,26 +264,10 @@ checkAuth();
     texts.className = 'contacts_texts';
     const label = document.createElement('h4');
     label.className = 'contacts_name';
-    const n = titleCase(user.name);
-    const nParts = String(n).split(' ');
-    nParts.forEach((part, i) => {
-      label.appendChild(document.createTextNode(part));
-      if (i < nParts.length - 1) {
-        label.appendChild(document.createTextNode(' '));
-        label.appendChild(document.createElement('wbr'));
-      }
-    });
+    label.textContent = titleCase(user.name);
     const email = document.createElement('div');
     email.className = 'contacts_email';
-    const e = String(user.email || '');
-    const at = e.indexOf('@');
-    if (at > -1) {
-      email.appendChild(document.createTextNode(e.slice(0, at + 1)));
-      email.appendChild(document.createElement('wbr'));
-      email.appendChild(document.createTextNode(e.slice(at + 1)));
-    } else {
-      email.textContent = e;
-    }
+    email.textContent = user.email || '';
     texts.append(label, email);
     return texts;
   };
@@ -714,7 +698,7 @@ checkAuth();
     // - Renders the full detail profile for the selected user.
     // - Repositions the detail panel first so it still lines up after resizing.
     const root = ensureDetailRoot();
-    if (!window.matchMedia("(max-width: 1024px)").matches) positionDetailRoot();
+    positionDetailRoot();
     root.innerHTML = '';
     const head = buildDetailHead(user, idx);
     const section = createContactInfoSection();
@@ -870,7 +854,7 @@ checkAuth();
     renderContacts(list, await fetchContacts());
     ensureDetailHeader();
     ensureDetailRoot();
-    if (!window.matchMedia("(max-width: 1024px)").matches) positionDetailRoot();
+    positionDetailRoot();
   };
 
   if (document.readyState === 'loading')
@@ -889,7 +873,5 @@ checkAuth();
   window.fillProfile = fillProfile;
   window.ensureDetailRoot = ensureDetailRoot;
   window.ensureSidebar = ensureSidebar;
-  window.addEventListener("resize", () => {
-    if (!window.matchMedia("(max-width: 1024px)").matches) positionDetailRoot();
-  });
+  window.onresize = positionDetailRoot;
 }());

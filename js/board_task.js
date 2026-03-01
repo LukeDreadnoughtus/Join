@@ -221,35 +221,28 @@ function initEditListeners(id) {
  *
  * @param {number|string} id - The identifier of the task in the allTasks array/object.
  */
-
 function initDateListener(id) {
     const input = document.getElementById('edit_due_date');
     const feedback = document.getElementById('pastdate');
     if (!input) return;
+    if (!feedback) console.warn('Feedback element not found');
     input.min = getTodayISO();
-    input.addEventListener('blur', async e => {
-    const value = e.target.value;
+   input.addEventListener('change', e => {
+    allTasks[id].duedate = e.target.value;
+    });
+    input.addEventListener('blur', e => {
+        const value = e.target.value;
         if (isPastDate(value)) {
             showDateError(input, feedback);
             e.target.value = allTasks[id].duedate || '';
         } else {
             hideDateError(input, feedback);
-            const firebaseDate = convertDateToFirebaseFormat(value);
-            allTasks[id].duedate = firebaseDate;
-            try {
-                await updateTaskInFirebase(id, {
-                    duedate: firebaseDate
-                });
-            } catch (error) {
-                console.error("Date update failed:", error);
-            }
         }
     });
-    input.addEventListener('input', () => {
+    input.addEventListener('input', e => {
         hideDateError(input, feedback);
     });
 }
-
 function isPastDate(dateStr) {
     if (!dateStr) return false;
     const selected = new Date(dateStr);
@@ -281,23 +274,12 @@ function hideDateError(inputEl, feedbackEl) {
  *
  * @param {number|string} id - The identifier of the task in the allTasks array/object.
  */
-
 function initTitleListener(id) {
     const input = document.getElementById('edit_title');
     if (!input) return;
+
     input.addEventListener('input', e => {
         allTasks[id].title = e.target.value;
-    });
-    input.addEventListener('blur', async e => {
-        const value = e.target.value.trim();
-        renderBoardBasics();
-        renderTaskCards(allTasks);
-        checkNoTasks();
-        try {
-            await updateTaskInFirebase(id, { title: value });
-        } catch (error) {
-            console.error("Title update failed:", error);
-        }
     });
 }
 
@@ -307,25 +289,12 @@ function initTitleListener(id) {
  *
  * @param {number|string} id - The identifier of the task in the allTasks array/object.
  */
-
 function initDescriptionListener(id) {
     const input = document.getElementById('edit_description');
     if (!input) return;
+
     input.addEventListener('input', e => {
         allTasks[id].description = e.target.value;
-    });
-    input.addEventListener('blur', async e => {
-        const value = e.target.value.trim();
-        renderBoardBasics()
-        renderTaskCards(allTasks)
-        checkNoTasks();
-        try {
-            await updateTaskInFirebase(id, {
-                description: value
-            });
-        } catch (error) {
-            console.error("Description update failed:", error);
-        }
     });
 }
 
@@ -384,7 +353,7 @@ function highlightCurrentPriority(priorityValue) {
  * @param {string} id - Task ID
  * @returns {void}
  */
-async function setPriority(prio, id) {
+function setPriority(prio, id) {
     const buttons = document.querySelectorAll(".priority_button");
     buttons.forEach(btn => {
         btn.classList.remove("active_priority");
@@ -396,18 +365,6 @@ async function setPriority(prio, id) {
     activeBtn.disabled = true;
     activeBtn.style.pointerEvents = "none";
     allTasks[id].priority = prio; 
-    renderBoardBasics()
-    renderTaskCards(allTasks)
-    checkNoTasks();
-    const patchData = buildPatchDataPriority(id) 
-    await updateTaskInFirebase(id, patchData);
-}
-
-function buildPatchDataPriority(id) {
-    const t = allTasks[id];
-    return {
-        priority: t.priority,
-    };
 }
 
 /**
@@ -533,6 +490,7 @@ closeResMenu()
  * @returns {void}
  */
 function closeResMenu() {
-  document.getElementById("menu_task_card_res").classList.add("d_none");
+  document
+    .getElementById("menu_task_card_res").classList.add("d_none");
 }
 

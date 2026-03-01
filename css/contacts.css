@@ -4,22 +4,17 @@ body.contacts-page #c_phone:focus {
   border: 1px solid #29ABE2;
   outline: none;
 }
-
+/* 
+- Limits the modal height so it fits nicely on most screens
+- Prevents the modal from getting too small or too tall
+*/
 input:focus {
   border: 1px solid #29ABE2;
 }
 
-/* Kontakt-Dialog insgesamt etwas breiter machen */
 body.contacts-page .contacts_modal {
-  width: 1212px;
-  height: 592px;
-  max-width: 1212px;
-  max-height: 80dvh;
+  max-height: 85dvh;
   min-height: 30dvh;
-  position: relative;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
 }
 
 .contacts_modal_left_panel {
@@ -37,21 +32,23 @@ body.contacts-page .contacts_modal {
   font-size: 16px;
   font-weight: 400;
   color: #1976d2;
-  opacity: 0.8;
-  line-height: 1.2;
-  word-break: break-all;
 }
 
-/* Modal Content (finale Version gewinnt) */
+/* 
+- Makes the modal content stretch to full height
+- Uses flexbox to center content vertically
+*/
 body.contacts-page .contacts_modal_content {
   height: 100%;
   min-height: 100%;
   display: flex;
   align-items: center;
-  flex-direction: row;
-  padding: 0;
 }
 
+/* 
+- Column that holds the avatar
+- Keeps spacing consistent with padding
+*/
 .contacts_modal_avatar_col {
   flex: 0 0 auto;
   display: flex;
@@ -62,12 +59,20 @@ body.contacts-page .contacts_modal_content {
   height: 100%;
 }
 
+/* 
+- Right section of the modal layout
+- Stacks elements vertically and centers them
+*/
 .contacts_modal_right_panel {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
+/* 
+- Wrapper for avatar content
+- Ensures avatar stays centered
+*/
 .contacts_modal_avatar_slot {
   display: flex;
   align-items: center;
@@ -76,70 +81,59 @@ body.contacts-page .contacts_modal_content {
   padding-bottom: 20px;
 }
 
+/* 
+- Styles for avatar image and fallback avatar
+- Makes the avatar round and centered
+*/
 .contacts_modal_avatar_slot .detail_avatar,
 .contacts_modal_avatar_slot .contacts_modal_avatar_image {
   width: 120px;
   height: 120px;
-  min-width: 120px;
-  min-height: 120px;
-
-  aspect-ratio: 1 / 1;
-  flex: 0 0 auto;
-  flex-shrink: 0;
-
   border-radius: 50%;
-  overflow: hidden;
-
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* 
+- Ensures avatar image fills the circle properly
+- Prevents image distortion
+*/
 .contacts_modal_avatar_image {
-  width: 120px;
-  height: 120px;
-  min-width: 120px;
-  min-height: 120px;
-
-  aspect-ratio: 1 / 1;
-  flex: 0 0 auto;
-  flex-shrink: 0;
-
-  border-radius: 50%;
-  overflow: hidden;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: cover;
 }
 
-/* --- Icons in den Kontakt-Inputfeldern (finale Version) --- */
+/* 
+- Adds person icon to name input
+- Helps users quickly identify the field
+*/
 body.contacts-page #c_name {
-  background: url("../img/person.svg") no-repeat right 12px center;
+  background: url("../assets/img/person.svg") no-repeat right 12px center;
   background-size: 16px 16px;
 }
 
+/* 
+- Adds mail icon to email input
+- Improves visual clarity for email field
+*/
 body.contacts-page #c_email {
-  background: url("../img/mail.svg") no-repeat right 12px center;
-  background-size: 20px 16px;
+  background: url("../assets/img/mail.svg") no-repeat right 12px center;
+  background-size: 16px 16px;
 }
 
+/* 
+- Adds phone icon to phone input
+- Makes the input purpose obvious
+*/
 body.contacts-page #c_phone {
-  background: url("../img/call.svg") no-repeat right 12px center;
-  background-size: 18px 18px;
+  background: url("../assets/img/call.svg") no-repeat right 12px center;
+  background-size: 16px 16px;
 }
 
-body.contacts-page #c_name,
-body.contacts-page #c_email,
-body.contacts-page #c_phone {
-  height: 46px;
-  padding-left: 15px;
-  font-size: 20px;
-  font-weight: 400;
-  font-family: "inter";
-}
-
-/* Unterstriche (Edit/Create) – zusammengeführt, finale Margin-Version */
+/* 
+- Decorative line under title in edit mode
+- Visually separates title from content
+*/
 body.contacts-page
   .contacts_modal_backdrop.mode-edit
   .contacts_modal_title::after {
@@ -148,10 +142,14 @@ body.contacts-page
   width: 92px;
   height: 3px;
   background: #1976d2;
-  margin: 12px 0 0 0;
+  margin: 12px auto 0;
   border-radius: 2px;
 }
 
+/* 
+- Decorative line under subtitle in create mode
+- Matches edit mode styling
+*/
 body.contacts-page
   .contacts_modal_backdrop.mode-create
   .contacts_modal_subtitle::after {
@@ -160,7 +158,7 @@ body.contacts-page
   width: 92px;
   height: 3px;
   background: #1976d2;
-  margin: 12px 0 0 0;
+  margin: 12px auto 0;
   border-radius: 2px;
 }
 
@@ -171,29 +169,44 @@ body.contacts-page
   padding-bottom: 30px;
 }
 
+/* 
+- Changes text color on hover for edit/delete actions
+- Gives visual feedback to the user
+*/
 .detail_edit:hover,
 .detail_delete:hover {
   color: #1976d2;
-  text-decoration: underline;
 }
 
+/* 
+- Recolors icons on hover
+- Keeps icon color consistent with theme
+*/
 .detail_edit:hover img,
 .detail_delete:hover img {
   filter: brightness(0) saturate(100%) invert(32%) sepia(85%) saturate(2871%)
     hue-rotate(199deg) brightness(91%) contrast(94%);
 }
 
+/* 
+- Primary button hover state
+- Makes action more noticeable
+*/
 .contacts_create_btn:hover,
 .contacts_save_btn:hover {
-  background-color: #1976d2;
-  border-color: #1976d2;
-  color: #ffffff;
+  background-color: #1976d2 !important;
+  border-color: #1976d2 !important;
+  color: #ffffff !important;
 }
 
+/* 
+- Delete button hover state
+- Emphasizes action without filling background
+*/
 .contacts_delete_btn:hover {
-  border-color: #1976d2;
-  color: #1976d2;
-  background-color: transparent;
+  border-color: #1976d2 !important;
+  color: #1976d2 !important;
+  background-color: transparent !important;
 }
 
 .contacts_modal_logo {
@@ -220,6 +233,26 @@ body.contacts-page
 .contact_detail_item .slide_in_right {
   font-size: 16px;
   font-weight: 400;
+}
+
+/* 
+- Aligns edit mode underline to the left
+- Keeps spacing consistent
+*/
+body.contacts-page
+  .contacts_modal_backdrop.mode-edit
+  .contacts_modal_title::after {
+  margin: 12px 0 0 0 !important;
+}
+
+/* 
+- Aligns create mode underline to the left
+- Matches edit mode behavior
+*/
+body.contacts-page
+  .contacts_modal_backdrop.mode-create
+  .contacts_modal_subtitle::after {
+  margin: 12px 0 0 0 !important;
 }
 
 /* --- Registration-style overlays (reused for Contacts form validation & feedback) --- */
@@ -266,24 +299,15 @@ body.contacts-page .overlay_userfeedback_sign_up p + p {
   }
 }
 
-/* ===== Desktop: contact details should use the available space ===== */
-@media (min-width: 951px) {
-  /*
-    JS sets `left` dynamically (aligned to the sidebar).
-    By also defining `right`, the panel can grow to the available width
-    instead of being artificially capped (which caused early line breaks).
-  */
-  .contact_detail_root {
-    right: 20px;
-    width: auto;
-    max-width: none;
-  }
+/* Ensure d_none always wins over component display rules */
+.d_none {
+  display: none !important;
+}
 
-  /* Keep header aligned with the detail column and let it breathe. */
-  .contact_detail_header {
-    right: 20px;
-    width: auto;
-    max-width: none;
+/* ===== Desktop Fix: More space for detail_name ===== */
+@media (min-width: 951px) {
+  .contact_detail_root {
+    max-width: 520px;
   }
 
   .detail_row {
@@ -292,24 +316,14 @@ body.contacts-page .overlay_userfeedback_sign_up p + p {
     gap: 16px;
   }
 
-  /*
-    The wrapper (2nd flex item) must be allowed to shrink, otherwise
-    text can overflow and appear "cut off".
-  */
-  .detail_row > div:last-child {
-    flex: 1 1 auto;
-    min-width: 0;
+  .detail_avatar {
+    flex: 0 0 120px;
   }
 
-  /*
-    Wrap only at spaces (never mid-word) and don't truncate.
-    With enough room it stays on one line naturally.
-  */
   .detail_name {
-    overflow: visible;
-    overflow-wrap: normal;
-    word-break: normal;
-    hyphens: none;
+    flex: 1 1 auto;
+    min-width: 0;
+    word-break: break-word;
     white-space: normal;
   }
 }
@@ -318,25 +332,93 @@ body.contacts-page .overlay_userfeedback_sign_up p + p {
 html,
 body {
   height: 100%;
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 .page,
 main,
 .content {
   height: 100vh;
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 .contact_detail_root {
   height: calc(100vh - 140px);
   max-height: calc(100vh - 140px);
-  overflow-y: auto;
+  overflow-y: auto !important;
+}
+/* ===== Sidebar scrollbar to the very right ===== */
+
+/* 2) Scrollcontainer bis an den rechten Rand ziehen (über das alte Padding) */
+main.content .contacts_sidebar_list {
+  /* Scroll bleibt hier */
+  overflow-y: auto; /* sicherstellen */
+  padding-right: 12px; /* Abstand für Text, damit nichts unter der Scrollbar liegt */
+  box-sizing: border-box;
+  /* reserviert Platz für Scrollbar (wo supported) */
+  scrollbar-gutter: stable;
+
+  box-sizing: border-box;
 }
 
-/* ===== Sidebar scrollbar / layout (zusammengeführt, finale Werte) ===== */
+/* Sidebar soll selbst scrollen -> Scrollbar ganz rechts am Rand */
 main.content .contacts_sidebar {
-  --contacts-sidebar-pad: 60px;
+  overflow-y: auto !important; /* überschreibt overflow-y: hidden */
+  overflow-x: hidden;
+}
+
+/* Liste scrollt nicht mehr selbst */
+main.content .contacts_sidebar_list {
+  overflow: visible !important;
+  padding-right: 12px; /* Text hat rechts Luft, scrollbar überdeckt nix */
+  box-sizing: border-box;
+}
+/* Links + rechts je 60px Gutter (Inhalt der Liste einrücken) */
+main.content .contacts_sidebar_list {
+  padding-left: 60px !important;
+  padding-right: 60px !important;
+}
+
+/* Optional: Gruppenüberschrift (A, B, C...) und Trennlinie gleich mit einrücken */
+main.content .contacts_group_label,
+main.content .contacts_divider {
+  margin-left: 60px !important;
+}
+
+/* "Add new contact" Button soll innerhalb der 60px Gutters sitzen (wirklich mittig) */
+main.content .contacts_sidebar_add {
+  width: calc(100% - 120px) !important;
+  margin: 0 60px !important;
+  box-sizing: border-box;
+}
+
+
+/* Sidebar list: keep name + email stacked and aligned */
+main.content .contacts_texts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+}
+main.content .contacts_name {
+  padding: 0;
+  margin: 0;
+  line-height: 1.2;
+}
+main.content .contacts_email {
+  padding: 0;
+  margin: 0;
+  display: block;
+  line-height: 1.2;
+}
+
+
+.input-error {
+  border: 2px solid #d32f2f !important;
+  outline: none;
+}
+main.content .contacts_sidebar {
   width: 460px;
   min-width: 460px;
   max-width: 460px;
@@ -350,14 +432,12 @@ main.content .contacts_sidebar {
   top: 0;
   max-height: 100dvh;
   padding: 12px 0 12px 12px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
 }
 
 main.content .contacts_sidebar_add {
-  width: calc(100% - (var(--contacts-sidebar-pad) * 2));
-  margin: 0 var(--contacts-sidebar-pad);
-  box-sizing: border-box;
+  width: 100%;
   padding: 10px 12px;
   border: none;
   border-radius: 10px;
@@ -370,44 +450,33 @@ main.content .contacts_sidebar_add {
   justify-content: center;
   gap: 8px;
   font-size: 21px;
-  position: sticky;
-  top: 0;
-  z-index: 3;
+  /* - Primary CTA button for adding a new contact. - Centered layout so icon + text align nicely. - Big font + strong weight to make it feel “important”. */
 }
 
 main.content .contacts_sidebar_list {
-  flex: 1 1 auto;
   padding-bottom: 70px;
-  padding-left: var(--contacts-sidebar-pad);
-  padding-right: var(--contacts-sidebar-pad);
   box-sizing: border-box;
-  overflow: visible;
-  scrollbar-gutter: stable;
-  margin-right: 0;
+  flex: 1 1 auto;
+  overflow-y: visible;
 }
-
 main.content .contacts_group {
-  padding: 8px 0;
+  padding: 8px 0; /* - Wrapper for one letter/group section. - Adds breathing room between groups. - Keeps layout simple (spacing-only helper). */
 }
-
 main.content .contacts_group_label {
   font-size: 20px;
   font-weight: 400;
   letter-spacing: 0.08em;
   opacity: 0.7;
-  margin: 6px 0 4px 0;
+  margin: 6px 0 4px 0; /* - Small uppercase-ish group label (A, B, C...). - Letter spacing makes it look like a section header. - Slight opacity so it doesn’t compete with names. */
 }
-
+main.content .contacts_name {
+  padding: 0;
+  margin: 0; /* - Name text spacing inside the row. - Removes default heading margin so rows stay aligned. - Keeps click area visually clean. */
+}
 main.content .contacts_divider {
   height: 1px;
   background: rgba(0, 0, 0, 0.12);
-  margin: 0;
-  width: 100%;
-}
-
-main.content .contacts_group_label,
-main.content .contacts_divider {
-  margin-left: 0;
+  margin: 0; /* - Thin separator line between blocks. - Low opacity so it’s subtle. - No margins to avoid random gaps. */
 }
 
 @media (max-width: 900px) {
@@ -415,16 +484,15 @@ main.content .contacts_divider {
     width: 240px;
     min-width: 240px;
     max-width: 240px;
+    /* - Narrower sidebar on smaller screens. - Keeps content usable without squishing the main area too much. - Still fixed width so layout doesn’t jump. */
   }
 }
-
 main.content .contacts_name_row {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 8px 4px;
+  padding: 8px 4px; /* - One contact row layout (avatar + texts). - Flex + gap keeps spacing consistent. - Padding defines the click area size. */
 }
-
 main.content .contacts_avatar {
   width: 28px;
   height: 28px;
@@ -436,43 +504,12 @@ main.content .contacts_avatar {
   font-weight: 400;
   color: #fff;
   flex: 0 0 28px;
-  text-transform: uppercase;
+  text-transform: uppercase; /* - Circle avatar badge (initials). - Fixed size so rows stay aligned. - Uppercase + bold for readable initials. */
 }
-
-/* Sidebar list: Name + Email stacked & final text rules */
-main.content .contacts_texts {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-  min-width: 0;
-  flex: 1;
-}
-
 main.content .contacts_name {
   padding: 0;
-  margin: 0;
-  line-height: 1.2;
-  white-space: normal;
-  overflow-wrap: normal;
+  margin: 0; /* - Same as above: keeps name spacing consistent. - Resets default margins. - Helps align with avatar nicely. */
 }
-
-main.content .contacts_email {
-  padding: 0;
-  margin: 0;
-  display: block;
-  line-height: 1.2;
-  word-break: normal;
-  white-space: normal;
-  overflow-wrap: break-word;
-}
-
-body.contacts-page .contacts_modal_body input.input-error {
-  border: 2px solid #d32f2f;
-  outline: none;
-}
-
-/* Backdrop */
 body.contacts-page .contacts_modal_backdrop {
   position: fixed;
   inset: 0;
@@ -480,22 +517,35 @@ body.contacts-page .contacts_modal_backdrop {
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.35);
-  z-index: 1000;
+  z-index: 1000; /* - Fullscreen overlay behind the modal. - Hidden by default, shown only when open. - Dark tint to focus attention on dialog. */
 }
-
 body.contacts-page .contacts_modal_backdrop.is-open {
-  display: flex;
+  display: flex; /* - Toggles the backdrop + modal visibility. - Uses flex to center the modal. - Keeps layout simple via class switch. */
 }
-
-/* Modal Header / Close (final zusammengeführt) */
+body.contacts-page .contacts_modal {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  max-width: 480px;
+  width: min(90vw, 480px);
+  max-height: 80dvh;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25); /* - Main dialog container styling. - Responsive width (never too big). - Scroll inside the modal when content gets long. */
+}
+body.contacts-page .contacts_modal_content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px; /* - Inner modal layout wrapper. - Column stacking with consistent spacing. - Padding makes content not touch edges. */
+}
+body.contacts-page .contacts_modal_header {
+  font-size: 18px;
+  font-weight: 700; /* - Header typography (title area). - Bold so it reads like a modal title. - Slightly bigger than body text. */
+}
 body.contacts-page .contacts_modal_header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  font-size: 18px;
-  font-weight: 700;
+  justify-content: space-between; /* - Header row with title + close button. - Space-between pushes close to the right. - Aligns items vertically. */
 }
-
 body.contacts-page .contacts_modal_close {
   position: absolute;
   top: 16px;
@@ -504,27 +554,23 @@ body.contacts-page .contacts_modal_close {
   background: transparent;
   font-size: 22px;
   line-height: 1;
-  cursor: pointer;
+  cursor: pointer; /* - Close button pinned top-right. - Transparent background so it feels lightweight. - Larger font for easy tapping/clicking. */
 }
-
 body.contacts-page .contacts_modal_body {
   width: 422px;
   height: 215px;
   padding-bottom: 50px;
   padding-left: 50px;
 }
-
 body.contacts-page .contacts_modal_body input {
   border: #d1d1d1 1px solid;
   border-radius: 10px;
   font-size: 14px;
-  outline: none;
+  outline: none; /* - Input base styling. - Rounded corners to match modal. - Removes default outline for custom focus state. */
 }
-
 body.contacts-page .contacts_modal_body input:focus {
-  border-color: #2a3647;
+  border-color: #2a3647; /* - Focus border to show active field. - Uses app’s dark accent color. - Keeps it subtle (no glow). */
 }
-
 body.contacts-page .contacts_create_btn {
   border: none;
   border-radius: 10px;
@@ -549,8 +595,65 @@ body.contacts-page .contacts_save_btn {
   width: 111px;
   height: 57px;
 }
+body.contacts-page .contacts_modal_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* - Header row with title + close button. - Space-between pushes close to the right. - Aligns items vertically. */
+}
+body.contacts-page .contacts_modal_close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer; /* - Close button pinned top-right. - Transparent background so it feels lightweight. - Larger font for easy tapping/clicking. */
+}
 
-/* Detail view */
+/* Sticky add button inside contacts sidebar */
+main.content .contacts_sidebar_add {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  /* - Keeps the “Add” button visible while the list scrolls. - z-index prevents it from being covered by list items. - Makes adding contacts always one click away. */
+}
+
+/* Name + email stacked in sidebar rows */
+/* Sidebar list: align name + email perfectly under each other */
+main.content .contacts_texts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+}
+main.content .contacts_name {
+  padding: 0;
+  margin: 0;
+  line-height: 1.2;
+}
+main.content .contacts_email {
+  padding: 0;
+  margin: 0;
+  display: block;
+  line-height: 1.2;
+}
+
+.contacts_texts {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  /* - Stacks name + email vertically in one row. - min-width:0 allows text truncation/overflow to behave in flex. - Keeps layout tidy even with long emails. */
+}
+.contacts_email {
+  opacity: 0.8;
+  line-height: 1.2;
+  word-break: break-all;
+  /* - Secondary text for email (smaller + lighter). - Breaks long addresses instead of overflowing. - Compact line height to save space. */
+}
+
+/* Clickable rows + selected state */
 .contacts_name_row {
   display: flex;
   align-items: center;
@@ -558,39 +661,42 @@ body.contacts-page .contacts_save_btn {
   padding: 8px 4px;
   border-radius: 10px;
   cursor: pointer;
+  /* - Makes each row feel like a button (cursor + padding). - Rounded corners for nicer hover/selected background. - Flex layout keeps avatar/text aligned. */
 }
-
 .contacts_name_row.is-selected {
   background: #2a3647;
   color: #fff;
+
+  /* nach rechts “breiter”, ohne Layout/Box zu vergrößern (wird vom Sidebar-Overflow abgeschnitten) */
   --selected-extend: 60px;
   box-shadow: var(--selected-extend) 0 0 #2a3647;
 }
-
+/* Ensure name text turns white when a row is selected (h4 inherits styles from fonts.css otherwise) */
 main.content .contacts_name_row.is-selected .contacts_name {
   color: #fff;
+  /* - Forces the name text to go white too. - Fix for heading styles overriding inheritance. - Keeps selected state consistent. */
 }
 
+/* Detail elements container (positioned via JS) */
 .contact_detail_root {
   position: fixed;
   top: 280px;
-  right: 20px;
-  width: auto;
-  max-width: none;
+  max-width: 320px;
   display: flex;
   flex-direction: column;
   gap: 4px;
   z-index: 900;
+  /* - Fixed container for the contact detail area. - Positioned by JS, but stays pinned while scrolling. - Small max width so it doesn’t eat the whole page. */
 }
 
+/* Detail items slide in from right, no own background */
 .contact_detail_item {
-  margin-bottom: 8px;
+  margin-bottom: 8px; /* - Wrapper for one detail block. - Simple spacing between items. - Keeps layout readable. */
 }
-
 .contact_detail_item.slide_in_right {
   animation: detailSlideIn 0.25s ease forwards;
+  /* - Adds a quick slide-in animation on load/change. - Makes UI feel snappier. - Forwards keeps final position after animation. */
 }
-
 @keyframes detailSlideIn {
   from {
     transform: translateX(100vw);
@@ -600,75 +706,52 @@ main.content .contacts_name_row.is-selected .contacts_name {
     transform: translateX(0);
     opacity: 1;
   }
+  /* - Starts off-screen to the right. - Fades in while sliding. - Ends at natural position. */
 }
 
+/* Detail content layout */
 .detail_row {
   display: flex;
   align-items: center;
   gap: 10px;
+  /* - Layout row for avatar + text/actions. - Flex alignment keeps everything centered. - Gap handles spacing without margins. */
 }
-
-/* Allow the name/action column to shrink properly inside the flex row */
-.detail_row > div:last-child {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
 .detail_avatar {
   width: 120px;
   height: 120px;
-  min-width: 120px;
-  min-height: 120px;
-
-  /* Keep the avatar perfectly round and prevent squashing in flex/grid contexts */
-  aspect-ratio: 1 / 1;
-  flex: 0 0 auto;
-  flex-shrink: 0;
-
   border-radius: 50%;
-  overflow: hidden;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   color: #fff;
   font-weight: 500;
   font-size: 47px;
+  /* - Big avatar circle in detail view. - Centers initials perfectly. - Bold + white for contrast. */
 }
-
 .detail_name {
   font-size: 47px;
   font-weight: 500;
-}
 
-.detail_actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 2px;
+  /* - Contact name in detail header. - Slightly larger + bold. - Keeps hierarchy clear. */
 }
-
-.detail_action_icon {
-  width: 16px;
-  height: 16px;
-  margin-right: 4px;
-  vertical-align: middle;
-}
-
-.detail_edit,
-.detail_delete {
+.detail_edit {
   font-size: 16px;
   opacity: 0.8;
   cursor: pointer;
   margin-top: 2px;
   font-weight: 400;
+  /* - “Edit” action styling (looks like a link). - Slightly faded so it’s secondary. - Cursor shows it’s clickable. */
+}
+.detail_edit:hover {
+  text-decoration: underline;
+  /* - Simple hover feedback. - Keeps link-like behavior. - Makes it obvious it’s interactive. */
 }
 
 .contacts_add_icon {
   width: 40px;
   height: 30px;
   flex-shrink: 0;
+  /* - Icon sizing for the add button. - Prevents shrinking in flex layouts. - Keeps consistent button alignment. */
 }
 
 .contact_detail_header {
@@ -677,28 +760,33 @@ main.content .contacts_name_row.is-selected .contacts_name {
   display: flex;
   align-items: center;
   gap: 12px;
-  right: 20px;
-  width: auto;
   z-index: 900;
+  /* - Fixed header area for detail view. - Stays visible when page scrolls. - Gap keeps title + divider spaced nicely. */
 }
-
 .cdh_title {
   margin: 0;
+  /* - Removes default heading margin. - Prevents layout jumps. - Keeps header compact. */
 }
-
 .cdh_line {
-  width: 1px;
+  flex: 1;
   height: 59px;
   background: #29abe2;
-  border-radius: 2px;
-  flex: 0 0 1px;
+  min-width: 1px;
+  border: 3px;
+  /* - Vertical-ish divider/line element next to header. - flex:1 lets it stretch naturally. - Blue accent to match brand color. */
 }
-
 .cdh_sub {
   font-size: 27px;
   opacity: 0.7;
   white-space: nowrap;
   font-weight: 400px;
+  /* - Subtitle text in header (bigger + lighter). - No wrapping so it stays on one line. - Opacity keeps it secondary. */
+}
+
+body.contacts-page .contacts_modal_content {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
 }
 
 .contacts_modal_actions {
@@ -723,6 +811,7 @@ main.content .contacts_name_row.is-selected .contacts_name {
   font-weight: 700;
   font-size: 61px;
   text-align: center;
+  /* - Big title in left panel. - High contrast white text. - Large font to feel like a hero heading. */
 }
 
 .contacts_modal_subtitle {
@@ -732,11 +821,44 @@ main.content .contacts_name_row.is-selected .contacts_name {
   opacity: 0.8;
   margin-top: 4px;
   text-align: center;
+  /* - Subtitle under the title. - Slight fade so it’s secondary. - Small margin to separate from title. */
 }
 
 .contacts_modal_header {
   display: flex;
   justify-content: flex-end;
+  /* - Places close button to the right side. - Keeps header minimal. - Avoids extra spacing on the left. */
+}
+
+.detail_actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 2px;
+  /* - Row for edit/delete actions in detail view. - Keeps icons/text aligned. - Small gap for clean spacing. */
+}
+
+.detail_action_icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  vertical-align: middle;
+  /* - Standard icon size for action links. - Small margin so icon doesn’t touch text. - Baseline alignment fix. */
+}
+
+.detail_delete {
+  font-size: 16px;
+  opacity: 0.8;
+  cursor: pointer;
+  margin-top: 2px;
+  font-weight: 400;
+  /* - Delete action styling similar to edit. - Subtle by default (opacity). - Cursor shows it’s interactive. */
+}
+
+.contacts_modal_header {
+  display: flex;
+  justify-content: flex-end;
+  /* - Duplicate: header aligns content to the right. - Keeps close button position stable. - Minimal layout rule. */
 }
 
 .contacts_modal_close {
@@ -744,6 +866,7 @@ main.content .contacts_name_row.is-selected .contacts_name {
   border: none;
   font-size: 20px;
   cursor: pointer;
+  /* - Close button inside modal. - Transparent so it doesn’t look like a full button. - Slightly bigger for usability. */
 }
 
 .detail_section_label {
@@ -751,8 +874,10 @@ main.content .contacts_name_row.is-selected .contacts_name {
   margin-top: 8px;
   margin-bottom: 24px;
   font-weight: 400;
+  /* - Section headline in detail area (e.g. “Contact Information”). - Adds space above and below. - Clear hierarchy vs normal text. */
 }
 
+/* E-Mail-Adresse in den Kontaktdetails als Link darstellen */
 .contact_detail_email {
   color: #1976d2;
   text-decoration: underline;
@@ -760,10 +885,27 @@ main.content .contacts_name_row.is-selected .contacts_name {
   word-break: break-all;
   font-size: 16px;
   font-weight: 400;
+  /* - Styles the email like a link. - Breaks long addresses so they don’t overflow. - Underline + pointer makes it obvious it’s clickable. */
 }
 
 .contact_detail_item .font_weight_700 .slide_in_right {
   font-size: 16px;
+}
+
+/* Kontakt-Dialog insgesamt etwas breiter machen */
+body.contacts-page .contacts_modal {
+  width: 1212px;
+  height: 592px;
+  max-width: 1212px;
+}
+
+/* Extra scroll space fix */
+.contacts_sidebar_list {
+  padding-bottom: 70px;
+  box-sizing: border-box;
+  margin-right: 60px;
+
+  /* - Adds bottom space so last list item isn’t hidden. - Helps when sticky add button overlaps. - Keeps layout predictable. */
 }
 
 .contacts_sidebar_list::after {
@@ -771,8 +913,108 @@ main.content .contacts_name_row.is-selected .contacts_name {
   display: block;
   height: 70px;
   flex-shrink: 0;
+  /* - Extra spacer element at the end of the list. - Guarantees scroll room even if content is short. - Prevents the last row from being stuck under UI. */
 }
 
 .font_weight_700 {
   font-weight: 700;
+  /* - Utility class for bold text. - Quick way to reuse 700 weight. - Keeps markup simple. */
+}
+
+/* Icons in den Kontakt-Inputfeldern (rechts im Feld, nur Design) */
+body.contacts-page #c_name,
+body.contacts-page #c_email,
+body.contacts-page #c_phone {
+  height: 46px;
+  padding-left: 15px;
+  font-size: 20px;
+  font-weight: 400;
+  font-family: "inter";
+}
+
+/* Detail edit & delete text + icons */
+.detail_edit:hover,
+.detail_delete:hover {
+  color: #1976d2;
+  /* - Hover color to show it’s interactive. - Matches the link blue used elsewhere. - Makes actions pop without being loud. */
+}
+
+.detail_edit:hover img,
+.detail_delete:hover img {
+  filter: brightness(0) saturate(100%) invert(32%) sepia(85%) saturate(2871%)
+    hue-rotate(199deg) brightness(91%) contrast(94%);
+  /* - Recolors the icon on hover to match the blue text. - Keeps icon + text consistent. - Pure CSS filter so no extra assets needed. */
+}
+
+/* Create & Save buttons */
+.contacts_create_btn:hover,
+.contacts_save_btn:hover {
+  background-color: #1976d2 !important;
+  border-color: #1976d2 !important;
+  color: #ffffff !important;
+  /* - Hover makes primary action feel active. - Blue matches link/action color. - !important wins over other button styles if any. */
+}
+
+/* Delete & Cancel buttons */
+.contacts_delete_btn:hover {
+  border-color: #1976d2 !important;
+  color: #1976d2 !important;
+  background-color: transparent !important;
+  /* - Hover turns it into a “link-like” outlined state. - Blue border/text for consistent interaction color. - Transparent background to reduce visual weight. */
+}
+
+/* Divider should start at the very beginning of the dialog content (same x as logo) */
+body.contacts-page
+  .contacts_modal_backdrop.mode-edit
+  .contacts_modal_title::after {
+  margin: 12px 0 0 0 !important;
+  /* - Aligns the divider/after-element with the left edge. - Removes sideways margins. - Keeps edit mode consistent with the logo column. */
+}
+
+body.contacts-page
+  .contacts_modal_backdrop.mode-create
+  .contacts_modal_subtitle::after {
+  margin: 12px 0 0 0 !important;
+  /* - Same alignment fix for create mode. - Divider starts at the same x-position. - Keeps both modes visually consistent. */
+}
+
+/* === Scroll Fix v2: contact_detail_root full height handling === */
+html,
+body {
+  height: 100%;
+  overflow: hidden !important;
+}
+
+.page,
+main,
+.content {
+  height: 100vh;
+  overflow: hidden !important;
+}
+
+.contact_detail_root {
+  height: calc(100vh - 140px);
+  max-height: calc(100vh - 140px);
+  overflow-y: auto !important;
+}
+
+/* Name + Email dürfen in Flex auch wirklich schrumpfen */
+main.content .contacts_texts {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Name in einer Zeile */
+main.content .contacts_name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Email in einer Zeile (und NICHT break-all) */
+main.content .contacts_email {
+  word-break: normal; /* ersetzt break-all */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
