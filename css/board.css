@@ -110,13 +110,21 @@
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  /* padding-left: 64px; */
-   padding-left: 70px;
+  padding-left: 70px;
   padding-top: 60px;
   width: 1200px;
-  /* max-height: 600px; */
-  overflow-y: auto;
   margin-bottom: 50px;
+}
+
+.board_column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 290px;
+  max-height: none;
+  min-height: 300px;
+  overflow: visible;
+ 
 }
 
 .userfeedback_no_tasks {
@@ -135,15 +143,7 @@
   font-weight: 200;
 }
 
-.board_column {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 290px;
-  max-height: none;
-  min-height: 300px;
-  overflow: visible;
-}
+
 
 .column_head {
   width: 250px;

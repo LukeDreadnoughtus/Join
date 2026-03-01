@@ -16,12 +16,12 @@
   }
 
   .contacts_modal_body {
-    width: 300px !important;
-    height: 215px !important;
-    padding-left: 0 !important;
+    width: 300px;
+    height: 215px;
+    padding-left: 0;
   }
   .contacts_modal_inputs {
-    gap: 10px !important;
+    gap: 10px;
   }
 
   body.contacts-page:not(.contacts-overlay-open) .contacts_sidebar_add_fab {
@@ -63,7 +63,7 @@
   body.contacts-page:not(.contacts-overlay-open)
     .contacts_modal
     .contacts_delete_btn {
-    display: none !important;
+    display: none;
   }
 
   main.content .contacts_sidebar {
@@ -82,6 +82,17 @@
   .contact_detail_header,
   .contact_detail_root {
     display: none;
+  }
+
+  body.contacts-page.contacts-overlay-open {
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
+    touch-action: pan-y;
+  }
+
+  body.contacts-page.contacts-overlay-open .contact_detail_header,
+  body.contacts-page.contacts-overlay-open .contact_detail_root {
+    max-width: 100%;
   }
 
   body.contacts-page.contacts-overlay-open header {
@@ -103,7 +114,7 @@
     display: grid;
     position: fixed;
     top: 96px;
-    left: 0 !important;
+    left: 0;
     right: 0;
 
     grid-template-columns: 1fr auto;
@@ -186,7 +197,7 @@
     position: fixed;
     /* below the 3-row overlay header */
     top: 190px;
-    left: 0 !important;
+    left: 0;
     right: 0;
     bottom: 96px;
     width: 100%;
@@ -317,16 +328,16 @@
 
   /* No slide-in-from-right on mobile overlay (feels like a new page) */
   body.contacts-page.contacts-overlay-open .contact_detail_item.slide_in_right {
-    animation: none !important;
-    transform: none !important;
-    opacity: 1 !important;
+    animation: none;
+    transform: none;
+    opacity: 1;
   }
 
   body.contacts-page .contacts_modal {
     /* Dialog sizing on very small screens (<=400px)
        Height is proportional to the viewport and remains stable on mobile browsers
        thanks to the JS-updated CSS var --vh (= 1% of innerHeight). */
-    width: min(92vw, 360px) !important;
+    width: min(92vw, 360px);
     max-width: 92vw;
     transform: translateY(-3vh);
     --contacts-modal-vh: 3;
@@ -376,10 +387,10 @@
     width: 100%;
     flex: 0 0 var(--contacts-left-panel-h);
     height: auto;
-    justify-content: center !important;
+    justify-content: center;
     /* Center the headline/subtitle horizontally on very small screens */
-    align-items: center !important;
-    padding: clamp(0px, 4vh, 32px) 20px clamp(36px, 7vh, 56px) 20px !important;
+    align-items: center;
+    padding: clamp(0px, 4vh, 32px) 20px clamp(36px, 7vh, 56px) 20px;
     box-sizing: border-box;
     position: relative;
     overflow: visible; /* allow avatar to overlap into the white panel */
@@ -410,7 +421,7 @@
 
   /* Hide logo at <= 400px */
   body.contacts-page .contacts_modal_logo {
-    display: none !important;
+    display: none;
   }
 
   /* bottom panel */
@@ -451,6 +462,12 @@
   body.contacts-page .contacts_modal_avatar_slot .contacts_modal_avatar_image {
     width: var(--contacts-avatar-size);
     height: var(--contacts-avatar-size);
+    min-width: var(--contacts-avatar-size);
+    min-height: var(--contacts-avatar-size);
+
+    aspect-ratio: 1 / 1;
+    flex: 0 0 auto;
+    flex-shrink: 0;
   }
 
   /* Close button: top-right inside the left panel (moved by JS on mobile) */
@@ -469,6 +486,25 @@
   /* The original header inside the right panel is not needed visually on mobile */
   body.contacts-page .contacts_modal_right_panel .contacts_modal_header {
     display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  main.content .contacts_sidebar {
+    --contacts-sidebar-pad: 16px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  main.content .contacts_sidebar_add {
+    width: calc(100% - (var(--contacts-sidebar-pad) * 2));
+    margin: 0 var(--contacts-sidebar-pad);
+    font-size: 18px;
+  }
+
+  main.content .contacts_sidebar_list {
+    padding-left: var(--contacts-sidebar-pad);
+    padding-right: var(--contacts-sidebar-pad);
   }
 }
 
@@ -523,49 +559,41 @@
   }
 }
 
-/* Ensure d_none always wins over component display rules */
-.d_none {
-  display: none !important;
-}
+/*
+  NOTE:
+  `.d_none` is already defined globally (header.css, etc.).
+  Avoid overriding it here with ``.
 
-/* === Scroll Fix v2: contact_detail_root full height handling === */
-html,
-body {
-  height: 100%;
-}
-
-.contact_detail_root {
-  height: calc(100vh - 140px);
-  overflow-y: auto !important;
-}
+  Scroll handling is defined in css/contacts.css without ``.
+*/
 
 @media (max-width: 1245px) {
   .contacts_modal {
-    max-width: 1100px !important;
+    max-width: 1100px;
   }
 
   .contacts_modal_body {
-    padding-left: 0 !important;
+    padding-left: 0;
   }
 
   .contacts_modal_inputs {
-    width: 90% !important;
+    width: 90%;
   }
 }
 
 @media (max-width: 1140px) {
   .contacts_modal {
-    width: 1000px !important;
+    width: 1000px;
   }
 }
 
 @media (max-width: 1030px) {
   .contacts_modal {
-    width: 900px !important;
+    width: 900px;
   }
 
   .contacts_modal_inputs {
-    width: 90% !important;
+    width: 90%;
   }
 }
 
@@ -573,14 +601,14 @@ body {
   body.contacts-page #c_name,
   body.contacts-page #c_email,
   body.contacts-page #c_phone {
-    font-size: 16px !important;
-    height: 41px !important;
+    font-size: 16px;
+    height: 41px;
   }
   body.contacts-page .contacts_modal_actions {
     padding-right: 30px;
     display: flex;
     justify-content: center;
-    width: auto !important;
+    width: auto;
   }
 }
 @media (max-width: 390px) {
@@ -595,22 +623,21 @@ body {
 
 @media (max-width: 370px) {
   .contacts_modal_right_panel {
-    justify-content: center !important;
-    padding-left: 30px !important;
+    justify-content: center;
+    padding-left: 30px;
   }
 }
 
 @media (max-width: 340px) {
   .contacts_modal_right_panel {
-    justify-content: center !important;
-    padding-left: 20px !important;
+    justify-content: center;
+    padding-left: 20px;
   }
 }
 
 @media (max-width: 330px) {
   .contacts_modal_right_panel {
-    justify-content: center !important;
-    padding-left: 10px !important;
+    justify-content: center;
+    padding-left: 10px;
   }
 }
-
