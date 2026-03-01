@@ -29,12 +29,32 @@
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   }
 
+  function resetDetailInlinePositionForMobile() {
+    if (!isMobile()) return;
+    const head = document.querySelector('.contact_detail_header');
+    const root = document.querySelector('.contact_detail_root');
+    if (head) {
+      head.style.left = '';
+      head.style.right = '';
+      head.style.width = '';
+    }
+    if (root) {
+      root.style.left = '';
+      root.style.right = '';
+      root.style.width = '';
+    }
+    if (head) head.getBoundingClientRect();
+    if (root) root.getBoundingClientRect();
+  }
+
+
 
   function openOverlay() {
     // Only opens the overlay on mobile — desktop should keep the normal split layout.
     // Adds a body class + makes sure the back button + FAB + menu exist.
     if (!isMobile()) return;
     document.body.classList.add(BODY_OPEN_CLASS);
+    resetDetailInlinePositionForMobile();
     ensureBackButton();
     ensureOverlayFab();
     ensureFabMenu();
@@ -363,6 +383,15 @@
       };
     }
 
+    const origPositionDetailRoot = window.positionDetailRoot;
+    if (typeof origPositionDetailRoot === 'function') {
+      window.positionDetailRoot = function (...args) {
+        if (isMobile()) return;
+        return origPositionDetailRoot.apply(this, args);
+      };
+    }
+
+
     // Ensure the dialog close button is moved right after opening (Add/Edit).
     const origOpenDialog = window.openDialog;
     if (typeof origOpenDialog === 'function') {
@@ -417,8 +446,14 @@
     observeDialog();
     syncForBreakpoint();
 
-    window.addEventListener('resize', setVhVar);
-    window.addEventListener('orientationchange', setVhVar);
+    window.addEventListener("resize", () => {
+      setVhVar();
+      if (isMobile()) resetDetailInlinePositionForMobile();
+    });
+    window.addEventListener("orientationchange", () => {
+      setVhVar();
+      if (isMobile()) resetDetailInlinePositionForMobile();
+    });
 
     if (mq.addEventListener) mq.addEventListener('change', syncForBreakpoint);
     else mq.addListener(syncForBreakpoint);

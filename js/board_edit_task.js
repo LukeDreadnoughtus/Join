@@ -187,21 +187,6 @@ function getUserIconData(user) {
  * @returns {Promise<Array<{userId: string, name: string, color: string}>>}
  *          A promise resolving to an array of user objects
  */
-// async function fetchAllUsers() {
-//     try {
-//         const response = await fetch(pathUser + ".json");
-//         const userData = await response.json();
-//         return Object.entries(userData).map(([userId, data]) => ({
-//             userId,
-//             name: data.name,
-//             color: data.color
-//         }));
-//     } catch (error) {
-//         console.error("Fehler beim Laden der User:", error);
-//         alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
-//         return [];
-//     }
-// }
 
 async function fetchAllUsers() {
     try {
@@ -245,10 +230,6 @@ function toggleAssignedUsers(userColor, userName, id, checkbox) {
     }
 }
 
- // renderBoardBasics()
-    // renderTaskCards(allTasks)
-    // checkNoTasks();
-
 /**
  * Ensures that assigned user arrays exist on the task.
  *
@@ -287,43 +268,12 @@ function removeAssignedUser(task, userName) {
     }
 }
 
-/**
- * Saves all edits made to a task.
- *
- * Collects input values, updates the local task data,
- * prepares assigned user IDs, persists changes to Firebase,
- * and switches back to the task detail view.
- *
- * @param {string|number} id - Task ID
- */
-
-async function saveEdits(id) {
-    const input = collectEditInputs();
-    if (!input) {
-        return; 
-    }
-    const firebaseDate = convertDateToFirebaseFormat(input.rawDueDate);
-    updateLocalTask(id, input);
-    const assignedUserIds = await prepareAssignedUserIds(id);
-    const patchData = buildPatchData(id, firebaseDate, assignedUserIds);
-    await updateTaskInFirebase(id, patchData);
-    toggleEditView();
-    renderTaskCardFullView(allTasks[id]);
-}
-
 
 /**
  * Collects all input values from the edit form.
  *
  * @returns {{newTitle: string, newDescription: string, rawDueDate: string}}
  */
-// function collectEditInputs() {
-//     return {
-//         newTitle: document.getElementById("edit_title").value,
-//         newDescription: document.getElementById("edit_description").value,
-//         rawDueDate: document.getElementById("edit_due_date").value
-//     };
-// }
 
 function collectEditInputs() {
     const titleInput = document.getElementById("edit_title");
@@ -378,25 +328,8 @@ async function prepareAssignedUserIds(id) {
     return await getUserId(currentAssignedUser);
 }
 
-/**
- * Builds the Firebase PATCH payload for a task update.
- *
- * @param {string|number} id - Task ID
- * @param {string} firebaseDate - Due date in Firebase format
- * @param {Array<string>} assignedUserIds - User IDs assigned to the task
- * @returns {Object} Patch data object
- */
-function buildPatchData(id, firebaseDate, assignedUserIds) {
-    const t = allTasks[id];
-    return {
-        title: t.title,
-        description: t.description,
-        duedate: firebaseDate,
-        subtasks: t.subtasks,
-        priority: t.priority,
-        assigned: assignedUserIds
-    };
-}
+
+
 
 /**
  * Switches from the edit view back to the task detail view.
@@ -461,14 +394,19 @@ function findMatchingUserIds(userData, currentAssignedUser) {
  * @param {string|number} id - Task ID
  * @param {Object} data - Data object containing updated task fields
  */
+
 async function updateTaskInFirebase(id, data) {
     const url = `${path}/${id}.json`;
-
-    await fetch(url, {
+    const response = await fetch(url, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
     });
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Firebase PATCH failed: ${response.status} - ${errorText}`);
+    }
+    return await response.json(); 
 }
 
 /**
@@ -574,14 +512,44 @@ async function confirmDeleteTask(event) {
  * @returns {void}
  */
 
-function toggleUserOption(color, name, taskId, containerDiv) {
+async function toggleUserOption(color, name, taskId, containerDiv) {
     const checkbox = containerDiv.querySelector(".user_checkbox");
     checkbox.checked = !checkbox.checked; 
     toggleAssignedUsers(color, name, taskId, checkbox); 
     renderBoardBasics()
     renderTaskCards(allTasks)
     checkNoTasks();
+    const assignedUserIds = await prepareAssignedUserIds(taskId);
+    const patchData = buildPatchDataAssigned( assignedUserIds)
+    await updateTaskInFirebase(taskId, patchData);
 }
 
+/**
+ * Builds the Firebase PATCH payload for a task update.
+ *
+ * @param {string|number} id - Task ID
+ * @param {string} firebaseDate - Due date in Firebase format
+ * @param {Array<string>} assignedUserIds - User IDs assigned to the task
+ * @returns {Object} Patch data object
+ */
 
+    function buildPatchDataAssigned( assignedUserIds) {
+    return {
+        assigned: assignedUserIds
+    };
+}
 
+/**
+ * Saves all edits made to a task.
+ *
+ * Collects input values, updates the local task data,
+ * prepares assigned user IDs, persists changes to Firebase,
+ * and switches back to the task detail view.
+ *
+ * @param {string|number} id - Task ID
+ */
+
+function saveEdits(id) {
+    toggleEditView();
+    renderTaskCardFullView(allTasks[id]);
+}
