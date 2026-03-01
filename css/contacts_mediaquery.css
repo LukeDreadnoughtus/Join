@@ -334,7 +334,12 @@
     max-height: calc(var(--vh, 1vh) * var(--contacts-modal-vh));
     min-height: calc(var(--vh, 1vh) * 70);
     border-radius: 18px;
-    overflow: hidden; /* avatar overlaps within */
+    overflow-y: auto !important; /* modal scrolls if content is too tall */
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
   }
 
   /* Ensure the Add/Edit dialog is always above the mobile overlay FAB.
@@ -399,6 +404,8 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    margin-top: auto !important; /* ensures button stays inside modal, at the bottom */
+    position: relative;
   }
 
   /* Hide logo at <= 400px */
@@ -525,12 +532,10 @@
 html,
 body {
   height: 100%;
-  overflow: hidden !important;
 }
 
 .contact_detail_root {
   height: calc(100vh - 140px);
-
   overflow-y: auto !important;
 }
 
@@ -608,3 +613,4 @@ body {
     padding-left: 10px !important;
   }
 }
+

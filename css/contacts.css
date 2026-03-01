@@ -921,24 +921,6 @@ body.contacts-page .contacts_modal {
   /* - Utility class for bold text. - Quick way to reuse 700 weight. - Keeps markup simple. */
 }
 
-/* --- Icons in den Kontakt-Inputfeldern (rechts im Feld, nur Design) --- */
-body.contacts-page #c_name {
-  background: url("../img/person.svg") no-repeat right 12px center;
-  background-size: 16px 16px;
-}
-
-/* Mail-Icon im E-Mail-Feld */
-body.contacts-page #c_email {
-  background: url("../img/mail.svg") no-repeat right 12px center;
-  background-size: 20px 16px;
-}
-
-/* Call-Icon im Telefonfeld */
-body.contacts-page #c_phone {
-  background: url("../img/call.svg") no-repeat right 12px center;
-  background-size: 18px 18px;
-}
-
 /* Icons in den Kontakt-Inputfeldern (rechts im Feld, nur Design) */
 body.contacts-page #c_name,
 body.contacts-page #c_email,
