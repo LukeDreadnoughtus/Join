@@ -3,10 +3,38 @@
   - Up to 400px: sidebar takes full width.
   - Contact details open as full-screen overlay (white background) and hide sidebar.
 */
+@media (max-width: 1120px) {
+  body.contacts-page #c_name,
+  body.contacts-page #c_email,
+  body.contacts-page #c_phone {
+    width: 90%;
+  }
+
+  body.contacts-page .contacts_modal {
+    /* Dialog sizing on very small screens (<=400px)
+       Height is proportional to the viewport and remains stable on mobile browsers
+       thanks to the JS-updated CSS var --vh (= 1% of innerHeight). */
+    width: min(92vw, 1000px);
+    max-width: 92vw;
+  }
+
+  .contacts_modal_title {
+    font-size: 53px;
+  }
+  .contacts_modal_subtitle {
+    font-size: 23px;
+  }
+}
 
 @media (max-width: 1024px) {
   main.content .contacts_sidebar_list {
     padding-bottom: 150px;
+  }
+
+  .contacts_modal_body {
+    width: 350px;
+    height: 215px;
+    padding-left: 0;
   }
 }
 
@@ -345,8 +373,7 @@
     max-height: calc(var(--vh, 1vh) * var(--contacts-modal-vh));
     min-height: calc(var(--vh, 1vh) * 70);
     border-radius: 18px;
-    overflow-y: auto !important; /* modal scrolls if content is too tall */
-    overflow-x: hidden;
+    overflow-y: auto !important;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -542,6 +569,10 @@
     align-items: flex-start;
   }
 
+  .contacts_modal_body {
+    width: 290px;
+  }
+
   .detail_section_label {
     /* Slightly larger label size for readability on phones */
     /* Helps section headers stand out in the form */
@@ -569,7 +600,7 @@
 
 @media (max-width: 1245px) {
   .contacts_modal {
-    max-width: 1100px;
+    max-width: 1100px !important;
   }
 
   .contacts_modal_body {
@@ -577,7 +608,7 @@
   }
 
   .contacts_modal_inputs {
-    width: 90%;
+    width: 90% !important;
   }
 }
 
@@ -605,7 +636,6 @@
     height: 41px;
   }
   body.contacts-page .contacts_modal_actions {
-    padding-right: 30px;
     display: flex;
     justify-content: center;
     width: auto;
@@ -616,8 +646,17 @@
     font-size: 16px;
   }
 
+  .contacts_modal_body {
+    width: 240px;
+  }
+
   .contacts_modal_title {
     font-size: 40px;
+  }
+
+  body.contacts-page .contacts_modal_right_panel {
+    padding-left: 50px;
+    padding-top: 50px;
   }
 }
 
@@ -626,12 +665,22 @@
     justify-content: center;
     padding-left: 30px;
   }
+
+    body.contacts-page .contacts_modal_right_panel {
+    padding-left: 40px;
+    padding-top: 50px;
+  }
 }
 
 @media (max-width: 340px) {
   .contacts_modal_right_panel {
     justify-content: center;
     padding-left: 20px;
+  }
+
+    body.contacts-page .contacts_modal_right_panel {
+    padding-left: 25px;
+    padding-top: 50px;
   }
 }
 
