@@ -660,10 +660,14 @@
   }
 }
 
-@media (max-width: 370px) {
+@media (max-width: 375px) {
   .contacts_modal_right_panel {
     justify-content: center;
     padding-left: 30px;
+  }
+
+  .contacts_modal_actions {
+    padding-left: 10px;
   }
 
     body.contacts-page .contacts_modal_right_panel {
