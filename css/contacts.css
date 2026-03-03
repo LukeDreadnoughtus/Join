@@ -795,3 +795,7 @@ main.content .contacts_name_row.is-selected .contacts_name {
   visibility: hidden;
   display: block !important;
 }
+
+main.content .contacts_avatar {
+  align-self: center;
+}

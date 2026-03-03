@@ -86,7 +86,7 @@ body {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
-  overflow-x: hidden;
+ 
   padding-bottom: 110px;
   -webkit-overflow-scrolling: touch;
 }
@@ -585,4 +585,9 @@ color:#2A3647;
   white-space: normal;
   word-break: normal;
   overflow-wrap: break-word;
+}
+
+
+main.content .contacts_avatar {
+  align-self: center;
 }
