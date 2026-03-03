@@ -3,6 +3,20 @@
   - Up to 400px: sidebar takes full width.
   - Contact details open as full-screen overlay (white background) and hide sidebar.
 */
+
+
+@media (max-width: 1230px) {
+
+  .contact_detail_header {
+    flex-wrap: wrap;          
+  }
+
+  .cdh_sub {
+    flex: 0 0 100%;           
+    white-space: normal;     
+  }
+
+}
 @media (max-width: 1120px) {
   body.contacts-page #c_name,
   body.contacts-page #c_email,

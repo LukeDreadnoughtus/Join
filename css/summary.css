@@ -39,6 +39,10 @@ h3 {
     
 }
 
+ html, body {
+            visibility: hidden;
+        }
+
 .button_df {
     display:flex; 
     align-items:center; 
@@ -62,13 +66,25 @@ h3 {
     
 html,
 body {
+  
+  overscroll-behavior: none;
+}
+
+.summary-page {
   overflow: hidden;
   overscroll-behavior: none;
 }
 
+.summary-page .page .content {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
 
 .summary-scroll {
   flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
   padding-bottom: 110px;
@@ -117,9 +133,9 @@ color:#2A3647;
   /* - Wrapper for the headline area above the KPI grid.
      - Aligns headline text + divider horizontally with flex.
      - Allows wrapping so it stays readable on smaller widths. */
-  margin-left: 70px !important;
+  margin-left: 70px ;
   margin-right: 5%;
-  margin-top: 70px !important;
+  margin-top: 70px ;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -156,7 +172,6 @@ color:#2A3647;
   left: calc(100% + 32px);
   top: 50%;
   transform: translateY(-50%);
-  white-space: nowrap;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -541,17 +556,11 @@ color:#2A3647;
 
 /* keep urgent hover colors consistent */
 .summary-btn--urgent:hover .summary-btn__divider{
-  /* - Divider becomes brighter on hover to stay visible on dark background.
-     - Still semi-transparent so it doesn’t dominate.
-     - Matches the overall hover styling of the tile. */
   background-color: rgba(255, 255, 255, 0.4);
 }
 
 .summary-btn--urgent:hover .summary-btn__deadline-label,
 .summary-btn--urgent:hover .summary-btn__duedate{
-  /* - Switch deadline text to white on hover for contrast.
-     - Keeps the urgent tile readable in the dark hover state.
-     - Applies to both the date and its label. */
   color: #fff;
 }
 
@@ -570,3 +579,10 @@ color:#2A3647;
   font-weight: 400;
 }
 
+.summary-greeting,
+.summary-greeting__title,
+.summary-greeting__name{
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+}

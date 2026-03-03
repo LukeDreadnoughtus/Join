@@ -10,9 +10,9 @@
   /* Limits the layout width so it doesn’t stretch too wide on large screens */
   /* Uses border-box so padding doesn’t mess with the final width */
   margin-left: var(--summary-inline);
-  margin-right: auto !important;
-  width: min(var(--summary-max-width), calc(100% - var(--summary-inline) - var(--summary-inline))) !important;
-  max-width: var(--summary-max-width) !important;
+  margin-right: auto ;
+  width: min(var(--summary-max-width), calc(100% - var(--summary-inline) - var(--summary-inline))) ;
+  max-width: var(--summary-max-width) ;
   box-sizing: border-box;
 }
  
@@ -34,7 +34,7 @@
     /* Hides the greeting on smaller screens to reduce clutter */
     /* Frees up horizontal space for the actual summary content */
     /* Avoids awkward wrapping when the layout starts tightening */
-    display: none !important;
+    display: none ;
   }
 
 
@@ -54,8 +54,8 @@
   /* Keeps the headline + grid aligned with the same left offset */
   /* Limits the layout width so it doesn’t stretch too wide on large screens */
   /* Uses border-box so padding doesn’t mess with the final width */
-  margin-left:auto !important;
-  margin-right: auto !important;
+  margin-left:auto ;
+  margin-right: auto ;
 
 }
 
@@ -143,19 +143,19 @@
     /* Switches the grid to 6 columns for a more mobile-friendly layout */
     /* Reorders areas so the most important stuff stays on top */
     /* Shrinks spacing a bit so everything fits comfortably */
-    grid-template-columns: repeat(6, 1fr) !important;
+    grid-template-columns: repeat(6, 1fr) ;
     grid-template-areas:
       "todo todo todo done done done"
       "urgent urgent urgent urgent urgent urgent"
-      "board board progress progress feedback feedback" !important;
-    gap: 12px !important;
+      "board board progress progress feedback feedback" ;
+    gap: 12px ;
   }
 
     .summary-btn--done, .summary-btn--urgent, .summary-btn--todo{
-              padding-left: 0px !important;
-        padding-right: 0px !important;
-        padding-top: 0px !important;
-        padding-bottom: 0px !important;
+              padding-left: 0px ;
+        padding-right: 0px ;
+        padding-top: 0px ;
+        padding-bottom: 0px ;
     }
  
   .summary-btn--board,
@@ -164,10 +164,10 @@
     /* Makes the buttons more compact for smaller screens */
     /* Keeps tap targets comfy while cutting extra padding */
     /* Helps the three buttons fit nicely in the last grid row */
-    padding-left: 8px !important;
-    padding-right: 8px !important;
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
+    padding-left: 8px ;
+    padding-right: 8px ;
+    padding-top: 10px ;
+    padding-bottom: 10px ;
   }
 
   .summary-btn--board .summary-btn__content,
@@ -185,13 +185,13 @@
     /* Keeps all three buttons visually consistent */
     /* Prevents headings from pushing the layout taller than needed */
     font-size: 16px;
-    font-weight: 400 !important;
+    font-weight: 400 ;
   }
 
     .summary-btn--progress h4
   {
-    font-size: 14px !important;
-      font-weight: 400 !important;
+    font-size: 14px ;
+      font-weight: 400 ;
   }
 }
 
@@ -240,9 +240,15 @@
     /* Adjusts button height for smaller phones */
     /* Uses a CSS var so it’s easy to tweak globally */
     /* Ensures buttons don’t become too tall/huge */
-    height: var(--summary-btn-height, 128px) !important;
-   padding-bottom: 5px;
+    height: var(--summary-btn-height, 128px) ;
+   
   }
+
+
+.summary-headline{
+  margin-top: 10px;
+}
+
 
   .summary-btn.summary-btn--urgent,
   .summary-btn .summary-btn--to-do,
@@ -253,13 +259,13 @@
     height: auto;          /* feste Höhe aufheben */
     min-height: 100px;     /* Grundhöhe behalten */
     justify-content: flex-start; /* Inhalt nach oben -> Bottom-Padding wird sichtbar */
-    padding-bottom: 5px;  /* jetzt wirkt es */
+      /* jetzt wirkt es */
   }
   
     .text_urgent-specialsize
     {
-      font-size: 16px !important;
-      font-weight: 400 !important;
+      font-size: 16px ;
+      font-weight: 400 ;
     }
     
     .summary-btn__icon-img--urgent{

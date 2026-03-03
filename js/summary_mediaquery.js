@@ -11,6 +11,40 @@
 (function () {
   const root = document.documentElement;
 
+  function layoutSummaryGreetingV16(){
+    const urgentBtn = document.querySelector('.summary-btn.summary-btn--urgent');
+    const greeting = document.querySelector('.summary-greeting');
+    if(!urgentBtn || !greeting) return;
+
+    const uRect = urgentBtn.getBoundingClientRect();
+
+    const gap = 16;
+    const padRight = 16;
+    const minWidth = 140;
+
+    const viewportW = document.documentElement.clientWidth;
+    const available = Math.max(0, viewportW - uRect.right - gap - padRight);
+
+    if(viewportW > 1024 && available >= minWidth){
+      greeting.style.position = 'fixed';
+      greeting.style.left = (uRect.right + gap) + 'px';
+      greeting.style.top = (uRect.top + (uRect.height/2)) + 'px';
+      greeting.style.transform = 'translateY(-50%)';
+      const w = Math.max(minWidth, available);
+      greeting.style.width = w + 'px';
+      greeting.style.maxWidth = w + 'px';
+      greeting.style.marginTop = '0';
+    }else{
+      greeting.style.position = 'static';
+      greeting.style.left = '';
+      greeting.style.top = '';
+      greeting.style.transform = 'none';
+      greeting.style.width = '';
+      greeting.style.maxWidth = '';
+      greeting.style.marginTop = '16px';
+    }
+  }
+
   
   function applyKpiLabelLineBreaks(w) {
     const shouldBreak = w < 1000;
@@ -26,13 +60,13 @@
       const el = document.querySelector(selector);
       if (!el) return;
 
-      // Keep the original label once.
+      
       if (!el.dataset.originalText) {
         el.dataset.originalText = el.textContent || '';
       }
 
       if (shouldBreak) {
-        // Only update if not already broken.
+        
         if (el.dataset.isBroken !== '1') {
           el.innerHTML = brokenHtml;
           el.dataset.isBroken = '1';
@@ -48,12 +82,12 @@
 
   
   function applySummaryLayoutVars(w) {
-    // Below the desktop breakpoint the sidebar becomes a bottom bar.
-    // Use a smaller, but still constant, outer inset.
+    
+    
     const inline = w < 1025 ? 16 : 64;
 
-    // A fixed max width prevents the grid from creeping right.
-    // It will shrink naturally when the viewport is smaller.
+    
+    
     const maxWidth = 620;
 
     root.style.setProperty('--summary-inline', `${inline}px`);
@@ -62,8 +96,8 @@
 
   
   function applySummaryButtonScaling(w) {
-    const baseHeight = 128; // px at 500px viewport width
-    const minWidth = 320;   // clamp so it doesn't get comically small
+    const baseHeight = 128; 
+    const minWidth = 320;   
     const maxWidth = 500;
 
     if (w < maxWidth) {
@@ -72,7 +106,7 @@
       const scaledHeight = Math.round(baseHeight * scale);
       root.style.setProperty('--summary-btn-height', `${scaledHeight}px`);
     } else {
-      // Reset above 500px
+      
       root.style.removeProperty('--summary-btn-height');
     }
   }
@@ -85,13 +119,17 @@
 
     applySummaryLayoutVars(w);
     applyKpiLabelLineBreaks(w);
-    applySummaryButtonScaling(w);
+    
+    layoutSummaryGreetingV16();applySummaryButtonScaling(w);
   }
 
-  // Initial
+  
   applyBreakpointClasses();
 
-  // Update on resize/orientation changes
+  
   window.addEventListener('resize', applyBreakpointClasses, { passive: true });
   window.addEventListener('orientationchange', applyBreakpointClasses, { passive: true });
 })();
+
+window.addEventListener('resize', layoutSummaryGreetingV16);
+layoutSummaryGreetingV16();

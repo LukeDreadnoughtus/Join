@@ -570,7 +570,7 @@ body.contacts-page .contacts_save_btn {
 .contacts_name_row.is-selected {
   background: #2a3647;
   color: #fff;
-  --selected-extend: 60px;
+  
   box-shadow: var(--selected-extend) 0 0 #2a3647;
 }
 
