@@ -64,67 +64,78 @@ checkAuth();
 
   const isValidEmail = (email) => {
     if (!email) return false;
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email.trim());
   };
 
-  const getInvalidPhoneChars = (phone) => {
-    if (!phone) return [];
-    const invalid = [...String(phone)].filter(ch => !/[0-9]/.test(ch));
-    return [...new Set(invalid)];
-  };
-
-  // Checks if name contains only letters (including German umlauts and spaces)
   const isValidName = (name) => {
     if (!name) return false;
-    return /^[A-Za-zÄÖÜäöüß ]+$/.test(name);
+    return /^(?=.{2,50}$)[\p{L}]+(?:[ '\-][\p{L}]+)+$/u.test(name.trim());
   };
 
-  // Checks if phone number matches required norm (10-15 digits, optional leading +, no spaces/letters)
   const isValidPhoneNumber = (phone) => {
-    if (!phone) return true; // allow empty (optional field)
-    return /^\+?[0-9]{10,15}$/.test(phone);
+    if (!phone) return true;
+    return /^\+?[0-9]{10,15}$/.test(phone.trim());
   };
 
   function validateContactName(name) {
-    if (!name) return { error: true, msg: null };
-    if (!isValidName(name)) return { error: true, msg: 'Name darf nur Buchstaben und Leerzeichen enthalten.' };
+    if (!name?.trim()) return { error: true, msg: null };
+    if (!isValidName(name)) return { error: true, msg: 'Bitte Vor- und Nachname eingeben (nur Buchstaben).' };
     return { error: false };
   }
 
-  function validateContactName(name) {
-    if (!name) return { error: true, msg: null };
-    if (!isValidName(name)) return { error: true, msg: 'Name darf nur Buchstaben und Leerzeichen enthalten.' };
-    return { error: false };
-  }
-
-  function validateContactEmail(email, all, editId) {
-    if (!email) return { error: true, msg: null };
-    if (!isValidEmail(email)) return { error: true, msg: 'Das ist keine gültige E-Mail-Adresse' };
-    if (findEmailConflict(all, email, editId)) return { error: true, msg: 'This email does already exist' };
+  function validateContactEmail(email, all = [], editId = null) {
+    if (!email?.trim()) return { error: true, msg: null };
+    if (!isValidEmail(email)) return { error: true, msg: 'Keine gültige E-Mail-Adresse.' };
+    if (findEmailConflict(all, email, editId)) return { error: true, msg: 'Diese E-Mail existiert bereits.' };
     return { error: false };
   }
 
   function validateContactPhone(phone) {
-    const invalidPhone = getInvalidPhoneChars(phone);
-    if (phone && (invalidPhone.length || !isValidPhoneNumber(phone))) {
-      return { error: true, msg: 'Phone number may only contain numbers (10-15 digits, optional leading +).' };
-    }
+    if (!phone?.trim()) return { error: false };
+    if (!isValidPhoneNumber(phone)) return { error: true, msg: 'Nur Ziffern, 10–15 Stellen, optionales + am Anfang.' };
     return { error: false };
   }
 
-  function validateContactEmail(email, all, editId) {
-    if (!email) return { error: true, msg: null };
-    if (!isValidEmail(email)) return { error: true, msg: 'Das ist keine gültige E-Mail-Adresse' };
-    if (findEmailConflict(all, email, editId)) return { error: true, msg: 'This email does already exist' };
-    return { error: false };
+  function showFieldError(inputEl, msg) {
+    inputEl.classList.add('input_error'); // roter Rand
+    const errorEl = document.getElementById(`error-${inputEl.id}`);
+    if (!errorEl) return;
+    if (msg) {
+      errorEl.textContent = msg;
+      errorEl.classList.remove('d_none');
+    }
   }
 
-  function validateContactPhone(phone) {
-    const invalidPhone = getInvalidPhoneChars(phone);
-    if (phone && (invalidPhone.length || !isValidPhoneNumber(phone))) {
-      return { error: true, msg: 'Phone number may only contain numbers (10-15 digits, optional leading +).' };
+  function clearFieldError(inputEl) {
+    inputEl.classList.remove('input_error');
+    const errorEl = document.getElementById(`error-${inputEl.id}`);
+    if (errorEl) {
+      errorEl.textContent = '';
+      errorEl.classList.add('d_none');
     }
-    return { error: false };
+  }
+
+  function handleNameBlur(event) {
+    const input = event.target;
+    const result = validateContactName(input.value);
+    result.error ? showFieldError(input, result.msg) : clearFieldError(input);
+  }
+
+  function handleEmailBlur(event) {
+    fetchContacts().then(all => {
+      const result = validateContactEmail(event.target.value, all, EDIT_ID);
+      result.error ? showFieldError(event.target, result.msg) : clearFieldError(event.target);
+    });
+  }
+
+  function handlePhoneBlur(event) {
+    const input = event.target;
+    const result = validateContactPhone(input.value);
+    result.error ? showFieldError(input, result.msg) : clearFieldError(input);
+  }
+
+  function resetFieldOnInput(inputEl) {
+    clearFieldError(inputEl);
   }
 
 
@@ -513,41 +524,32 @@ checkAuth();
   };
 
   const saveContact = async () => {
-    // - Main save handler for the dialog (decides between create vs edit).
-    // - Blocks duplicates by email, then refreshes UI and closes the modal.
     const form = readContactForm();
-    ['c_name', 'c_email', 'c_phone'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.classList.remove('input-error');
-    });
     const all = await fetchContacts();
     let hasError = false;
-    const messages = [];
+    ['c_name', 'c_email', 'c_phone'].forEach(id => {
+      clearFieldError(document.getElementById(id));
+    });
+
     const nameCheck = validateContactName(form.name);
     if (nameCheck.error) {
-      const el = document.getElementById('c_name');
-      if (el) el.classList.add('input-error');
-      if (nameCheck.msg) messages.push(nameCheck.msg);
+      showFieldError(document.getElementById('c_name'), nameCheck.msg);
       hasError = true;
     }
+
     const emailCheck = validateContactEmail(form.email, all, EDIT_ID);
     if (emailCheck.error) {
-      const el = document.getElementById('c_email');
-      if (el) el.classList.add('input-error');
-      if (emailCheck.msg) messages.push(emailCheck.msg);
+      showFieldError(document.getElementById('c_email'), emailCheck.msg);
       hasError = true;
     }
+
     const phoneCheck = validateContactPhone(form.phone);
     if (phoneCheck.error) {
-      const el = document.getElementById('c_phone');
-      if (el) el.classList.add('input-error');
-      if (phoneCheck.msg) messages.push(phoneCheck.msg);
+      showFieldError(document.getElementById('c_phone'), phoneCheck.msg);
       hasError = true;
     }
-    if (hasError || messages.length) {
-      showContactsOverlayMessages('userfeedback_email', messages.length ? messages : ['Bitte alle Pflichtfelder korrekt ausfüllen.']);
-      return;
-    }
+
+    if (hasError) return;
 
     const layer = document.querySelector('.contacts_modal_backdrop');
     if (isEditMode(layer) && EDIT_ID) {
@@ -579,13 +581,11 @@ checkAuth();
     } else {
       const newId = await createNewContact(form);
       if (newId) SELECTED_ID = newId;
-      // transient userfeedback (<= 2s) like in registration.html
       showContactsOverlay('userfeedback_contact_created', 2000);
     }
     await refreshContactsUI();
     EDIT_ID = null;
     closeDialog();
-    // Do NOT show the deleted overlay on save.
   };
 
   const createDetailHeader = () => {
@@ -889,6 +889,10 @@ checkAuth();
   window.fillProfile = fillProfile;
   window.ensureDetailRoot = ensureDetailRoot;
   window.ensureSidebar = ensureSidebar;
+  window.handleNameBlur = handleNameBlur;
+  window.handleEmailBlur = handleEmailBlur;
+  window.handlePhoneBlur = handlePhoneBlur;
+  window.resetFieldOnInput = resetFieldOnInput;
   window.addEventListener("resize", () => {
     if (!window.matchMedia("(max-width: 1024px)").matches) positionDetailRoot();
   });
