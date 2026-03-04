@@ -130,6 +130,3 @@
   window.addEventListener('resize', applyBreakpointClasses, { passive: true });
   window.addEventListener('orientationchange', applyBreakpointClasses, { passive: true });
 })();
-
-window.addEventListener('resize', layoutSummaryGreetingV16);
-layoutSummaryGreetingV16();
