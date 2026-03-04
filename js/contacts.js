@@ -445,12 +445,24 @@ checkAuth();
     configureCreateMode(layer);
   };
 
+
+  const resetAllFieldErrors = () => {
+    ['c_name', 'c_email', 'c_phone'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) clearFieldError(el);
+    });
+    hideContactsOverlay('userfeedback_email');
+    hideContactsOverlay('userfeedback_contact_created');
+    hideContactsOverlay('userfeedback_contact_deleted');
+  };
+
   const closeDialog = () => {
     // - Hides the modal by removing the "is-open" class.
     // - Doesn’t destroy elements, so opening again is instant.
     const layer = document.querySelector('.contacts_modal_backdrop');
     if (layer) layer.classList.remove('is-open');
     resetErrorBorders();
+    resetAllFieldErrors();
   };
 
   const readContactForm = () => ({
@@ -585,6 +597,7 @@ checkAuth();
     }
     await refreshContactsUI();
     EDIT_ID = null;
+    resetAllFieldErrors();
     closeDialog();
   };
 
