@@ -1,59 +1,83 @@
-(() => {
-  const ACTIVE_COLOR = '#091931';
+const ACTIVE_COLOR = '#091931';
 
-  
+const PAGE_TO_LINK = {
+  'summary.html': 'summary',
+  'board.html': 'board',
+  'add_task.html': 'add_task',
+  'contacts.html': 'contacts',
+};
 
- 
-  const PAGE_TO_LINK = {
-    'summary.html': 'summary',
-    'board.html': 'board',
-    'add_task.html': 'add_task',
-    'contacts.html': 'contacts',
-  };
-
-  const getFilename = () => {
-    const path = window.location.pathname;
-    const file = path.substring(path.lastIndexOf('/') + 1) || '';
-    return file.toLowerCase();
-  };
-
-  const highlightNav = () => {
-    const file = getFilename();
-
-  
-    let targetLink = PAGE_TO_LINK[file];
-
-  
-    if (!targetLink) {
-      const base = file.replace(/\.html?$/i, '');
-      for (const [page, link] of Object.entries(PAGE_TO_LINK)) {
-        if (page.replace(/\.html?$/i, '') === base) {
-          targetLink = link;
-          break;
-        }
-      }
-    }
-
-    const items = document.querySelectorAll('[data-link]');
-    items.forEach((el) => {
-      el.style.backgroundColor = '';
-    });
-
-    if (targetLink) {
-      const activeEl = document.querySelector(`[data-link="${targetLink}"]`);
-      if (activeEl) {
+/**
+ * Returns the current filename from the URL.
+ * @returns {string} Current page filename
+ */
+function getFilename() {
+  const path = window.location.pathname;
+  const file = path.substring(path.lastIndexOf('/') + 1) || '';
+  return file.toLowerCase();
 }
-      if (activeEl) {
-        activeEl.classList.add('is-active');
-        activeEl.setAttribute('aria-current', 'page');
-        activeEl.style.cursor = 'default';
+
+/**
+ * Tries to resolve the navigation link key for a given filename.
+ * @param {string} file
+ * @returns {string|undefined}
+ */
+function resolveTargetLink(file) {
+  let targetLink = PAGE_TO_LINK[file];
+
+  if (!targetLink) {
+    const base = file.replace(/\.html?$/i, '');
+
+    for (const [page, link] of Object.entries(PAGE_TO_LINK)) {
+      if (page.replace(/\.html?$/i, '') === base) {
+        targetLink = link;
+        break;
       }
     }
-  };
+  }
+  return targetLink;
+}
 
-  document.addEventListener('DOMContentLoaded', highlightNav);
-})();
+/**
+ * Removes the active state from all navigation elements.
+ */
+function resetNavStyles() {
+  const items = document.querySelectorAll('[data-link]');
+  items.forEach((el) => {
+    el.style.backgroundColor = '';
+    el.classList.remove('is-active');
+    el.removeAttribute('aria-current');
+  });
+}
 
+/**
+ * Sets the active navigation element.
+ * @param {string} linkKey
+ */
+function setActiveNav(linkKey) {
+  const activeEl = document.querySelector(`[data-link="${linkKey}"]`);
+
+  if (!activeEl) return;
+
+  activeEl.classList.add('is-active');
+  activeEl.setAttribute('aria-current', 'page');
+  activeEl.style.cursor = 'default';
+}
+
+/**
+ * Highlights the current navigation item based on the URL.
+ */
+function highlightNav() {
+  const file = getFilename();
+  const targetLink = resolveTargetLink(file);
+
+  resetNavStyles();
+
+  if (targetLink) {
+    setActiveNav(targetLink);
+  }
+}
+document.addEventListener('DOMContentLoaded', highlightNav);
 
 /**
  * Returns the initials of a given user name.
