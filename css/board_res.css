@@ -64,8 +64,13 @@
 }
 
 @media (max-width: 1024px) {
+
+    .no_tasks_found {
+  top: 75%;
+ 
+}
   
-      #board-page .content {
+    #board-page .content {
     overflow: auto;
   }
 

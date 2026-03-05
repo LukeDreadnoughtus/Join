@@ -24,25 +24,6 @@ async function toggleSubtask(event, indexSubtask, taskData) {
     await postSubtaskData(taskId, indexSubtask, newValue);
 }
 
-
-// function extractSubtaskData(task) {
-//     const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
-
-//     if (subtasks.length === 0) {
-//         return {
-//             subtasksTotal: 0,
-//             subtasksDone: 0,
-//             subtasks: [],
-//         };
-//     }
-//     return {
-//         subtasksTotal: currentSubtaskNumber(task),
-//         subtasksDone: currentCompletedTasksNumber(task),
-//         subtasks: subtasks,
-//     };
-// }
-
-
 /**
  * Updates the completion state of a single subtask in Firebase.
  *
