@@ -8,9 +8,9 @@
  * @returns {Promise<void>}
  */
 function closeTaskOverlay(event) {
-    event.stopPropagation ()
+    if (event) event.stopPropagation();
     document.getElementById("task_full_view").classList.add("d_none")
-    document.body.classList.remove("no-scroll");
+    document.body.classList.remove("no-scroll")
 }
 
 /**

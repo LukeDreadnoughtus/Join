@@ -448,14 +448,11 @@ function convertDateToFirebaseFormat(dateStr) {
  * @param {string|number} id - Task ID
  * @param {Event} event - Trigger event
  */
-async function deleteTask(id, event) {
+async function deleteTask(id) {
     const url = `${path}/${id}.json`;
     await fetch(url, {
         method: "DELETE"
     });
-    delete allTasks[id];
-    const fakeEvent = new Event('click'); 
-    await closeTaskOverlay(fakeEvent)
 }
 
 let currentId = null
@@ -468,7 +465,7 @@ let currentId = null
  * @param {Event} event - Click event
  * @param {string|number} id - Task ID
  */
-async function openModal(event, id) {
+function openModal(event, id) {
    event.stopPropagation()
    currentId = id
    document.getElementById("userfeedback_delete_task").classList.remove("d_none")
@@ -494,11 +491,35 @@ function cancelDeleteTask(event) {
  */
 async function confirmDeleteTask(event) {
     event.stopPropagation()
-    if (currentId !== null) {
-        await deleteTask(currentId)
+      if (currentId !== null) {
+        try {
+            await deleteTask(currentId);
+            deleteTaskInLocalObject(currentId);
+        } catch (error) {
+            console.error("Fehler beim Löschen:", error);
+        }
     }
     document.getElementById("userfeedback_delete_task").classList.add("d_none")
     currentId = null
+}
+
+/**
+ * Removes a task from the local task object and updates the board UI.
+ *
+ * If the task exists in the local `allTasks` object, it will be deleted.
+ * Afterwards the board is re-rendered, the task cards are updated,
+ * a check for empty task columns is performed, and the task overlay is closed.
+ *
+ * @param {string|number} id - The ID of the task to be removed from the local object.
+ */
+function deleteTaskInLocalObject(id) {
+    if (allTasks[id]) {
+        delete allTasks[id];
+        renderBoardBasics()
+        renderTaskCards(allTasks)
+        checkNoTasks();
+        closeTaskOverlay()
+    }
 }
 
 /**
