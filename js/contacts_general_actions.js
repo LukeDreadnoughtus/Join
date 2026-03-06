@@ -175,6 +175,9 @@ App.actions._finalizeSave = async function _finalizeSave() {
   // Resets editId so we don't accidentally patch the wrong record.
   // Finally closes the modal.
   await App.actions.refreshContactsUI();
+  if (typeof window.rerenderDetailRootAfterDelete === 'function') {
+    window.rerenderDetailRootAfterDelete();
+  }
   App.state.editId = null;
   App.actions.closeDialog();
 };
@@ -213,6 +216,9 @@ App.actions.deleteContact = async function deleteContact() {
   if (App.state.selectedId === App.state.editId) App.state.selectedId = null;
 
   await App.actions.refreshContactsUI();
+  if (typeof window.rerenderDetailRootAfterDelete === 'function') {
+    window.rerenderDetailRootAfterDelete();
+  }
   App.state.editId = null;
   App.actions.closeDialog();
   App.overlays.show('userfeedback_contact_deleted', 2000);

@@ -239,3 +239,34 @@
     runInitOnce();
   }
 }());
+
+
+// ------------------------------------------------------------
+// Force rerender of .contact_detail_root after deleting contact
+// ------------------------------------------------------------
+App.detail.removeDetailRoot = function removeDetailRoot() {
+  const root = document.querySelector('.contact_detail_root');
+  if (root) root.remove();
+};
+
+App.detail.rerenderDetailRootAfterDelete = function rerenderDetailRootAfterDelete() {
+  App.detail.clearSelection && App.detail.clearSelection();
+  App.detail.removeDetailRoot();
+
+  const root = App.detail.ensureDetailRoot ? App.detail.ensureDetailRoot() : null;
+  if (root) {
+    root.innerHTML = '';
+  }
+
+  if (window.matchMedia && !window.matchMedia('(max-width: 1024px)').matches) {
+    App.detail.positionDetailRoot && App.detail.positionDetailRoot();
+  }
+
+  return root;
+};
+
+window.rerenderDetailRootAfterDelete = function () {
+  if (App.detail && App.detail.rerenderDetailRootAfterDelete) {
+    App.detail.rerenderDetailRootAfterDelete();
+  }
+};
