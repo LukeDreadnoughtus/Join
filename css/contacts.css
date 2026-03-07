@@ -331,11 +331,22 @@ body {
   overflow: hidden;
 }
 
+body.contacts-page {
+  --contacts-header-height: 96px;
+  --contacts-bottom-nav-height: 0px;
+}
+
 .page,
 main,
 .content {
   height: 100vh;
   overflow: hidden;
+}
+
+main.content {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .contact_detail_root {
@@ -350,18 +361,18 @@ main.content .contacts_sidebar {
   width: 460px;
   min-width: 460px;
   max-width: 460px;
+  height: calc(100dvh - var(--contacts-header-height));
+  max-height: calc(100dvh - var(--contacts-header-height));
   display: flex;
   flex-direction: column;
   gap: 12px;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   background: #fff;
   box-sizing: border-box;
-  position: sticky;
-  top: 0;
-  max-height: 100dvh;
+  position: relative;
   padding: 12px 0 12px 12px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
+  min-height: 0;
 }
 
 main.content .contacts_sidebar_add {
@@ -387,11 +398,15 @@ main.content .contacts_sidebar_add {
 
 main.content .contacts_sidebar_list {
   flex: 1 1 auto;
+  min-height: 0;
   padding-bottom: 70px;
   padding-left: var(--contacts-sidebar-pad);
   padding-right: var(--contacts-sidebar-pad);
   box-sizing: border-box;
-  overflow: visible;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   scrollbar-gutter: stable;
   margin-right: 0;
 }

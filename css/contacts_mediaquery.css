@@ -41,6 +41,10 @@
 }
 
 @media (max-width: 1024px) {
+  body.contacts-page {
+    --contacts-bottom-nav-height: 96px;
+  }
+
   main.content .contacts_sidebar_list {
     padding-bottom: 150px;
   }
@@ -110,15 +114,15 @@
 
   main.content .contacts_sidebar {
     /* Sidebar becomes full width on mobile */
-    /* Keep it constrained so it behaves like the main page column */
-    /* Height uses viewport units so it fits without weird scrolling */
+    /* Keep it constrained between the top header and bottom nav */
+    /* The inner list remains the only scrollable area */
     width: 100%;
     min-width: 100%;
     max-width: 100%;
     border-right: none;
     position: relative;
-    max-height: none;
-    height: calc(100dvh - 110px);
+    height: calc(100dvh - var(--contacts-header-height) - var(--contacts-bottom-nav-height));
+    max-height: calc(100dvh - var(--contacts-header-height) - var(--contacts-bottom-nav-height));
   }
 
   .contact_detail_header,
@@ -706,5 +710,11 @@
   .contacts_modal_right_panel {
     justify-content: center;
     padding-left: 10px;
+  }
+}
+
+@media (max-width: 680px) {
+  body.contacts-page {
+    --contacts-header-height: 80px;
   }
 }
