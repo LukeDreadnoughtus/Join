@@ -45,22 +45,25 @@ function initAddTaskOverlay() {
     });
 }
 
-// Wichtig: nur einmal aufrufen
 document.addEventListener("DOMContentLoaded", initAddTaskOverlay);
-
 let path = "https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/"
 let pathUser = "https://joinregistration-d9005-default-rtdb.europe-west1.firebasedatabase.app/"
-
 var allTasks = {}; // globales Objekt: key = Task-ID, value = Task-Daten
 
-// Avoid spamming multiple alert popups if user-data fetch fails for many tasks.
+/**
+ * Displays an alert message to the user if fetching user data fails.
+ * The alert is shown only once to avoid multiple popups when several
+ * tasks trigger the same error.
+ *
+ * @returns {void}
+ */
 let _userDataFetchAlertShown = false;
+
 function alertUserDataFetchOnce() {
     if (_userDataFetchAlertShown) return;
     _userDataFetchAlertShown = true;
     alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
 }
-
 
 /**
  * Initializes the board after the page has loaded.
@@ -79,6 +82,15 @@ async function init() {
     renderUserIcon();
 }
 
+/**
+ * Fetches user data from the server and caches the result.
+ * If the data has already been fetched, the cached version
+ * is returned instead of making another network request.
+ *
+ * @async
+ * @function getUserData
+ * @returns {Promise<Object>} A promise that resolves to the user data object.
+ */
 let cachedUserData = null;
 
 async function getUserData() {
@@ -88,7 +100,6 @@ async function getUserData() {
     cachedUserData = await response.json();
     return cachedUserData;
 }
-
 
 /**
  * Hides the user feedback element if it is currently visible.
@@ -246,7 +257,6 @@ function formatDateDDMMYYYY(dateInput) {
  * @param {string[]} currentAssignedUserids - Array of user IDs
  * @returns {Promise<string[]>} Array of user names
  */
-
 async function fetchUserNames(currentAssignedUserids) {
     try {
         const userData = await getUserData();
@@ -259,6 +269,7 @@ async function fetchUserNames(currentAssignedUserids) {
         return [];
     }
 }
+
 /**
  * Fetches color values for assigned users by their IDs.
  *
@@ -266,7 +277,6 @@ async function fetchUserNames(currentAssignedUserids) {
  * @param {string[]} currentAssignedUserids - Array of assigned user IDs
  * @returns {Promise<string[]>} Array of user color values
  */
-
 async function fetchUsercolors(currentAssignedUserids) {
     try {
         const userData = await getUserData();
@@ -330,21 +340,13 @@ function currentCategoryColor(currentCategory) {
  * @param {Object} userData - Object containing all user data
  * @returns {string} User color or default color as fallback
  */
-// function findUserColor(user, userData) {
-//     const searchedUser = userData[user];
-//     let userColor = searchedUser.color || "#393737ff";
-//     return userColor
-// }
-
 function findUserColor(userId, userData) {
     const searchedUser = userData[userId];
-    if (!searchedUser) return "#393737ff"; // user nicht gefunden
-
+    if (!searchedUser) return "#393737ff";
     // fallback: color → colors → default
     const userColor = searchedUser.color || searchedUser.colors || "#393737ff";
     return userColor;
 }
-
 
 /**
  * Checks if board columns contain no rendered tasks.

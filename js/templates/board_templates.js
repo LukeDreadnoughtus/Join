@@ -34,7 +34,6 @@ function renderBoardBasics() {
  *   - subtasksTotal: number - Total number of subtasks
  *   - subtasksDone: number - Number of completed subtasks
  */
-
 function taskTemplate(taskData) {
     const users = taskData.assignedUsers || [];
     const assignedUsersHtml = renderAssignedUsersTaskCard(taskData);
@@ -336,7 +335,6 @@ function createSubtaskListItem(taskData, index, subtask) {
     return li;
 }
 
-
 /**
  * Renders the edit template for a subtask.
  *
@@ -376,7 +374,6 @@ function renderSubtaskEditTemplate(listItem, taskId, subtaskKey, subtaskName) {
     const textarea = inner.querySelector(".subtask_edit_input");
     autoGrow(textarea);
 }
-
 
 /**
  * Builds the HTML template for a selectable user entry.

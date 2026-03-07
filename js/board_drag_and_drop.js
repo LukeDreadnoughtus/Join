@@ -122,6 +122,15 @@ renderTaskCards(allTasks)
 checkNoTasks();
 }
 
+/**
+ * Renders all task cards on the board.
+ * Iterates through the provided tasks object and calls the task template
+ * function for each task to display it in the corresponding board column.
+ *
+ * @param {Object<string, Object>} allTasks - An object containing all tasks,
+ * where the key represents the task ID and the value contains the task data.
+ * @returns {void}
+ */
 function renderTaskCards(allTasks) {
     for (const key in allTasks) {
         const taskData = allTasks[key];

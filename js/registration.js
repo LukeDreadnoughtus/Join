@@ -16,7 +16,6 @@ function backToLogIn() {
     window.location.href = "index.html";
 }
 
-
 /**
  * Checks if the privacy policy checkbox is checked.
  * If so, hides related feedback and triggers field validation.
@@ -51,6 +50,14 @@ function checkAllFieldsFilled() {
     return allFilled;
 }
 
+/**
+ * Checks whether the entered password and confirmation password match.
+ * If the passwords do not match, a user feedback message is displayed.
+ *
+ * @param {string} passwordConfirm - The confirmation password entered by the user.
+ * @param {string} password - The original password entered by the user.
+ * @returns {boolean} Returns true if both passwords match, otherwise false.
+ */
 function checkTwoPasswords(passwordConfirm, password) {
     if (passwordConfirm !== password) {
         showUserfeedback()
@@ -148,7 +155,6 @@ function checkPasswordConfirm(passwordConfirm) {
  * @param {Event} event - The input, keyup or change event triggered by the email field
  * @returns {void}
  */
-
 function checkEmailField(event) {
     const emailInput = event.target;
     const emailValue = emailInput.value.trim();
@@ -167,12 +173,10 @@ function checkEmailField(event) {
  * @param {string} email - The email address to validate
  * @returns {boolean} True if the email format is valid, otherwise false
  */
-
 function isValidEmail(email) {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email.trim());
 }
-
 
 /**
  * Resets the visual state of an input field.
@@ -226,7 +230,6 @@ function setInputError(inputElement, feedbackId) {
  * @param {Event} event - The input, keyup or change event triggered by the name field
  * @returns {void}
  */
-
 function checkNameField(event) {
     const nameInput = event.target;
     const nameValue = nameInput.value.trim();
@@ -250,12 +253,6 @@ function checkNameField(event) {
  * @param {string} name - The full name to validate.
  * @returns {boolean} Returns true if the name is valid according to the rules, false otherwise.
  */
-
-// function isValidName(name) {
-//     const nameRegex = /^(?=.{2,50}$)[\p{L}]+(?:[ '\-][\p{L}]+)*$/u;
-//     return nameRegex.test(name.trim());
-// }
-
 function isValidName(name) {
     // Vor- und Nachname, getrennt durch mindestens ein Leerzeichen
     const nameRegex = /^(?=.{2,50}$)[\p{L}]+(?:[ '\-][\p{L}]+)+$/u;
@@ -277,7 +274,6 @@ function isValidName(name) {
  * @param {Event} event - The input, keyup or change event triggered by a password field
  * @returns {void}
  */
-
 function handlePasswordInput(event) {
     const input = event.target;
     const passwordValue = input.value.trim();
@@ -312,7 +308,6 @@ function isValidPassword(password) {
     const passwordRegex = /^(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}$/;
     return passwordRegex.test(password);
 }
-
 
 /**
  * Shows the visibility icon for the first password field when typing.

@@ -19,6 +19,9 @@ function searchTask() {
     renderFilteredTasks_Header(tasksArray, input)
 }
 
+/**
+ * Searchtask-Funktion in the responsive mode
+ */
 function searchTask_res() {
     const inputElement = document.getElementById("search_responsive");
     const input = inputElement.value.toLowerCase().trim();
@@ -56,6 +59,9 @@ function renderFilteredTasks(tasksArray, input) {
     checkNoTasks();
 }
 
+/**
+ * Renderfunction for responsive mode
+ */
 function renderFilteredTasks_Header(tasksArray, input) {
     if (!input) {
         tasksArray.forEach(task => taskTemplate(task));
@@ -93,11 +99,6 @@ function toggleInputHighlight(inputElement, iconElement, active) {
 /**
  * Clears the content of all board columns so that tasks can be re-rendered.
  */
-// function clearBoardSlots() {
-//     const boardSlots = document.querySelectorAll(".board_column");
-//     boardSlots.forEach(slot => slot.innerHTML = "");
-// }
-
 function clearBoardSlots() {
     const boardSlots = document.querySelectorAll(".column_content");
     boardSlots.forEach(slot => slot.innerHTML = "");
@@ -128,11 +129,13 @@ function toggleNoTasksFound(show) {
     element.classList.toggle("d_none", !show);
 }
 
+/**
+ * For responsive mode
+ */
 function toggleNoTasksFound_Header(show) {
     const element = document.getElementById("no_tasks_found_header");
     element.classList.toggle("d_none", !show);
 }
-
 
 /**
  * Creates a single user icon for a task card.
@@ -210,7 +213,6 @@ function renderAssignedUsersTaskCard(taskData) {
  * 
  * @type {Object<string, Array<{label: string, target: string, direction: string}>>}
  */
-
 const moveOptions = {
   todo: [
     { label: "In Progress", target: "progress", direction: "down"}
@@ -239,7 +241,6 @@ const moveOptions = {
  * @param {Event} event - The click event that triggered the menu
  * @returns {void}
  */
-
 function openResMenu(slot, id, event) {
   event.stopPropagation();
   const menu = document.getElementById(`menu_task_card_res_${id}`);
@@ -262,7 +263,6 @@ function openResMenu(slot, id, event) {
  * @param {HTMLElement} menu - The menu container element
  * @returns {void}
  */
-
 function constructMenu(slot, id, menu) {
   menu.innerHTML = "";
   const header = document.createElement("div");
@@ -285,7 +285,6 @@ function constructMenu(slot, id, menu) {
  * @param {string} id - Unique ID of the task
  * @returns {HTMLElement} The constructed menu item element
  */
-
 function createMenuItem(option, id) {
   const item = document.createElement("div");
   item.classList.add("menu_item");
@@ -336,4 +335,3 @@ function closeResMenu(id) {
     menu.classList.add("d_none");
   }
 }
-

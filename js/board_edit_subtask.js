@@ -101,7 +101,6 @@ function addSubtaskHoverBehavior(li) {
  * // Output:
  * // { "0": {...}, "1": {...}, "2": {...} }
  */
-
 function reindexSubtasksObject(subtasks) {
     if (!subtasks || typeof subtasks !== "object") return {};
     const numericEntries = Object.keys(subtasks)
@@ -156,7 +155,6 @@ function countCompletedSubTasks(id) {
     }
     return count;
 }
-
 
 let currentTaskId = null;
 let currentSubtaskKey = null;
@@ -255,7 +253,6 @@ function editSubtask(event, taskId, subtaskKey) {
     
 }
 
-
 /**
  * Returns the list item element of a subtask based on its index.
  *
@@ -300,7 +297,6 @@ async function saveSubtaskEdit(event,taskId, subtaskKey, liElement) {
     newInput.focus();
 }
 
-
 /**
  * Clears the subtask input field related to the clicked icon.
  *
@@ -341,7 +337,6 @@ async function addNewSubtask(id) {
     checkNoTasks();
     await updateSubtasksInFirebase (id, allTasks[id].subtasks);
 }
-
 
 /**
  * Handles the Enter key to add a new subtask.

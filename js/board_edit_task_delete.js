@@ -90,7 +90,6 @@ function deleteTaskInLocalObject(id) {
  * @param {HTMLElement} containerDiv - The container element representing the user option that was clicked.
  * @returns {void}
  */
-
 async function toggleUserOption(color, name, taskId, containerDiv) {
     const checkbox = containerDiv.querySelector(".user_checkbox");
     checkbox.checked = !checkbox.checked; 
@@ -111,7 +110,6 @@ async function toggleUserOption(color, name, taskId, containerDiv) {
  * @param {Array<string>} assignedUserIds - User IDs assigned to the task
  * @returns {Object} Patch data object
  */
-
     function buildPatchDataAssigned( assignedUserIds) {
     return {
         assigned: assignedUserIds
@@ -127,7 +125,6 @@ async function toggleUserOption(color, name, taskId, containerDiv) {
  *
  * @param {string|number} id - Task ID
  */
-
 function saveEdits(id) {
     toggleEditView();
     renderTaskCardFullView(allTasks[id]);

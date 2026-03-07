@@ -22,7 +22,6 @@ window.filterUsers = function(searchTerm) {
     });
 };
 
-
 /**
  * Renders the icons of users already assigned to a task.
  *
@@ -31,17 +30,6 @@ window.filterUsers = function(searchTerm) {
  *
  * @param {Object} taskData - Task object containing assigned user data
  */
-
-function createUserIcon(user, color) {
-    return `<div class="assigned_icon" style="background-color: ${color}">
-                ${initials(user)}
-            </div>`;
-}
-
-function createOverflowIcon(count) {
-    return `<div class="assigned_icon overflow_icon">+${count}</div>`;
-}
-
 function renderAssignedUserIcons(taskData) {
     const container = document.getElementById("already_assigned");
     container.innerHTML = "";
@@ -60,6 +48,32 @@ function renderAssignedUserIcons(taskData) {
 }
 
 /**
+ * Creates the HTML markup for a user icon with the user's initials.
+ * The icon is styled with a background color and typically used
+ * to display assigned users on a task card.
+ *
+ * @param {string} user - The name of the user to generate initials from.
+ * @param {string} color - The background color of the user icon (e.g., hex, rgb, or CSS color).
+ * @returns {string} The HTML string representing the user icon element.
+ */
+function createUserIcon(user, color) {
+    return `<div class="assigned_icon" style="background-color: ${color}">
+                ${initials(user)}
+            </div>`;
+}
+
+/**
+ * Creates the HTML markup for an overflow icon indicating
+ * that more users are assigned than can be displayed.
+ *
+ * @param {number} count - The number of additional hidden users.
+ * @returns {string} The HTML string representing the overflow icon.
+ */
+function createOverflowIcon(count) {
+    return `<div class="assigned_icon overflow_icon">+${count}</div>`;
+}
+
+/**
  * Closes the task edit overlay and resets the board view.
  *
  * Hides all task overlays, restores page scrolling,
@@ -72,7 +86,6 @@ async function closeTaskOverlayEdit(event) {
     document.getElementById("task_edit_view").classList.add("d_none")
     document.getElementById("task_full_view").classList.add("d_none")
     document.body.classList.remove("no-scroll");
-
 }
 
 /**
@@ -103,7 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
         closeUserDropdown(event);
     });
 });
-
 
 /**
  * Closes the user selection dropdown.
@@ -204,7 +216,6 @@ async function fetchAllUsers() {
         return [];
     }
 }
-
 
 /**
  * Toggles the assignment of a user to a task.
@@ -360,18 +371,6 @@ async function updateTaskInFirebase(id, data) {
 }
 
 /**
- * Converts a date from DD/MM/YYYY format to Firebase-compatible YYYY-MM-DD format.
- *
- * @param {string} dateStr - Date string in DD/MM/YYYY format
- * @returns {string} Converted date string in YYYY-MM-DD format
- */
-// function convertDateToFirebaseFormat(dateStr) {
-//     if (!dateStr) return dateStr;
-//     const [day, month, year] = dateStr.split("/");
-//     return `${year}-${month}-${day}`;
-// }
-
-/**
  * Convert a date string to Firebase format (yyyy-mm-dd)
  * Supports dd/mm/yyyy or yyyy-mm-dd input.
  * @param {string} dateStr
@@ -388,4 +387,3 @@ function convertDateToFirebaseFormat(dateStr) {
     }
     return "";
 }
-

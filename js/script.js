@@ -56,9 +56,7 @@ function resetNavStyles() {
  */
 function setActiveNav(linkKey) {
   const activeEl = document.querySelector(`[data-link="${linkKey}"]`);
-
   if (!activeEl) return;
-
   activeEl.classList.add('is-active');
   activeEl.setAttribute('aria-current', 'page');
   activeEl.style.cursor = 'default';
@@ -70,9 +68,7 @@ function setActiveNav(linkKey) {
 function highlightNav() {
   const file = getFilename();
   const targetLink = resolveTargetLink(file);
-
   resetNavStyles();
-
   if (targetLink) {
     setActiveNav(targetLink);
   }
@@ -115,11 +111,16 @@ window.location.href = "help.html"
 function openUserMenu() {
   const menu = document.getElementById("user_menu");
   const overlay = document.getElementById("header_overlay");
-
   menu.classList.toggle("d_none");
   overlay.classList.toggle("d_none");
 }
 
+/**
+ * Closes the user menu and the header overlay by adding the 'd_none' class.
+ * This hides the menu and overlay from the UI.
+ *
+ * @returns {void}
+ */
 function closeUserMenu() {
   document.getElementById("user_menu").classList.add("d_none");
   document.getElementById("header_overlay").classList.add("d_none");
@@ -138,6 +139,14 @@ function logoutUser(event) {
     window.location.replace('index.html');
 }
 
+/**
+ * Checks whether the user is authenticated by verifying the presence
+ * of a 'userid' in localStorage. If the user is not authenticated,
+ * they are redirected to the login page. Otherwise, the page content
+ * is made visible.
+ *
+ * @returns {void}
+ */
 function checkAuth() {
     if (!localStorage.getItem('userid')) {
         window.location.replace('index.html');
@@ -145,7 +154,6 @@ function checkAuth() {
     document.documentElement.style.visibility = 'visible';
     document.body.style.visibility = 'visible';
 }
-
 
 //Help_page
 /**

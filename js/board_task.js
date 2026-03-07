@@ -63,7 +63,6 @@ function renderSubtasks(taskData) {
     if (noSubtasksExist(taskData)) {
         return renderNoSubtasksMessage();
     }
-
     const container = createSubtasksContainer();
     appendRenderedSubtasks(container, taskData);
     return container;
@@ -221,7 +220,6 @@ function initEditListeners(id) {
  *
  * @param {number|string} id - The identifier of the task in the allTasks array/object.
  */
-
 function initDateListener(id) {
     const input = document.getElementById('edit_due_date');
     const feedback = document.getElementById('pastdate');
@@ -250,6 +248,13 @@ function initDateListener(id) {
     });
 }
 
+/**
+ * Checks whether a given date string represents a date in the past.
+ * The comparison ignores the current time and only evaluates the date.
+ *
+ * @param {string} dateStr - The date string to check (e.g., in ISO format "YYYY-MM-DD").
+ * @returns {boolean} Returns true if the given date is earlier than today, otherwise false.
+ */
 function isPastDate(dateStr) {
     if (!dateStr) return false;
     const selected = new Date(dateStr);
@@ -281,7 +286,6 @@ function hideDateError(inputEl, feedbackEl) {
  *
  * @param {number|string} id - The identifier of the task in the allTasks array/object.
  */
-
 function initTitleListener(id) {
     const input = document.getElementById('edit_title');
     if (!input) return;
@@ -307,7 +311,6 @@ function initTitleListener(id) {
  *
  * @param {number|string} id - The identifier of the task in the allTasks array/object.
  */
-
 function initDescriptionListener(id) {
     const input = document.getElementById('edit_description');
     if (!input) return;
@@ -328,7 +331,6 @@ function initDescriptionListener(id) {
         }
     });
 }
-
 
 /**
  * Converts a date string into the ISO format required by native date inputs.
@@ -351,7 +353,6 @@ function convertToDatePickerFormat(dateStr) {
     console.warn('Unbekanntes Datumsformat:', dateStr);
     return '';
 }
-
 
 /**
  * Highlights the currently selected priority button in the edit view.
@@ -401,10 +402,18 @@ async function setPriority(prio, id) {
     await updateTaskInFirebase(id, patchData);
 }
 
+/**
+ * Builds the patch data object for updating the priority of a task.
+ * Retrieves the task from the global task collection and returns
+ * an object containing only the priority field for partial updates
+ * (e.g., when sending a PATCH request to a database).
+ *
+ * @param {string} id - The unique ID of the task.
+ * @returns {{priority: string}} An object containing the task priority.
+ */
 function buildPatchDataPriority(id) {
     const t = allTasks[id];
     return {
         priority: t.priority,
     };
 }
-

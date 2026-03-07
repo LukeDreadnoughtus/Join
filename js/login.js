@@ -14,7 +14,6 @@ let path = "https://joinregistration-d9005-default-rtdb.europe-west1.firebasedat
  * @listens DOMContentLoaded
  * @returns {void}
  */
-
 window.addEventListener('DOMContentLoaded', () => {
     const splash = document.getElementById('splash_screen');
     const logo = document.getElementById('splash_logo');
@@ -54,7 +53,6 @@ window.addEventListener('DOMContentLoaded', () => {
  * @param {Event} event - The form submission event
  * @returns {Promise<void>}
  */
-
 async function logIn(event) {
     event.preventDefault();
     try {
@@ -67,6 +65,15 @@ async function logIn(event) {
     }
 }
 
+/**
+ * Logs in a user as a guest without authentication.
+ * Prevents the default form submission, stores guest credentials
+ * in localStorage, initializes the summary greeting overlay,
+ * and redirects the user to the summary page.
+ *
+ * @param {Event} event - The event object triggered by the login action.
+ * @returns {void}
+ */
 function logInGuest(event) {
     event.preventDefault();
     localStorage.setItem("username", `Guest`)
@@ -105,10 +112,15 @@ function proofUserData(userData) {
    setUserFeedbackFailedLogIn() 
 }
 
+/**
+ * Stores a user ID in localStorage to keep track of users who have logged in.
+ * If the user ID already exists in the stored list, it will not be added again.
+ * The list is saved under the key "known_userids".
+ *
+ * @param {string} userId - The unique identifier of the user to remember.
+ * @returns {void}
+ */
 function rememberUserForCombinedSummary(userId) {
-    //hier ausblenden
-    // ich pack hier einfach alle userIds rein, damit die summary später die kombi anzeigen kann
-    // falls das mal nervt: key ist 'known_userids' im localStorage
     if (!userId) return;
     const KEY = 'known_userids';
     const existing = safeParseJSON(localStorage.getItem(KEY), []);
@@ -117,9 +129,15 @@ function rememberUserForCombinedSummary(userId) {
     localStorage.setItem(KEY, JSON.stringify(list));
 }
 
+/**
+ * Safely parses a JSON string and returns a fallback value if parsing fails.
+ * This prevents the application from crashing due to malformed JSON data.
+ *
+ * @param {string|null} raw - The raw JSON string to parse (e.g., from localStorage).
+ * @param {*} fallback - The fallback value to return if parsing fails or the input is empty.
+ * @returns {*} The parsed JavaScript value or the provided fallback value.
+ */
 function safeParseJSON(raw, fallback) {
-    //hier ausblenden
-    // kleine absicherung, weil ich kein bock auf JSON crashes hab
     try {
         return raw ? JSON.parse(raw) : fallback;
     } catch (_) {
@@ -139,7 +157,6 @@ function setUserFeedbackFailedLogIn() {
     document.getElementById("useremail").classList.remove("input_style")
     document.getElementById("password").classList.remove("input_style")
 }
-
 
 /**
  * Removes the "failed login" feedback and restores the input styles to normal.
@@ -208,7 +225,6 @@ function showPassword3(event) {
  * @param {Event} event - The input or keyup event triggered by the login email field
  * @returns {void}
  */
-
 function checkLoginEmailField(event) {
     const emailInput = event.target;                
     const emailValue = emailInput.value.trim();
@@ -217,5 +233,3 @@ function checkLoginEmailField(event) {
         setInputError(emailInput, "emailcheck"); 
     }
 }
-
- 
