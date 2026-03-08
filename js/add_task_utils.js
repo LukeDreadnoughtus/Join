@@ -53,7 +53,6 @@ function createDot() {
   return dot;
 }
 
-
 /**
  * Creates a span element for subtask text
  * @param {string} text - The text content for the span
@@ -65,7 +64,6 @@ function createSpan(text) {
   span.textContent = text;
   return span;
 }
-
 
 /**
  * Creates a button element with HTML content and click handler
@@ -80,7 +78,6 @@ function createButton(html, onClick) {
   btn.onclick = onClick;
   return btn;
 }
-
 
 /**
  * Clones an SVG icon element and applies a new class
@@ -98,7 +95,6 @@ function cloneSvgIcon(sourceId, className) {
   return node;
 }
 
-
 /**
  * Counts the number of subtask items in the subtask list
  * @returns {number} The count of subtask items
@@ -113,7 +109,6 @@ function getSubtaskCount() {
   return count;
 }
 
-
 /**
  * Rebuilds the left section of a subtask item with new content
  * @param {HTMLElement} left - The left section container element
@@ -124,7 +119,6 @@ function rebuildLeft(left, dot, contentElement) {
   left.innerHTML = "";
   left.append(dot, contentElement);
 }
-
 
 /**
  * Clears and hides the subtask input divider wrapper

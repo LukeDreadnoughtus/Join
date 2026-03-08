@@ -1,5 +1,4 @@
 "use strict";
-
 /**
  * Updates the UI state based on subtask count (enables/disables add button)
  */
@@ -13,7 +12,6 @@ function updateAddUIState() {
   add.style.opacity = "1";
 }
 
-
 /**
  * Wires up all event listeners for the subtask input row
  */
@@ -25,7 +23,6 @@ function wireSubtaskInputRow() {
   attachClearIconListener(elements);
   attachEnterKeyListener(elements);
 }
-
 
 /**
  * Gets all required elements for the subtask input row
@@ -49,7 +46,6 @@ function getSubtaskInputElements() {
   return { input, addIcon, clearIcon, divider, wrapper };
 }
 
-
 /**
  * Attaches input event listener to show/hide action icons
  * @param {Object} elements - The subtask input elements object
@@ -61,7 +57,6 @@ function attachInputEventListener(elements) {
     elements.wrapper.classList.toggle("overlay_hidden", !hasText);
   });
 }
-
 
 /**
  * Attaches click listener to the add subtask icon
@@ -77,7 +72,6 @@ function attachAddIconListener(elements) {
   });
 }
 
-
 /**
  * Attaches click listener to the clear input icon
  * @param {Object} elements - The subtask input elements object
@@ -88,7 +82,6 @@ function attachClearIconListener(elements) {
     elements.wrapper.classList.add("hidden", "overlay_hidden");
   });
 }
-
 
 /**
  * Attaches Enter key listener to add subtask on Enter press
@@ -106,7 +99,6 @@ function attachEnterKeyListener(elements) {
     }
   });
 }
-
 
 /**
  * Adds a new subtask to the list
@@ -137,7 +129,6 @@ function createSubtaskElement(text) {
   return item;
 }
 
-
 /**
  * Creates the main container for a subtask item
  * @returns {HTMLDivElement} The subtask item container
@@ -148,7 +139,6 @@ function createSubtaskItemContainer() {
   item.id = `subtask-item-${subtaskUid}`;
   return item;
 }
-
 
 /**
  * Creates the left section of a subtask (dot and text)
@@ -165,7 +155,6 @@ function createSubtaskLeftSection(text) {
   return left;
 }
 
-
 /**
  * Creates a dot element for a subtask
  * @returns {HTMLDivElement} The dot element
@@ -176,7 +165,6 @@ function createSubtaskDot() {
   dot.id = `subtask-dot-${subtaskUid}`;
   return dot;
 }
-
 
 /**
  * Creates a text span for a subtask
@@ -190,7 +178,6 @@ function createSubtaskTextSpan(text) {
   span.textContent = text;
   return span;
 }
-
 
 /**
  * Creates the actions section with edit and delete buttons
@@ -209,7 +196,6 @@ function createSubtaskActions(item, left) {
   return actions;
 }
 
-
 /**
  * Creates the edit button for a subtask
  * @param {HTMLElement} item - The subtask item element
@@ -227,7 +213,6 @@ function createEditButton(item, left, actions) {
   return editBtn;
 }
 
-
 /**
  * Creates a separator element between action buttons
  * @returns {HTMLDivElement} The separator element
@@ -237,7 +222,6 @@ function createActionSeparator() {
   separator.className = "subtask-separator";
   return separator;
 }
-
 
 /**
  * Creates the delete button for a subtask
@@ -255,7 +239,6 @@ function createDeleteButton(item) {
   });
   return delBtn;
 }
-
 
 /**
  * Sets up click event listener for the subtask item
@@ -277,7 +260,6 @@ function setupSubtaskItemClick(item, left, actions) {
   });
 }
 
-
 /**
  * Creates action buttons for a subtask
  * @param {HTMLElement} item - The subtask item element
@@ -296,7 +278,6 @@ function createButtons(item, span) {
   return buttons;
 }
 
-
 /**
  * Enters edit mode for a subtask item
  * @param {HTMLElement} item - The subtask item element
@@ -311,7 +292,6 @@ function enterEditMode(item, span, buttons) {
   rebuildLeft(elements.left, createDot(), editWrap);
   focusEditInput(editWrap);
 }
-
 
 /**
  * Gets all required elements for edit mode
@@ -329,7 +309,6 @@ function getEditModeElements(item, span, buttons) {
   return { left, btns, textSpan, dot };
 }
 
-
 /**
  * Hides the edit mode buttons and dot
  * @param {Object} elements - The edit mode elements object
@@ -338,7 +317,6 @@ function hideEditModeButtons(elements) {
   elements.btns.style.display = "none";
   if (elements.dot) elements.dot.style.display = "none";
 }
-
 
 /**
  * Creates the edit wrapper with input and action icons
@@ -357,7 +335,6 @@ function createEditWrapper(elements) {
   return editWrap;
 }
 
-
 /**
  * Creates an input element for editing subtask text
  * @param {HTMLSpanElement} textSpan - The text span element
@@ -372,7 +349,6 @@ function createEditInput(textSpan) {
   return editInput;
 }
 
-
 /**
  * Creates a divider element for the edit mode
  * @returns {HTMLDivElement} The divider element
@@ -382,7 +358,6 @@ function createEditDivider() {
   divider.className = "subtask-edit-divider";
   return divider;
 }
-
 
 /**
  * Creates check and cancel icons for edit mode
@@ -400,7 +375,6 @@ function createEditIcons(elements, editInput) {
   return { check, cancel };
 }
 
-
 /**
  * Attaches click listener to the check icon to save changes
  * @param {HTMLElement} check - The check icon element
@@ -416,7 +390,6 @@ function attachCheckListener(check, elements, editInput) {
   });
 }
 
-
 /**
  * Attaches click listener to the cancel icon to discard changes
  * @param {HTMLElement} cancel - The cancel icon element
@@ -429,7 +402,6 @@ function attachCancelListener(cancel, elements) {
   });
 }
 
-
 /**
  * Restores the subtask item to normal (non-edit) mode
  * @param {Object} elements - The edit mode elements object
@@ -440,7 +412,6 @@ function restoreNormalMode(elements) {
   if (elements.dot) elements.dot.style.display = "block";
   updateAddUIState();
 }
-
 
 /**
  * Focuses the edit input and moves cursor to end
