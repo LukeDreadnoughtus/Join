@@ -15,8 +15,6 @@ function updateDisplayText() {
   renderSelectedUserIcons(assignedUsersContainer);
 }
 
-
-
 /**
  * Renders icon elements for all selected users
  * @param {HTMLElement} container - The container element for user icons
@@ -38,7 +36,6 @@ function renderSelectedUserIcons(container) {
   }
 }
 
-
 /**
  * Creates a "+N" indicator for additional assigned users
  * @param {number} count - Number of hidden assigned users
@@ -52,7 +49,6 @@ function createMoreIndicator(count) {
   return el;
 }
 
-
 /**
  * Rebuilds the display element with text and arrow
  * @param {HTMLElement} display - The display element to rebuild
@@ -64,7 +60,6 @@ function rebuildDisplayElement(display, textContent = "Select contacts to assign
   const arrow = createDisplayArrow();
   display.append(text, arrow);
 }
-
 
 /**
  * Creates a span element for display text
@@ -79,7 +74,6 @@ function createDisplayTextSpan(textContent) {
   return text;
 }
 
-
 /**
  * Creates an arrow span element for the dropdown indicator
  * @returns {HTMLSpanElement} The created arrow element
@@ -91,7 +85,6 @@ function createDisplayArrow() {
   arrow.textContent = "▼";
   return arrow;
 }
-
 
 /**
  * Creates an icon element for a selected user
@@ -112,7 +105,6 @@ function createSelectedUserIcon(id) {
   return newIcon;
 }
 
-
 /**
  * Fetches user data from the Firebase database
  * @async
@@ -122,7 +114,6 @@ async function fetchUserData() {
   const response = await fetch(ADD_TASK_PATH_REGISTER + ".json");
   return await response.json();
 }
-
 
 /**
  * Loads and displays user assignments in the dropdown
@@ -139,7 +130,6 @@ async function loadUserAssignments() {
   }
 }
 
-
 /**
  * Builds the complete dropdown with display and options
  * @param {HTMLElement} container - The container for the dropdown
@@ -153,7 +143,6 @@ function buildDropdown(container, data) {
   container.append(display, options);
   attachOutsideClickHandlerForAssignedDropdown();
 }
-
 
 /**
  * Creates the main display element for the dropdown
@@ -169,7 +158,6 @@ function createDisplayElement() {
   el.append(text, arrow);
   return el;
 }
-
 
 /**
  * Creates the options container with all user options
@@ -193,7 +181,6 @@ function createOptionsContainer(data) {
   return options;
 }
 
-
 /**
  * Adds a single option item to the container
  * @param {HTMLElement} container - The container for options
@@ -205,7 +192,6 @@ function addOptionItem(container, id, user) {
   item.onclick = () => toggleUserById(id);
   container.appendChild(item);
 }
-
 
 /**
  * Creates an option item element for a user
@@ -233,7 +219,6 @@ function createOptionItemElement(id, user) {
   return item;
 }
 
-
 /**
  * Toggles the selection state of a user by ID
  * @param {string} id - The user ID to toggle
@@ -251,7 +236,6 @@ function toggleUserById(id) {
   }
   updateDisplayText();
 }
-
 
 /**
  * Toggles the visibility of the assigned dropdown
@@ -272,7 +256,6 @@ function toggleDropdown() {
   }
 }
 
-
 /**
  * Closes the assigned users dropdown
  */
@@ -284,7 +267,6 @@ function closeAssignedDropdown() {
   exitAssignedSearchMode();
 }
 
-
 /**
  * Checks if a click event occurred inside the assigned dropdown
  * @param {EventTarget} target - The click event target
@@ -295,7 +277,6 @@ function isClickInsideAssignedDropdown(target) {
   const options = getContextElement("assignedOptions");
   return (display && display.contains(target)) || (options && options.contains(target));
 }
-
 
 /**
  * Attaches a click handler to close dropdown when clicking outside

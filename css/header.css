@@ -175,8 +175,17 @@ ul {
 .header_max { 
   max-width: 1440px;
 }
+
+header {
+position:fixed; 
+top: 0; 
 }
 
+.content {
+  margin-top: 96px; 
+}
+
+}
 @media (max-width: 680px) { 
 
   .join_icon {
@@ -214,6 +223,10 @@ margin-right:30px;
 
 header {
   height: 80px;
+}
+
+.content {
+  margin-top: 80px; 
 }
 
 }

@@ -602,10 +602,11 @@
     font-size: 36px;
   }
 
-  h4 {
+   h4.contacts_name {
     font-size: 16px;
     font-weight: 700;
   }
+
 }
 
 /*
