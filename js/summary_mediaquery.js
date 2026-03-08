@@ -1,51 +1,62 @@
 /**
- * Summary – breakpoint helpers
+ * Summary breakpoint helpers
  *
- * The visual changes are primarily done in css/summary_mediaquery.css via
- * media queries.
- 
- * This script additionally adds state classes to <html> so you can target
- * breakpoints in CSS without relying exclusively on media queries:
+ * - Most visual breakpoint changes are handled in `css/summary_mediaquery.css`.
+ * - This script adds state classes to `<html>` for breakpoint-aware styling in CSS.
+ * - It also updates layout-related CSS variables and responsive UI behavior.
  */
 
 (function () {
   const root = document.documentElement;
 
-  function layoutSummaryGreetingV16(){
-    const urgentBtn = document.querySelector('.summary-btn.summary-btn--urgent');
-    const greeting = document.querySelector('.summary-greeting');
-    if(!urgentBtn || !greeting) return;
+  /**
+   * Applies responsive layout variables for the summary area.
+   *
+   * - Sets the horizontal inline spacing based on the current viewport width.
+   * - Defines a fixed maximum width for summary content.
+   * - Exposes both values through CSS custom properties on `<html>`.
+   */
 
-    const uRect = urgentBtn.getBoundingClientRect();
+  function applySummaryLayoutVars(w) {
+    const inline = w < 1025 ? 16 : 64;
+    const maxWidth = 620;
 
-    const gap = 16;
-    const padRight = 16;
-    const minWidth = 140;
+    root.style.setProperty('--summary-inline', `${inline}px`);
+    root.style.setProperty('--summary-max-width', `${maxWidth}px`);
+  }
 
-    const viewportW = document.documentElement.clientWidth;
-    const available = Math.max(0, viewportW - uRect.right - gap - padRight);
+  /**
+   * Scales the summary button height for smaller viewport widths.
+   *
+   * - Calculates a proportional height when the viewport is below the max width.
+   * - Prevents the scaling from dropping below the configured minimum width threshold.
+   * - Removes the custom height override when full-size buttons should be used.
+   */
 
-    if(viewportW > 1024 && available >= minWidth){
-      greeting.style.position = 'fixed';
-      greeting.style.left = (uRect.right + gap) + 'px';
-      greeting.style.top = (uRect.top + (uRect.height/2)) + 'px';
-      greeting.style.transform = 'translateY(-50%)';
-      const w = Math.max(minWidth, available);
-      greeting.style.width = w + 'px';
-      greeting.style.maxWidth = w + 'px';
-      greeting.style.marginTop = '0';
-    }else{
-      greeting.style.position = 'static';
-      greeting.style.left = '';
-      greeting.style.top = '';
-      greeting.style.transform = 'none';
-      greeting.style.width = '';
-      greeting.style.maxWidth = '';
-      greeting.style.marginTop = '16px';
+  function applySummaryButtonScaling(w) {
+    const baseHeight = 128;
+    const minWidth = 320;
+    const maxWidth = 500;
+
+    if (w < maxWidth) {
+      const clampedWidth = Math.max(w, minWidth);
+      const scale = clampedWidth / maxWidth;
+      const scaledHeight = Math.round(baseHeight * scale);
+
+      root.style.setProperty('--summary-btn-height', `${scaledHeight}px`);
+    } else {
+      root.style.removeProperty('--summary-btn-height');
     }
   }
 
-  
+  /**
+   * Inserts or removes line breaks in KPI button labels depending on viewport size.
+   *
+   * - Switches selected KPI titles to multi-line HTML when the viewport is narrow.
+   * - Preserves the original label text in `data-*` attributes for safe restoration.
+   * - Avoids unnecessary DOM updates by checking the current broken-state flag.
+   */
+
   function applyKpiLabelLineBreaks(w) {
     const shouldBreak = w < 1000;
 
@@ -60,73 +71,89 @@
       const el = document.querySelector(selector);
       if (!el) return;
 
-      
       if (!el.dataset.originalText) {
         el.dataset.originalText = el.textContent || '';
       }
 
       if (shouldBreak) {
-        
         if (el.dataset.isBroken !== '1') {
           el.innerHTML = brokenHtml;
           el.dataset.isBroken = '1';
         }
-      } else {
-        if (el.dataset.isBroken === '1') {
-          el.textContent = el.dataset.originalText;
-          el.dataset.isBroken = '0';
-        }
+      } else if (el.dataset.isBroken === '1') {
+        el.textContent = el.dataset.originalText;
+        el.dataset.isBroken = '0';
       }
     });
   }
 
-  
-  function applySummaryLayoutVars(w) {
-    
-    
-    const inline = w < 1025 ? 16 : 64;
+  /**
+   * Positions the summary greeting next to the urgent button on wide screens.
+   *
+   * - Measures the urgent button and available viewport space dynamically.
+   * - Moves the greeting into a fixed side position when enough room is available.
+   * - Resets all inline styles to the default stacked layout on smaller screens.
+   */
 
-    
-    
-    const maxWidth = 620;
+  function layoutSummaryGreetingV16() {
+    const urgentBtn = document.querySelector('.summary-btn.summary-btn--urgent');
+    const greeting = document.querySelector('.summary-greeting');
 
-    root.style.setProperty('--summary-inline', `${inline}px`);
-    root.style.setProperty('--summary-max-width', `${maxWidth}px`);
-  }
+    if (!urgentBtn || !greeting) return;
 
-  
-  function applySummaryButtonScaling(w) {
-    const baseHeight = 128; 
-    const minWidth = 320;   
-    const maxWidth = 500;
+    const uRect = urgentBtn.getBoundingClientRect();
 
-    if (w < maxWidth) {
-      const clampedWidth = Math.max(w, minWidth);
-      const scale = clampedWidth / maxWidth;
-      const scaledHeight = Math.round(baseHeight * scale);
-      root.style.setProperty('--summary-btn-height', `${scaledHeight}px`);
+    const gap = 16;
+    const padRight = 16;
+    const minWidth = 140;
+
+    const viewportW = document.documentElement.clientWidth;
+    const available = Math.max(0, viewportW - uRect.right - gap - padRight);
+
+    if (viewportW > 1024 && available >= minWidth) {
+      const width = Math.max(minWidth, available);
+
+      greeting.style.position = 'fixed';
+      greeting.style.left = `${uRect.right + gap}px`;
+      greeting.style.top = `${uRect.top + uRect.height / 2}px`;
+      greeting.style.transform = 'translateY(-50%)';
+      greeting.style.width = `${width}px`;
+      greeting.style.maxWidth = `${width}px`;
+      greeting.style.marginTop = '0';
     } else {
-      
-      root.style.removeProperty('--summary-btn-height');
+      greeting.style.position = 'static';
+      greeting.style.left = '';
+      greeting.style.top = '';
+      greeting.style.transform = 'none';
+      greeting.style.width = '';
+      greeting.style.maxWidth = '';
+      greeting.style.marginTop = '16px';
     }
   }
 
+  /**
+   * Updates breakpoint classes and triggers all responsive summary helpers.
+   *
+   * - Adds or removes breakpoint state classes on `<html>` based on window width.
+   * - Runs all layout, label, greeting, and scaling update functions in one place.
+   * - Acts as the central refresh handler for initial load and resize-related events.
+   */
+
   function applyBreakpointClasses() {
     const w = window.innerWidth || root.clientWidth || 0;
+
     root.classList.toggle('is-below-1024', w < 1025);
     root.classList.toggle('is-below-600', w < 601);
     root.classList.toggle('is-below-1000', w < 1000);
 
     applySummaryLayoutVars(w);
+    applySummaryButtonScaling(w);
     applyKpiLabelLineBreaks(w);
-    
-    layoutSummaryGreetingV16();applySummaryButtonScaling(w);
+    layoutSummaryGreetingV16();
   }
 
-  
   applyBreakpointClasses();
 
-  
   window.addEventListener('resize', applyBreakpointClasses, { passive: true });
   window.addEventListener('orientationchange', applyBreakpointClasses, { passive: true });
 })();

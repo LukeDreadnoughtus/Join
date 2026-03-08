@@ -1,28 +1,26 @@
-// contacts_general_actions.js
-// ------------------------------------------------------------
-// Page actions + bootstrap for the Contacts page.
-// This file contains:
-//  - public actions (open/save/delete/edit)
-//  - input handlers (blur/input)
-//  - ContactsApp.init() which is called once on page load
-//
-// It depends on:
-//  - contacts_general_core.js
-//  - contacts_general_data_dialog.js
-//  - contacts_sidebar.js + contacts_detail.js
-// ------------------------------------------------------------
+/**
+ * contacts_general_actions.js
+ *
+ * Page actions and bootstrap logic for the Contacts page.
+ *
+ * Depends on:
+ * - contacts_general_core.js
+ * - contacts_general_data_dialog.js
+ * - contacts_sidebar.js
+ * - contacts_detail.js
+ */
 
 var App = (window.ContactsApp = window.ContactsApp || {});
-
-// -----------------------------
-// Public page actions (wired to window.*)
-// -----------------------------
 App.actions = App.actions || {};
 
+/**
+ * Opens the contact dialog in create mode.
+ *
+ * - Resets the current edit state so a new contact can be created.
+ * - Clears all dialog inputs and validation states.
+ * - Hides old overlays and prepares the dialog for fresh input.
+ */
 App.actions.openDialog = function openDialog() {
-  // Opens the modal in create mode and resets editId.
-  // Clears inputs so you're always starting fresh.
-  // Also hides any old overlay messages.
   App.state.editId = null;
 
   const layer = App.dialog.ensureDialog();
@@ -36,26 +34,37 @@ App.actions.openDialog = function openDialog() {
   App.dialog.configureCreateMode(layer);
 };
 
+/**
+ * Closes the contact dialog and resets visible error states.
+ *
+ * - Removes the open class from the modal backdrop.
+ * - Clears validation borders and inline field errors.
+ * - Hides all active overlays for a clean next open.
+ */
 App.actions.closeDialog = function closeDialog() {
-  // Hides the modal by removing the "is-open" class.
-  // Doesn't destroy elements, so opening again is instant.
-  // Also clears validation state so the next open looks clean.
   const layer = document.querySelector('.contacts_modal_backdrop');
   if (layer) layer.classList.remove('is-open');
+
   App.errors.resetErrorBorders();
   App.overlays.hideAll();
+
   ['c_name', 'c_email', 'c_phone'].forEach(id => {
     const el = document.getElementById(id);
     if (el) App.errors.clearFieldError(el);
   });
 };
 
+/**
+ * Opens the contact dialog in edit mode for a selected user.
+ *
+ * - Loads the selected contact from the current sidebar order.
+ * - Stores the contact id so save and delete actions know the target record.
+ * - Fills the dialog and updates the avatar preview with existing data.
+ */
 App.actions.openEdit = function openEdit(idx) {
-  // Opens the modal in edit mode for the selected sidebar user.
-  // Stores editId so save/delete knows which Firebase record to touch.
-  // Also refreshes the avatar preview for that user.
   const user = App.state.order[idx];
   if (!user) return;
+
   App.state.editId = user.id || null;
 
   const layer = App.dialog.ensureDialog();
@@ -69,12 +78,17 @@ App.actions.openEdit = function openEdit(idx) {
   App.dialog.updateEditAvatar(layer, user);
 };
 
+/**
+ * Refreshes sidebar and detail UI with the latest contact data.
+ *
+ * - Fetches the newest contact list from the data source.
+ * - Re-renders the sidebar contact list.
+ * - Restores the selected contact when it still exists.
+ */
 App.actions.refreshContactsUI = async function refreshContactsUI() {
-  // Pulls latest contacts from Firebase and re-renders the sidebar.
-  // Re-selects the selected contact (if it still exists).
-  // Keeps sidebar + detail view in sync after create/edit/delete.
   const sidebar = App.sidebar?.ensureSidebar?.();
   if (!sidebar) return;
+
   const list = sidebar.querySelector('.contacts_sidebar_list');
   const users = await App.data.fetchContacts();
   App.sidebar.renderContacts(list, users);
@@ -86,24 +100,30 @@ App.actions.refreshContactsUI = async function refreshContactsUI() {
   }
 };
 
-// -----------------------------
-// Save helpers (keep functions tiny)
-// -----------------------------
+/**
+ * Clears modal field-level validation errors.
+ *
+ * - Removes error states from all contact input fields.
+ * - Prepares the form for a new validation pass.
+ * - Keeps validation handling centralized and reusable.
+ */
 App.actions._clearModalFieldErrors = function _clearModalFieldErrors() {
-  // Resets validation borders + message labels in one go.
-  // Makes the next validation run feel "fresh".
-  // We call this before validating the current input.
   ['c_name', 'c_email', 'c_phone'].forEach(id => {
     const el = document.getElementById(id);
     if (el) App.errors.clearFieldError(el);
   });
 };
 
+/**
+ * Validates form input and displays field errors when needed.
+ *
+ * - Runs name, email, and phone validation rules.
+ * - Shows inline errors for any invalid field.
+ * - Returns true only when the complete form is valid.
+ */
 App.actions._validateAndShowErrors = function _validateAndShowErrors(form, all) {
-  // Runs the existing validation rules and paints the UI if something is wrong.
-  // Returns true when everything is okay.
-  // Keeps saveContact short and readable.
   let hasError = false;
+
   const nameCheck = App.validation.validateContactName(form.name);
   if (nameCheck.error) {
     App.errors.showFieldError(document.getElementById('c_name'), nameCheck.msg);
@@ -125,11 +145,16 @@ App.actions._validateAndShowErrors = function _validateAndShowErrors(form, all) 
   return !hasError;
 };
 
+/**
+ * Builds feedback messages for fields that were changed during editing.
+ *
+ * - Compares old and new contact values field by field.
+ * - Creates success messages only for values that actually changed.
+ * - Prevents showing unnecessary update messages when nothing changed.
+ */
 App.actions._buildChangedMessages = function _buildChangedMessages(current, form) {
-  // Compares old values to new ones and creates nice feedback messages.
-  // Only produces messages for fields that actually changed.
-  // This prevents annoying "updated" popups when nothing changed.
   if (!current) return [];
+
   const oldName = (current.name || '').trim();
   const oldEmail = (current.email || '').trim();
   const oldPhone = (current.phone || '').trim();
@@ -142,13 +167,18 @@ App.actions._buildChangedMessages = function _buildChangedMessages(current, form
   if (oldName !== newName) msg.push('Name was successfully updated');
   if (oldEmail !== newEmail) msg.push('E-mail was successfully updated');
   if (oldPhone !== newPhone) msg.push('Phone number was successfully updated');
+
   return msg;
 };
 
+/**
+ * Saves changes for an existing contact.
+ *
+ * - Resolves the current contact from the loaded collection.
+ * - Persists the updated data through the edit save flow.
+ * - Shows multi-line feedback when one or more fields changed.
+ */
 App.actions._saveEditFlow = async function _saveEditFlow(all, form) {
-  // Saves an existing contact (PATCH).
-  // Updates the selected contact so details stay open.
-  // Shows a multi-line feedback overlay if something changed.
   const current = all.find(u => u.id === App.state.editId) || null;
   const messages = App.actions._buildChangedMessages(current, form);
 
@@ -160,32 +190,48 @@ App.actions._saveEditFlow = async function _saveEditFlow(all, form) {
   }
 };
 
+/**
+ * Creates a new contact and selects it afterward.
+ *
+ * - Sends the new contact through the create flow.
+ * - Stores the returned id as the current selection.
+ * - Shows the standard contact-created overlay message.
+ */
 App.actions._saveCreateFlow = async function _saveCreateFlow(form) {
-  // Creates a new contact (POST) and selects it afterward.
-  // Shows the usual "contact created" overlay.
-  // Returns the new id so callers can use it.
   const newId = await App.data.createNewContact(form);
+
   if (newId) App.state.selectedId = newId;
   App.overlays.show('userfeedback_contact_created', 2000);
+
   return newId;
 };
 
+/**
+ * Finalizes the save workflow after create or edit.
+ *
+ * - Refreshes the sidebar and detail UI to reflect persisted data.
+ * - Resets the current edit id to avoid accidental reuse.
+ * - Closes the dialog when all follow-up steps are done.
+ */
 App.actions._finalizeSave = async function _finalizeSave() {
-  // Refreshes the UI so sidebar + details match the DB.
-  // Resets editId so we don't accidentally patch the wrong record.
-  // Finally closes the modal.
   await App.actions.refreshContactsUI();
+
   if (typeof window.rerenderDetailRootAfterDelete === 'function') {
     window.rerenderDetailRootAfterDelete();
   }
+
   App.state.editId = null;
   App.actions.closeDialog();
 };
 
+/**
+ * Saves the current contact form in create or edit mode.
+ *
+ * - Reads form data and validates all relevant fields.
+ * - Decides automatically between create and update behavior.
+ * - Refreshes the UI and closes the dialog after a successful save.
+ */
 App.actions.saveContact = async function saveContact() {
-  // Validates inputs and saves either a new contact or an edited one.
-  // Shows user feedback overlays (success / updates / duplicate email).
-  // Refreshes the sidebar + detail view afterward.
   const form = App.dialog.readForm();
   const all = await App.data.fetchContacts();
 
@@ -201,10 +247,14 @@ App.actions.saveContact = async function saveContact() {
   await App.actions._finalizeSave();
 };
 
+/**
+ * Deletes the currently edited contact.
+ *
+ * - Removes the contact from task assignments before deletion.
+ * - Deletes the contact record from the database.
+ * - Refreshes the UI, clears selection if needed, and shows success feedback.
+ */
 App.actions.deleteContact = async function deleteContact() {
-  // Deletes the currently edited contact from Firebase.
-  // Also removes that user from task assignments on the board.
-  // After deleting we refresh the UI and show a small success overlay.
   if (!App.state.editId) {
     App.actions.closeDialog();
     return;
@@ -213,63 +263,93 @@ App.actions.deleteContact = async function deleteContact() {
   await App.data.removeUserFromTasks(App.state.editId);
   await fetch(App.DB + '/' + App.state.editId + '.json', { method: 'DELETE' });
 
-  if (App.state.selectedId === App.state.editId) App.state.selectedId = null;
+  if (App.state.selectedId === App.state.editId) {
+    App.state.selectedId = null;
+  }
 
   await App.actions.refreshContactsUI();
+
   if (typeof window.rerenderDetailRootAfterDelete === 'function') {
     window.rerenderDetailRootAfterDelete();
   }
+
   App.state.editId = null;
   App.actions.closeDialog();
   App.overlays.show('userfeedback_contact_deleted', 2000);
 };
 
-// -----------------------------
-// Input event handlers (blur + input)
-// -----------------------------
+/**
+ * Validates the name field when it loses focus.
+ *
+ * - Runs contact name validation on blur.
+ * - Shows an inline error when the input is invalid.
+ * - Clears any existing error when the value is valid.
+ */
 App.actions.handleNameBlur = function handleNameBlur(event) {
-  // Validates name on blur and shows an inline message if needed.
-  // Keeps the dialog responsive without blocking typing.
-  // Works for both create and edit dialogs.
   const input = event.target;
   const result = App.validation.validateContactName(input.value);
-  result.error ? App.errors.showFieldError(input, result.msg) : App.errors.clearFieldError(input);
+
+  result.error
+    ? App.errors.showFieldError(input, result.msg)
+    : App.errors.clearFieldError(input);
 };
 
+/**
+ * Validates the email field when it loses focus.
+ *
+ * - Loads all contacts to check for duplicate email addresses.
+ * - Respects the current edit id so unchanged own emails stay valid.
+ * - Updates the field error state asynchronously after validation.
+ */
 App.actions.handleEmailBlur = function handleEmailBlur(event) {
-  // Validates email on blur.
-  // Needs an async contacts fetch to check for duplicates.
-  // Uses the current editId so editing your own email works.
   App.data.fetchContacts().then(all => {
-    const result = App.validation.validateContactEmail(event.target.value, all, App.state.editId);
-    result.error ? App.errors.showFieldError(event.target, result.msg) : App.errors.clearFieldError(event.target);
+    const result = App.validation.validateContactEmail(
+      event.target.value,
+      all,
+      App.state.editId
+    );
+
+    result.error
+      ? App.errors.showFieldError(event.target, result.msg)
+      : App.errors.clearFieldError(event.target);
   });
 };
 
+/**
+ * Validates the phone field when it loses focus.
+ *
+ * - Checks whether the entered phone value matches validation rules.
+ * - Only shows an error when an invalid non-acceptable value is present.
+ * - Clears previous field errors when the value is valid.
+ */
 App.actions.handlePhoneBlur = function handlePhoneBlur(event) {
-  // Validates phone on blur.
-  // Phone is optional, so we only show an error when something invalid was entered.
-  // Keeps the message localized and easy to understand.
   const input = event.target;
   const result = App.validation.validateContactPhone(input.value);
-  result.error ? App.errors.showFieldError(input, result.msg) : App.errors.clearFieldError(input);
+
+  result.error
+    ? App.errors.showFieldError(input, result.msg)
+    : App.errors.clearFieldError(input);
 };
 
+/**
+ * Clears the error state of a field while the user types.
+ *
+ * - Removes the visual validation state immediately on input.
+ * - Helps the form feel more responsive and forgiving.
+ * - Keeps field-specific reset logic in a shared helper.
+ */
 App.actions.resetFieldOnInput = function resetFieldOnInput(inputEl) {
-  // Clears the error state as soon as the user starts fixing the field.
-  // Makes the form feel less punishing (red border disappears on typing).
-  // Keeps the error message area clean.
   App.errors.clearFieldError(inputEl);
 };
 
-// -----------------------------
-// App bootstrap (called by contacts_detail.js after scripts loaded)
-// -----------------------------
+/**
+ * Initializes the Contacts page after all scripts are loaded.
+ *
+ * - Hides overlays and ensures sidebar structure exists.
+ * - Fetches and renders the contact list into the sidebar.
+ * - Ensures detail containers exist and applies desktop positioning.
+ */
 App.init = async function initContactsPage() {
-  // Bootstraps the contacts UI.
-  // 1) sidebar skeleton + contacts list
-  // 2) detail header + root (empty at first)
-  // 3) positioning (desktop only)
   App.overlays.hideAll();
 
   const sidebar = App.sidebar?.ensureSidebar?.();
@@ -278,20 +358,14 @@ App.init = async function initContactsPage() {
   const list = sidebar.querySelector('.contacts_sidebar_list');
   App.sidebar.renderContacts(list, await App.data.fetchContacts());
 
-  // Make sure detail elements exist; actual profile is rendered on selection.
   App.detail?.ensureDetailHeader?.();
   App.detail?.ensureDetailRoot?.();
 
-  // Desktop positioning stays where it was before.
-  if (!window.matchMedia("(max-width: 1024px)").matches) {
+  if (!window.matchMedia('(max-width: 1024px)').matches) {
     App.detail?.positionDetailRoot?.();
   }
 };
 
-// -----------------------------
-// Keep backwards-compatible window.* API
-// (contacts_mediaquery.js and templates rely on these names)
-// -----------------------------
 window.openDialog = (...a) => App.actions.openDialog(...a);
 window.closeDialog = (...a) => App.actions.closeDialog(...a);
 window.saveContact = (...a) => App.actions.saveContact(...a);

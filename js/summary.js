@@ -1,20 +1,34 @@
-let currentTasks = []; 
-// - Stores the current user's task board slots (e.g., "todo", "progress", "done") so the summary can count them fast.
-// - Basically my local “snapshot” of where each of my tasks sits on the board right now.
+/**
+ * - Stores the current task board slots for the loaded summary data.
+ * - Acts as a local snapshot for fast KPI counting on the summary page.
+ */
+let currentTasks = [];
 
-let prios = []; 
-// - Keeps the priority values for the tasks I loaded, even if I’m not displaying them on the summary yet.
-// - Handy for later features (sorting, badges, filters) without needing another Firebase request.
+/**
+ * - Stores priority values for the loaded tasks.
+ * - Keeps the data available for future sorting, filtering, or badge features.
+ */
+let prios = [];
 
-let dueDates = []; 
-// - Collects only due dates from tasks that aren’t finished, so “urgent” numbers make sense.
-// - Avoids counting deadlines from completed tasks (otherwise the KPI would be misleading).
+/**
+ * - Stores due dates from tasks that are not marked as done.
+ * - Keeps urgency calculations focused on still-relevant deadlines.
+ */
+let dueDates = [];
 
-const FIREBASE_PATH = "https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/";
+/**
+ * - Defines the Firebase Realtime Database base path for task loading.
+ * - Centralizes the endpoint so fetch logic stays easy to maintain.
+ */
+const FIREBASE_PATH =
+  "https://board-50cee-default-rtdb.europe-west1.firebasedatabase.app/";
 
+/**
+ * - Serves as the entry point for the summary page setup.
+ * - Loads user-related task data, then updates all summary UI elements.
+ * - Connects interactive summary buttons after the page state is ready.
+ */
 async function init(event) {
-  // - Entry point for the summary page: loads user info, fetches tasks, then updates the UI.
-  // - Runs the whole “boot sequence” so everything is ready before the user clicks around.
   const username = getUserFromLocalStorage();
   const userId = getUserIdFromLocalStorage();
   setUsername(username);
@@ -25,44 +39,73 @@ async function init(event) {
 }
 
 /**
- * On the Summary page, every KPI button should take the user to the Board.
+ * - Finds all KPI buttons on the summary page.
+ * - Attaches click handlers so each button navigates to the board page.
  */
 function setupSummaryButtons() {
-  // - Finds all KPI buttons and wires them so a click always goes to the board page.
-  // - Makes the summary act like a dashboard: every tile is basically a shortcut.
-  const buttons = document.querySelectorAll('.summary-grid .summary-btn');
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      window.location.href = 'board.html';
+  const buttons = document.querySelectorAll(".summary-grid .summary-btn");
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      window.location.href = "board.html";
     });
   });
 }
 
+/**
+ * - Reads the saved username from localStorage.
+ * - Keeps user lookup logic separate from the init flow for cleaner code.
+ */
 function getUserFromLocalStorage() {
-  // - Reads the saved username from localStorage so I don’t need to ask Firebase for it.
-  // - Simple helper to keep init() clean and avoid repeating localStorage logic.
   return localStorage.getItem("username");
 }
 
+/**
+ * - Reads the saved user id from localStorage.
+ * - Returns the unique identifier used for task-related logic.
+ */
 function getUserIdFromLocalStorage() {
-  // - Grabs the logged-in user's id from localStorage (used for filtering assigned tasks).
-  // - I keep it separate from username because the ID is the real unique key.
   return localStorage.getItem("userid");
 }
 
+/**
+ * - Writes the current username into the summary UI.
+ * - Applies display-name formatting before rendering the value.
+ */
 function setUsername(username) {
-  // - Writes the username into the UI (if it exists) so the summary feels personalized.
-  // - Also runs formatting so names look clean (capitalized parts, trimmed spaces).
   if (!username) return;
   const el = document.getElementById("username");
   if (el) el.textContent = formatDisplayName(username);
 }
 
+/**
+ * - Prevents default browser behavior when a valid event object exists.
+ * - Allows the init flow to run safely even when no event was passed in.
+ */
+function safePreventDefault(event) {
+  if (event && typeof event.preventDefault === "function") {
+    event.preventDefault();
+  }
+}
+
+/**
+ * - Clears all local summary arrays before fresh task data is processed.
+ * - Prevents duplicated counts when the summary is reloaded.
+ */
+function resetSummaryState() {
+  currentTasks = [];
+  prios = [];
+  dueDates = [];
+}
+
+/**
+ * - Loads all tasks from Firebase for the current summary refresh.
+ * - Resets summary state before scanning the returned task data.
+ * - Passes any loading errors to the shared error handler.
+ */
 async function getTasksOfCurrentUser(userId, event) {
-  // - Loads the full tasks object from Firebase, then filters down to tasks assigned to the current user.
-  // - Resets the summary state first so I don’t accidentally mix old data with fresh data.
   safePreventDefault(event);
   resetSummaryState();
+
   try {
     const userTasks = await loadTasksFromFirebase();
     if (!userTasks) return;
@@ -72,89 +115,70 @@ async function getTasksOfCurrentUser(userId, event) {
   }
 }
 
-function safePreventDefault(event) {
-  // - Stops default browser behavior only if this was triggered by a real event object.
-  // - Prevents crashes if init() is called without an event (so it’s “safe” to call anytime).
-  if (event && typeof event.preventDefault === "function") event.preventDefault();
-}
-
-function resetSummaryState() {
-  // - Clears the arrays so the summary always starts from a clean slate.
-  // - Prevents duplicate counting if I reload or re-run init().
-  currentTasks = [];
-  prios = [];
-  dueDates = [];
-}
-
+/**
+ * - Fetches the full task dataset from Firebase.
+ * - Returns the parsed JSON response for later filtering and processing.
+ */
 async function loadTasksFromFirebase() {
-  // - Fetches all tasks from Firebase in one request (Realtime Database JSON endpoint).
-  // - Returns the parsed JSON so other functions can decide how to filter/use it.
   const response = await fetch(`${FIREBASE_PATH}.json`);
   return response.json();
 }
 
+/**
+ * - Handles Firebase loading errors in one central place.
+ * - Logs the technical error and shows a user-friendly alert message.
+ */
 function handleTaskLoadError(error) {
-  // - Central error handler so I don’t repeat console + alert logic everywhere.
-  // - Shows a user-friendly message but still logs the technical error for debugging.
   console.error("Error while loading tasks from Firebase:", error);
   alert("Something went wrong. I couldn't load your tasks.");
 }
 
-/*
+/**
+ * - Scans all loaded tasks and adds each one to the summary data.
+ * - Ignores the passed userId so the summary always shows all tasks.
+ * - Keeps board slot logic intact while removing user-based filtering.
+ */
 function searchTasksForCurrentUser(userTasks, userId) {
-  // - Loops over every task and keeps only the ones where the current userId is in assigned[].
-  // - Builds the summary arrays (slots, priorities, due dates) while scanning the tasks once.
   const tasks = Object.values(userTasks || {});
-  tasks.forEach(task => {
-    if (!task || !task.assigned) return;
-    const assigned = toAssignedArray(task.assigned);
-    if (!assigned.includes(userId)) return;
-    addTaskMetaToSummary(task);
-  });
-}
-*/
-
-function searchTasksForCurrentUser(userTasks, userId) {
-  //hier ausblenden
-  // egal wer eingeloggt ist: in der summary soll wirklich ALLES sichtbar sein
-  // ich lass die slot-logik drin (todo bleibt todo usw.), aber userId ist hier komplett egal
-  const tasks = Object.values(userTasks || {});
-  tasks.forEach(task => {
+  tasks.forEach((task) => {
     if (!task) return;
     addTaskMetaToSummary(task);
   });
 }
 
+/**
+ * - Combines previously known user ids from localStorage with the current one.
+ * - Ensures the active user id is always included in the returned list.
+ * - Removes duplicates and empty values before returning the final array.
+ */
 function getCombinedSummaryUserIds(currentUserId) {
-  //hier ausblenden
-  // hier hole ich mir die userIds zusammen, die auf dem device schonmal eingeloggt waren
   const KEY = "known_userids";
   const raw = localStorage.getItem(KEY);
   const list = safeParseJSON(raw, []);
   const ids = Array.isArray(list) ? list.slice() : [];
 
-  // aktuellen user immer mit reinnehmen
   if (currentUserId && !ids.includes(currentUserId)) ids.push(currentUserId);
-
-  // Guest nur dann, wenn er wirklich genutzt wurde oder aktuell aktiv ist
-  // (wenn Guest nie benutzt wurde, taucht er auch nicht in known_userids auf)
   if (currentUserId === "Guest" && !ids.includes("Guest")) ids.push("Guest");
 
   return Array.from(new Set(ids.filter(Boolean)));
 }
 
+/**
+ * - Checks whether any user id from one array exists in the assigned array.
+ * - Returns early as soon as a matching id is found.
+ */
 function hasAnyUserId(assignedArr, userIds) {
-  //hier ausblenden
-  // mini helper, weil ich kein bock auf 3x includes-geschwurbel hab
   for (let i = 0; i < userIds.length; i++) {
     if (assignedArr.includes(userIds[i])) return true;
   }
   return false;
 }
 
+/**
+ * - Safely parses JSON input from storage or other string sources.
+ * - Returns the provided fallback value when parsing fails.
+ */
 function safeParseJSON(raw, fallback) {
-  //hier ausblenden
-  // fallback falls jemand im storage rumfummelt
   try {
     return raw ? JSON.parse(raw) : fallback;
   } catch (_) {
@@ -162,30 +186,39 @@ function safeParseJSON(raw, fallback) {
   }
 }
 
+/**
+ * - Normalizes assigned task data into a plain array.
+ * - Supports both array-based and object-based Firebase structures.
+ */
 function toAssignedArray(assigned) {
-  // - Normalizes assigned data into a real array (because Firebase can store arrays or objects).
-  // - Makes the rest of the code consistent so I can always use includes().
   return Array.isArray(assigned) ? assigned : Object.values(assigned || {});
 }
 
+/**
+ * - Extracts the slot, priority, and due date from a single task.
+ * - Stores only the summary-relevant data in local arrays.
+ * - Skips due dates for done tasks to keep urgency metrics accurate.
+ */
 function addTaskMetaToSummary(task) {
-  // - Extracts only what the summary needs (board slot, priority, due date) and stores it locally.
-  // - Skips due dates for "done" tasks so urgency stats don’t get polluted.
   const slot = normalizeSlot(task.boardslot);
   currentTasks.push(slot);
   prios.push(String(task.priority || ""));
   if (slot !== "done") dueDates.push(String(task.duedate || ""));
 }
 
+/**
+ * - Converts a board slot value into a normalized lowercase string.
+ * - Protects summary logic from null values and inconsistent casing.
+ */
 function normalizeSlot(slot) {
-  // - Forces slot values into a predictable lowercase string ("ToDo" -> "todo", null -> "").
-  // - Prevents summary counters from failing due to inconsistent casing.
   return String(slot || "").toLowerCase();
 }
 
+/**
+ * - Renders all KPI values for the summary page in one place.
+ * - Updates counters for board slots, urgency, and upcoming deadlines.
+ */
 function renderTasksToSummary() {
-  // - Updates all KPI numbers on the summary page based on the local arrays.
-  // - One function to render everything so I don’t spread UI updates all over the code.
   setText("tasks_in_board", currentTasks.length);
   setText("to_do", countBoardSlot(currentTasks, "todo"));
   setText("done", countBoardSlot(currentTasks, "done"));
@@ -195,43 +228,52 @@ function renderTasksToSummary() {
   renderUpcomingDeadline(dueDates);
 }
 
+/**
+ * - Writes a value into an element identified by its id.
+ * - Skips the update safely when the target element does not exist.
+ */
 function setText(id, value) {
-  // - Tiny helper to set an element’s content without repeating getElementById checks.
-  // - Keeps the render functions clean and avoids errors if an element is missing.
   const el = document.getElementById(id);
   if (el) el.innerHTML = value;
 }
 
+/**
+ * - Finds the nearest due date inside the next 14-day window.
+ * - Renders a formatted date or a dash when nothing is due soon.
+ */
 function renderUpcomingDeadline(dateArr) {
-  // - Finds the nearest upcoming deadline (within 14 days) and prints it in the UI.
-  // - Shows a dash if nothing is due soon, so the user doesn’t see junk/empty strings.
   const nearest = getNearestDueDateWithinNext14Days(dateArr);
   const el = document.getElementById("upcoming_duedate");
   if (!el) return;
   el.textContent = nearest ? formatDateDE(nearest) : "—";
 }
 
-// Nearest due date within the next 14 days (including today)
+/**
+ * - Returns the earliest valid due date inside the next 14 days.
+ * - Sorts matching dates so the closest upcoming one can be selected.
+ */
 function getNearestDueDateWithinNext14Days(dateArr) {
-  // - Filters due dates to the next 14 days and returns the earliest one.
-  // - Useful for a quick “what’s next” deadline without listing everything.
   const win = getDateWindow(14);
   const dates = getDatesInWindow(dateArr, win);
   dates.sort((a, b) => a - b);
   return dates[0] || null;
 }
 
+/**
+ * - Counts how many valid due dates fall inside the next 14 days.
+ * - Powers the urgent KPI on the summary page.
+ */
 function countDueWithinNext14Days(dateArr) {
-  // - Counts how many due dates fall inside the next 14-day window.
-  // - Powers the “urgent” KPI so it’s literally just “due soon” tasks.
   const win = getDateWindow(14);
   const dates = getDatesInWindow(dateArr, win);
   return dates.length;
 }
 
+/**
+ * - Creates a clean date window starting today at midnight.
+ * - Returns start and end boundaries for date-based filtering.
+ */
 function getDateWindow(days) {
-  // - Builds a clean date range starting today at 00:00 up to N days ahead.
-  // - Using midnight dates avoids weird time-zone/time-of-day edge cases.
   const now = new Date();
   const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const end = new Date(start);
@@ -239,41 +281,51 @@ function getDateWindow(days) {
   return { start, end };
 }
 
+/**
+ * - Parses raw date strings into Date objects.
+ * - Removes invalid values and keeps only dates inside the given window.
+ */
 function getDatesInWindow(dateArr, win) {
-  // - Converts raw date strings into Date objects and keeps only valid ones inside the window.
-  // - It’s basically: parse -> remove invalid -> filter by range.
   return (dateArr || [])
     .map(parseDateOnly)
     .filter(Boolean)
-    .filter(d => isWithinWindow(d, win));
+    .filter((d) => isWithinWindow(d, win));
 }
 
+/**
+ * - Parses a raw date string into a Date object at midnight.
+ * - Returns null for missing or invalid input values.
+ */
 function parseDateOnly(raw) {
-  // - Parses a date string (expected from <input type="date">) into a Date at midnight.
-  // - Returns null if the value is missing or invalid so the caller can filter it out.
   if (!raw) return null;
-  const d = new Date(raw); // expected format from <input type="date">: YYYY-MM-DD
+  const d = new Date(raw);
   if (isNaN(d.getTime())) return null;
   return new Date(d.getFullYear(), d.getMonth(), d.getDate());
 }
 
+/**
+ * - Checks whether a date is inside the provided date window.
+ * - Uses an inclusive start and exclusive end boundary.
+ */
 function isWithinWindow(d, win) {
-  // - Checks if a date is inside the window (start inclusive, end exclusive).
-  // - End-exclusive avoids double counting if I chain windows later.
   return d >= win.start && d < win.end;
 }
 
+/**
+ * - Formats a Date object in German date format.
+ * - Uses Intl first and falls back to manual formatting when needed.
+ */
 function formatDateDE(dateObj) {
-  // - Formats a Date in German format (dd.mm.yyyy), using Intl if possible.
-  // - Falls back to manual formatting if Intl isn’t available for some reason.
   const intl = tryFormatDateIntl(dateObj);
   if (intl) return intl;
   return formatDateFallbackDE(dateObj);
 }
 
+/**
+ * - Attempts locale-aware date formatting with Intl.DateTimeFormat.
+ * - Returns an empty string when the formatter is unavailable or fails.
+ */
 function tryFormatDateIntl(dateObj) {
-  // - Tries the proper Intl formatter first (cleaner + locale-aware).
-  // - If Intl fails (old browser / weird environment), returns an empty string to trigger fallback.
   try {
     return new Intl.DateTimeFormat("de-DE", {
       day: "2-digit",
@@ -285,18 +337,22 @@ function tryFormatDateIntl(dateObj) {
   }
 }
 
+/**
+ * - Formats a Date object manually as dd.mm.yyyy.
+ * - Pads day and month values so the output stays consistent.
+ */
 function formatDateFallbackDE(dateObj) {
-  // - Manual dd.mm.yyyy formatting, just in case Intl.DateTimeFormat isn’t working.
-  // - Pads day/month to two digits so it always looks consistent.
   const dd = String(dateObj.getDate()).padStart(2, "0");
   const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
   const yyyy = String(dateObj.getFullYear());
   return `${dd}.${mm}.${yyyy}`;
 }
 
+/**
+ * - Counts how often a specific board slot appears in an array.
+ * - Uses a simple loop for predictable and lightweight counting.
+ */
 function countBoardSlot(arr, slotName) {
-  // - Counts how often a specific slot string appears in the array.
-  // - Simple loop on purpose: fast + no extra allocations like filter().
   let count = 0;
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] === slotName) count++;
@@ -304,23 +360,27 @@ function countBoardSlot(arr, slotName) {
   return count;
 }
 
+/**
+ * - Formats a display name by capitalizing each name part.
+ * - Rebuilds the final string with normalized spacing.
+ */
 function formatDisplayName(name) {
-  // - Splits the name into parts and capitalizes each part (e.g., "max mustermann" -> "Max Mustermann").
-  // - Keeps hyphenated names intact because I only split by spaces.
-  return splitNameParts(name)
-    .map(capitalizeFirstLetter)
-    .join(" ");
+  return splitNameParts(name).map(capitalizeFirstLetter).join(" ");
 }
 
+/**
+ * - Splits a name string into clean whitespace-separated parts.
+ * - Removes empty segments caused by leading, trailing, or repeated spaces.
+ */
 function splitNameParts(name) {
-  // - Turns a name string into clean parts by trimming and splitting by whitespace.
-  // - Filters empty chunks so multiple spaces don’t create weird blank “words”.
   if (!name) return [];
   return String(name).trim().split(/\s+/).filter(Boolean);
 }
 
+/**
+ * - Capitalizes the first character of a single name part.
+ * - Leaves the remaining characters unchanged.
+ */
 function capitalizeFirstLetter(part) {
-  // - Uppercases the first character and keeps the rest as-is.
-  // - Quick and readable, and good enough for typical display names.
   return part.charAt(0).toUpperCase() + part.slice(1);
 }

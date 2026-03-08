@@ -1,24 +1,29 @@
 /**
  * Navigation responsive helpers
- * - Adds a marker class to <html> depending on viewport width
- * - Ensures .legal-area is hidden at <= 1024px (in addition to CSS)
+ * - Adds a marker class to <html> depending on viewport width.
+ * - Ensures .legal-area is hidden at <= 1024px in addition to CSS.
+ * - Applies defensive inline layout fixes for responsive sidebar behavior.
  */
 
 (() => {
   const mq = window.matchMedia('(max-width: 1024px)');
 
+  /**
+   * Applies responsive navigation adjustments based on the current viewport size.
+   * - Toggles the mq-1024 class on the root element for responsive styling.
+   * - Hides or restores the legal area depending on whether mobile view is active.
+   * - Resets or enforces sidebar sizing and centers the scaled "Board" label on mobile.
+   */
+
   function apply() {
     const is1024 = mq.matches;
     document.documentElement.classList.toggle('mq-1024', is1024);
 
-    // Defensive: in case a page injects inline styles or loads CSS late.
     const legalArea = document.querySelector('.left .legal-area');
     if (legalArea) {
       legalArea.style.display = is1024 ? 'none' : '';
     }
 
-    // Ensure fixed sidebar width on desktop only (defensive)
-    // Important: clear any inline width when switching to the mobile bottom-nav.
     const left = document.querySelector('.left');
     if (left) {
       if (is1024) {
@@ -34,9 +39,6 @@
       }
     }
 
-    // Fix (<=1024px): keep the scaled "Board" text visually centered under the icon.
-    // Base styles scale the board text from the left edge, which shifts it when
-    // the nav becomes a vertical icon+text stack.
     const boardText = document.querySelector(
       '.left .main-links .link-row[data-link="board"] .link-text--board'
     );
@@ -45,14 +47,19 @@
     }
   }
 
-  // Initial
   window.addEventListener('DOMContentLoaded', apply);
-  // On changes
+
   if (typeof mq.addEventListener === 'function') {
     mq.addEventListener('change', apply);
   } else {
-    // Safari fallback
+    /**
+     * Safari fallback for media query change handling.
+     * - Uses the legacy addListener API when addEventListener is not supported.
+     * - Ensures responsive behavior also works in older Safari versions.
+     */
+
     mq.addListener(apply);
   }
+
   window.addEventListener('resize', apply);
 })();

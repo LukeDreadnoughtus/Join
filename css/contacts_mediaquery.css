@@ -684,9 +684,7 @@
     padding-left: 30px;
   }
 
-  .contacts_modal_actions {
-    padding-left: 10px;
-  }
+
 
     body.contacts-page .contacts_modal_right_panel {
     padding-left: 40px;
@@ -717,4 +715,93 @@
   body.contacts-page {
     --contacts-header-height: 80px;
   }
+}
+
+/* Mobile dialog centering fixes for Contacts overlay */
+@media (max-width: 1024px) {
+  body.contacts-page .contacts_modal_title_container,
+  body.contacts-page .contacts_modal_subtitle_container {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    justify-content: center;
+  }
+
+  body.contacts-page .contacts_modal_title_container .contacts_modal_title,
+  body.contacts-page .contacts_modal_subtitle_container .contacts_modal_subtitle {
+    display: inline-block;
+    width: max-content;
+    max-width: 100%;
+    text-align: left;
+    position: relative;
+  }
+
+  body.contacts-page .contacts_modal_backdrop.mode-edit .contacts_modal_title::after,
+  body.contacts-page .contacts_modal_backdrop.mode-create .contacts_modal_subtitle::after {
+    margin: 12px 0 0;
+  }
+
+  body.contacts-page .contacts_modal_right_panel {
+    align-items: center;
+    padding: clamp(52px, 10vh, 84px) clamp(18px, 6vw, 32px) clamp(24px, 4vh, 36px);
+  }
+
+  body.contacts-page .contacts_modal_body {
+    width: 100%;
+    max-width: min(100%, 420px);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  body.contacts-page .contacts_modal_inputs {
+    width: 100% !important;
+    max-width: 100%;
+    margin: 0 auto 32px;
+    gap: 14px;
+  }
+
+  body.contacts-page .contacts_modal_inputs .input-wrapper {
+    width: 100%;
+  }
+
+  body.contacts-page #c_name,
+  body.contacts-page #c_email,
+  body.contacts-page #c_phone {
+    width: 100% !important;
+    max-width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding-left: 15px;
+    padding-right: 44px;
+  }
+
+  body.contacts-page .contacts_modal_actions {
+    width: 100%;
+    max-width: min(100%, 420px);
+    margin: auto auto 0 !important;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (max-width: 390px) {
+  body.contacts-page .contacts_modal_right_panel {
+    padding: clamp(48px, 9vh, 72px) 16px 24px;
+  }
+}
+
+
+
+/* Fix underline alignment on mobile without shifting the dialog layout */
+body.contacts-page .contacts_modal_backdrop.mode-edit .contacts_modal_title,
+body.contacts-page .contacts_modal_backdrop.mode-create .contacts_modal_subtitle {
+  position: relative;
+}
+
+body.contacts-page .contacts_modal_backdrop.mode-edit .contacts_modal_title::after,
+body.contacts-page .contacts_modal_backdrop.mode-create .contacts_modal_subtitle::after {
+  left: 0;
+  right: auto;
 }
