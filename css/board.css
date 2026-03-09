@@ -119,6 +119,9 @@
 #board_header {
   position:fixed; 
   z-index: 100;
+  right:0; 
+  left: 232px; 
+  width: auto;
 }
 
 .board_column {

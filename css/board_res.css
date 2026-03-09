@@ -68,6 +68,10 @@
   top: 75%;
  
 }
+
+#board_header { 
+    left:0; 
+}
   
     #board-page .content {
     overflow: auto;
