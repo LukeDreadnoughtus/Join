@@ -64,19 +64,16 @@
 
 @media (max-width: 1024px) {
 
-    .no_tasks_found {
+.no_tasks_found {
   top: 75%;
- 
 }
 
 #board_header { 
     left:0; 
 }
-  
     #board-page .content {
     overflow: auto;
   }
-
     .header_board_responsive {
         display: flex;
         flex-direction: column;
@@ -366,31 +363,5 @@
         width: 200px;
         top: 180px;
         font-size: 22px;
-    }
-}
-
-@media screen and (orientation: landscape) and (max-width: 900px) {
-    body>*:not(.landscape_blocker) {
-        display: none;
-    }
-
-    .landscape_blocker {
-        position: fixed;
-        background-color: #2A3647;
-        color: white;
-        border-radius: 10px;
-        top: 80px;
-        width: 300px;
-        height: 50px;
-        font-size: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 200;
-        text-align: center;
-        white-space: normal;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 9999;
     }
 }

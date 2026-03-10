@@ -276,8 +276,8 @@
 
   .add_task_heading {
     padding-left: 5% !important;
-    margin-top: 40px !important;
-    margin-bottom: 40px !important;
+    /* margin-top: 40px !important; */
+    /* margin-bottom: 40px !important; */
   }
 
   .form_group {
@@ -468,7 +468,7 @@
 
   .add_task_heading {
     padding-left: 30px;
-    padding-top: 60px;
+    /* padding-top: 60px; */
     padding-bottom: 30px;
   }
 
